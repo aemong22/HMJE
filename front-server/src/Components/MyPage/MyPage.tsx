@@ -1,5 +1,5 @@
 import Navbar from "../Common/Navbar"
-import Sheep from "../Threejs/Sheep"
+import Pangguin from "../Threejs/Pangguin"
 
 function MyPage():JSX.Element {
   return (
@@ -13,15 +13,16 @@ export default MyPage
 
 function MyPageSection():JSX.Element {
   return (
-    <div className="flex justify-between items-center h-[30rem] border-2 border-pink-300">
-      <div className="h-full w-[30%] border-2 border-green-300">
+    <div className="flex justify-between items-center h-[38rem] border-2 border-pink-300">
+      <div className="flex justify-end items-center h-4/5 w-[30%]">
         {/* 렙업에 따른 3D 캐릭터 */}
-        오리 들어가는 자리
-        {/* <Sheep/> */}
+        <div className="flex justify-center items-center w-[80%] h-full">
+          <Pangguin/>
+        </div>
       </div>
       <div className="flex justify-center items-center h-full w-[40%] ">
         {/* 메인 데이터 */}
-        <div className="flex flex-col justify-center items-center h-3/5 w-full border-2 border-red-500">
+        <div className="flex flex-col justify-center items-center h-3/5 w-full">
           <div className="flex justify-between items-center w-full pb-2">
             {/* 칭호 & 수정 */}
             <div className="sm:text-[0.8rem] lg:text-[1rem]">🥕&nbsp;한글을 사랑하는 자</div>
@@ -71,8 +72,11 @@ function MyPageSection():JSX.Element {
           </div>
         </div>
       </div>
-      <div className="h-full w-[30%] border-2 border-yellow-300">
-        {/* 원형 그래프 통계 */}
+      <div className="flex justify-start items-center h-full w-[30%]">
+        {/* d원형 그래프 통계 */}
+        <div className="flex justify-center items-center w-[80%] h-3/5">
+          통계
+        </div>
       </div>
     </div>
   )
