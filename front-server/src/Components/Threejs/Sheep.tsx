@@ -4,26 +4,24 @@ import { OrbitControls, useGLTF, useAnimations } from '@react-three/drei';
 
 function Sheep() {
   return (
-    <div>
-      <div>
-        <Canvas style={{width: '30rem', height: '30rem', border: 'solid 2px red'}}>
-          <mesh scale={4} position={[0,0,0]}>
-            <Suspense fallback={null}>
-              <ambientLight />
-              <spotLight intensity={2} angle={0.1} penumbra={1} position={[5,15,10]} castShadow/>
-              <spotLight intensity={4} angle={0.1} penumbra={1} position={[0,15,10]} castShadow/>
-              <spotLight intensity={4} angle={0.1} penumbra={1} position={[0,0,10]} castShadow/>
-              <spotLight intensity={4} angle={0.1} penumbra={1} position={[0,-5,10]} castShadow/>
-              <spotLight intensity={4} angle={0.1} penumbra={1} position={[0,-5,0]} castShadow/>
-              <spotLight intensity={4} angle={0.1} penumbra={1} position={[0,-5,-10]} castShadow/>
-              <spotLight intensity={4} angle={0.1} penumbra={1} position={[-40,20,-20]} castShadow/>
-              <spotLight intensity={4} angle={0.1} penumbra={1} position={[40,20,-20]} castShadow/>
-                <Model/>
-              <OrbitControls enablePan={true} enableZoom={true} enableRotate={true}/>
-            </Suspense>
-          </mesh>
-        </Canvas>
-      </div>
+    <div className='w-full h-full'>
+      <Canvas style={{width: '100%', height: '100%', border: 'solid 2px red'}}>
+        <mesh scale={4} position={[0,0,0]}>
+          <Suspense fallback={null}>
+            <ambientLight />
+            <spotLight intensity={2} angle={0.1} penumbra={1} position={[5,15,10]} castShadow/>
+            <spotLight intensity={4} angle={0.1} penumbra={1} position={[0,15,10]} castShadow/>
+            <spotLight intensity={4} angle={0.1} penumbra={1} position={[0,0,10]} castShadow/>
+            <spotLight intensity={4} angle={0.1} penumbra={1} position={[0,-5,10]} castShadow/>
+            <spotLight intensity={4} angle={0.1} penumbra={1} position={[0,-5,0]} castShadow/>
+            <spotLight intensity={4} angle={0.1} penumbra={1} position={[0,-5,-10]} castShadow/>
+            <spotLight intensity={4} angle={0.1} penumbra={1} position={[-40,20,-20]} castShadow/>
+            <spotLight intensity={4} angle={0.1} penumbra={1} position={[40,20,-20]} castShadow/>
+              <Model/>
+            <OrbitControls enablePan={true} enableZoom={true} enableRotate={true}/>
+          </Suspense>
+        </mesh>
+      </Canvas>
     </div>
   );
 }
