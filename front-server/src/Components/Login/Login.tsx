@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import Footer from "../../Common/Footer";
-import Navbar from "../../Common/Navbar";
+import Footer from "../Common/Footer";
+import Navbar from "../Common/Navbar";
 
 const Login = () => {
   // 입력 타입
@@ -18,15 +18,17 @@ const Login = () => {
   };
   return (
     <>
-      <div className="flex flex-col h-full w-full">
-        <Navbar />        
+      <div className="flex flex-col h-screen w-screen ">
+        <Navbar />
         {/* 로그인 창 */}
-        <div className="flex flex-col items-center">
-          <div className="flex flex-col grow items-center justify-center border-2 h-[70rem] w-[80rem] border-black">
-            <div className="border-2 border-black h-[5rem] sm:w-[2rem] md:w-[8rem] text-[3rem]">
+        <div className="flex flex-col items-center border-2 border-black">
+          {/* 로그인 둥근거 */}
+          {/* sm:  md:  lg:  xl:  2xl: */}
+          <div className="flex flex-col grow items-center justify-center border-2 h-[70rem] w-[60rem] border-black sm:w-[5rem]  md:w-[10rem]  lg:w-[20rem]  xl:w-[40rem]  2xl:w-[60rem] ">
+            <div className="border-2 border-black h-[5rem] sm:w-[2rem] md:w-[8rem]">
               홍민정음
             </div>
-            <div className="border-2 border-black">즐거운 단어 학습</div>
+            <div className="border-2 border-black sm:  md:  lg:  xl:  2xl:  ">즐거운 단어 학습</div>
             <div className="border-2 border-black">또이름</div>
             <input
               className="border-black border-2 rounded-[3rem]"
@@ -49,7 +51,7 @@ const Login = () => {
           </div>
         </div>
         {/* 로그인 창 끝 */}
-        <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+        {/* <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
           <div className="md:flex">
             <div className="md:shrink-0">
               <img
@@ -75,7 +77,7 @@ const Login = () => {
               </p>
             </div>
           </div>
-        </div>
+        </div> */}
         <Footer />
       </div>
     </>
