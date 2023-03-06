@@ -10,7 +10,7 @@ function Intro():JSX.Element {
       <IntroSection3V1/>
       <IntroSection3V2/>
       <IntroSection4/>
-      <Footer/>
+      <Footer/> 
     </div>
   )
 }
