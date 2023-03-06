@@ -7,7 +7,7 @@ function Pangguin() {
     <div>
       <div className='h-full w-full'>
         <Canvas>
-          <mesh scale={1} position={[0,-1.5,0]}>
+          <mesh scale={2} position={[0,-2,0]}>
             <Suspense fallback={null}>
               <ambientLight intensity={0.8} />
               <spotLight intensity={0.1} angle={0.1} penumbra={1} position={[10,5,3]} castShadow/>
