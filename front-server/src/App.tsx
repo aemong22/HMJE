@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import Intro from './Components/Intro/Intro';
 import MyPage from './Components/MyPage/MyPage';
+import Join from './Components/Join/Join';
 
 function App() {
   const notify = () => toast("Wow so easy!");
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Intro/>}/>
         <Route path='/mypage' element={<MyPage/>}/>
+        <Route path='/join' element={<Join/>}/>        
       </Routes>
     </>
   );
