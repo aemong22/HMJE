@@ -1,17 +1,17 @@
 import Footer from "../Common/Footer"
-import Navbar from "../Common/Navbar"
-import styled from './Intro.module.css'
+import IntroNavbar from "./IntroNavbar"
+
 function Intro():JSX.Element {
   return (
-    <div>
-      <Navbar/>
+    <>
+      <IntroNavbar/>
       <IntroSection1/>
       <IntroSection2/>
       <IntroSection3V1/>
       <IntroSection3V2/>
       <IntroSection4/>
       <Footer/>
-    </div>
+    </>
   )
 }
 export default Intro
