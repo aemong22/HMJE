@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
 
-const Login = () => {
+function Login(): JSX.Element {
   // 입력 타입
   type input = string | undefined;
   const [Id, setId] = useState<input>();
@@ -28,7 +28,9 @@ const Login = () => {
             <div className="border-2 border-black h-[5rem] sm:w-[2rem] md:w-[8rem]">
               홍민정음
             </div>
-            <div className="border-2 border-black sm:  md:  lg:  xl:  2xl:  ">즐거운 단어 학습</div>
+            <div className="border-2 border-black sm:  md:  lg:  xl:  2xl:  ">
+              즐거운 단어 학습
+            </div>
             <div className="border-2 border-black">또이름</div>
             <input
               className="border-black border-2 rounded-[3rem]"
@@ -82,6 +84,6 @@ const Login = () => {
       </div>
     </>
   );
-};
+}
 
 export default Login;
