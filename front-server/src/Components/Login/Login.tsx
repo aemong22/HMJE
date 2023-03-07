@@ -8,6 +8,13 @@ function Login(): JSX.Element {
   const [Id, setId] = useState<input>();
   const [Password, setPassword] = useState<input>();
 
+  const TextSize: number = 3; //가입하기 32 기준
+  const defaultnum: number = 25;
+  const HongSize: number = (TextSize * 60) / defaultnum;
+  const TitleSize: number = (TextSize * 25) / defaultnum;
+  const EnterSize: number = (TextSize * 32) / defaultnum;
+  const SmallSize: number = (TextSize * 16) / defaultnum;
+
   const ChangeId = (event: any) => {
     // console.log(event.target.value);
     setId(event.target.value);
@@ -21,34 +28,56 @@ function Login(): JSX.Element {
       <div className="flex flex-col h-screen w-screen ">
         <Navbar />
         {/* 로그인 창 */}
-        <div className="flex flex-col items-center border-2 border-black">
+        <div className="flex flex-col items-center">
           {/* 로그인 둥근거 */}
-          {/* sm:  md:  lg:  xl:  2xl: */}
           <div className="flex flex-col grow items-center justify-center border-2 h-[70rem] w-[60rem] border-black sm:w-[5rem]  md:w-[10rem]  lg:w-[20rem]  xl:w-[40rem]  2xl:w-[60rem] ">
-            <div className="border-2 border-black h-[5rem] sm:w-[2rem] md:w-[8rem]">
+            <div
+              className={`border-2 border-black h-[5rem] text-[1rem] sm:text-[1rem] md:text-[1.6rem] lg:text-[${HongSize}rem]`}
+            >
               홍민정음
             </div>
-            <div className="border-2 border-black sm:  md:  lg:  xl:  2xl:  ">
+            <div
+              className={`border-2 border-black text-[1rem] sm:text-[1rem] md:text-[1.6rem] lg:text-[${TextSize}rem]`}
+            >
               즐거운 단어 학습
             </div>
-            <div className="border-2 border-black">또이름</div>
+            <div
+              className={`border-2 border-black text-[1rem] sm:text-[1rem] md:text-[1.6rem] lg:text-[${TitleSize}rem]`}
+            >
+              또이름
+            </div>
             <input
               className="border-black border-2 rounded-[3rem]"
               onChange={ChangeId}
               placeholder="이름"
             />
-            <div className="border-2 border-black">비밀번호</div>
+            <div
+              className={`border-2 border-black text-[1rem] sm:text-[1rem] md:text-[1.6rem] lg:text-[${TitleSize}rem]`}
+            >
+              비밀번호
+            </div>
             <input
               className="border-black border-2 rounded-[3rem]"
               onChange={ChangePassword}
               placeholder="비밀번호"
             />
-            <div className="cursor-pointer border-2 border-black">입장하기</div>
+            <div
+              className={`cursor-pointer border-2 border-black text-[1rem] sm:text-[1rem] md:text-[1.6rem] lg:text-[${EnterSize}rem]`}
+            >
+              입장하기
+            </div>
 
-            <div className="flex felx-row border-2 border-black">
+            <div
+              className={`flex felx-row border-2 border-black text-[1rem] sm:text-[1rem] md:text-[1.6rem] lg:text-[${SmallSize}rem]`}
+            >
               <div className=" cursor-pointer">가입하기 | </div>
               <div className=" cursor-pointer">또이름 찾기 | </div>
               <div className=" cursor-pointer">비밀번호 찾기</div>
+            </div>
+            <div
+              className={`text-[1rem] sm:text-[1rem] md:text-[1.6rem] lg:text-[${SmallSize}rem]`}
+            >
+              또는
             </div>
           </div>
         </div>
