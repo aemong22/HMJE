@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
 
@@ -9,12 +9,19 @@ const Join = (): JSX.Element => {
   const [Nickname, setNickname] = useState<string>();
   const [Phonenum, setPhonenum] = useState<number>();
   const [Authnum, setAuthnum] = useState<number>();
+  const [TextSizeTest, setTextSizeTest] = useState<number>(70);
 
-  const TextSize: number = 1; //가입하기
-  const HongSize: number = (TextSize / 32) * 50;
-  const TitleSize: number = (TextSize / 32) * 25;
-  const AcceptSize: number = (TextSize / 32) * 20;
-  const Explanation: number = (TextSize / 32) * 15;
+  const TextSize = 30; //가입하기
+  const DefaultNum = TextSize;
+  const HongSize = (TextSize * 80) / DefaultNum; //50
+  const TitleSize = (TextSize * 25) / DefaultNum; //25
+  const AcceptSize = (TextSize * 20) / DefaultNum; //20
+  const ExplanationSize = (TextSize * 15) / DefaultNum; //15
+
+  useEffect(() => {
+    setTextSizeTest(70);
+    return () => {};
+  }, []);
 
   const ChangeName = (event: any): void => {
     console.log(event.target.value);
@@ -61,6 +68,8 @@ const Join = (): JSX.Element => {
     // 회원가입axios
   };
 
+  console.log(ExplanationSize);
+
   return (
     <>
       <Navbar />
@@ -70,21 +79,24 @@ const Join = (): JSX.Element => {
       >
         <div id="head" className="h-[10rem]">
           <div
-            className={`font-extrabold text-[#A87E6E] text-[${HongSize}rem] sm:text-[1.5rem] md:text-[2.4rem] lg:text-[3rem]`}
+            className={`font-extrabold text-[#A87E6E] text-[${HongSize}px] 
+            sm:text-[${HongSize * 0.5}px] md:text-[${HongSize * 0.8}px] 
+            lg:text-[${HongSize}px]`}
           >
-            홍민정음
+            홍민정음 {HongSize}
           </div>
           <div
-            className={`font-extrabold text-[#BD9789] text-[${TextSize}rem] sm:text-[1rem] md:text-[1.6rem] lg:text-[2rem]`}
+            className={`font-extrabold text-[#BD9789] text-[${TextSize}px] sm:text-[1rem] md:text-[1.6rem] lg:text-[${TextSize}px]`}
           >
             가입하기
           </div>
         </div>
         <div id="body" className="h-[30rem]">
           <div
-            className={`font-extrabold text-[#A87E6E] text-[${TitleSize}rem] sm:text-[1rem] md:text-[1.6rem] lg:text-[2rem]`}
+            className={`font-extrabold text-[#A87E6E] text-[${TitleSize}px] sm:text-[1rem] md:text-[1.6rem] lg:text-[${TitleSize}px]`}
           >
-            또이름
+            또이름testse
+            {TitleSize}px
           </div>
           <div className="flex flex-row">
             <input
@@ -93,7 +105,7 @@ const Join = (): JSX.Element => {
               onChange={ChangeName}
             />
             <div
-              className={`text-[${AcceptSize}rem] sm:text-[0.8rem] md:text-[1.28rem] lg:text-[1.6rem] border-2 border-black rounded-[15px] cursor-pointer`}
+              className={`text-[${AcceptSize}px] sm:text-[0.8rem] md:text-[1.28rem] lg:text-[${AcceptSize}px]  border-2 border-black rounded-[15px] cursor-pointer`}
               onClick={() => {
                 CheckDuplication("Name");
               }}
@@ -103,12 +115,15 @@ const Join = (): JSX.Element => {
           </div>
           <div className="flex flex-row">
             <div
-              className={`font-extrabold text-[#A87E6E] text-[${TitleSize}rem] sm:text-[1rem] md:text-[1.6rem] lg:text-[2rem]`}
+              className={`font-extrabold text-[#A87E6E] text-[${TitleSize}px] sm:text-[1rem] md:text-[1.6rem] lg:text-[${TitleSize}px] `}
             >
               별명
+              {TitleSize}rem
             </div>
-            <div className={`text-[#868686] text-[${Explanation}rem]`}>
-              6자 이내 한글만 사용하실 수 있습니다.
+            <div
+              className={`text-[#868686] text-[${ExplanationSize}px] sm:text-[1rem] md:text-[1.6rem] lg:text-[${ExplanationSize}px]`}
+            >
+              6자 이내 한글만 사용하실 수 있습니다. {ExplanationSize}px
             </div>
           </div>
           <div className="flex flex-row">
@@ -118,7 +133,7 @@ const Join = (): JSX.Element => {
               onChange={ChangeNickname}
             />
             <div
-              className={`text-[${AcceptSize}rem] sm:text-[0.8rem] md:text-[1.28rem] lg:text-[1.6rem] border-2 border-black rounded-[15px] cursor-pointer`}
+              className={`text-[${AcceptSize}px] sm:text-[0.8rem] md:text-[1.28rem] lg:text-[${AcceptSize}px] border-2 border-black rounded-[15px] cursor-pointer`}
               onClick={() => {
                 CheckDuplication("Nickname");
               }}
@@ -127,7 +142,7 @@ const Join = (): JSX.Element => {
             </div>
           </div>
           <div
-            className={`font-extrabold text-[#A87E6E] text-[${TitleSize}rem] sm:text-[1rem] md:text-[1.6rem] lg:text-[2rem]`}
+            className={`font-extrabold text-[#A87E6E] text-[${TitleSize}px] sm:text-[1rem] md:text-[1.6rem] lg:text-[${TitleSize}px]`}
           >
             비밀번호
           </div>
@@ -137,7 +152,7 @@ const Join = (): JSX.Element => {
             onChange={ChangePassword}
           />
           <div
-            className={`font-extrabold text-[#A87E6E] text-[${TitleSize}rem] sm:text-[1rem] md:text-[1.6rem] lg:text-[2rem]`}
+            className={`font-extrabold text-[#A87E6E] text-[${TitleSize}px] sm:text-[1rem] md:text-[1.6rem] lg:text-[${TitleSize}px]`}
           >
             비밀번호 확인
           </div>
@@ -147,7 +162,7 @@ const Join = (): JSX.Element => {
             onChange={ChangePasswordCheck}
           />
           <div
-            className={`font-extrabold text-[#A87E6E] text-[${TitleSize}rem] sm:text-[1rem] md:text-[1.6rem] lg:text-[2rem]`}
+            className={`font-extrabold text-[#A87E6E] text-[${TitleSize}px] sm:text-[1rem] md:text-[1.6rem] lg:text-[${TitleSize}px]`}
           >
             전화번호
           </div>
@@ -158,7 +173,7 @@ const Join = (): JSX.Element => {
               onChange={ChangePhonenum}
             />
             <div
-              className={`text-[${AcceptSize}rem] sm:text-[0.8rem] md:text-[1.28rem] lg:text-[1.6rem] border-2 border-black rounded-[15px] cursor-pointer`}
+              className={`text-[${AcceptSize}px] sm:text-[0.8rem] md:text-[1.28rem] lg:text-[${AcceptSize}px] border-2 border-black rounded-[15px] cursor-pointer`}
               onClick={() => {
                 CheckDuplication("Phonenum");
               }}
@@ -168,7 +183,7 @@ const Join = (): JSX.Element => {
           </div>
           <div className="flex flex-row">
             <div
-              className={`text-[${AcceptSize}rem] sm:text-[0.8rem] md:text-[1.28rem] lg:text-[1.6rem] border-2 border-black rounded-[15px]`}
+              className={`text-[${AcceptSize}px] sm:text-[0.8rem] md:text-[1.28rem] lg:text-[${AcceptSize}px] border-2 border-black rounded-[15px]`}
             >
               인증번호 요청
             </div>
@@ -178,14 +193,14 @@ const Join = (): JSX.Element => {
               onChange={ChangeAuthnum}
             />
             <div
-              className={`text-[${AcceptSize}rem] sm:text-[0.8rem] md:text-[1.28rem] lg:text-[1.6rem] border-2 border-black rounded-[15px] cursor-pointer`}
+              className={`text-[${AcceptSize}px] sm:text-[0.8rem] md:text-[1.28rem] lg:text-[${AcceptSize}px] border-2 border-black rounded-[15px] cursor-pointer`}
               onClick={CheckAuthnum}
             >
               확인
             </div>
           </div>
           <div
-            className={`border-2 border-[#A87E6E] font-extrabold text-[#BD9789] text-[${TextSize}rem] sm:text-[1rem] md:text-[1.6rem] lg:text-[2rem] cursor-pointer`}
+            className={`border-2 border-[#A87E6E] font-extrabold text-[#BD9789] text-[${TextSize}px] sm:text-[1rem] md:text-[1.6rem] lg:text-[${TextSize}px] cursor-pointer`}
             onClick={GoJoin}
           >
             가입하기
