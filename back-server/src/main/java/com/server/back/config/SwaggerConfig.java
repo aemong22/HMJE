@@ -24,20 +24,17 @@ import java.util.Set;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-    //	Swagger-UI 2.x 확인
-    //	http://localhost:8080/{your-app-root}/swagger-ui.html
     //	Swagger-UI 3.x 확인
     //	http://localhost:8080/{your-app-root}/swagger-ui/index.html
     @Bean
     public Docket pochaApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .host("i8e201.p.ssafy.io")
                 .consumes(getConsumeContentTypes())
                 .produces(getProduceContentTypes())
                 .apiInfo(apiInfo())
-                .groupName("BangGusuck Pocha")
+                .groupName("HongMinJeongEum")
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.server.back.controller"))
+                .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.ant("/**"))
                 .build()
                 .useDefaultResponseMessages(false)
@@ -47,8 +44,8 @@ public class SwaggerConfig {
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("Pocha Service API")
-                .description("E201 Project")
+        return new ApiInfoBuilder().title("HMJE Service API")
+                .description("E102 Project")
                 .version("1.0").build();
     }
 

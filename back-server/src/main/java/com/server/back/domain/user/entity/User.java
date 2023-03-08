@@ -1,15 +1,15 @@
 package com.server.back.domain.user.entity;
 
 import com.server.back.common.entity.RefreshToken;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Data
-@NoArgsConstructor
+@Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class User {
 
     @Id
@@ -49,35 +49,6 @@ public class User {
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "Badge", nullable = false)
 //    private Badge Badge;
-
-    @Builder
-    public User(Long userId,
-    String username,
-    String password,
-    String nickname,
-    String phoneNumber,
-    Integer level,
-    Integer exp,
-    Integer semo,
-    Integer totalTime,
-    Integer totalRight,
-    Integer totalWorng,
-    Boolean isAdmin,
-    Boolean isSecession) {
-        this.userId = userId;
-        this.username = username;
-        this.password = password;
-        this.nickname = nickname;
-        this.phoneNumber = phoneNumber;
-        this.level = level;
-        this.exp = exp;
-        this.semo = semo;
-        this.totalTime = totalTime;
-        this.totalRight = totalRight;
-        this.totalWorng = totalWorng;
-        this.isAdmin = isAdmin;
-        this.isSecession = isSecession;
-    }
 
     /**
      *  refresh 생성자, setter
