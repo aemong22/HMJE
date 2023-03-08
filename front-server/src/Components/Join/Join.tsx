@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
+import Api from "../Common/Api";
 
 const Join = () => {
   const [Name, setName] = useState();
@@ -55,6 +56,14 @@ const Join = () => {
 
   const GoJoin = (): void => {
     // 회원가입axios
+    Api.get("/user/signup")
+      .then((r) => {
+        
+        console.log(r.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   return (
