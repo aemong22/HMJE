@@ -8,7 +8,7 @@ const Join = () => {
   const [PasswordCheck, setPasswordCheck] = useState();
   const [Nickname, setNickname] = useState();
   const [Phonenum, setPhonenum] = useState<string>();
-  const [Authnum, setAuthnum] = useState<string>();
+  const [Authnum, setAuthnum] = useState<number>();
 
   function ChangeName(event: any): void {
     console.log(event.target.value);
@@ -32,7 +32,8 @@ const Join = () => {
   };
   const ChangeAuthnum = (event: React.ChangeEvent<HTMLInputElement>): void => {
     // console.log(event.target.value);
-    setAuthnum(event.target.value);
+    const temp: number = Number(event.target.value);
+    setAuthnum(temp);
   };
 
   const CheckDuplication = (check: string): void => {
@@ -45,7 +46,7 @@ const Join = () => {
     }
   };
 
-  const CheckAuthnum = (): void => {
+  const CheckAuthnum = (authnum: number | undefined): void => {
     // if (Authnum == 1) {
     // } else {
     // }
@@ -58,109 +59,154 @@ const Join = () => {
 
   return (
     <>
-      <Navbar />
-      <div id="container" className="flex flex-col w-screen">
-        <div className="flex flex-col px-10">
-          <div className="text-3xl font-extrabold text-[#A87E6E] sm:text-3xl md:text-4xl lg:text-6xl">
-            홍민정음
+      <div className="flex flex-col justify-between h-[100vh]">
+        <Navbar />
+        {/* 상 */}
+        <div className="w-full">
+          <div className="flex flex-col mx-5 sm:mx-5 md:mx-7 lg:mx-[20%]">
+            <div className="my-4 font-extrabold text-[#A87E6E] text-4xl  sm:text-4xl md:text-4xl lg:text-6xl">
+              홍민정음
+            </div>
+            <div className="text-[#BD9789] font-extrabold text-xl sm:text-xl md:text-2xl lg:text-4xl ">
+              가입하기
+            </div>
           </div>
-          <div className="text-[#BD9789] font-extrabold text-xl sm:text-xl md:text-2xl lg:text-4xl ">
-            가입하기
+          {/* 중 */}
+          <div className=" flex flex-col justify-center ">
+            {/* 왼 */}
+            {/* <div></div> */}
+            {/* 가운데 */}
+            <div className="mx-5 sm:mx-5 md:mx-7 lg:mx-[30%] justify-center">
+              <div className="my-2">
+                <div className="text-[#A87C6E] font-extrabold text-base">
+                  계정
+                </div>
+                <div className="flex flex-row justify-between w-full">
+                  <input
+                    type="text"
+                    className="min-w-[70%] px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
+                    onChange={ChangeName}
+                  />
+                  <div
+                    className="px-3 py-2 md:px-4 md:py-3 border-2 bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
+                    onClick={() => {
+                      CheckDuplication("Name");
+                    }}
+                  >
+                    중복확인
+                  </div>
+                </div>
+              </div>
+              <div className="my-2">
+                <div className="flex flex-row items-baseline">
+                  <div className="text-[#A87C6E] font-extrabold text-base">
+                    별명
+                  </div>
+                  <div className="text-[#868686] text-xs">
+                    6글자 이내 한글만 사용하실 수 있습니다.
+                  </div>
+                </div>
+                <div className="flex flex-row justify-between ">
+                  <input
+                    type="text"
+                    className="min-w-[70%] px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
+                    onChange={ChangeName}
+                  />
+                  <div
+                    className="flex px-3 py-2 md:px-4 md:py-3 border-2 bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
+                    onClick={() => {
+                      CheckDuplication("Nickname");
+                    }}
+                  >
+                    중복확인
+                  </div>
+                </div>
+              </div>
+              <div className="my-2">
+                <div className="text-[#A87C6E] font-extrabold text-base">
+                  비밀번호
+                </div>
+                <div className="flex flex-row ">
+                  <input
+                    type="text"
+                    className="min-w-[100%] px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
+                    onChange={ChangeName}
+                  />
+                </div>
+              </div>
+              <div className="my-2">
+                <div className="text-[#A87C6E] font-extrabold text-base">
+                  비밀번호확인
+                </div>
+                <div className="flex flex-row ">
+                  <input
+                    type="text"
+                    className="min-w-[100%] px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
+                    onChange={ChangeName}
+                  />
+                </div>
+              </div>
+              <div className="my-2">
+                <div className="text-[#A87C6E] font-extrabold text-base">
+                  전화번호
+                </div>
+                <div className="flex flex-row justify-between">
+                  <input
+                    type="text"
+                    className="min-w-[70%] px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
+                    onChange={ChangePhonenum}
+                  />
+                  <div
+                    className="flex px-3 py-2 sm:px-3 sm:py-2 md:px-4 md:py-3  border-2 bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
+                    onClick={() => {
+                      CheckDuplication("Phonenum");
+                    }}
+                  >
+                    중복확인
+                  </div>
+                </div>
+              </div>
+              <div className="my-2">
+                <div className="text-[#A87C6E] font-extrabold text-base">
+                  인증번호
+                </div>
+                <div className="flex flex-row justify-between ">
+                  <input
+                    type="text"
+                    className="min-w-[70%] px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
+                    onChange={ChangeAuthnum}
+                  />
+                  <div
+                    className="px-3 py-2 md:px-4 md:py-3 border-2 bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
+                    onClick={() => {
+                      CheckAuthnum(Authnum);
+                    }}
+                  >
+                    &nbsp; &nbsp;확인&nbsp; &nbsp;
+                  </div>
+                </div>
+              </div>
+              <div className="w-full">
+                <div
+                  className="pt-3 cursor-pointer"
+                  onClick={() => {
+                    GoJoin();
+                  }}
+                >
+                  <div className="flex justify-center items-center h-[3.5rem] rounded-lg font-extrabold bg-[#F0ECE9] text-[#A87E6E]">
+                    <div>가입하기</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* 우 */}
+            {/* <div></div> */}
           </div>
+          {/* 하 */}
+          <div className="h-[2rem]"></div>
         </div>
-        <div className=" flex flex-col justify-center max-w-[700px] mx-auto pt-4">
-          <div className="h-[4rem]">
-            <div className="text-[#A87C6E] font-extrabold text-base">
-              또이름
-            </div>
-            <div className="flex flex-row ">
-              <input
-                type="text"
-                className="flex px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
-                onChange={ChangeName}
-              />
-              <div className="flex px-3 py-2 md:px-4 md:py-3 border-2 bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium">
-                중복확인
-              </div>
-            </div>
-          </div>
-          <div className="h-[4rem]">
-            <div className="text-[#A87C6E] font-extrabold text-base">별명</div>
-            <div className="flex flex-row ">
-              <input
-                type="text"
-                className="flex px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
-                onChange={ChangeName}
-              />
-              <div className="flex px-3 py-2 md:px-4 md:py-3 border-2 bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium">
-                중복확인
-              </div>
-            </div>
-          </div>
-          <div className="h-[4rem]">
-            <div className="text-[#A87C6E] font-extrabold text-base">
-              비밀번호
-            </div>
-            <div className="flex flex-row ">
-              <input
-                type="text"
-                className="flex px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
-                onChange={ChangeName}
-              />
-            </div>
-          </div>
-          <div className="h-[4rem]">
-            <div className="text-[#A87C6E] font-extrabold text-base">
-              비밀번호확인
-            </div>
-            <div className="flex flex-row ">
-              <input
-                type="text"
-                className="flex px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
-                onChange={ChangeName}
-              />
-            </div>
-          </div>
-          <div className="h-[4rem]">
-            <div className="text-[#A87C6E] font-extrabold text-base">
-              전화번호
-            </div>
-            <div className="flex flex-row ">
-              <input
-                type="text"
-                className="flex px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
-                onChange={ChangeName}
-              />
-              <div className="flex px-3 py-2 sm:px-3 sm:py-2 md:px-4 md:py-3  border-2 bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium">
-                중복확인
-              </div>
-            </div>
-          </div>
-          <div className="h-[4rem]">
-            <div className="text-[#A87C6E] font-extrabold text-base">
-              인증번호
-            </div>
-            <div className="flex flex-row ">
-              <input
-                type="text"
-                className="flex px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
-                onChange={ChangeName}
-              />
-              <div className="flex px-3 py-2 md:px-4 md:py-3 border-2 bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium">
-                확인
-              </div>
-            </div>
-          </div>
-          <div className="pt-3">
-            <div className="flex justify-center items-center h-8 rounded-lg font-extrabold bg-[#F0ECE9] text-[#A87E6E]">
-              <div>가입하기</div>
-            </div>
-          </div>
-        </div>
-        <div className="h-[2rem]"></div>
+        <Footer />
       </div>
-
-      <Footer />
     </>
   );
 };
