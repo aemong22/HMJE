@@ -18,8 +18,8 @@ export default MyPage
 // 데스크탑 & 태블릿
 function MyPageSection1V1():JSX.Element {
   return (
-    <div className="hidden sm:flex justify-between items-center sm:h-[19rem] md:h-[20rem] lg:h-[22rem] border-2 border-b-[#D9D9D9]">
-      <div className="flex justify-end items-center h-3/5 w-[30%]">
+    <div className="hidden sm:flex justify-between items-center sm:h-[14rem] md:h-[15rem] lg:h-[20rem] border-y-2 border-t-[#D9D9D9] border-b-[#D9D9D9]">
+      <div className="flex justify-end items-center h-4/5 w-[30%]">
         {/* 렙업에 따른 3D 캐릭터 */}
         <div className="flex justify-center items-center w-[80%]">
           <Pangguin/>
@@ -27,7 +27,7 @@ function MyPageSection1V1():JSX.Element {
       </div>
       <div className="flex justify-center items-center h-full w-[40%] ">
         {/* 메인 데이터 */}
-        <div className="flex flex-col justify-center items-center h-3/5 w-full">
+        <div className="flex flex-col justify-center items-center h-4/5 w-full">
           <div className="flex justify-between items-center w-full pb-2">
             {/* 칭호 & 수정 */}
             <div className="sm:text-[0.7rem] md:text-[0.8rem] lg:text-[1rem]">🥕&nbsp;한글을 사랑하는 자</div>
@@ -90,8 +90,8 @@ function MyPageSection1V1():JSX.Element {
 // 모바일
 function MyPageSection1V2():JSX.Element {
   return (
-    <div className="flex flex-col sm:hidden justify-center items-center h-[22rem] border-2 border-b-[#D9D9D9] ">
-      <div className="flex justify-center items-center h-[55%] w-[80%]">
+    <div className="flex flex-col sm:hidden justify-center items-center h-[22rem] border-y-2  border-t-[#D9D9D9] border-b-[#D9D9D9] ">
+      <div className="flex justify-center items-center h-[50%] w-[80%]">
         <div className="flex justify-center items-center h-4/5 w-[60%]">
           {/* 렙업에 따른 3D 캐릭터 */}
           <div className="flex justify-end items-center w-[80%] h-full">
@@ -105,7 +105,7 @@ function MyPageSection1V2():JSX.Element {
           </div>
         </div>
       </div>
-      <div className="flex justify-center items-center h-[45%] w-4/5">
+      <div className="flex justify-center items-center h-[50%] w-4/5">
         {/* 메인 데이터 */}
         <div className="flex flex-col justify-center items-center h-3/5 w-full">
           <div className="flex justify-between items-center w-full pb-2 text-[0.6rem]">
@@ -164,18 +164,18 @@ function MyPageSection1V2():JSX.Element {
 
 function MyPageSection2():JSX.Element {
   return (
-    <div className="flex flex-col justify-center items-center h-[54rem] w-full">
+    <div className="flex flex-col justify-center items-center h-[53rem] sm:h-[57rem] md:h-[58rem] lg:h-[63rem] w-full">
       <div className="flex justify-center items-center h-[70%] w-[80%]">
         {/* 학습 관리 */}
         <div className="flex flex-col justify-center items-start w-full h-[90%]">
-          <div className="h-[12%]">
+          <div className="h-[10%] sm:h-[8%]">
             <div className="block text-[0.9rem] sm:text-[1rem] lg:text-[1.1rem] font-semibold pb-2">학습 관리</div>
             <div className="block text-[0.6rem] sm:text-[0.6rem] lg:text-[0.7rem] text-[#A2A2A2]">나의 학습 정보를 확인해보세요!</div>
           </div>
-          <div className="h-[44%] w-full">
+          <div className="h-[45%] sm:h-[46%] w-full">
             {/* 학습 시간 문구 */}
             <div className="flex justify-between items-center w-full h-[16%] sm:h-[20%]">
-              <div className="flex justify-center items-center w-[35%] sm:w-[19%] h-[80%] sm:h-[60%] lg:h-[70%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.8rem] sm:text-[0.8rem] lg:text-[1rem]"><span>학습 시간</span></div>
+              <div className="flex justify-center items-center w-[35%] sm:w-[19%] h-[80%] sm:h-[60%] lg:h-[70%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.7rem] sm:text-[0.8rem] lg:text-[1rem]"><span>학습 시간</span></div>
               <div className="flex justify-between items-center w-[28%] sm:w-[15%] sm:h-[60%] lg:h-[70%] font-semibold text-[0.8rem] sm:text-[0.8rem] lg:text-[0.9rem] text-[#868686]">
                 <div className="w-[55%]"><span className="flex justify-center items-center border-2 ">2023</span></div>
                 <div className="w-[45%]"><span className="flex justify-center items-center border-2 ">3월</span></div>
@@ -183,15 +183,15 @@ function MyPageSection2():JSX.Element {
             </div>
             {/* 학습 시간 데이터 */}
             <div className="flex justify-center items-center w-full h-[80%]">
-              <div className="h-[80%] w-full bg-[#D9D9D9] rounded-md">
+              <div className="h-[90%] w-full bg-[#D9D9D9] rounded-md">
                 {/* 한달 간격으로 학습시간 & 학습 단어 갯수를 꺽은선 or 막대 그래프로 보여주기 */}
               </div>
             </div>
           </div>
-          <div className="h-[44%] w-full">
+          <div className="h-[45%] sm:h-[46%] w-full">
             {/* 학습 단어 개수 */}
             <div className="flex justify-between items-center w-full h-[16%] sm:h-[20%]">
-              <div className="flex justify-center items-center w-[35%] sm:w-[19%] h-[80%] sm:h-[60%] lg:h-[70%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.8rem] sm:text-[0.8rem] lg:text-[1rem]"><span>학습 단어 개수</span></div>
+              <div className="flex justify-center items-center w-[35%] sm:w-[19%] h-[80%] sm:h-[60%] lg:h-[70%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.7rem] sm:text-[0.8rem] lg:text-[1rem]"><span>학습 단어 개수</span></div>
               <div className="flex justify-between items-center w-[28%] sm:w-[15%] sm:h-[60%] lg:h-[70%] font-semibold text-[0.8rem] sm:text-[0.8rem] lg:text-[0.9rem] text-[#868686]">
                 <div className="w-[55%]"><span className="flex justify-center items-center border-2">2023</span></div>
                 <div className="w-[45%]"><span className="flex justify-center items-center border-2">3월</span></div>
@@ -199,7 +199,7 @@ function MyPageSection2():JSX.Element {
             </div>
             {/* 학습 단어 개수 데이터 */}
             <div className="flex justify-center items-center w-full h-[80%]">
-              <div className="h-[80%] w-full bg-[#D9D9D9] rounded-md">
+              <div className="h-[90%] w-full bg-[#D9D9D9] rounded-md">
                 {/* 한달 간격으로 날짜별 맞힌 개수, 틀린 개수를 꺽은선 or 막대 그래프로 보여주기 */}
               </div>
             </div>
@@ -237,7 +237,7 @@ function MyPageSection2():JSX.Element {
               </div>
             </div>
             {/* 학습 단어 개수 데이터 */}
-            <div className="flex justify-center items-start w-full h-[80%] mt-1">
+            <div className="flex justify-center items-start w-full h-[90%] mt-1">
               <div className="h-[80%] w-full bg-[#F0ECE9] rounded-md">
                 {/* 한달 간격으로 날짜별 맞힌 개수, 틀린 개수를 꺽은선 or 막대 그래프로 보여주기 */}
               </div>

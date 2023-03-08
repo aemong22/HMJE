@@ -52,7 +52,7 @@ function IntroSection1():JSX.Element {
 function IntroSection2():JSX.Element {
   return(
     <div className="h-[33rem] sm:h-[40rem] lg:h-[45rem] flex justify-center items-center">
-      <div className="w-full sm:w-[60%] lg:w-[45%] xl:w-[35%] h-[90%] ">
+      <div className="w-[85%] sm:w-[60%] lg:w-[45%] xl:w-[35%] h-[90%] ">
         {/* 텍스트 */}
         <div className="flex justify-center items-end h-[30%] w-full pb-6 mx-auto ">
           <div>
