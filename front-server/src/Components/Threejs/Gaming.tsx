@@ -25,11 +25,13 @@ export default Gaming;
 function Model() {
   const group = useRef<any>()
   const { nodes, materials, animations }:any = useGLTF('/ThreeFile/Gaming.gltf')
-  console.log('애니메이션',animations[0]);
+  // console.log('애니메이션',animations[0]);
   
   const { actions, mixer }:any = useAnimations(animations, group)
 
   useEffect(()=> {
+    console.log(actions);
+    
     actions.Animation.play()
   }, [mixer])
 
