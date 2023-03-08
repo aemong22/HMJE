@@ -1,4 +1,4 @@
-package com.server.back.domain.user.entity;
+package com.server.back.domain.study.entity;
 
 
 import lombok.*;
@@ -11,11 +11,12 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class CharacterEntity {
+public class DogamResult {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "character_id")
-	private Long characterId;
+	@Column(name = "dogam_result_id")
+	private Long dogamResultId;
 
-	private String characterName;
+
 }

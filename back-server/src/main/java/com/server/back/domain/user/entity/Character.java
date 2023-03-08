@@ -1,7 +1,6 @@
 package com.server.back.domain.user.entity;
 
 
-import com.server.back.common.entity.CommonEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,14 +11,11 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class BadgeEntity extends CommonEntity {
-
+public class Character {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "badge_id")
-	private Long badgeId;
-	private String badgeImage;
-	private String badgeName;
-	private String badgeDetail;
+	@Column(name = "character_id")
+	private Long characterId;
 
+	private String characterName;
 }
