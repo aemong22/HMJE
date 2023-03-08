@@ -7,6 +7,7 @@ import Intro from "./Components/Intro/Intro";
 import Login from "./Components/Login/Login";
 import MyPage from './Components/MyPage/MyPage';
 import Join from './Components/Join/Join';
+import Main from "./Components/Main/Main";
 
 function App() {
   const notify = () => toast("Wow so easy!");
@@ -16,7 +17,8 @@ function App() {
         <Route path="/" element={<Intro />} />
         <Route path="/login" element={<Login />} />
         <Route path='/mypage' element={<MyPage/>}/>
-        <Route path='/join' element={<Join/>}/>        
+        <Route path='/join' element={<Join/>}/>
+        <Route path='/main' element={<Main/>}/>
       </Routes>
     </>
   );
