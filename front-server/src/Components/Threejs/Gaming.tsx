@@ -1,4 +1,4 @@
-import {Suspense, useRef, useState} from 'react'
+import {Suspense, useEffect, useRef, useState} from 'react'
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF, useAnimations } from '@react-three/drei';
 
@@ -28,10 +28,10 @@ function Model() {
   console.log('애니메이션',animations[0]);
   
   const { actions, mixer }:any = useAnimations(animations, group)
-  // console.log('액션',actions);
-  useFrame((actions) => {
-    group.current.rotation.y = actions.clock.getElapsedTime()
-  })
+
+  useEffect(()=> {
+    actions.Animation.play()
+  }, [mixer])
 
   return (
     <group ref={group} dispose={null}>
