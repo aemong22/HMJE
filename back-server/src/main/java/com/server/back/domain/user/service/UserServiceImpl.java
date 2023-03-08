@@ -8,8 +8,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -37,5 +35,48 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         userRepository.save(user);
+    }
+
+    @Override
+    public boolean userNicknameCheck(UserRequestDto requestDto) {
+        System.out.println("requestDto-nickname///////////////"+requestDto);
+        int count = 0;
+        for (User r : userRepository.findAll()) {
+            if (r.getNickname().equals(requestDto.getNickname())){
+                count += 1;
+            }
+        }
+        if (count == 0) {
+            return true;
+        }
+        return false;
+    }
+    @Override
+    public boolean userUsernameCheck(UserRequestDto requestDto) {
+        System.out.println("requestDto-username///////////////"+requestDto);
+        int count = 0;
+        for (User r : userRepository.findAll()) {
+            if (r.getUsername().equals(requestDto.getUsername())){
+                count += 1;
+            }
+        }
+        if (count == 0) {
+            return true;
+        }
+        return false;
+    }
+    @Override
+    public boolean userPhonenumberCheck(UserRequestDto requestDto) {
+        System.out.println("requestDto-phonenumber///////////////"+requestDto);
+        int count = 0;
+        for (User r : userRepository.findAll()) {
+            if (r.getPhoneNumber().equals(requestDto.getPhoneNumber())){
+                count += 1;
+            }
+        }
+        if (count == 0) {
+            return true;
+        }
+        return false;
     }
 }
