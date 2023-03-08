@@ -1,5 +1,6 @@
 import Footer from "../Common/Footer"
 import Navbar from "../Common/Navbar"
+import Camel from "../Threejs/Camel"
 import Gaming from "../Threejs/Gaming"
 
 function MyPage():JSX.Element {
@@ -22,7 +23,8 @@ function MyPageSection1V1():JSX.Element {
       <div className="flex justify-end items-center h-4/5 w-[30%]">
         {/* 렙업에 따른 3D 캐릭터 */}
         <div className="flex justify-center items-center w-[66%]">
-          <Gaming/>
+          {/* <Gaming/> */}
+          <Camel/>
         </div>
       </div>
       <div className="flex justify-center items-center h-full w-[40%] ">
