@@ -20,6 +20,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void join(UserRequestDto requestDto) {
+        System.out.println(requestDto);
         User user = User.builder()
                 .username(requestDto.getUsername())
                 .password(bCryptPasswordEncoder.encode(requestDto.getPassword()))
@@ -31,8 +32,8 @@ public class UserServiceImpl implements UserService {
                 .totalTime(0)
                 .totalRight(0)
                 .totalWorng(0)
-                .isAdmin(requestDto.getIs_admin())
-                .isSecession(requestDto.getIs_secession())
+                .isAdmin(requestDto.getIsAdmin())
+                .isSecession(requestDto.getIsSecession())
                 .build();
 
         userRepository.save(user);
