@@ -12,12 +12,11 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class DogamResult extends CommonEntity {
-
+public class PastTestResult extends CommonEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "dogam_result_id")
-	private Long dogamResultId;
-
+	@Column(name = "past_test_result_id")
+	private Long pastTestResultId;
+	private Integer score;
 
 }
