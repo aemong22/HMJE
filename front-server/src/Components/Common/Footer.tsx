@@ -1,6 +1,6 @@
 function Footer():JSX.Element {
   return (
-    <div className="h-[5rem] md:h-[6rem] lg:h-[10rem] flex justify-center items-center bg-[#D8C1A5] text-white">
+    <div className="h-[8rem] md:h-[8rem] lg:h-[10rem] flex justify-center items-center bg-[#BF9F91] text-white">
       <div className="w-[90%] md:w-[85%] lg:w-[80%] h-[80%] mx-auto ">
         <div className="flex justify-start items-end w-full h-[30%] border-b-2 border-b-white mb-3 text-[0.5rem] sm:text-[0.5rem] md:text-[0.8rem] lg:text-[1rem]">
         ㅎ ㅗ ㅇ ㅁ ㅣ ㄴ ㅈ ㅓ ㅇ ㅇ ㅡ ㅁ
