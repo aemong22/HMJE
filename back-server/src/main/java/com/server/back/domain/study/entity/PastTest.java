@@ -5,6 +5,7 @@ import com.server.back.common.entity.CommonEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 
 @Entity
@@ -12,12 +13,12 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class DogamResult extends CommonEntity {
-
+public class PastTest extends CommonEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "dogam_result_id")
-	private Long dogamResultId;
-
+	@Column(name = "past_test_id")
+	private Long pastTestId;
+	private LocalDate startTime;
+	private LocalDate endTime;
 
 }

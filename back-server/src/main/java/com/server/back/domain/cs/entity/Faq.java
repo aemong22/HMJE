@@ -1,4 +1,4 @@
-package com.server.back.domain.study.entity;
+package com.server.back.domain.cs.entity;
 
 
 import com.server.back.common.entity.CommonEntity;
@@ -12,12 +12,13 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class DogamResult extends CommonEntity {
+public class Faq extends CommonEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "dogam_result_id")
-	private Long dogamResultId;
-
+	@Column(name = "faq_id")
+	private Long faqId;
+	private String title;
+	private String content;
 
 }
