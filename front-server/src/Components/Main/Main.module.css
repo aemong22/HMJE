@@ -1,0 +1,18 @@
+.iconBook {
+    background-image: url('../../../public/Assets/Icon/reading-book.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    width : 2rem;
+    background-position-y: center;
+    margin-right: 0.2rem;
+  }
+
+  .studyContents {
+    border : solid 0.15rem #A87E6E;
+    text-align: start;
+    padding: 1.2rem;
+  }
+
+  .studyButtons {
+
+  }
