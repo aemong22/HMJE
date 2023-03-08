@@ -17,6 +17,6 @@ public class UserRequestDto {
     private String nickname;
     private String password;
     private String phoneNumber;
-    private Boolean is_admin;
-    private Boolean is_secession;
+    private Boolean isAdmin;
+    private Boolean isSecession;
 }

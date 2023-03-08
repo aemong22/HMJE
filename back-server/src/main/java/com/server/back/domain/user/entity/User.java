@@ -18,7 +18,7 @@ public class User {
     private Long userId;//pk
     @Column(length = 32, nullable = false)
     private String username; //네이버 id pk
-    @Column(length = 32, nullable = false)
+//    @Column(length = 32, nullable = false)
     private String password;
     @Column(length = 12, nullable = false)
     private String nickname;
