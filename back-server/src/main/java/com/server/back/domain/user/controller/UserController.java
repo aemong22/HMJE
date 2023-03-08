@@ -3,8 +3,10 @@ package com.server.back.domain.user.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.server.back.common.dto.TokenRequestDto;
 import com.server.back.common.service.JwtService;
+import com.server.back.domain.user.dto.BadgeResponseDto;
 import com.server.back.domain.user.dto.UserRequestDto;
 
+import com.server.back.domain.user.dto.UserResponseDto;
 import com.server.back.domain.user.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -65,6 +68,24 @@ public class UserController {
         Map<String, Object> response = new HashMap<>();
         Boolean phonenumbercheck = userService.userPhonenumberCheck(requestDto);
         response.put("data", phonenumbercheck);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @ApiOperation(value = "내 정보 조회")
+    @GetMapping("/myinfo/{userId}")
+    public ResponseEntity<Map<String, Object>> userMyInfo(@PathVariable(value = "userId") Long userId){
+        Map<String, Object> response = new HashMap<>();
+        UserResponseDto responseDto = userService.userInfo(userId);
+        response.put("data", responseDto);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @ApiOperation(value = "내 뱃지 조회")
+    @GetMapping("/badge/{userId}")
+    public ResponseEntity<Map<String, Object>> userBadge(@PathVariable(value = "userId") Long userId){
+        Map<String, Object> response = new HashMap<>();
+        List<BadgeResponseDto> responseDtoList = userService.userBadge(userId);
+        response.put("data", responseDtoList);
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

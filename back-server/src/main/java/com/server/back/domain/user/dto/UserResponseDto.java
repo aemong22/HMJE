@@ -18,7 +18,7 @@ import javax.persistence.*;
 public class UserResponseDto {
 
 
-    private String username; //네이버 id pk
+    private String username; //id
     private String nickname;
     private String phoneNumber;
     private Integer level;
