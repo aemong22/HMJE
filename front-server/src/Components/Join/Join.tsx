@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
 import Api from "../Common/Api";
+import axios from "axios";
 
 const Join = () => {
-  const [Name, setName] = useState();
-  const [Password, setPassword] = useState();
-  const [PasswordCheck, setPasswordCheck] = useState();
-  const [Nickname, setNickname] = useState();
-  const [Phonenum, setPhonenum] = useState<string>();
+  const [Name, setName] = useState<string>("");
+  const [Password, setPassword] = useState<string>("");
+  const [PasswordCheck, setPasswordCheck] = useState<string>();
+  const [Nickname, setNickname] = useState<string>("");
+  const [Phonenum, setPhonenum] = useState<string>("");
   const [Authnum, setAuthnum] = useState<number>();
 
   function ChangeName(event: any): void {
@@ -36,14 +37,66 @@ const Join = () => {
     const temp: number = Number(event.target.value);
     setAuthnum(temp);
   };
-
+  // 중복확인
   const CheckDuplication = (check: string): void => {
+    let accessToken = localStorage.getItem("accessToken");
     if (check === "Name") {
       // 이름 중복 axios
+      console.log("아이디확인", Name);
+      // console.log("비었나", Name === "");
+
+      axios({
+        method: "post",
+        url: `http://118.67.130.158/api/user/check/username`,
+        data: {
+          isAdmin: false,
+          isSecession: false,
+          nickname: Nickname,
+          password: Password,
+          phoneNumber: Phonenum,
+          username: Name,
+        },
+      }).then((r) => {
+        console.log(r.data);
+      });
     } else if (check === "Nickname") {
       // 닉네임 중복 axios
+      console.log("닉네임확인", Nickname);
+
+      axios({
+        method: "post",
+        url: `http://118.67.130.158/api/user/check/nickname`,
+        data: {
+          isAdmin: false,
+          isSecession: false,
+          nickname: Nickname,
+          password: Password,
+          phoneNumber: Phonenum,
+          username: Name,
+        },
+      }).then((r) => {
+        console.log(r.data);
+      });
     } else if (check === "Phonenum") {
       //  폰 중복 axios
+      console.log("폰번호확인", Phonenum);
+      axios({
+        method: "post",
+        url: `http://118.67.130.158/api/user/check/phonenumber`,
+        data: {
+          isAdmin: false,
+          isSecession: false,
+          nickname: Nickname,
+          password: Password,
+          phoneNumber: Phonenum,
+          username: Name,
+        },
+        headers: {
+          accessToken: accessToken,
+        },
+      }).then((r) => {
+        console.log(r.data);
+      });
     }
   };
 
@@ -56,14 +109,43 @@ const Join = () => {
 
   const GoJoin = (): void => {
     // 회원가입axios
-    Api.get("/user/signup")
-      .then((r) => {
+    console.log("닉네임", Nickname);
+    console.log("패스워드", Password);
+    console.log("전화번호", Phonenum);
+    console.log("username", Name);
+    Api.post(`/user/join`, {
+      isAdmin: false,
+      isSecession: false,
+      nickname: Nickname,
+      password: Password,
+      phoneNumber: Phonenum,
+      username: Name,
+    }).then((r) => {
+      console.log(r.data);
+    });
+    // axios({
+    //   method: "post",
+    //   url: `http://118.67.130.158/api/user/join`,
+    //   data: {
+    //     isAdmin: false,
+    //     isSecession: false,
+    //     nickname: Nickname,
+    //     password: Password,
+    //     phoneNumber: Phonenum,
+    //     username: Name,
+    //   },
+    // }).then((r) => {
+    //   console.log(r.data);
+    // });
 
-        console.log(r.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    // //실패
+    // Api.get("/user/signup")
+    //   .then((r) => {
+    //     console.log(r.data);
+    //   })
+    //   .catch((e) => {
+    //     console.log(e);
+    //   });
   };
 
   return (
@@ -119,7 +201,7 @@ const Join = () => {
                   <input
                     type="text"
                     className="min-w-[70%] px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
-                    onChange={ChangeName}
+                    onChange={ChangeNickname}
                   />
                   <div
                     className="flex px-3 py-2 md:px-4 md:py-3 border-2 bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
@@ -139,7 +221,7 @@ const Join = () => {
                   <input
                     type="text"
                     className="min-w-[100%] px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
-                    onChange={ChangeName}
+                    onChange={ChangePassword}
                   />
                 </div>
               </div>
@@ -171,7 +253,7 @@ const Join = () => {
                       CheckDuplication("Phonenum");
                     }}
                   >
-                    중복확인
+                    인증하기
                   </div>
                 </div>
               </div>
