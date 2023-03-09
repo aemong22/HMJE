@@ -58,7 +58,7 @@ const Join = () => {
     // 회원가입axios
     Api.get("/user/signup")
       .then((r) => {
-        
+
         console.log(r.data);
       })
       .catch((e) => {
