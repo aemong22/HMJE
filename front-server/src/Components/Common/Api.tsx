@@ -10,9 +10,11 @@ const Api = axios.create({
 Api.interceptors.request.use(
   // request할때 할 행동
   function (config) {
-    // console.log("컨피그", config);
+    console.log("컨피그", config);
+
     // 요청을 보내기 전 수행할 작업 = accessToken이 유효한지
     const jwt = require("jsonwebtoken");
+    const crypto = require("crypto");
     // sessionStorage에서 accessToken을 가져온다.
     let accessToken: string | null = localStorage.getItem("accessToken");
     // jwt를 decode 하여 payload를 추출한다.
@@ -29,7 +31,7 @@ Api.interceptors.request.use(
   },
 
   function (err) {
-    return Promise.reject(err);
+    // return Promise.reject(err);
   },
 );
 
@@ -41,7 +43,7 @@ Api.interceptors.response.use(
     return config;
   },
   function (err) {
-    return Promise.reject(err);
+    // return Promise.reject(err);
   },
 );
 
