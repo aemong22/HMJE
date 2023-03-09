@@ -3,6 +3,7 @@ package com.server.back.domain.message.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.server.back.domain.message.dto.MessageDto;
+import com.server.back.domain.message.dto.ModifyNumberDto;
 import com.server.back.domain.message.dto.SmsRequestDto;
 import com.server.back.domain.message.dto.SmsResponseDto;
 import com.server.back.domain.user.entity.User;
@@ -101,7 +102,7 @@ public class SmsService {
                 .contentType("COMM")
                 .countryCode("82")
                 .from(phone)
-                .content("[서비스명 홍민정음] 인증번호 [" + smsConfirmNum + "]를 입력해주세요")
+                .content("[홍민정음] 인증번호 [" + smsConfirmNum + "]를 입력해주세요")
                 .messages(messages)
                 .build();
 
@@ -118,7 +119,7 @@ public class SmsService {
         SmsResponseDto smsResponseDto = restTemplate.postForObject(new URI("https://sens.apigw.ntruss.com/sms/v2/services/"+ serviceId +"/messages"), httpBody, SmsResponseDto.class);
         //SmsResponseDto responseDto = new SmsResponseDto(smsConfirmNum);
         // ??????________________________________________________________________
-        redisUtil.setDataExpire(smsConfirmNum, messageDto.getToNumber(), 60 * 3L); // 유효시간 3분
+        redisUtil.setDataExpire(smsConfirmNum, messageDto.getTo(), 60 * 3L); // 유효시간 3분
         return smsResponseDto;
     }
 
@@ -135,10 +136,10 @@ public class SmsService {
     }
 
     public boolean userPhonenumberCheck(MessageDto requestDto) {
-        System.out.println("requestDto-phonenumber///////////////"+requestDto);
+        System.out.println("requestDto-phonenumber///////////////"+requestDto.getTo());
         int count = 0;
         for (User r : userRepository.findAll()) {
-            if (r.getPhoneNumber().equals(requestDto.getToNumber())){
+            if (r.getPhoneNumber().equals(requestDto.getTo())){
                 count += 1;
             }
         }
@@ -146,5 +147,27 @@ public class SmsService {
             return true;
         }
         return false;
+    }
+
+    public boolean modifySms(ModifyNumberDto requestDto){
+        if (isModify(requestDto)) {
+            redisUtil.deleteData(requestDto.getModifyNumber());
+            return true;
+        }
+        return false;
+    }
+
+    // 인증번호와 휴대폰번호가 일치하면 true
+    public boolean isModify(ModifyNumberDto requestDto){
+        System.out.println("여기가 문제??????");
+        String value = redisUtil.getData(requestDto.getModifyNumber());
+        System.out.println("value = " + value);
+        if (value.equals(null)) {
+            System.out.println("SmsService.isModify:    false");
+            throw new IllegalArgumentException("null값입니다.");
+        }
+        return redisUtil.getData(requestDto.getModifyNumber()).equals(requestDto.getPhoneNumber());
+
+
     }
 }

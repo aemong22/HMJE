@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Builder
-public class MessageDto {
-    private String to;
+public class ModifyNumberDto {
+    private String phoneNumber;
+    private String modifyNumber;
 }
