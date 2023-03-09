@@ -14,10 +14,9 @@ function Intro():JSX.Element {
     </>
   )
 }
-export default Intro
+export default Intro;
 
-
-function IntroSection1():JSX.Element {
+function IntroSection1(): JSX.Element {
   return (
     <div id="introSection1" className="flex justify-between items-center bg-[#D6B17A] text-white h-[13rem] sm:h-[18rem] md:h-[20rem] lg:h-[25rem] px-4 sm:px-2">
       {/* 왼쪽 */}
@@ -48,7 +47,7 @@ function IntroSection1():JSX.Element {
         <img className="h-[10rem] sm:h-[17rem] md:h-[18rem] lg:h-[21rem]  xl:h-96" src="/Assets/Intro/sejong.png" alt="sejong" />
       </div>
     </div>
-  )
+  );
 }
 
 
@@ -82,13 +81,11 @@ function IntroSection2():JSX.Element {
           </div>
           <div className="h-[4%]"></div>
           {/* 하단 */}
-          <div className="h-[48%] w-full rounded-[0.9rem] bg-[#F0ECE9]">
-
-          </div>
+          <div className="h-[48%] w-full rounded-[0.9rem] bg-[#F0ECE9]"></div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 // 데스크탑 & 태블릿
@@ -101,7 +98,9 @@ function IntroSection3V1():JSX.Element {
           <div>
             <div className="flex justify-center items-center mb-5 sm:text-[1.2rem] md:text-[1.4rem] lg:text-[1.5rem]">
               <span className="font-bold ">훈민정음</span>
-              <span className="font-bold text-[#A87E6E]">으로 한글을 배워야 하는 이유</span>
+              <span className="font-bold text-[#A87E6E]">
+                으로 한글을 배워야 하는 이유
+              </span>
             </div>
           </div>
         </div>
@@ -115,7 +114,7 @@ function IntroSection3V1():JSX.Element {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 // 모바일
@@ -127,7 +126,9 @@ function IntroSection3V2():JSX.Element {
         <div className="flex justify-center items-center h-[10%] w-full mx-auto">
           <div className="flex justify-center items-center text-[0.9rem] mb-5">
             <span className="font-bold ">훈민정음</span>
-            <span className="font-bold text-[#A87E6E]">으로 한글을 배워야 하는 이유</span>
+            <span className="font-bold text-[#A87E6E]">
+              으로 한글을 배워야 하는 이유
+            </span>
           </div>
         </div>
         {/*데스크탑 & 태블릿 카드 */}
@@ -138,13 +139,10 @@ function IntroSection3V2():JSX.Element {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 // 서비스 분야
-function IntroSection4():JSX.Element {
-  return(
-    <div className="flex h-[25rem] justify-center items-center">
-    </div>
-  )
+function IntroSection4(): JSX.Element {
+  return <div className="flex h-[25rem] justify-center items-center"></div>;
 }
