@@ -37,7 +37,7 @@ const Join = () => {
     const temp: number = Number(event.target.value);
     setAuthnum(temp);
   };
-
+  // 중복확인
   const CheckDuplication = (check: string): void => {
     let accessToken = localStorage.getItem("accessToken");
     if (check === "Name") {
