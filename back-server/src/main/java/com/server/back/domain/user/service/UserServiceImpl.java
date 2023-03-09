@@ -1,12 +1,21 @@
 package com.server.back.domain.user.service;
 
+import com.server.back.domain.user.dto.BadgeResponseDto;
 import com.server.back.domain.user.dto.UserRequestDto;
+import com.server.back.domain.user.dto.UserResponseDto;
+import com.server.back.domain.user.entity.BadgeResult;
 import com.server.back.domain.user.entity.User;
+import com.server.back.domain.user.repository.BadgeResultRepository;
 import com.server.back.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.server.back.domain.user.dto.BadgeResponseDto.MyBadgeResultList;
 
 @RequiredArgsConstructor
 @Transactional
@@ -14,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final BadgeResultRepository badgeresultRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
@@ -78,5 +88,17 @@ public class UserServiceImpl implements UserService {
             return true;
         }
         return false;
+    }
+    @Override
+    public UserResponseDto userInfo(Long userId) {
+        User entity = userRepository.findByUserId(userId);
+        UserResponseDto responseDto = new UserResponseDto(entity);
+        return responseDto;
+    }
+    @Override
+    public List<BadgeResponseDto> userBadge(Long userId) {
+        User user = userRepository.findByUserId(userId);
+        List<BadgeResult> badgeresult = badgeresultRepository.findByUser(user);
+        return MyBadgeResultList(badgeresult);
     }
 }

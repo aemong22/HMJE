@@ -21,5 +21,4 @@ public class Badge extends CommonEntity {
 	private String badgeImage;
 	private String badgeName;
 	private String badgeDetail;
-
 }
