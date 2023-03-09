@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.server.back.domain.user.dto.BadgeResponseDto.MyBadgeResultList;
 
@@ -28,7 +27,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void join(UserRequestDto requestDto) {
-        System.out.println(requestDto);
         User user = User.builder()
                 .username(requestDto.getUsername())
                 .password(bCryptPasswordEncoder.encode(requestDto.getPassword()))
