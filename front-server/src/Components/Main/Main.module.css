@@ -10,9 +10,30 @@
   .studyContents {
     border : solid 0.15rem #A87E6E;
     text-align: start;
-    padding: 1.2rem;
+  }
+  
+  .studyContents:hover {
+    background-color: #F0ECE9;
   }
 
-  .studyButtons {
-
+  .studyBtn {
+    background-color: #F0ECE9;
+    cursor:pointer;
+    color: #A87C6E;
+    font-weight: bold;
   }
+
+
+  .studyContents:hover > .studyBtn {
+    background-color: #A87E6E;
+    color: #ffffff;
+  }
+
+  .badgeImg {
+    width : 1.5rem;
+    margin-right: 0.2rem;
+    background-position-y: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
