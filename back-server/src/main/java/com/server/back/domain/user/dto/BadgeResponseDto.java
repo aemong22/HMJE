@@ -26,23 +26,24 @@ public class BadgeResponseDto {
     private String badgeDetail;
     private LocalDateTime createdAt;
 
-    public BadgeResponseDto(BadgeResult b) {
-        this.badgeId = b.getBadge().getBadgeId();
-        this.badgeImage = b.getBadge().getBadgeImage();
-        this.badgeName = b.getBadge().getBadgeName();
-        this.badgeDetail = b.getBadge().getBadgeDetail();
-        this.createdAt = b.getCreatedAt();
+    public static BadgeResponseDto MakeBadgeResponseDto(BadgeResult b) {
+        Badge badge = b.getBadge();
+        BadgeResponseDto badgeResponseDto = BadgeResponseDto.builder()
+                .badgeId(badge.getBadgeId())
+                .badgeImage(badge.getBadgeImage())
+                .badgeDetail(badge.getBadgeDetail())
+                .badgeName(badge.getBadgeName())
+                .createdAt(b.getCreatedAt())
+                .build();
+        return badgeResponseDto;
     }
 
-    public static List<BadgeResponseDto> fromEntityList(List<BadgeResult> badgeResults) {
+    public static List<BadgeResponseDto> MyBadgeResultList(List<BadgeResult> badgeList) {
         List<BadgeResponseDto> result = new ArrayList<>();
-
-        for (BadgeResult badgeResult : badgeResults) {
-            BadgeResponseDto badgeResponseDto = Ba
+        for (BadgeResult badgeResult : badgeList) {
+            BadgeResponseDto badgeResponseDto = MakeBadgeResponseDto(badgeResult);
+            result.add(badgeResponseDto);
         }
-
         return result;
-
     }
-
 }

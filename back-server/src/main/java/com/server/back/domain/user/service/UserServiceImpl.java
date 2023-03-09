@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.server.back.domain.user.dto.BadgeResponseDto.MyBadgeResultList;
+
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -97,9 +99,6 @@ public class UserServiceImpl implements UserService {
     public List<BadgeResponseDto> userBadge(Long userId) {
         User user = userRepository.findByUserId(userId);
         List<BadgeResult> badgeresult = badgeresultRepository.findByUser(user);
-        List<BadgeResponseDto> responseDtoList = badgeresult.stream()
-                .map(r -> new BadgeResponseDto())
-                .collect(Collectors.toList());
-        return responseDtoList;
+        return MyBadgeResultList(badgeresult);
     }
 }
