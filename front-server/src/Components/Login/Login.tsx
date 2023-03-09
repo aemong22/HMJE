@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Api from "../Common/Api";
 import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
 
@@ -39,6 +40,9 @@ function Login(): JSX.Element {
 
   const Enter = () => {
     // axios 입장하기
+    Api.post("/login").then((r) => {
+      console.log(r.data);
+    });
   };
 
   const Social = () => {
