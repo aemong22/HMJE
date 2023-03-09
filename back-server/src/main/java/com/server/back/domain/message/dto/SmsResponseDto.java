@@ -1,5 +1,6 @@
 package com.server.back.domain.message.dto;
 
+import com.server.back.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

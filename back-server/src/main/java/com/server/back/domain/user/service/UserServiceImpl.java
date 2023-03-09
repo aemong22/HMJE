@@ -1,5 +1,6 @@
 package com.server.back.domain.user.service;
 
+import com.server.back.domain.message.dto.MessageDto;
 import com.server.back.domain.user.dto.BadgeResponseDto;
 import com.server.back.domain.user.dto.UserRequestDto;
 import com.server.back.domain.user.dto.UserResponseDto;
@@ -73,20 +74,7 @@ public class UserServiceImpl implements UserService {
         }
         return false;
     }
-    @Override
-    public boolean userPhonenumberCheck(UserRequestDto requestDto) {
-        System.out.println("requestDto-phonenumber///////////////"+requestDto);
-        int count = 0;
-        for (User r : userRepository.findAll()) {
-            if (r.getPhoneNumber().equals(requestDto.getPhoneNumber())){
-                count += 1;
-            }
-        }
-        if (count == 0) {
-            return true;
-        }
-        return false;
-    }
+
     @Override
     public UserResponseDto userInfo(Long userId) {
         User entity = userRepository.findByUserId(userId);

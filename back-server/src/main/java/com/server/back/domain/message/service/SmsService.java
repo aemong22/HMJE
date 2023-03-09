@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.server.back.domain.message.dto.MessageDto;
 import com.server.back.domain.message.dto.SmsRequestDto;
 import com.server.back.domain.message.dto.SmsResponseDto;
+import com.server.back.domain.user.entity.User;
+import com.server.back.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +38,8 @@ import java.util.Random;
 @RequiredArgsConstructor
 @Service
 public class SmsService {
+    private final UserRepository userRepository;
+
     //휴대폰 인증 번호
     private final String smsConfirmNum = createSmsKey();
     private final RedisUtilService redisUtil;
@@ -114,10 +118,9 @@ public class SmsService {
         SmsResponseDto smsResponseDto = restTemplate.postForObject(new URI("https://sens.apigw.ntruss.com/sms/v2/services/"+ serviceId +"/messages"), httpBody, SmsResponseDto.class);
         //SmsResponseDto responseDto = new SmsResponseDto(smsConfirmNum);
         // ??????________________________________________________________________
-        redisUtil.setDataExpire(smsConfirmNum, messageDto.getTo(), 60 * 3L); // 유효시간 3분
+        redisUtil.setDataExpire(smsConfirmNum, messageDto.getToNumber(), 60 * 3L); // 유효시간 3분
         return smsResponseDto;
     }
-
 
 
     // 인증코드 만들기
@@ -129,5 +132,19 @@ public class SmsService {
             key.append((rnd.nextInt(10)));
         }
         return key.toString();
+    }
+
+    public boolean userPhonenumberCheck(MessageDto requestDto) {
+        System.out.println("requestDto-phonenumber///////////////"+requestDto);
+        int count = 0;
+        for (User r : userRepository.findAll()) {
+            if (r.getPhoneNumber().equals(requestDto.getToNumber())){
+                count += 1;
+            }
+        }
+        if (count == 0) {
+            return true;
+        }
+        return false;
     }
 }
