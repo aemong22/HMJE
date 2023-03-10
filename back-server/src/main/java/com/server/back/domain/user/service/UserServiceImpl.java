@@ -1,6 +1,8 @@
 package com.server.back.domain.user.service;
 
-import com.server.back.domain.message.dto.MessageDto;
+import com.server.back.common.entity.RefreshToken;
+import com.server.back.common.repository.RefreshTokenRepository;
+
 import com.server.back.domain.user.dto.BadgeResponseDto;
 import com.server.back.domain.user.dto.UserRequestDto;
 import com.server.back.domain.user.dto.UserResponseDto;
@@ -21,7 +23,7 @@ import static com.server.back.domain.user.dto.BadgeResponseDto.MyBadgeResultList
 @Transactional
 @Service
 public class UserServiceImpl implements UserService {
-
+    private final RefreshTokenRepository refreshTokenRepository;
     private final UserRepository userRepository;
     private final BadgeResultRepository badgeresultRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -91,5 +93,13 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUserId(userId);
         List<BadgeResult> badgeresult = badgeresultRepository.findByUser(user);
         return MyBadgeResultList(badgeresult);
+    }
+    @Override
+    public void userDelete(Long userId){
+        User user = userRepository.findByUserId(userId);
+        RefreshToken token = refreshTokenRepository.findRefreshTokenById(user.getJwtRefreshToken().getId());
+//        refreshTokenRepository.delete(token);
+//        user.logout();
+        user.userdelete();
     }
 }

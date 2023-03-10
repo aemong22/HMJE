@@ -88,6 +88,14 @@ public class UserController {
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    @ApiOperation(value = "회원 탈퇴")
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Map<String, Object>> userDelete(@PathVariable(value = "userId") Long userId){
+        Map<String, Object> response = new HashMap<>();
+        userService.userDelete(userId);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
     @ApiOperation(value = "내 뱃지 조회")
     @GetMapping("/badge/{userId}")
     public ResponseEntity<Map<String, Object>> userBadge(@PathVariable(value = "userId") Long userId){

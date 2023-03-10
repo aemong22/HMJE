@@ -69,4 +69,8 @@ public class User extends CommonEntity {
     public void update(UserRequestDto requestDto){
         this.nickname = requestDto.getNickname();
     }
+    public void userdelete(){
+        this.nickname = "delete" + this.getUserId();
+        this.isSecession = true;
+    }
 }
