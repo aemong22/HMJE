@@ -62,15 +62,15 @@ public class UserController {
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    @ApiOperation(value = "휴대폰 번호 중복 체크", notes="휴대폰 번호 사용 가능하면 true")
-    @PostMapping ("/check/phonenumber")
-    public ResponseEntity<Map<String, Object>> userPhonenumberCheck(@RequestBody UserRequestDto requestDto){
-        Map<String, Object> response = new HashMap<>();
-        Boolean phonenumbercheck = userService.userPhonenumberCheck(requestDto);
-        response.put("data", phonenumbercheck);
-        response.put("message", "success");
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+//    @ApiOperation(value = "아이디 찾기")
+//    @GetMapping("/user/find/id")
+//    public ResponseEntity<Map<String, Object>> findId(@PathVariable(value = "userId") Long userId){
+//        Map<String, Object> response = new HashMap<>();
+//        List<BadgeResponseDto> responseDtoList = userService.userBadge(userId);
+//        response.put("data", responseDtoList);
+//        response.put("message", "success");
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
     @ApiOperation(value = "내 정보 조회")
     @GetMapping("/myinfo/{userId}")
     public ResponseEntity<Map<String, Object>> userMyInfo(@PathVariable(value = "userId") Long userId){

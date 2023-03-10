@@ -11,7 +11,6 @@ public interface UserService {
     void join(UserRequestDto requestDto);
     boolean userNicknameCheck(UserRequestDto requestDto);
     boolean userUsernameCheck(UserRequestDto requestDto);
-    boolean userPhonenumberCheck(UserRequestDto requestDto);
     UserResponseDto userInfo(Long userId);
     List<BadgeResponseDto> userBadge(Long userId);
 }
