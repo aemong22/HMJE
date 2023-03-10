@@ -80,6 +80,14 @@ public class UserController {
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    @ApiOperation(value = "정보 수정")
+    @PutMapping("/{userId}")
+    public ResponseEntity<Map<String, Object>> userUpdate(@PathVariable(value = "userId") Long userId , @RequestBody UserRequestDto requestDto){
+        Map<String, Object> response = new HashMap<>();
+        userService.userUpdate(userId, requestDto);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
     @ApiOperation(value = "내 뱃지 조회")
     @GetMapping("/badge/{userId}")
     public ResponseEntity<Map<String, Object>> userBadge(@PathVariable(value = "userId") Long userId){

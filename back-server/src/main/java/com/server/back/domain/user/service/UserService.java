@@ -12,5 +12,6 @@ public interface UserService {
     boolean userNicknameCheck(UserRequestDto requestDto);
     boolean userUsernameCheck(UserRequestDto requestDto);
     UserResponseDto userInfo(Long userId);
+    void userUpdate(Long userId, UserRequestDto requestDto);
     List<BadgeResponseDto> userBadge(Long userId);
 }
