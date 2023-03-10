@@ -65,4 +65,8 @@ public class User extends CommonEntity {
     public void adminUpdate(UserRequestDto requestDto) {
         this.nickname = requestDto.getNickname();
     }
+
+    public void update(UserRequestDto requestDto){
+        this.nickname = requestDto.getNickname();
+    }
 }

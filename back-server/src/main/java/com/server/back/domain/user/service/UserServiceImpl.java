@@ -82,6 +82,11 @@ public class UserServiceImpl implements UserService {
         return responseDto;
     }
     @Override
+    public void userUpdate(Long userId, UserRequestDto requestDto){
+        User entity = userRepository.findByUserId(userId);
+        entity.update(requestDto);
+    }
+    @Override
     public List<BadgeResponseDto> userBadge(Long userId) {
         User user = userRepository.findByUserId(userId);
         List<BadgeResult> badgeresult = badgeresultRepository.findByUser(user);
