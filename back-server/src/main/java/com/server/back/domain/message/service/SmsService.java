@@ -150,8 +150,9 @@ public class SmsService {
     }
 
     public boolean modifySms(ModifyNumberDto requestDto){
+        // 인증번호 확인
         if (isModify(requestDto)) {
-            redisUtil.deleteData(requestDto.getModifyNumber());
+            redisUtil.deleteData(requestDto.getModifyNumber()); //인증번호 일치하면 인증번호 삭제
             return true;
         }
         return false;
@@ -159,15 +160,11 @@ public class SmsService {
 
     // 인증번호와 휴대폰번호가 일치하면 true
     public boolean isModify(ModifyNumberDto requestDto){
-        System.out.println("여기가 문제??????");
         String value = redisUtil.getData(requestDto.getModifyNumber());
-        System.out.println("value = " + value);
-        if (value.equals(null)) {
-            System.out.println("SmsService.isModify:    false");
-            throw new IllegalArgumentException("null값입니다.");
+        if (value == null) {
+            return false;  // 인증번호 오류일 경우
         }
-        return redisUtil.getData(requestDto.getModifyNumber()).equals(requestDto.getPhoneNumber());
-
-
+        Boolean result = redisUtil.getData(requestDto.getModifyNumber()).equals(requestDto.getPhoneNumber()); //인증번호와 휴대폰 번호가 일치하는지 확인
+        return result;
     }
 }

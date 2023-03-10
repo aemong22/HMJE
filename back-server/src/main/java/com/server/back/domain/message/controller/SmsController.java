@@ -8,7 +8,6 @@ import com.server.back.domain.message.service.SmsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
@@ -23,17 +22,15 @@ import java.util.Map;
 public class SmsController {
     private final SmsService smsService;
 
-    @PostMapping("/sms/send/{newbie_type}")
-    public ResponseEntity<Map<String, Object>> sendSms(@PathVariable(value = "newbie_type") String newbieType, @RequestBody MessageDto messageDto) throws UnsupportedEncodingException, URISyntaxException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException {
-        System.out.println("----------------"+messageDto.getTo());
+    @PostMapping("/sms/send/{role}")
+    public ResponseEntity<Map<String, Object>> sendSms(@PathVariable(value = "role") String role, @RequestBody MessageDto messageDto) throws UnsupportedEncodingException, URISyntaxException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException {
         Map<String, Object> response = new HashMap<>();
-        if (newbieType.equals("true")){
+        if (role.equals("newbie")){
             SmsResponseDto responseDto = smsService.sendSms(messageDto);
             response.put("data", responseDto);
             response.put("message", "success");
         }else{
             Boolean onlyPhoneNumber = smsService.userPhonenumberCheck(messageDto);
-            System.out.println("boolean : "+onlyPhoneNumber);
             if (onlyPhoneNumber){
                 System.out.println("수정가능한 번호임");
                 SmsResponseDto responseDto = smsService.sendSms(messageDto);
