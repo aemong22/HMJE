@@ -55,10 +55,10 @@ function IntroSection1(): JSX.Element {
 
 function IntroSection2():JSX.Element {
   return(
-    <div className="h-[33rem] sm:h-[40rem] lg:h-[45rem] flex justify-center items-center">
-      <div className="w-[85%] sm:w-[60%] lg:w-[45%] xl:w-[35%] h-[90%] ">
+    <div className="h-[33rem] sm:h-[40rem] lg:h-[50rem] flex justify-center items-center">
+      <div className=" max-w-screen-xl w-full h-[90%] ">
         {/* 텍스트 */}
-        <div className="flex justify-center items-end h-[25%] w-full pb-6 mx-auto ">
+        <div className="flex justify-center items-end h-[25%]  w-[85%] sm:w-[60%] lg:w-[38.4%] pb-6 mx-auto ">
           <div>
             <div className="flex justify-center items-center mb-5 text-[0.9rem] sm:text-[1.2rem] md:text-[1.4rem] lg:text-[1.5rem]">
               {/* main text */}
@@ -75,15 +75,15 @@ function IntroSection2():JSX.Element {
           </div>
         </div>
         {/* 카드 */}
-        <div className="flex-col justify-center items-center h-[75%] mx-auto w-full ">
+        <div className="flex-col justify-center items-center h-[75%] mx-auto w-[85%] sm:w-[60%] lg:w-[50%]">
           {/* 상단 */}
-          <div className="flex justify-between items-center h-[45%]">
+          <div className="flex justify-between items-center h-[43%]">
             <div className="flex justify-center items-center h-full w-full rounded-[0.9rem] bg-[#F0ECE9] mr-4 sm:mr-10">1</div>
             <div className="flex justify-center items-center h-full w-full rounded-[0.9rem] bg-[#F0ECE9]">2</div>
           </div>
           <div className="h-[4%]"></div>
           {/* 하단 */}
-          <div className="h-[48%] w-full rounded-[0.9rem] bg-[#F0ECE9]"></div>
+          <div className="h-[43%] w-full rounded-[0.9rem] bg-[#F0ECE9]"></div>
         </div>
       </div>
     </div>
@@ -93,8 +93,8 @@ function IntroSection2():JSX.Element {
 // 데스크탑 & 태블릿
 function IntroSection3V1():JSX.Element {
   return(
-    <div className="hidden sm:flex sm:h-[27rem] lg:h-[30rem] justify-center items-center">
-      <div className="w-[95%] h-[90%] ">
+    <div className="hidden sm:flex h-[30rem] justify-center items-center">
+      <div className="max-w-screen-xl w-full h-[90%] ">
         {/* 텍스트 */}
         <div className="flex justify-center items-end h-[25%] w-full pb-6 mx-auto sm:w-[70%] md:w-[70%] lg:w-[70%]">
           <div>
@@ -107,10 +107,10 @@ function IntroSection3V1():JSX.Element {
           </div>
         </div>
         {/*데스크탑 & 태블릿 카드 */}
-        <div className="flex-col justify-center items-center h-[75%] mx-auto w-full md:w-[90%] lg:w-[80%] xl:w-[60%] ">
+        <div className="flex-col justify-center items-center h-[75%] mx-auto max-w-screen-xl w-[90%] lg:w-[77%] ">
           <div className="flex justify-center items-center h-full">
-            <div className="flex justify-center items-center h-full w-full rounded-[0.9rem] bg-[#F0ECE9] mr-2 sm:mr-3 md:mr-5 lg:mr-10">1</div>
-            <div className="flex justify-center items-center h-full w-full rounded-[0.9rem] bg-[#F0ECE9] mr-2 sm:mr-3 md:mr-5 lg:mr-10">2</div>
+            <div className="flex justify-center items-center h-full w-full rounded-[0.9rem] bg-[#F0ECE9] sm:mr-5 lg:mr-10">1</div>
+            <div className="flex justify-center items-center h-full w-full rounded-[0.9rem] bg-[#F0ECE9] sm:mr-5 lg:mr-10">2</div>
             <div className="flex justify-center items-center h-full w-full rounded-[0.9rem] bg-[#F0ECE9]">2</div>
           </div>
         </div>
@@ -134,7 +134,7 @@ function IntroSection3V2():JSX.Element {
           </div>
         </div>
         {/*데스크탑 & 태블릿 카드 */}
-        <div className="flex flex-col justify-center items-center w-[80%] h-[90%] mx-auto">
+        <div className="flex flex-col justify-center items-center w-[95%] h-[90%] mx-auto">
           <div className="flex justify-center items-center h-full w-full rounded-[0.9rem] bg-[#F0ECE9] mb-4">1</div>
           <div className="flex justify-center items-center h-full w-full rounded-[0.9rem] bg-[#F0ECE9] mb-4">2</div>
           <div className="flex justify-center items-center h-full w-full rounded-[0.9rem] bg-[#F0ECE9]">2</div>
