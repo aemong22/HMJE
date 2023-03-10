@@ -2,6 +2,7 @@ package com.server.back.domain.user.entity;
 
 import com.server.back.common.entity.CommonEntity;
 import com.server.back.common.entity.RefreshToken;
+import com.server.back.domain.user.dto.UserRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -61,4 +62,7 @@ public class User extends CommonEntity {
         this.jwtRefreshToken.setRefreshToken(refreshToken);
     }
 
+    public void adminUpdate(UserRequestDto requestDto) {
+        this.nickname = requestDto.getNickname();
+    }
 }
