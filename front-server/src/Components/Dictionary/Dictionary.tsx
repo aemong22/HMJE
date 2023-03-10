@@ -17,16 +17,16 @@ const Dictionary = () => {
   }
 
   const TempWord: dictionary = {
-    word_class: "test",
-    word_detail: "test",
-    word_example: "test",
-    word_id: "test",
-    word_iso: "test",
-    word_name: "test",
-    word_origin: "test",
-    word_rating: "test",
-    word_relation: "test",
-    word_type: "test",
+    word_class: "test_word_class",
+    word_detail: "test_word_detail",
+    word_example: "test_word_example",
+    word_id: "test_word_id",
+    word_iso: "test_word_iso",
+    word_name: "test_word_name",
+    word_origin: "test_word_origin",
+    word_rating: "test_word_rating",
+    word_relation: "test_word_relation",
+    word_type: "test_word_type",
   };
 
   return (
@@ -50,7 +50,14 @@ const Dictionary = () => {
           <div>ㄱ ㄴ ㄷ ㄹ ㅁ ㅂ ㅅ</div>
           {/* 메인 */}
           <div className="flex flex-col border-2 border-black ">
-            <div className="h-[3rem]">하이</div>
+            <div className="flex flex-col h-[5rem]">
+              <div className="flex flex-row">
+                <div>단어</div>
+                <div>한자</div>
+                <div>조사</div>
+              </div>
+              <div>간단한 뜻...</div>
+            </div>
             <div>둘</div>
             <div>셋</div>
           </div>
