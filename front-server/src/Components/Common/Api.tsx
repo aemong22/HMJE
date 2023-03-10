@@ -1,9 +1,8 @@
 import axios from "axios";
-
 import jwtDecode from "jwt-decode";
 
 const API = axios.create({
-  baseURL: "http://118.67.130.158/api",
+  baseURL: "https://hmje.net/api",
 });
 
 interface decodedInfo {
@@ -53,6 +52,13 @@ API.interceptors.request.use(
         // axios({});
       }
     }
+    // const nowDate: number = new Date().getTime() / 1000;
+    // // 토큰 만료시간이 지났다면
+    // if (decode.exp < nowDate) {
+    //   // 재발급 axios ㄱㄱ
+    //   // 리프레쉬 토큰 발급 서버 요청
+    //   // accessToken = refreshToken;
+    // }
 
     // 토큰이 null인 경우
     // 로그인 / 회원가입
@@ -63,7 +69,7 @@ API.interceptors.request.use(
   },
 
   function (err) {
-    return Promise.reject(err);
+    return Promise.reject(err.data);
   },
 );
 
