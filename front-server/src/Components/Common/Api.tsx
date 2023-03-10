@@ -1,52 +1,63 @@
 import axios from "axios";
-import jwt from "jsonwebtoken";
 
-const Api = axios.create({
+import jwtDecode from "jwt-decode";
+
+const API = axios.create({
   baseURL: "http://118.67.130.158/api",
-  headers: {
-    accessToke: localStorage.getItem("accessToken"),
-  },
 });
 
-// function decodeToken(token: string) {
-//   try {
-//     const decodedToken = jwt.verify(token, "your_secret_key");
-//     return decodedToken;
-//   } catch (err) {
-//     console.error(err);
-//     return null;
-//   }
-// }
+interface decodedInfo {
+  sub: string;
+  exp: number; //유효시간
+  userId: number; //유저아이디
+  username: string; //유저이름
+}
 
-Api.interceptors.request.use(
+API.interceptors.request.use(
   // request할때 할 행동
   function (config) {
-    console.log("컨피그", config);
+    console.log("request", config);
+
+    // method : POST
+
+    // method : GET
+
+    // method : put
+
+    // method : delete
+
+    console.log("컨피그 method : ", config.method);
+    console.log("컨피그 data : ", config.data);
+
     // 요청을 보내기 전 수행할 작업 = accessToken이 유효한지
-
-    // sessionStorage에서 accessToken을 가져온다.
+    // accesstoken 들고오기
     let accessToken: string | null = localStorage.getItem("accessToken");
-
-    // jwt를 decode 하여 payload를 추출한다.
-    //토큰이 있으면
+    // let accessToken: string | null = TOKEN;
+    console.log(accessToken);
+    //  jwt를 decode 하여 payload를 추출한다.
+    //  토큰이 있으면
     if (accessToken != null) {
-      // 유효성판단
+      // 유효성판단 ㄱㄱ
       console.log("accessToken있다", accessToken);
 
-      // const decode: jwt.JwtPayload | null = jwt.decode(accessToken, {
-      //   complete: true,
-      // });
-      // const nowDate: number = new Date().getTime() / 1000;
-      // // 토큰 만료시간이 지났다면
-      // if (decode?.exp != undefined) {
-      //   if (decode.exp < nowDate) {
-      //     // 재발급 axios ㄱㄱ
-      //     // 리프레쉬 토큰 발급 서버 요청
-      //     // accessToken = refreshToken;
-      //   }
-      // }
-    } else {
-      // 토큰이 null이면
+      const decode: decodedInfo = jwtDecode(accessToken);
+      console.log("decode", decode);
+      console.log("decode exp", decode.exp);
+      const nowDate: number = new Date().getTime() / 1000;
+      // 토큰 만료시간이 지났다면
+      if (decode.exp < nowDate) {
+        console.log("재발급처리 하는 로직");
+        // 리프레쉬 토큰 발급 서버 요청
+
+        // accessToken = refreshToken;
+        // axios({});
+      }
+    }
+
+    // 토큰이 null인 경우
+    // 로그인 / 회원가입
+    else {
+      // 뭐해야하지?
     }
     return config;
   },
@@ -56,11 +67,11 @@ Api.interceptors.request.use(
   },
 );
 
-Api.interceptors.response.use(
+API.interceptors.response.use(
   //response 받을 때 할 행동
 
   function (config) {
-    // 받고 할 행동
+    console.log("response 받은 값 : ", config.data);
     return config;
   },
   function (err) {
@@ -68,4 +79,4 @@ Api.interceptors.response.use(
   },
 );
 
-export default Api;
+export default API;
