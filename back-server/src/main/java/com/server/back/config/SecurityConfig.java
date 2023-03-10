@@ -31,25 +31,24 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return web -> web.ignoring()
-//                .antMatchers("/join","/login", "/home","/refresh/**","/admin/join")
-//                .antMatchers("/login/oauth2/code/naver","/user/oauth2/token/naver", "/api/user/oauth2/token/naver","/api/login/oauth2/code/naver")
-//                .antMatchers("**/refresh/**","/api/user/auth/refresh/**","/user/auth/refresh/**")
-//                .antMatchers("/v2/api-docs","/swagger**/**","/api/v2/**",
-//                            "/swagger-resources/**",
-//                            "/configuration/ui",
-//                            "/configuration/security",
-//                            "/swagger-ui.html",
-//                            "/webjars/**", "/v3/api-docs","/swagger**/**" );
-//
-//    }
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring()
+                .antMatchers("**/login","/refresh/**","/user/join")
+                .antMatchers("/login/oauth2/code/naver","/user/oauth2/token/naver", "/api/user/oauth2/token/naver","/api/login/oauth2/code/naver")
+                .antMatchers("**/refresh/**","/api/user/auth/refresh/**","/user/auth/refresh/**")
+                .antMatchers("/v2/api-docs","/swagger**/**","/api/v2/**",
+                            "/swagger-resources/**",
+                            "/configuration/ui",
+                            "/configuration/security",
+                            "/swagger-ui.html",
+                            "/webjars/**", "/v3/api-docs","/swagger**/**" );
+
+    }
 
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
 
         return http.csrf().disable()
                 .cors().and()
@@ -58,27 +57,29 @@ public class SecurityConfig {
                 .formLogin().disable() //formLogin(form)방식 사용 안함 , json방식으로 전달
                 .httpBasic().disable() //Bearer 방식 사용 -> header 에 authentication 에 토큰을 넣어 전달하는 방식
                 .addFilter(config.corsFilter())
-//                .apply(new MyCustomDsl())
-//                .and()
+                .apply(new MyCustomDsl())
+                .and()
 
                 .authorizeRequests()
                     .antMatchers("**").permitAll()
                     .anyRequest().authenticated()
 
                 .and()
-                .build();
+                    .formLogin()
+                .and()
+                .build()
+                ;
     }
 
-//    public class MyCustomDsl extends AbstractHttpConfigurer<MyCustomDsl, HttpSecurity> {
-//
-//        @Override
-//        public void configure(HttpSecurity http) throws Exception {
-//            AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
-//
-//            http
-//                    .addFilter(config.corsFilter())
-//                    .addFilter(new JwtAuthenticationFilter(authenticationManager, jwtService)) //AuthenticationManger가 있어야 된다.(파라미터로)
-//                    .addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository, jwtService));
-//        }
-//    }
+    public class MyCustomDsl extends AbstractHttpConfigurer<MyCustomDsl, HttpSecurity> {
+        @Override
+        public void configure(HttpSecurity http) throws Exception {
+            AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
+
+            http
+                    .addFilter(config.corsFilter())
+                    .addFilter(new JwtAuthenticationFilter(authenticationManager, jwtService)) //AuthenticationManger가 있어야 된다.(파라미터로)
+                    .addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository, jwtService));
+        }
+    }
 }
