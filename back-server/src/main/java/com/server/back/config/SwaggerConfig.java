@@ -9,6 +9,7 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
+import springfox.documentation.service.Tag;
 import springfox.documentation.service.AuthorizationScope;
 import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
@@ -41,8 +42,18 @@ public class SwaggerConfig {
                 .useDefaultResponseMessages(false)
                 .securityContexts(Arrays.asList(securityContext()))
                 .securitySchemes(Arrays.asList(apiKey()))
-                .pathMapping("/");
+                .pathMapping("/")
+                .apiInfo(this.ShopApiInfo());
     }
+    private ApiInfo ShopApiInfo() {
+        return new ApiInfoBuilder()
+                .title("shop API")
+                .description("shop API")
+                .termsOfServiceUrl("http://localhost:8080")
+                .version("1.0")
+                .build();
+    }
+
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title("HMJE Service API")
