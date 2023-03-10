@@ -39,25 +39,20 @@ const Join = () => {
   };
   // 중복확인
   const CheckDuplication = (check: string): void => {
-    let accessToken = localStorage.getItem("accessToken");
     if (check === "Name") {
       // 이름 중복 axios
       console.log("아이디확인", Name);
       // console.log("비었나", Name === "");
 
-      axios({
-        method: "post",
-        url: `http://118.67.130.158/api/user/check/username`,
-        data: {
-          isAdmin: false,
-          isSecession: false,
-          nickname: Nickname,
-          password: Password,
-          phoneNumber: Phonenum,
-          username: Name,
-        },
+      API.post(`/user/check/username`, {
+        isAdmin: false,
+        isSecession: false,
+        nickname: Nickname,
+        password: Password,
+        phoneNumber: Phonenum,
+        username: Name,
       }).then((r) => {
-        console.log(r.data);
+        console.log("아이디 중복 결과", r.data);
       });
     } else if (check === "Nickname") {
       console.log("닉네임확인", Nickname);
@@ -75,21 +70,19 @@ const Join = () => {
     } else if (check === "Phonenum") {
       //  폰 중복 axios
       console.log("폰번호확인", Phonenum);
-      axios({
-        method: "post",
-        url: `http://118.67.130.158/api/user/check/phonenumber`,
-        data: {
-          isAdmin: false,
-          isSecession: false,
-          nickname: Nickname,
-          password: Password,
-          phoneNumber: Phonenum,
-          username: Name,
-        },
-        headers: {
-          accessToken: accessToken,
-        },
-      }).then();
+
+      //
+
+      API.post(`/user/check/phonenumber`, {
+        isAdmin: false,
+        isSecession: false,
+        nickname: Nickname,
+        password: Password,
+        phoneNumber: Phonenum,
+        username: Name,
+      }).then((r) => {
+        console.log("전화번호 중복 결과", r.data);
+      });
     }
   };
 

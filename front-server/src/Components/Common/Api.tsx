@@ -1,8 +1,8 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios from "axios";
 import jwtDecode from "jwt-decode";
 
 const API = axios.create({
-  baseURL: "http://118.67.130.158/api",
+  baseURL: "https://hmje.net/api",
 });
 
 interface decodedInfo {
@@ -69,7 +69,7 @@ API.interceptors.request.use(
   },
 
   function (err) {
-    return Promise.reject(err);
+    return Promise.reject(err.data);
   },
 );
 
