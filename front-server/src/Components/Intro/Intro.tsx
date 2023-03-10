@@ -18,33 +18,35 @@ export default Intro;
 
 function IntroSection1(): JSX.Element {
   return (
-    <div id="introSection1" className="flex justify-between items-center bg-[#D6B17A] text-white h-[13rem] sm:h-[18rem] md:h-[20rem] lg:h-[25rem] px-4 sm:px-2">
-      {/* 왼쪽 */}
-      <div className="flex justify-center sm:justify-center items-center w-1/2 sm:w-1/2 md:w-2/5 ">
-        <div>
-          <div className="text-[0.62rem] sm:text-[1rem] md:text-[1.25rem] font-semibold pl-1 sm:pl-2 mb-1">
-            즐거운 단어 학습
-          </div>
-          <div className="leading-none text-[1.8rem] sm:text-[3rem] md:text-[3.7rem] font-bold mb-2">
-            홍민정음
-          </div>
-          <div className="hidden sm:flex text-[0.6em] sm:text-[1rem] md:text-[1.1rem] font-medium mb-2 pl-2">
-            문해력실력을 향상시킬 수 있는 곳
-          </div>
-          <div className="flex sm:hidden text-[0.6em] sm:text-[1rem] md:text-[1.1rem] font-medium mb-2 pl-1">
-            문해력실력을 <br />향상시킬 수 있는 곳
-          </div>
-          <div className="flex justify-start mb-3 h-[1.5rem] sm:h-[2.4rem] md:h-[2.5rem] w-[6.7rem] sm:w-[15rem] md:w-[16rem] text-[0.5rem] sm:text-[1rem] md:text-[1rem] lg:text-[1.2rem]">
-            <div className="w-full h-[90%] flex justify-center items-center border-2 rounded-xl px-1 mr-1 sm:mr-2 cursor-pointer">입장하기</div>
-            <div className="w-full h-[90%] flex justify-center items-center border-2 rounded-xl px-1 cursor-pointer">가입하기</div>
+    <div className="flex justify-center items-center h-[13rem] sm:h-[18rem] md:h-[20rem] lg:h-[29rem] px-4 bg-[#D6B17A]">
+      <div id="introSection1" className="flex justify-between items-center text-white sm:px-2 w-full max-w-screen-xl">
+        {/* 왼쪽 */}
+        <div className="flex justify-center sm:justify-center items-center w-1/2 sm:w-1/2 md:w-2/5 xl:w-2/5">
+          <div>
+            <div className="text-[0.62rem] sm:text-[1rem] md:text-[1.25rem] font-semibold pl-1 sm:pl-2 mb-1">
+              즐거운 단어 학습
+            </div>
+            <div className="leading-none text-[1.8rem] sm:text-[3rem] md:text-[3.7rem] font-bold mb-2">
+              홍민정음
+            </div>
+            <div className="hidden sm:flex text-[0.6em] sm:text-[0.95rem] md:text-[1rem] font-medium mb-2 pl-2">
+              문해력실력을 향상시킬 수 있는 곳
+            </div>
+            <div className="flex sm:hidden text-[0.6em] sm:text-[1rem] md:text-[1.1rem] font-medium mb-2 pl-1">
+              문해력실력을 <br />향상시킬 수 있는 곳
+            </div>
+            <div className="flex justify-start mb-3 h-[1.5rem] sm:h-[2.4rem] md:h-[2.5rem] w-[6.7rem] sm:w-[15rem] md:w-[16rem] text-[0.5rem] sm:text-[1rem] md:text-[1rem] lg:text-[1.2rem]">
+              <div className="w-full h-[90%] flex justify-center items-center border-2 rounded-xl px-1 mr-1 sm:mr-2 cursor-pointer">입장하기</div>
+              <div className="w-full h-[90%] flex justify-center items-center border-2 rounded-xl px-1 cursor-pointer">가입하기</div>
+            </div>
           </div>
         </div>
-      </div>
-      {/* 여백 */}
-      <div className="hidden sm:text-red-500 lg:flex xl:w-2/5 "></div>
-      {/* 오른쪽 */}
-      <div className="flex justify-center items-center w-1/2 sm:w-1/2 lg:w-2/5 xl:w-2/5 ">
-        <img className="h-[10rem] sm:h-[17rem] md:h-[18rem] lg:h-[21rem]  xl:h-96" src="/Assets/Intro/sejong.png" alt="sejong" />
+        {/* 여백 */}
+        <div className="hidden sm:text-red-500 lg:flex xl:w-2/5 "></div>
+        {/* 오른쪽 */}
+        <div className="flex justify-center items-center w-1/2 sm:w-1/2 lg:w-2/5 xl:w-2/5 ">
+          <img className="h-[10rem] sm:h-[17rem] md:h-[18rem] lg:h-[21rem]  xl:h-96" src="/Assets/Intro/sejong.png" alt="sejong" />
+        </div>
       </div>
     </div>
   );
@@ -53,10 +55,10 @@ function IntroSection1(): JSX.Element {
 
 function IntroSection2():JSX.Element {
   return(
-    <div className="h-[33rem] sm:h-[40rem] lg:h-[45rem] flex justify-center items-center">
-      <div className="w-[85%] sm:w-[60%] lg:w-[45%] xl:w-[35%] h-[90%] ">
+    <div className="h-[33rem] sm:h-[40rem] lg:h-[50rem] flex justify-center items-center">
+      <div className=" max-w-screen-xl w-full h-[90%] ">
         {/* 텍스트 */}
-        <div className="flex justify-center items-end h-[25%] w-full pb-6 mx-auto ">
+        <div className="flex justify-center items-end h-[25%]  w-[85%] sm:w-[60%] lg:w-[38.4%] pb-6 mx-auto ">
           <div>
             <div className="flex justify-center items-center mb-5 text-[0.9rem] sm:text-[1.2rem] md:text-[1.4rem] lg:text-[1.5rem]">
               {/* main text */}
@@ -73,15 +75,15 @@ function IntroSection2():JSX.Element {
           </div>
         </div>
         {/* 카드 */}
-        <div className="flex-col justify-center items-center h-[75%] mx-auto w-full ">
+        <div className="flex-col justify-center items-center h-[75%] mx-auto w-[85%] sm:w-[60%] lg:w-[50%]">
           {/* 상단 */}
-          <div className="flex justify-between items-center h-[45%]">
+          <div className="flex justify-between items-center h-[43%]">
             <div className="flex justify-center items-center h-full w-full rounded-[0.9rem] bg-[#F0ECE9] mr-4 sm:mr-10">1</div>
             <div className="flex justify-center items-center h-full w-full rounded-[0.9rem] bg-[#F0ECE9]">2</div>
           </div>
           <div className="h-[4%]"></div>
           {/* 하단 */}
-          <div className="h-[48%] w-full rounded-[0.9rem] bg-[#F0ECE9]"></div>
+          <div className="h-[43%] w-full rounded-[0.9rem] bg-[#F0ECE9]"></div>
         </div>
       </div>
     </div>
@@ -91,8 +93,8 @@ function IntroSection2():JSX.Element {
 // 데스크탑 & 태블릿
 function IntroSection3V1():JSX.Element {
   return(
-    <div className="hidden sm:flex sm:h-[27rem] lg:h-[30rem] justify-center items-center">
-      <div className="w-[95%] h-[90%] ">
+    <div className="hidden sm:flex h-[30rem] justify-center items-center">
+      <div className="max-w-screen-xl w-full h-[90%] ">
         {/* 텍스트 */}
         <div className="flex justify-center items-end h-[25%] w-full pb-6 mx-auto sm:w-[70%] md:w-[70%] lg:w-[70%]">
           <div>
@@ -105,10 +107,10 @@ function IntroSection3V1():JSX.Element {
           </div>
         </div>
         {/*데스크탑 & 태블릿 카드 */}
-        <div className="flex-col justify-center items-center h-[75%] mx-auto w-full md:w-[90%] lg:w-[80%] xl:w-[60%] ">
+        <div className="flex-col justify-center items-center h-[75%] mx-auto max-w-screen-xl w-[90%] lg:w-[77%] ">
           <div className="flex justify-center items-center h-full">
-            <div className="flex justify-center items-center h-full w-full rounded-[0.9rem] bg-[#F0ECE9] mr-2 sm:mr-3 md:mr-5 lg:mr-10">1</div>
-            <div className="flex justify-center items-center h-full w-full rounded-[0.9rem] bg-[#F0ECE9] mr-2 sm:mr-3 md:mr-5 lg:mr-10">2</div>
+            <div className="flex justify-center items-center h-full w-full rounded-[0.9rem] bg-[#F0ECE9] sm:mr-5 lg:mr-10">1</div>
+            <div className="flex justify-center items-center h-full w-full rounded-[0.9rem] bg-[#F0ECE9] sm:mr-5 lg:mr-10">2</div>
             <div className="flex justify-center items-center h-full w-full rounded-[0.9rem] bg-[#F0ECE9]">2</div>
           </div>
         </div>
@@ -132,7 +134,7 @@ function IntroSection3V2():JSX.Element {
           </div>
         </div>
         {/*데스크탑 & 태블릿 카드 */}
-        <div className="flex flex-col justify-center items-center w-[80%] h-[90%] mx-auto">
+        <div className="flex flex-col justify-center items-center w-[95%] h-[90%] mx-auto">
           <div className="flex justify-center items-center h-full w-full rounded-[0.9rem] bg-[#F0ECE9] mb-4">1</div>
           <div className="flex justify-center items-center h-full w-full rounded-[0.9rem] bg-[#F0ECE9] mb-4">2</div>
           <div className="flex justify-center items-center h-full w-full rounded-[0.9rem] bg-[#F0ECE9]">2</div>

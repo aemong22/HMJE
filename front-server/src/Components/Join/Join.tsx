@@ -1,16 +1,18 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
-import Api from "../Common/Api";
+import API from "../Common/Api";
 import axios from "axios";
 
 const Join = () => {
+  const navigate = useNavigate();
   const [Name, setName] = useState<string>("");
   const [Password, setPassword] = useState<string>("");
   const [PasswordCheck, setPasswordCheck] = useState<string>();
   const [Nickname, setNickname] = useState<string>("");
   const [Phonenum, setPhonenum] = useState<string>("");
-  const [Authnum, setAuthnum] = useState<number>();
+  const [Authnum, setAuthnum] = useState<number>();  
 
   function ChangeName(event: any): void {
     console.log(event.target.value);
@@ -39,65 +41,52 @@ const Join = () => {
   };
   // 중복확인
   const CheckDuplication = (check: string): void => {
-    let accessToken = localStorage.getItem("accessToken");
     if (check === "Name") {
       // 이름 중복 axios
       console.log("아이디확인", Name);
       // console.log("비었나", Name === "");
 
-      axios({
-        method: "post",
-        url: `http://118.67.130.158/api/user/check/username`,
-        data: {
-          isAdmin: false,
-          isSecession: false,
-          nickname: Nickname,
-          password: Password,
-          phoneNumber: Phonenum,
-          username: Name,
-        },
+      API.post(`/user/check/username`, {
+        isAdmin: false,
+        isSecession: false,
+        nickname: Nickname,
+        password: Password,
+        phoneNumber: Phonenum,
+        username: Name,
       }).then((r) => {
-        console.log(r.data);
+        console.log("아이디 중복 결과", r.data);
       });
     } else if (check === "Nickname") {
-      // 닉네임 중복 axios
       console.log("닉네임확인", Nickname);
 
-      axios({
-        method: "post",
-        url: `http://118.67.130.158/api/user/check/nickname`,
-        data: {
-          isAdmin: false,
-          isSecession: false,
-          nickname: Nickname,
-          password: Password,
-          phoneNumber: Phonenum,
-          username: Name,
-        },
+      API.post(`/user/check/nickname`, {
+        isAdmin: false,
+        isSecession: false,
+        nickname: Nickname,
+        password: Password,
+        phoneNumber: Phonenum,
+        username: Name,
       }).then((r) => {
-        console.log(r.data);
-      });
-    } else if (check === "Phonenum") {
-      //  폰 중복 axios
-      console.log("폰번호확인", Phonenum);
-      axios({
-        method: "post",
-        url: `http://118.67.130.158/api/user/check/phonenumber`,
-        data: {
-          isAdmin: false,
-          isSecession: false,
-          nickname: Nickname,
-          password: Password,
-          phoneNumber: Phonenum,
-          username: Name,
-        },
-        headers: {
-          accessToken: accessToken,
-        },
-      }).then((r) => {
-        console.log(r.data);
+        console.log("닉네임 중복 결과", r.data);
       });
     }
+  };
+
+  // 인증번호 전송
+  const SendAuthnum = (phonenum: string): void => {
+    console.log("폰번호확인", Phonenum);
+    //
+    API.post(`/sms/send/newbie`, {
+      isAdmin: false,
+      isSecession: false,
+      nickname: Nickname,
+      password: Password,
+      phoneNumber: Phonenum,
+      username: Name,
+      role: "newbie",
+    }).then((r) => {
+      console.log("전화번호 중복 결과", r.data);
+    });
   };
 
   const CheckAuthnum = (authnum: number | undefined): void => {
@@ -113,7 +102,8 @@ const Join = () => {
     console.log("패스워드", Password);
     console.log("전화번호", Phonenum);
     console.log("username", Name);
-    Api.post(`/user/join`, {
+
+    API.post(`/user/join`, {
       isAdmin: false,
       isSecession: false,
       nickname: Nickname,
@@ -122,30 +112,8 @@ const Join = () => {
       username: Name,
     }).then((r) => {
       console.log(r.data);
+      navigate("/login");
     });
-    // axios({
-    //   method: "post",
-    //   url: `http://118.67.130.158/api/user/join`,
-    //   data: {
-    //     isAdmin: false,
-    //     isSecession: false,
-    //     nickname: Nickname,
-    //     password: Password,
-    //     phoneNumber: Phonenum,
-    //     username: Name,
-    //   },
-    // }).then((r) => {
-    //   console.log(r.data);
-    // });
-
-    // //실패
-    // Api.get("/user/signup")
-    //   .then((r) => {
-    //     console.log(r.data);
-    //   })
-    //   .catch((e) => {
-    //     console.log(e);
-    //   });
   };
 
   return (
@@ -167,19 +135,20 @@ const Join = () => {
             {/* 왼 */}
             {/* <div></div> */}
             {/* 가운데 */}
-            <div className="mx-5 sm:mx-5 md:mx-7 lg:mx-[30%] justify-center">
-              <div className="my-2">
-                <div className="text-[#A87C6E] font-extrabold text-base">
+            <div className="mx-5 sm:mx-5 md:mx-[20%] lg:mx-[33%] justify-center">
+              <div className="my-4">
+                <div className="text-[#A87C6E] font-extrabold text-base pb-2">
                   계정
                 </div>
                 <div className="flex flex-row justify-between w-full">
                   <input
                     type="text"
-                    className="min-w-[70%] px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
+                    className="min-w-[70%] px-3 py-1 md:px-4 md:py-2 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
                     onChange={ChangeName}
                   />
+
                   <div
-                    className="px-3 py-2 md:px-4 md:py-3 border-2 bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
+                    className="px-3 py-1 md:px-4 md:py-2 border-2 bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
                     onClick={() => {
                       CheckDuplication("Name");
                     }}
@@ -188,23 +157,23 @@ const Join = () => {
                   </div>
                 </div>
               </div>
-              <div className="my-2">
+              <div className="my-4">
                 <div className="flex flex-row items-baseline">
-                  <div className="text-[#A87C6E] font-extrabold text-base">
+                  <div className="text-[#A87C6E] font-extrabold text-base pb-2">
                     별명
                   </div>
-                  <div className="text-[#868686] text-xs">
+                  <div className="text-[#868686] pl-2 lg:pl-4 font-extrabold text-[1px] md:text-xs">
                     6글자 이내 한글만 사용하실 수 있습니다.
                   </div>
                 </div>
                 <div className="flex flex-row justify-between ">
                   <input
                     type="text"
-                    className="min-w-[70%] px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
+                    className="min-w-[70%] px-3 py-1 md:px-4 md:py-2 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
                     onChange={ChangeNickname}
                   />
                   <div
-                    className="flex px-3 py-2 md:px-4 md:py-3 border-2 bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
+                    className="px-3 py-1 md:px-4 md:py-2 border-2 bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
                     onClick={() => {
                       CheckDuplication("Nickname");
                     }}
@@ -213,44 +182,44 @@ const Join = () => {
                   </div>
                 </div>
               </div>
-              <div className="my-2">
+              <div className="my-4">
                 <div className="text-[#A87C6E] font-extrabold text-base">
                   비밀번호
                 </div>
                 <div className="flex flex-row ">
                   <input
                     type="text"
-                    className="min-w-[100%] px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
+                    className="min-w-[100%] px-3 py-1 md:px-4 md:py-2 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
                     onChange={ChangePassword}
                   />
                 </div>
               </div>
-              <div className="my-2">
+              <div className="my-4">
                 <div className="text-[#A87C6E] font-extrabold text-base">
                   비밀번호확인
                 </div>
                 <div className="flex flex-row ">
                   <input
                     type="text"
-                    className="min-w-[100%] px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
+                    className="min-w-[100%] px-3 py-1 md:px-4 md:py-2 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
                     onChange={ChangeName}
                   />
                 </div>
               </div>
-              <div className="my-2">
+              <div className="my-4">
                 <div className="text-[#A87C6E] font-extrabold text-base">
                   전화번호
                 </div>
                 <div className="flex flex-row justify-between">
                   <input
                     type="text"
-                    className="min-w-[70%] px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
+                    className="min-w-[70%] px-3 py-1 md:px-4 md:py-2 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
                     onChange={ChangePhonenum}
                   />
                   <div
-                    className="flex px-3 py-2 sm:px-3 sm:py-2 md:px-4 md:py-3  border-2 bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
+                    className="px-3 py-1 md:px-4 md:py-2 border-2 bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
                     onClick={() => {
-                      CheckDuplication("Phonenum");
+                      SendAuthnum(Phonenum);
                     }}
                   >
                     인증하기
@@ -264,11 +233,11 @@ const Join = () => {
                 <div className="flex flex-row justify-between ">
                   <input
                     type="text"
-                    className="min-w-[70%] px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
+                    className="min-w-[70%] px-3 py-1 md:px-4 md:py-2 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
                     onChange={ChangeAuthnum}
                   />
                   <div
-                    className="px-3 py-2 md:px-4 md:py-3 border-2 bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
+                    className="px-3 py-1 md:px-4 md:py-2 border-2 bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
                     onClick={() => {
                       CheckAuthnum(Authnum);
                     }}
