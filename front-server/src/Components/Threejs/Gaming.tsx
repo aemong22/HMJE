@@ -27,10 +27,12 @@ function Model() {
   const { nodes, materials, animations }:any = useGLTF('/ThreeFile/Gaming.gltf')
   // console.log('애니메이션',animations[0]);
   
-  const { actions, mixer }:any = useAnimations(animations, group)
+  const { actions, mixer, clips }:any = useAnimations(animations, group)
 
   useEffect(()=> {
-    console.log(actions);
+    console.log('action: ',actions);
+    console.log('mixer: ',mixer );
+    console.log('clips: ',clips);
     
     actions.Animation.play()
   }, [mixer])

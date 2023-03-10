@@ -1,6 +1,7 @@
 import Footer from "../Common/Footer"
 import Navbar from "../Common/Navbar"
-import Camel from "../Threejs/Camel"
+import CamelSit from "../Threejs/CamelSit"
+import Checked from "../Threejs/Checked"
 import Gaming from "../Threejs/Gaming"
 
 function MyPage():JSX.Element {
@@ -22,9 +23,10 @@ function MyPageSection1V1():JSX.Element {
     <div className="hidden sm:flex justify-between items-center sm:h-[14rem] md:h-[15rem] lg:h-[20rem] border-y-2 border-t-[#D9D9D9] border-b-[#D9D9D9]">
       <div className="flex justify-end items-center h-4/5 w-[30%]">
         {/* 렙업에 따른 3D 캐릭터 */}
-        <div className="flex justify-center items-center w-[66%]">
+        <div className="flex justify-center items-center w-[66%] border-4">
           {/* <Gaming/> */}
-          <Camel/>
+          {/* <Checked/> */}
+          <CamelSit/>
         </div>
       </div>
       <div className="flex justify-center items-center h-full w-[40%] ">
