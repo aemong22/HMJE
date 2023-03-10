@@ -20,71 +20,73 @@ export default MyPage
 // 데스크탑 & 태블릿
 function MyPageSection1V1():JSX.Element {
   return (
-    <div className="hidden sm:flex justify-between items-center sm:h-[14rem] md:h-[15rem] lg:h-[20rem] border-y-2 border-t-[#D9D9D9] border-b-[#D9D9D9]">
-      <div className="flex justify-end items-center h-4/5 w-[30%]">
-        {/* 렙업에 따른 3D 캐릭터 */}
-        <div className="flex justify-center items-center w-[66%] border-4">
-          {/* <Gaming/> */}
-          {/* <Checked/> */}
-          <CamelSit/>
-        </div>
-      </div>
-      <div className="flex justify-center items-center h-full w-[40%] ">
-        {/* 메인 데이터 */}
-        <div className="flex flex-col justify-center items-center h-4/5 w-full">
-          <div className="flex justify-between items-center w-full pb-2">
-            {/* 칭호 & 수정 */}
-            <div className="sm:text-[0.7rem] md:text-[0.8rem] lg:text-[1rem]">🥕&nbsp;한글을 사랑하는 자</div>
-            <div className="text-[#8E8E8E] sm:text-[0.7rem] lg:text-[1rem]">정보 수정⚙</div>
+    <div className="flex justify-center items-center sm:h-[14rem] md:h-[25rem] lg:h-[30rem] border-y-2 border-t-[#D9D9D9]">
+      <div className="hidden sm:flex justify-between items-center max-w-screen-xl w-full h-full">
+        <div className="flex justify-end items-center h-4/5 w-[30%]">
+          {/* 렙업에 따른 3D 캐릭터 */}
+          <div className="flex justify-center items-center w-[66%]">
+            <Gaming/>
+            {/* <Checked/> */}
+            {/* <CamelSit/> */}
           </div>
-          <div className="flex flex-col justify-center items-center w-full">
+        </div>
+        <div className="flex justify-center items-center h-full w-[40%] ">
+          {/* 메인 데이터 */}
+          <div className="flex flex-col justify-center items-center h-4/5 w-full">
+            <div className="flex justify-between items-center w-full pb-2">
+              {/* 칭호 & 수정 */}
+              <div className="sm:text-[0.7rem] md:text-[0.8rem] lg:text-[1rem]">🥕&nbsp;한글을 사랑하는 자</div>
+              <div className="text-[#8E8E8E] sm:text-[0.7rem] lg:text-[1rem]">정보 수정⚙</div>
+            </div>
+            <div className="flex flex-col justify-center items-center w-full">
+              <div className="flex justify-between items-center w-full">
+                {/* 닉네임 & 등급 & 경험치 */}
+                <div className="pb-1">
+                  {/* 닉네임 & 등급 */}
+                  <span className="mr-1 sm:text-[1.5rem] lg:text-[1.8rem] font-semibold">오리</span><span className="sm:text-[0.75rem] lg:text-[1rem] text-[#525252]">정 2품</span>
+                </div>
+                <div className="text-[1rem] text-[#525252]">
+                  {/* 등급 */}
+                  220 / 480
+                </div>
+              </div>
+              <div className="w-full rounded-xl bg-[#F0ECE9]">
+                {/* 경험치 바: 위에서 퍼센트 계산해서 넣으면 될듯?*/}
+                <div className="w-[50%] rounded-xl bg-[#F7CCB7]">
+                  &nbsp;
+                </div>
+              </div>
+            </div>
             <div className="flex justify-between items-center w-full">
-              {/* 닉네임 & 등급 & 경험치 */}
-              <div className="pb-1">
-                {/* 닉네임 & 등급 */}
-                <span className="mr-1 sm:text-[1.5rem] lg:text-[1.8rem] font-semibold">오리</span><span className="sm:text-[0.75rem] lg:text-[1rem] text-[#525252]">정 2품</span>
+              {/* 통계 */}
+              <div className="flex flex-col justify-center items-center w-1/4">
+                {/* 오늘의 단어 */}
+                <div className="text-[#B18978]"><span className="font-bold sm:text-[1.3rem] lg:text-[1.5rem]">15</span><span className="sm:text-[0.6rem] md:text-[0.7rem] lg:text-[0.9rem]">개</span></div>
+                <div className="text-[#A2A2A2] sm:text-[0.5rem] md:text-[0.6rem] lg:text-[0.7rem]"><span>오늘의 단어</span></div>
               </div>
-              <div className="text-[1rem] text-[#525252]">
-                {/* 등급 */}
-                220 / 480
+              <div className="flex flex-col justify-center items-center sm:w-[20%] md:w-1/4">
+                {/* 총 단어 */}
+                <div className="text-[#FFA800]"><span className="font-bold sm:text-[1.3rem] lg:text-[1.5rem]">320</span><span className="sm:text-[0.6rem] md:text-[0.7rem] lg:text-[0.9rem]">개</span></div>
+                <div className="text-[#A2A2A2] sm:text-[0.5rem] md:text-[0.6rem] lg:text-[0.7rem]"><span>총 단어</span></div>
               </div>
-            </div>
-            <div className="w-full rounded-xl bg-[#F0ECE9]">
-              {/* 경험치 바: 위에서 퍼센트 계산해서 넣으면 될듯?*/}
-              <div className="w-[50%] rounded-xl bg-[#F7CCB7]">
-                &nbsp;
+              <div className="flex flex-col justify-center items-center sm:w-[40%] w-1/4">
+                {/* 오늘의 학습시간 */}
+                <div className="text-[#B18978]"><span className="font-bold sm:text-[1.3rem] lg:text-[1.5rem]">47</span><span className="sm:text-[0.6rem] md:text-[0.7rem] lg:text-[0.9rem]">분</span></div>
+                <div className="text-[#A2A2A2] sm:text-[0.5rem] md:text-[0.6rem] lg:text-[0.7rem]"><span>오늘의 학습시간</span></div>
               </div>
-            </div>
-          </div>
-          <div className="flex justify-between items-center w-full">
-            {/* 통계 */}
-            <div className="flex flex-col justify-center items-center w-1/4">
-              {/* 오늘의 단어 */}
-              <div className="text-[#B18978]"><span className="font-bold sm:text-[1.3rem] lg:text-[1.5rem]">15</span><span className="sm:text-[0.6rem] md:text-[0.7rem] lg:text-[0.9rem]">개</span></div>
-              <div className="text-[#A2A2A2] sm:text-[0.5rem] md:text-[0.6rem] lg:text-[0.7rem]"><span>오늘의 단어</span></div>
-            </div>
-            <div className="flex flex-col justify-center items-center sm:w-[20%] md:w-1/4">
-              {/* 총 단어 */}
-              <div className="text-[#FFA800]"><span className="font-bold sm:text-[1.3rem] lg:text-[1.5rem]">320</span><span className="sm:text-[0.6rem] md:text-[0.7rem] lg:text-[0.9rem]">개</span></div>
-              <div className="text-[#A2A2A2] sm:text-[0.5rem] md:text-[0.6rem] lg:text-[0.7rem]"><span>총 단어</span></div>
-            </div>
-            <div className="flex flex-col justify-center items-center sm:w-[40%] w-1/4">
-              {/* 오늘의 학습시간 */}
-              <div className="text-[#B18978]"><span className="font-bold sm:text-[1.3rem] lg:text-[1.5rem]">47</span><span className="sm:text-[0.6rem] md:text-[0.7rem] lg:text-[0.9rem]">분</span></div>
-              <div className="text-[#A2A2A2] sm:text-[0.5rem] md:text-[0.6rem] lg:text-[0.7rem]"><span>오늘의 학습시간</span></div>
-            </div>
-            <div className="flex flex-col justify-center items-center w-1/4">
-              {/* 총 학습시간 */}
-              <div className="text-[#FFA800]"><span className="font-bold sm:text-[1.3rem] lg:text-[1.5rem]">1</span><span className="sm:text-[0.6rem] md:text-[0.7rem] lg:text-[0.9rem]">시간</span><span className="font-bold sm:text-[1.3rem] lg:text-[1.5rem]">5</span><span className="sm:text-[0.6rem] md:text-[0.7rem] lg:text-[0.9rem]">분</span></div>
-              <div className="text-[#A2A2A2] sm:text-[0.5rem] md:text-[0.6rem] lg:text-[0.7rem]"><span>총 학습시간</span></div>
+              <div className="flex flex-col justify-center items-center w-1/4">
+                {/* 총 학습시간 */}
+                <div className="text-[#FFA800]"><span className="font-bold sm:text-[1.3rem] lg:text-[1.5rem]">1</span><span className="sm:text-[0.6rem] md:text-[0.7rem] lg:text-[0.9rem]">시간</span><span className="font-bold sm:text-[1.3rem] lg:text-[1.5rem]">5</span><span className="sm:text-[0.6rem] md:text-[0.7rem] lg:text-[0.9rem]">분</span></div>
+                <div className="text-[#A2A2A2] sm:text-[0.5rem] md:text-[0.6rem] lg:text-[0.7rem]"><span>총 학습시간</span></div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="flex justify-start items-center h-full w-[30%]  ">
-        {/* d원형 그래프 통계 */}
-        <div className="flex justify-center items-center w-[66%] h-3/5">
-          통계
+        <div className="flex justify-start items-center h-full w-[30%]  ">
+          {/* d원형 그래프 통계 */}
+          <div className="flex justify-center items-center w-[66%] h-4/5">
+            통계
+          </div>
         </div>
       </div>
     </div>
@@ -168,10 +170,10 @@ function MyPageSection1V2():JSX.Element {
 
 function MyPageSection2():JSX.Element {
   return (
-    <div className="flex flex-col justify-center items-center h-[53rem] sm:h-[57rem] md:h-[58rem] lg:h-[63rem] w-full">
-      <div className="flex justify-center items-center h-[67%] w-[70%]">
+    <div className="flex flex-col justify-center items-center h-[53rem] sm:h-[57rem] md:h-[58rem] lg:h-[70rem]">
+      <div className="flex justify-center items-center h-[67%] max-w-screen-xl w-full">
         {/* 학습 관리 */}
-        <div className="flex flex-col justify-center items-start w-full h-[90%]">
+        <div className="flex flex-col justify-center items-start w-[77%] h-[90%]">
           <div className="h-[10%] sm:h-[8%]">
             <div className="block text-[0.9rem] sm:text-[1rem] lg:text-[1.1rem] font-semibold pb-2">학습 관리</div>
             <div className="block text-[0.6rem] sm:text-[0.6rem] lg:text-[0.7rem] text-[#A2A2A2]">나의 학습 정보를 확인해보세요!</div>
@@ -210,8 +212,8 @@ function MyPageSection2():JSX.Element {
           </div>
         </div>
       </div>
-      <div className="flex justify-center items-center h-[33%] w-[70%]">
-        <div className="flex flex-col justify-center items-start w-full h-[90%]">
+      <div className="flex justify-center items-center h-[33%] max-w-screen-xl w-full">
+        <div className="flex flex-col justify-center items-start w-[76%] h-[90%]">
           <div className="h-[15%]">
             <div className="block text-[0.9rem] sm:text-[1rem] lg:text-[1.1rem] font-semibold">칭호</div>
           </div>
