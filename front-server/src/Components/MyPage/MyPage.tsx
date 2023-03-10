@@ -3,6 +3,8 @@ import Navbar from "../Common/Navbar"
 import CamelSit from "../Threejs/CamelSit"
 import Checked from "../Threejs/Checked"
 import Gaming from "../Threejs/Gaming"
+import Dolphin from "../Threejs/Dolphin"
+import ClownFish from "../Threejs/ClownFish"
 
 function MyPage():JSX.Element {
   return (
@@ -25,9 +27,9 @@ function MyPageSection1V1():JSX.Element {
         <div className="flex justify-end items-center h-4/5 w-[30%]">
           {/* 렙업에 따른 3D 캐릭터 */}
           <div className="flex justify-center items-center w-[66%]">
-            <Gaming/>
-            {/* <Checked/> */}
-            {/* <CamelSit/> */}
+            <Dolphin/>
+            {/* <Gaming/> */}
+            {/* <ClownFish/> */}
           </div>
         </div>
         <div className="flex justify-center items-center h-full w-[40%] ">
@@ -101,7 +103,8 @@ function MyPageSection1V2():JSX.Element {
         <div className="flex justify-center items-center h-4/5 w-[60%]">
           {/* 렙업에 따른 3D 캐릭터 */}
           <div className="flex justify-end items-center w-[80%] h-full">
-            <Gaming/>
+            {/* <Gaming/> */}
+            <Dolphin/>
           </div>
         </div>
         <div className="flex justify-start items-center h-4/5 w-[40%]">
