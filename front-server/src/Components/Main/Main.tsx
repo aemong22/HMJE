@@ -38,11 +38,6 @@ function Main(): JSX.Element {
     칭호:"노랑노랑노랑색",
     레벨:"정이품",
     뱃지이미지:"carrot"
-  },{
-    이름:"사이다",
-    칭호:"한글을 사랑하는 자",
-    레벨:"정삼품",
-    뱃지이미지:"carrot"
   }]
 
   return (
@@ -51,7 +46,7 @@ function Main(): JSX.Element {
       <MyInfo />
       <StudyContent />
       <News example={example} setSelectKeyWord={setSelectKeyWord} selectKeyWord={selectKeyWord}/>
-      <PassUsers/>
+      <PassUsers users={users}/>
       <Footer />
     </>
   );
@@ -64,7 +59,7 @@ export default Main;
 function MyInfo(): JSX.Element {
   return (
     <div className="bg-[#F0ECE9]">
-      <div className="container max-w-screen-xl w-full mx-auto flex flex-col md:flex-row md:justify-around items-center text-center py-[2rem] border-2">
+      <div className="container max-w-screen-xl w-full mx-auto flex flex-col md:flex-row md:justify-around items-center text-center py-[2rem]">
         <div className="md:w-[40%] w-[90%] bg-[#ffffff] py-[1.5rem] md:px-[2.5rem] rounded-md px-[1rem]">
           <Pangguin />
           <div className="flex justify-center md:text-[1.2rem] text-[1rem] py-1"><div className={`${style.badgeImg}`} style={{backgroundImage:"url('/Assets/Icon/carrot.png')"}}></div>한글을 사랑하는 자</div>
@@ -95,7 +90,7 @@ function MyInfo(): JSX.Element {
               <div className="md:text-[1.5rem] pt-3 text-[0.8rem] text-zinc-500">학습 단어</div>
             </div>
           </div>
-          <div className="flex justify-center rounded-full bg-[#A87E6E] p-[0.7rem] md:text-[2.5rem] text-[1.5rem] font-bold text-[#ffffff]">
+          <div className="cursor-pointer flex justify-center rounded-full bg-[#A87E6E] p-[0.7rem] md:text-[2.5rem] text-[1.5rem] font-bold text-[#ffffff]">
             <div className={`${style.iconBook}`}></div>
             <div>오늘의 단어</div>
           </div>
@@ -177,11 +172,24 @@ function News({example,setSelectKeyWord,selectKeyWord}:any): JSX.Element {
             {
                 example.map((ex:any, index:any)=>(
                     <>
-                        <div className="rounded-full py-1 px-4 mr-3 mt-1 md:text-[1.4rem] text-[1.1rem] text-[#ffffff] bg-[#BF9F91] font-bold" onClick={() => {
+                      {selectKeyWord == index ?(
+                        <>
+                          <div className="cursor-pointer rounded-full py-1 px-4 mr-3 mt-1 md:text-[1.4rem] text-[1.1rem] text-[#ffffff] border-2 border-[#BF9F91] bg-[#BF9F91] font-bold" onClick={() => {
+                            setSelectKeyWord(index);
+                          }}>
+                            {ex.name}
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                        <div className="cursor-pointer rounded-full py-1 px-4 mr-3 mt-1 md:text-[1.4rem] text-[1.1rem] border-2 border-[#BF9F91] text-[#BF9F91] font-bold" onClick={() => {
                           setSelectKeyWord(index);
                         }}>
-                            {ex.name}
+                          {ex.name}
                         </div>
+                      </>
+
+                      )}
                     </>
                 )
                 )
@@ -205,20 +213,56 @@ function News({example,setSelectKeyWord,selectKeyWord}:any): JSX.Element {
 }
 
 // 장원급제 리스트
-function PassUsers(): JSX.Element {
+function PassUsers({users}:any): JSX.Element {
   return (
     <>
       <div className="bg-[#F4EFEC]">
-        <div className="container max-w-screen-xl mx-auto text-center py-10">
+        <div className="container max-w-screen-xl mx-auto text-center py-24">
           
           <div className="md:text-[1.7rem] text-[1.2rem]">제 32회 과거시험 결과</div>
           <div className="md:text-[2.7rem] text-[2rem] font-bold text-[#A87E6E]">장원급제</div>
-          <div className="md:text-[1.5rem] text-[1rem] text-[#525252]">축하드립니다!</div>
+          <div className="md:text-[1.5rem] text-[1rem] text-[#525252] mb-[2rem]">축하드립니다!</div>
 
-          <div>
-
-
+          <div className="overflow-hidden h-[15rem] lg:w-[70%] md:w-[80%] sm:w-[90%] w-full mx-auto">
+            <div className={`${style.move} px-1`} style={{animationDuration:`${Object.keys(users).length*2}s`}}>
+              {
+                users.map((user:any)=> (
+                  <div className={`flex justify-between rounded-lg bg-[#ffffff] my-3 md:px-5 sm:px-4 px-3 py-3 md:text-[1.5rem] sm:text-[1.2rem] text-[0.9rem] text-start}`}>
+                    <div className="flex">
+                    <div className={`${style.badgeImg2}`} style={{backgroundImage:`url('/Assets/Icon/${user.뱃지이미지}.png')`}}></div>
+                      <div className="px-1">
+                        <div className="md:text-[1.1rem] sm:text-[1rem] text-[0.8rem]">{user.칭호}</div>
+                        <div className="md:text-[1.5rem] sm:text-[1.2rem] text-[1rem] font-bold text-start" >{user.이름}</div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col justify-end text-[#525252] md:text-[1.3rem] sm:text-[1rem] text-[0.8rem] ">
+                      {user.레벨}
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+            <div className={`${style.move} px-1`} style={{animationDuration:`${Object.keys(users).length*2}s`}}>
+              {
+                users.map((user:any)=> (
+                  <div className={`flex justify-between rounded-lg bg-[#ffffff] my-3 md:px-5 sm:px-4 px-3  py-3 md:text-[1.5rem] sm:text-[1.2rem] text-[0.9rem] text-start}`}>
+                    <div className="flex">
+                    <div className={`${style.badgeImg2}`} style={{backgroundImage:`url('/Assets/Icon/${user.뱃지이미지}.png')`}}></div>
+                      <div className="px-1">
+                        <div className="md:text-[1.1rem] sm:text-[1rem] text-[0.8rem]">{user.칭호}</div>
+                        <div className="md:text-[1.5rem] sm:text-[1.2rem] text-[1rem] font-bold text-start" >{user.이름}</div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col justify-end text-[#525252] md:text-[1.3rem] sm:text-[1rem] text-[0.8rem] ">
+                      {user.레벨}
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
           </div>
+
+
         </div>
         
       </div>
