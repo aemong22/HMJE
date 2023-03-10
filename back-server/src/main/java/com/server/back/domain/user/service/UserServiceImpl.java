@@ -1,5 +1,6 @@
 package com.server.back.domain.user.service;
 
+import com.server.back.domain.message.dto.MessageDto;
 import com.server.back.domain.user.dto.BadgeResponseDto;
 import com.server.back.domain.user.dto.UserRequestDto;
 import com.server.back.domain.user.dto.UserResponseDto;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.server.back.domain.user.dto.BadgeResponseDto.MyBadgeResultList;
 
@@ -28,7 +28,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void join(UserRequestDto requestDto) {
-        System.out.println(requestDto);
         User user = User.builder()
                 .username(requestDto.getUsername())
                 .password(bCryptPasswordEncoder.encode(requestDto.getPassword()))
@@ -75,20 +74,7 @@ public class UserServiceImpl implements UserService {
         }
         return false;
     }
-    @Override
-    public boolean userPhonenumberCheck(UserRequestDto requestDto) {
-        System.out.println("requestDto-phonenumber///////////////"+requestDto);
-        int count = 0;
-        for (User r : userRepository.findAll()) {
-            if (r.getPhoneNumber().equals(requestDto.getPhoneNumber())){
-                count += 1;
-            }
-        }
-        if (count == 0) {
-            return true;
-        }
-        return false;
-    }
+
     @Override
     public UserResponseDto userInfo(Long userId) {
         User entity = userRepository.findByUserId(userId);
