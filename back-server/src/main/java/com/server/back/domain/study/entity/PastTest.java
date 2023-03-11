@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Entity
@@ -20,5 +21,6 @@ public class PastTest extends CommonEntity {
 	private Long pastTestId;
 	private LocalDate startTime;
 	private LocalDate endTime;
-
+	@OneToMany(mappedBy = "pastTest", fetch = FetchType.LAZY)
+	List<PastQuestion> pastQuestionList;
 }
