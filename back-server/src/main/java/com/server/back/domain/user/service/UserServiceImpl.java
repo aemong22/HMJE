@@ -3,7 +3,7 @@ package com.server.back.domain.user.service;
 import com.server.back.common.entity.RefreshToken;
 import com.server.back.common.repository.RefreshTokenRepository;
 
-import com.server.back.domain.user.dto.BadgeResponseDto;
+import com.server.back.domain.user.dto.BadgeResultResponseDto;
 import com.server.back.domain.user.dto.UserRequestDto;
 import com.server.back.domain.user.dto.UserResponseDto;
 import com.server.back.domain.user.entity.BadgeResult;
@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.server.back.domain.user.dto.BadgeResponseDto.MyBadgeResultList;
+import static com.server.back.domain.user.dto.BadgeResultResponseDto.MyBadgeResultList;
 
 @RequiredArgsConstructor
 @Transactional
@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
         entity.update(requestDto);
     }
     @Override
-    public List<BadgeResponseDto> userBadge(Long userId) {
+    public List<BadgeResultResponseDto> userBadge(Long userId) {
         User user = userRepository.findByUserId(userId);
         List<BadgeResult> badgeresult = badgeresultRepository.findByUser(user);
         return MyBadgeResultList(badgeresult);
