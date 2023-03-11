@@ -51,7 +51,7 @@ const Dictionary = () => {
           {/* 메인 */}
           <div className="flex flex-col border-2 border-black ">
             <div className="flex flex-col h-[5rem]">
-              <div className="flex flex-row">
+              <div className="flex flex-row ">
                 <div>단어</div>
                 <div>한자</div>
                 <div>조사</div>
