@@ -76,7 +76,7 @@ const Join = () => {
   const SendAuthnum = (phonenum: string): void => {
     console.log("폰번호확인", phonenum);
     API.post(`/sms/send/newbie`, {
-      to: phonenum
+      to: phonenum,
     }).then((r) => {
       console.log("전화번호 중복 결과", r.data);
     });
@@ -84,7 +84,8 @@ const Join = () => {
 
   const CheckAuthnum = (authnum: number | undefined): void => {
     API.post(`/user/modify`, {
-      authnum: authnum,
+      modifyNumber: authnum,
+      phoneNumber: Phonenum,
     }).then((r) => {
       console.log(r.data);
     });
