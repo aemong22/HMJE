@@ -10,9 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-@ApiModel(value = "BadgeResponseDto")
-public class BadgeResponseDto {
-    Long badgeId;
+@ApiModel(value = "BadgeRequestDto")
+public class BadgeRequestDto {
     String badgeImage;
     String badgeName;
     String badgeDetail;
