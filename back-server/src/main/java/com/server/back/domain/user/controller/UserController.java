@@ -3,7 +3,7 @@ package com.server.back.domain.user.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.server.back.common.dto.TokenRequestDto;
 import com.server.back.common.service.JwtService;
-import com.server.back.domain.user.dto.BadgeResponseDto;
+import com.server.back.domain.user.dto.BadgeResultResponseDto;
 import com.server.back.domain.user.dto.UserRequestDto;
 
 import com.server.back.domain.user.dto.UserResponseDto;
@@ -66,7 +66,7 @@ public class UserController {
 //    @GetMapping("/user/find/id")
 //    public ResponseEntity<Map<String, Object>> findId(@PathVariable(value = "userId") Long userId){
 //        Map<String, Object> response = new HashMap<>();
-//        List<BadgeResponseDto> responseDtoList = userService.userBadge(userId);
+//        List<BadgeResultResponseDto> responseDtoList = userService.userBadge(userId);
 //        response.put("data", responseDtoList);
 //        response.put("message", "success");
 //        return new ResponseEntity<>(response, HttpStatus.OK);
@@ -100,7 +100,7 @@ public class UserController {
     @GetMapping("/badge/{userId}")
     public ResponseEntity<Map<String, Object>> userBadge(@PathVariable(value = "userId") Long userId){
         Map<String, Object> response = new HashMap<>();
-        List<BadgeResponseDto> responseDtoList = userService.userBadge(userId);
+        List<BadgeResultResponseDto> responseDtoList = userService.userBadge(userId);
         response.put("data", responseDtoList);
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);

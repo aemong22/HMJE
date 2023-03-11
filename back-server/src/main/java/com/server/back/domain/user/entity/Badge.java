@@ -2,6 +2,7 @@ package com.server.back.domain.user.entity;
 
 
 import com.server.back.common.entity.CommonEntity;
+import com.server.back.domain.user.dto.BadgeRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,4 +22,10 @@ public class Badge extends CommonEntity {
 	private String badgeImage;
 	private String badgeName;
 	private String badgeDetail;
+
+	public void update(BadgeRequestDto requestDto) {
+		this.badgeImage= requestDto.getBadgeImage();
+		this.badgeName= requestDto.getBadgeName();
+		this.badgeDetail= requestDto.getBadgeDetail();
+	}
 }
