@@ -37,7 +37,7 @@ public class User extends CommonEntity {
     //    @Column(nullable = false)
     private Integer totalRight;
     //    @Column(nullable = false)
-    private Integer totalWorng;
+    private Integer totalWrong;
     //    @Column(nullable = false)
 
     private Boolean isAdmin;
@@ -51,6 +51,10 @@ public class User extends CommonEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "badge_id")
     private Badge nowBadge;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "character_id")
+    private RefreshToken characterId;
 
     /**
      *  refresh 생성자, setter
@@ -72,5 +76,13 @@ public class User extends CommonEntity {
     public void userdelete(){
         this.nickname = "delete" + this.getUserId();
         this.isSecession = true;
+    }
+    public void updateBadge(Badge badge){
+        this.nowBadge = badge;
+    }
+    public void updateResult(Integer semo, Integer wrongCount, Integer rightCount){
+        this.semo = this.semo + semo;
+        this.totalRight = this.totalRight + rightCount;
+        this.totalWrong = this.totalWrong + wrongCount;
     }
 }

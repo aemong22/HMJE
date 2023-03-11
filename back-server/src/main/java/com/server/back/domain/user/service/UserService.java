@@ -1,6 +1,7 @@
 package com.server.back.domain.user.service;
 
 
+import com.server.back.domain.study.dto.StudyRequestDto;
 import com.server.back.domain.user.dto.BadgeResultResponseDto;
 import com.server.back.domain.user.dto.UserRequestDto;
 import com.server.back.domain.user.dto.UserResponseDto;
@@ -15,4 +16,6 @@ public interface UserService {
     void userUpdate(Long userId, UserRequestDto requestDto);
     List<BadgeResultResponseDto> userBadge(Long userId);
     void userDelete(Long userId);
+    void updateBadge(Long userId, Long badgeId);
+    void updateStudyResult(StudyRequestDto requestDto);
 }

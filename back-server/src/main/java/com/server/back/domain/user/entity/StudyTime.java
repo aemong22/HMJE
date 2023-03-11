@@ -24,5 +24,4 @@ public class StudyTime extends CommonEntity {
 	private Integer studyType;
 
 
-
 }
