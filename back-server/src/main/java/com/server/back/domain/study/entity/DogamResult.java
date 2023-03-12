@@ -2,6 +2,7 @@ package com.server.back.domain.study.entity;
 
 
 import com.server.back.common.entity.CommonEntity;
+import com.server.back.domain.user.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,5 +20,7 @@ public class DogamResult extends CommonEntity {
 	@Column(name = "dogam_result_id")
 	private Long dogamResultId;
 
-
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private User user_id;
 }

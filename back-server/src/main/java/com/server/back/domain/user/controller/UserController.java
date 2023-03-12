@@ -105,4 +105,12 @@ public class UserController {
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    @ApiOperation(value = "뱃지 수정")
+    @PutMapping("/badge/{userId}/{bagdeId}")
+    public ResponseEntity<Map<String, Object>> updateBadge(@PathVariable(value = "userId") Long userId, @PathVariable(value = "bagdeId") Long bagdeId){
+        Map<String, Object> response = new HashMap<>();
+        userService.updateBadge(userId, bagdeId);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
