@@ -34,6 +34,7 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring()
+                .antMatchers("**/redis/test", "**/redis/test/", "**/redis/test/**", "/redis/test", "/redis/test/", "/redis/test/**")
                 .antMatchers("**/login","/refresh/**","/user/join","/user/check/nickname", "/user/check/username")
                 .antMatchers("/sms/**","/sms/modify","**/sms/modify","/sms/send/**")
                 .antMatchers("/login/oauth2/code/naver","/user/oauth2/token/naver", "/api/user/oauth2/token/naver","/api/login/oauth2/code/naver")
