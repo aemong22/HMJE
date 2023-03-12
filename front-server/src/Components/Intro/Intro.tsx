@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 import Footer from "../Common/Footer"
 import IntroNavbar from "./IntroNavbar"
+import sModule from './Intro.module.css'
 
 function Intro():JSX.Element {
   return (
@@ -10,7 +11,8 @@ function Intro():JSX.Element {
       <IntroSection2/>
       <IntroSection3V1/>
       <IntroSection3V2/>
-      <IntroSection4/>
+      <IntroSection4V1/>
+      <IntroSection4V2/>
       <Footer/>
     </>
   )
@@ -151,26 +153,78 @@ interface CardProps {
   huge?: boolean; 
 }
 
+// #f7cdb7
+// #a77e6e
+// #f4eeec
+// #f0ece9
+// #ac8679
+// #ebc7be
+// #f9f9f9
+// #ebc7be
+// #ecc8bf
 
 const StyledCard = styled.div<CardProps>`
-  width: 5rem;
-  height: 5rem;
-  margin-right: 4px;
-  background-color: ${props => props.color || 'black'};
+  width: 15rem;
+  height: 15rem;
+  margin-right: 1.2rem;
+  margin-left: 1.2rem;
+  border-radius: 2rem;
+  background-color: ${props => props.color || '#ebc7be'};
   ${props => props.huge && 
     css`
       width: 10rem;
       height: 10rem;
     `}  
+  flex-shrink: 0; // added to prevent shrinking
 ` 
 
 
 // 서비스 분야
-function IntroSection4(): JSX.Element {
+function IntroSection4V1(): JSX.Element {
   return (
-    <div className="container w-full mx-auto bg-blue-300">
-      <div className="flex h-[25rem] justify-start items-center">
-        <StyledCard color="yellow"/>
+    <div className="container w-full mx-auto mt-32 mb-10 overflow-hidden">
+      <div className={`flex flex-nowrap h-[15rem] w-[80rem] -translate-x-4 justify-start items-start ${sModule.moveCard1}`}>
+        <StyledCard color="#f7cdb7"/>
+        <StyledCard color="#a77e6e"/>
+        <StyledCard color="#f4eeec"/>
+        <StyledCard color="#ac8679"/>
+        <StyledCard color="#ebc7be"/>
+        <StyledCard color="#f9f9f9"/>
+        <StyledCard color="#ebc7be"/>
+        <StyledCard/>
+        <StyledCard color="#f7cdb7"/>
+        <StyledCard color="#a77e6e"/>
+        <StyledCard color="#f4eeec"/>
+        <StyledCard color="#ac8679"/>
+        <StyledCard color="#ebc7be"/>
+        <StyledCard color="#f9f9f9"/>
+        <StyledCard color="#ebc7be"/>
+        <StyledCard/>
+      </div>
+    </div>
+  )
+}
+
+function IntroSection4V2(): JSX.Element {
+  return (
+    <div className="container w-full mx-auto mb-32 mt-10 overflow-hidden">
+      <div className={`flex flex-nowrap h-[15rem] w-[80rem] justify-start items-start ${sModule.moveCard2}`}>
+        <StyledCard color="#f7cdb7"/>
+        <StyledCard color="#a77e6e"/>
+        <StyledCard color="#f4eeec"/>
+        <StyledCard color="#ac8679"/>
+        <StyledCard color="#ebc7be"/>
+        <StyledCard color="#f9f9f9"/>
+        <StyledCard color="#ebc7be"/>
+        <StyledCard/>
+        <StyledCard color="#f7cdb7"/>
+        <StyledCard color="#a77e6e"/>
+        <StyledCard color="#f4eeec"/>
+        <StyledCard color="#ac8679"/>
+        <StyledCard color="#ebc7be"/>
+        <StyledCard color="#f9f9f9"/>
+        <StyledCard color="#ebc7be"/>
+        <StyledCard/>
       </div>
     </div>
   )
