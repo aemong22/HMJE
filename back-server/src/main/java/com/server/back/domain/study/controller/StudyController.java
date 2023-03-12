@@ -29,4 +29,14 @@ public class StudyController {
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    @ApiOperation(value = "문맥 학습 결과")
+    @PostMapping("/context/result")
+    public ResponseEntity<Map<String, Object>> contextResult(@RequestBody StudyRequestDto requestDto){
+        Map<String, Object> response = new HashMap<>();
+        studyService.contextResult(requestDto);
+        userService.updateStudyResult(requestDto);
+        //response.put("data", responseDto);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
