@@ -9,6 +9,7 @@ import MyPage from "./Components/MyPage/MyPage";
 import Join from "./Components/Join/Join";
 import Main from "./Components/Main/Main";
 import Dictionary from "./Components/Dictionary/Dictionary";
+import WordStudy from "./Components/Study/WordStudy";
 
 function App() {
   const notify = () => toast("Wow so easy!");
@@ -21,6 +22,7 @@ function App() {
         <Route path="/join" element={<Join />} />
         <Route path="/main" element={<Main />} />
         <Route path="/dictionary" element={<Dictionary />} />
+        <Route path="/wordStudy" element={<WordStudy/>}/>
       </Routes>
     </>
   );
