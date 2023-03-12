@@ -118,7 +118,6 @@ public class SmsService {
         //restTemplate로 post 요청 보내고 오류가 없으면 202코드 반환
         SmsResponseDto smsResponseDto = restTemplate.postForObject(new URI("https://sens.apigw.ntruss.com/sms/v2/services/"+ serviceId +"/messages"), httpBody, SmsResponseDto.class);
         //SmsResponseDto responseDto = new SmsResponseDto(smsConfirmNum);
-        // ??????________________________________________________________________
         redisUtil.setDataExpire(smsConfirmNum, messageDto.getTo(), 60 * 3L); // 유효시간 3분
         return smsResponseDto;
     }

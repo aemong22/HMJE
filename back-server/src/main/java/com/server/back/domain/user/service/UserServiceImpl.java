@@ -3,11 +3,14 @@ package com.server.back.domain.user.service;
 import com.server.back.common.entity.RefreshToken;
 import com.server.back.common.repository.RefreshTokenRepository;
 
+import com.server.back.domain.study.dto.StudyRequestDto;
 import com.server.back.domain.user.dto.BadgeResultResponseDto;
 import com.server.back.domain.user.dto.UserRequestDto;
 import com.server.back.domain.user.dto.UserResponseDto;
+import com.server.back.domain.user.entity.Badge;
 import com.server.back.domain.user.entity.BadgeResult;
 import com.server.back.domain.user.entity.User;
+import com.server.back.domain.user.repository.BadgeRepository;
 import com.server.back.domain.user.repository.BadgeResultRepository;
 import com.server.back.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,7 @@ import static com.server.back.domain.user.dto.BadgeResultResponseDto.MyBadgeResu
 public class UserServiceImpl implements UserService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserRepository userRepository;
+    private final BadgeRepository badgeRepository;
     private final BadgeResultRepository badgeresultRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -40,7 +44,7 @@ public class UserServiceImpl implements UserService {
                 .semo(0)
                 .totalTime(0)
                 .totalRight(0)
-                .totalWorng(0)
+                .totalWrong(0)
                 .isAdmin(requestDto.getIsAdmin())
                 .isSecession(requestDto.getIsSecession())
                 .build();
@@ -101,5 +105,18 @@ public class UserServiceImpl implements UserService {
 //        refreshTokenRepository.delete(token);
 //        user.logout();
         user.userdelete();
+    }
+    @Override
+    public void updateBadge(Long userId, Long badgeId){
+        User user = userRepository.findByUserId(userId);
+        Badge badge = badgeRepository.findByBadgeId(badgeId);
+        user.updateBadge(badge);
+    }
+    @Override
+    public void updateStudyResult(StudyRequestDto requestDto){
+        Integer wrongCount = requestDto.getWrongIdList().size();
+        Integer rightCount = requestDto.getRightIdList().size();
+        User user = userRepository.findByUserId(requestDto.getUserId());
+        user.updateResult(requestDto.getSemo(), wrongCount, rightCount);
     }
 }
