@@ -44,7 +44,15 @@ function Login(): JSX.Element {
       password: Password,
       username: Id,
     }).then((r) => {
-      console.log(r.data);
+      console.log("받는 데이터", r.data);
+
+      const accessToken = r.data.accessToken;
+      const refreshToken = r.data.refreshToken;
+      console.log("accessToken", accessToken);
+      console.log("refreshToken", refreshToken);
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      navigate("/main");
     });
   };
 
@@ -57,13 +65,13 @@ function Login(): JSX.Element {
       <Navbar />
       <div className="">
         {/* <!-- Example --> */}
-        <div className="flex min-h-screen">
+        <div className="flex min-h-screen max-w-screen-x">
           {/* <!-- Container --> */}
-          <div className="flex flex-row w-full">
+          <div className="flex flex-row justify-center w-full">
             {/* <!-- Login --> */}
-            <div className="flex flex-1 flex-col items-center justify-center px-10 relative">
+            <div className="flex flex-col items-center justify-center px-10 relative">
               {/* <!-- Login box --> */}
-              <div className="flex flex-1 flex-col  justify-center space-y-5 max-w-xl">
+              <div className="flex flex-col  justify-center">
                 <div className="flex flex-col items-center space-y-2 text-center">
                   <div className="text-5xl font-extrabold text-[#A87E6E] md:text-6xl">
                     홍민정음
