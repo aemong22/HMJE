@@ -1,3 +1,4 @@
+import styled, { css } from "styled-components";
 import Footer from "../Common/Footer"
 import IntroNavbar from "./IntroNavbar"
 
@@ -35,7 +36,7 @@ function IntroSection1(): JSX.Element {
             <div className="flex sm:hidden text-[0.6em] sm:text-[1rem] md:text-[1.1rem] font-medium mb-2 pl-1">
               문해력실력을 <br />향상시킬 수 있는 곳
             </div>
-            <div className="flex justify-start mb-3 h-[1.5rem] sm:h-[2.4rem] md:h-[2.5rem] w-[6.7rem] sm:w-[15rem] md:w-[16rem] text-[0.5rem] sm:text-[1rem] md:text-[1rem] lg:text-[1.2rem]">
+            <div className="flex justify-start mb-3 h-[1.5rem] sm:h-[2.4rem] md:h-[2.5rem] w-[6.8rem] sm:w-[15rem] md:w-[16rem] text-[0.5rem] sm:text-[1rem] md:text-[1rem] lg:text-[1.2rem]">
               <div className="w-full h-[90%] flex justify-center items-center border-2 rounded-xl px-1 mr-1 sm:mr-2 cursor-pointer">입장하기</div>
               <div className="w-full h-[90%] flex justify-center items-center border-2 rounded-xl px-1 cursor-pointer">가입하기</div>
             </div>
@@ -144,7 +145,87 @@ function IntroSection3V2():JSX.Element {
   );
 }
 
+
+interface CardProps {
+  color?: string;
+  huge?: boolean; 
+}
+
+
+const StyledCard = styled.div<CardProps>`
+  width: 5rem;
+  height: 5rem;
+  margin-right: 4px;
+  background-color: ${props => props.color || 'black'};
+  ${props => props.huge && 
+    css`
+      width: 10rem;
+      height: 10rem;
+    `}  
+` 
+
+
 // 서비스 분야
 function IntroSection4(): JSX.Element {
-  return <div className="flex h-[25rem] justify-center items-center"></div>;
+  return (
+    <div className="container w-full mx-auto bg-blue-300">
+      <div className="flex h-[25rem] md:w-[700vw] lg:w-[600vw] xl:w-[500vw] -translate-x-1/3 justify-start items-center">
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard color="yellow"/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        <StyledCard huge/>
+        hi
+      </div>
+    </div>
+  )
 }

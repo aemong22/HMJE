@@ -1,0 +1,52 @@
+@keyframes cycle {
+  0% {
+    right: 0vw;
+  }
+  50% {
+    right: 95vw;
+  }
+  100% {
+    right: 0vw;
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotateY(0deg);
+  }
+  48% {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(180deg);
+  }
+  98% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+.cuteImg {
+  animation: cycle 30s infinite normal;
+}
+
+.rotate {
+  animation: rotate 30s infinite normal;
+}
+
+
+.userData:hover {
+  background: #eee8e3;
+  border: solid 2px #A87E6E;
+  transition: all .3s;
+}
+
+.choiceBtn:hover {
+  background-color: #A87E6E;
+  color: white;
+  cursor: pointer;
+  transition: all .3s;
+}
+
