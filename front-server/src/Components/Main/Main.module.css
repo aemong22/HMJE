@@ -4,7 +4,11 @@
     background-size: contain;
     width : 2rem;
     background-position-y: center;
-    margin-right: 0.2rem;
+    margin-right: 0.2rem;    
+  }
+
+  .cursor {
+    cursor:pointer;
   }
 
   .studyContents {
@@ -37,3 +41,27 @@
     background-size: contain;
   }
 
+  .badgeImg2 {
+    width : 2.1rem;
+    margin-right: 0.2rem;
+    background-position-y: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+
+
+  @keyframes moving {
+    from {
+      transform: translateY(0%);
+    }
+    to {
+      transform: translateY(-100%);
+    }
+  }
+
+  .move {
+    animation-name: moving;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
