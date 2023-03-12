@@ -169,62 +169,8 @@ const StyledCard = styled.div<CardProps>`
 function IntroSection4(): JSX.Element {
   return (
     <div className="container w-full mx-auto bg-blue-300">
-      <div className="flex h-[25rem] md:w-[700vw] lg:w-[600vw] xl:w-[500vw] -translate-x-1/3 justify-start items-center">
+      <div className="flex h-[25rem] justify-start items-center">
         <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard color="yellow"/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        <StyledCard huge/>
-        hi
       </div>
     </div>
   )
