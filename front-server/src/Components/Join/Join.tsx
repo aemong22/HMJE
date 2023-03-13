@@ -12,7 +12,7 @@ const Join = () => {
   const [PasswordCheck, setPasswordCheck] = useState<string>();
   const [Nickname, setNickname] = useState<string>("");
   const [Phonenum, setPhonenum] = useState<string>("");
-  const [Authnum, setAuthnum] = useState<number>();
+  const [Authnum, setAuthnum] = useState<string>();
 
   function ChangeName(event: any): void {
     console.log(event.target.value);
@@ -36,7 +36,7 @@ const Join = () => {
   };
   const ChangeAuthnum = (event: React.ChangeEvent<HTMLInputElement>): void => {
     // console.log(event.target.value);
-    const temp: number = Number(event.target.value);
+    const temp: string = event.target.value;
     setAuthnum(temp);
   };
   // 중복확인
@@ -82,10 +82,13 @@ const Join = () => {
     });
   };
 
-  const CheckAuthnum = (authnum: number | undefined): void => {
+  const CheckAuthnum = (
+    authnum: string | undefined,
+    phonenum: string,
+  ): void => {
     API.post(`/user/modify`, {
       modifyNumber: authnum,
-      phoneNumber: Phonenum,
+      phoneNumber: phonenum,
     }).then((r) => {
       console.log(r.data);
     });
@@ -197,7 +200,7 @@ const Join = () => {
                   <input
                     type="text"
                     className="min-w-[100%] px-3 py-1 md:px-4 md:py-2 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
-                    onChange={ChangeName}
+                    onChange={ChangePasswordCheck}
                   />
                 </div>
               </div>
@@ -234,7 +237,7 @@ const Join = () => {
                   <div
                     className="px-3 py-1 md:px-4 md:py-2 border-2 bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
                     onClick={() => {
-                      CheckAuthnum(Authnum);
+                      CheckAuthnum(Authnum, Phonenum);
                     }}
                   >
                     &nbsp; &nbsp;확인&nbsp; &nbsp;
