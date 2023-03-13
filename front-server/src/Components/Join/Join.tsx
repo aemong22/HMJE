@@ -24,7 +24,9 @@ const Join = () => {
   };
   const ChangePasswordCheck = (event: any): void => {
     console.log(event.target.value);
+    console.log(typeof event.target.value);
     setPasswordCheck(event.target.value);
+    SameCheck(event.tartget.value);
   };
   const ChangeNickname = (event: any): void => {
     console.log(event.target.value);
@@ -114,6 +116,30 @@ const Join = () => {
     });
   };
 
+  const SameCheck = (test: string) => {
+    console.log("props넘어오는값", test);
+    console.log("Password", Password);
+  };
+
+  const [AmIHidden, setAmIHidden] = useState("hidden");
+  const PhoneCheck = (): any => {
+    // SendAuthnum(Phonenum);
+    if (Phonenum.length === 11) {
+      // 인증번호 보여주고
+      alert("전송하였습니다!");
+      // 인증번호 닫고
+      setAmIHidden("");
+      setTimeout(
+        () => {
+          setAmIHidden("hidden");
+        },
+        1000,
+        // timeout : 얼만큼 지나서 위 함수를 실행할 것인지(_ms)
+      );
+    } else {
+      alert("번호가 이상합니다");
+    }
+  };
   return (
     <>
       <div className="flex flex-col justify-between h-[100vh]">
@@ -216,15 +242,13 @@ const Join = () => {
                   />
                   <div
                     className="px-3 py-1 md:px-4 md:py-2 border-2 bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
-                    onClick={() => {
-                      SendAuthnum(Phonenum);
-                    }}
+                    onClick={PhoneCheck}
                   >
                     인증하기
                   </div>
                 </div>
               </div>
-              <div className="my-2 hidden">
+              <div className={`my-2 ${AmIHidden}`}>
                 <div className="text-[#A87C6E] font-extrabold text-base">
                   인증번호
                 </div>
