@@ -1,22 +1,40 @@
 import axios from "axios";
-import { useGetAdminUserListQuery } from "../../Store/api";
+import { useGetAdminUserListQuery, useGetRefreshTokenQuery } from "../../Store/api";
 
 function AdminContext(): JSX.Element {
 
-  axios({
-    method: 'get',
-    url: 'https://hmje.net/api/api/admin/user'
-  })
-  .then((r)=> {
-    console.log(r.data);
+  const username:any = 'test13'
+  const {data} = useGetRefreshTokenQuery('test13')
+  const refreshToken:any = localStorage.getItem("refreshToken")
+  // const {data} = useGetAdminUserListQuery('Api') 
+  console.log(data);
+  
+    // console.log(data.data[0]?.nickname);
+    // console.log(data);
     
-  })
-  // const data = useGetAdminUserListQuery()
-  // console.log('RTK query 데이터: ', data);
-
+    // axios({
+    //   url: `https://hmje.net/api/user/auth/refresh/${username}`,
+    //   method: 'get',
+    //   headers: {
+    //     refreshToken: refreshToken,
+    //   },
+    //   params: {
+    //     'username': username
+    //   }
+    // }).then((r)=> {
+    //   console.log(r);
+      
+    // })
+    
+    
+  
+  
   return (
     <>
-      문맥도감
+      {/* {
+        isLoading? <div>로딩중</div>: <div>끝</div>
+      } */}
+      {/* {data? data.data[0].nickname: null} */}
     </>
   );
 }
