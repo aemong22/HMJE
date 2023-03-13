@@ -31,7 +31,7 @@ public class StudyServiceImpl implements StudyService{
             Word word = wordRepository.findByWordId(i);
             WrongWord wrong = wrongWordRepository.findByWordAndUser(word, user);
             //틀렸던 문제인지 확인
-            if (!wrong.equals(null)){
+            if (wrong != null){
                 //틀렸던 문제이면 틀린문제에서는 삭제
                 wrongWordRepository.delete(wrong);
             }
@@ -47,7 +47,7 @@ public class StudyServiceImpl implements StudyService{
             Word word = wordRepository.findByWordId(j);
             WrongWord wrong = wrongWordRepository.findByWordAndUser(word, user);
             //틀린 문제 리스트에 없으면 추가해주기
-            if (wrong.equals(null)){
+            if (wrong == null){
                 WrongWord wrongWord = WrongWord.builder()
                         .user(user)
                         .word(word)
@@ -66,7 +66,7 @@ public class StudyServiceImpl implements StudyService{
             Dogam dogam = dogamRepository.findDogamByDogamId(i);
             DogamResult d = dogamResultRepository.findByDogamIdAndUserId(dogam,user);
             //획득한 도감에 없으면
-            if (d.equals(null)){
+            if (d == null){
                 //도감 생성
                 DogamResult dogamresult = DogamResult.builder()
                         .userId(user)
