@@ -1,9 +1,11 @@
 package com.server.back.domain.study.controller;
 
 import com.server.back.domain.study.dto.StudyRequestDto;
+import com.server.back.domain.study.dto.StudyTimeRequestDto;
 import com.server.back.domain.study.entity.Dogam;
 import com.server.back.domain.study.entity.Word;
 import com.server.back.domain.study.service.StudyService;
+import com.server.back.domain.user.repository.StudyTimeRepository;
 import com.server.back.domain.user.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import java.util.Map;
 public class StudyController {
     private final StudyService studyService;
     private final UserService userService;
+    private final StudyTimeRepository studyTimeRepository;
 
     @ApiOperation(value = "단어학습 문제")
     @GetMapping("/word")
@@ -69,7 +72,11 @@ public class StudyController {
 
     @ApiOperation(value = "학습 시간 관리")
     @PostMapping("/studytime")
-    public void studyTime(@RequestBody StudyTimeRequestDto requestDto){
-
+    public ResponseEntity<Map<String, Object>> studyTime(@RequestBody StudyTimeRequestDto requestDto){
+        Map<String, Object> response = new HashMap<>();
+        userService.studyTime(requestDto);
+//        response.put("data", "");
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

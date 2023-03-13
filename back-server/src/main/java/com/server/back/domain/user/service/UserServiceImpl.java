@@ -4,14 +4,17 @@ import com.server.back.common.entity.RefreshToken;
 import com.server.back.common.repository.RefreshTokenRepository;
 
 import com.server.back.domain.study.dto.StudyRequestDto;
+import com.server.back.domain.study.dto.StudyTimeRequestDto;
 import com.server.back.domain.user.dto.BadgeResultResponseDto;
 import com.server.back.domain.user.dto.UserRequestDto;
 import com.server.back.domain.user.dto.UserResponseDto;
 import com.server.back.domain.user.entity.Badge;
 import com.server.back.domain.user.entity.BadgeResult;
+import com.server.back.domain.user.entity.StudyTime;
 import com.server.back.domain.user.entity.User;
 import com.server.back.domain.user.repository.BadgeRepository;
 import com.server.back.domain.user.repository.BadgeResultRepository;
+import com.server.back.domain.user.repository.StudyTimeRepository;
 import com.server.back.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,6 +34,7 @@ public class UserServiceImpl implements UserService {
     private final BadgeRepository badgeRepository;
     private final BadgeResultRepository badgeresultRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final StudyTimeRepository studyTimeRepository;
 
     @Override
     public void join(UserRequestDto requestDto) {
@@ -122,5 +126,16 @@ public class UserServiceImpl implements UserService {
     public void updateStudyExp(Long userId,Integer rightExp){
         User user = userRepository.findByUserId(userId);
         user.updateExp(rightExp);
+    }
+    @Override
+    public void studyTime(StudyTimeRequestDto requestDto){
+        User user = userRepository.findByUserId(requestDto.getUserId());
+        StudyTime studytime  = StudyTime.builder()
+                .startTime(requestDto.getStartTime())
+                .endTime(requestDto.getEndTime())
+                .studyTime(requestDto.getStudyTime())
+                .studyType(requestDto.getStudyType())
+                .build();
+        studyTimeRepository.save(studytime);
     }
 }
