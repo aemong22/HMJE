@@ -3,6 +3,9 @@ import jwtDecode from "jwt-decode";
 
 const API = axios.create({
   baseURL: "https://hmje.net/api",
+  headers: {
+    accessToken: localStorage.getItem("accessToken"),
+  },
 });
 
 interface decodedInfo {
@@ -32,7 +35,7 @@ API.interceptors.request.use(
     // accesstoken 들고오기
     let accessToken: string | null = localStorage.getItem("accessToken");
     // let accessToken: string | null = TOKEN;
-    console.log(accessToken);
+    console.log("엑세스 토큰 출력", accessToken);
     //  jwt를 decode 하여 payload를 추출한다.
     //  토큰이 있으면
     if (accessToken != null) {
@@ -63,6 +66,7 @@ API.interceptors.request.use(
     // 토큰이 null인 경우
     // 로그인 / 회원가입
     else {
+      console.log("accessToken없당");      
       // 뭐해야하지?
     }
     return config;
