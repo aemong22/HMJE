@@ -1,6 +1,8 @@
 package com.server.back.domain.study.controller;
 
 import com.server.back.domain.study.dto.StudyRequestDto;
+import com.server.back.domain.study.entity.Dogam;
+import com.server.back.domain.study.entity.Word;
 import com.server.back.domain.study.service.StudyService;
 import com.server.back.domain.user.service.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -20,7 +22,17 @@ public class StudyController {
     private final StudyService studyService;
     private final UserService userService;
 
-    @ApiOperation(value = "단어 학습 결과")
+    @ApiOperation(value = "단어학습 문제")
+    @GetMapping("/study/word")
+    public ResponseEntity<Map<String, Object>> wordQuestion(Long userId){
+        Map<String, Object> response = new HashMap<>();
+        List<Word> wordQuestion = studyService.wordQuestion(userId);
+        response.put("data", wordQuestion);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "단어학습 결과")
     @PostMapping("/word/result")
     public ResponseEntity<Map<String, Object>> wordResult(@RequestBody StudyRequestDto requestDto){
         Map<String, Object> response = new HashMap<>();
@@ -31,7 +43,18 @@ public class StudyController {
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    @ApiOperation(value = "문맥 학습 결과")
+
+    @ApiOperation(value = "문맥학습 문제")
+    @GetMapping("/study/context")
+    public ResponseEntity<Map<String, Object>> contextQuestion(){
+        Map<String, Object> response = new HashMap<>();
+        List<Dogam> contextQuestion = studyService.contextQuestion();
+        response.put("data", contextQuestion);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "문맥학습 결과")
     @PostMapping("/context/result")
     public ResponseEntity<Map<String, Object>> contextResult(@RequestBody StudyRequestDto requestDto){
         Map<String, Object> response = new HashMap<>();
