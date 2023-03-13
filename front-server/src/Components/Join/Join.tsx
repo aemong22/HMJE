@@ -1,18 +1,32 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
 import API from "../Common/Api";
-import axios from "axios";
+
+var pattern2 = /[a-zA-Z]/; //영어
 
 const Join = () => {
   const navigate = useNavigate();
+
+  // 이름, 비밀번호, 비밀번호 확인, 별명, 폰번호, 인증번호
   const [Name, setName] = useState<string>("");
   const [Password, setPassword] = useState<string>("");
   const [PasswordCheck, setPasswordCheck] = useState<string>();
   const [Nickname, setNickname] = useState<string>("");
   const [Phonenum, setPhonenum] = useState<string>("");
   const [Authnum, setAuthnum] = useState<string>();
+
+  // 오류메세지 상태저장
+  const [passwordMessage, setPasswordMessage] = useState<string>("");
+  const [passwordConfirmMessage, setPasswordConfirmMessage] =
+    useState<string>("");
+
+  // 유효성 검사
+  const [isName, setIsName] = useState<boolean>(false);
+  const [isEmail, setIsEmail] = useState<boolean>(false);
+  const [isPassword, setIsPassword] = useState<boolean>(false);
+  const [isPasswordConfirm, setIsPasswordConfirm] = useState<boolean>(false);
 
   function ChangeName(event: any): void {
     console.log(event.target.value);
@@ -27,9 +41,12 @@ const Join = () => {
     setPasswordCheck(event.target.value);
   };
   const ChangeNickname = (event: any): void => {
+    event.preventDefault();
     console.log(event.target.value);
     setNickname(event.target.value);
+    // CheckEnglish();
   };
+
   const ChangePhonenum = (event: any): void => {
     console.log(event.target.value);
     setPhonenum(event.target.value);
@@ -94,6 +111,12 @@ const Join = () => {
     });
   };
 
+  const sampleTest = () => {
+    API.get(`/admin/user`).then((r) => {
+      console.log(r.data);
+    });
+  };
+
   const GoJoin = (): void => {
     // 회원가입axios
     console.log("닉네임", Nickname);
@@ -113,6 +136,39 @@ const Join = () => {
       navigate("/login");
     });
   };
+
+  const CheckEnglish = () => {
+    if (pattern2.test(Nickname)) {
+      alert("영어가 포함됩니다."); //false
+    }
+  };
+  const chkCharCode = (event: any) => {
+    const regExp = /[^0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g;
+    const ele = event.target;
+    if (regExp.test(ele.value)) {
+      ele.value = ele.value.replace(regExp, "");
+      setNickname(ele.value);
+    }
+  };
+  // 비밀번호 확인
+  const onChangePasswordConfirm = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const passwordConfirmCurrent = e.target.value;
+      setPasswordCheck(passwordConfirmCurrent);
+      console.log(passwordConfirmCurrent);
+
+      if (Password === passwordConfirmCurrent) {
+        setPasswordConfirmMessage("비밀번호를 똑같이 입력했어요 : )");
+        // alert("비밀번호를 똑같이 입력했어요 : )");
+        console.log("비밀번호를 똑같이 입력했어요 : )");
+        setIsPasswordConfirm(true);
+      } else {
+        setPasswordConfirmMessage("비밀번호가 틀려요. 다시 확인해주세요 ㅜ ㅜ");
+        setIsPasswordConfirm(false);
+      }
+    },
+    [Password],
+  );
 
   return (
     <>
@@ -147,9 +203,12 @@ const Join = () => {
 
                   <div
                     className="px-3 py-1 md:px-4 md:py-2 border-2 bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
-                    onClick={() => {
-                      CheckDuplication("Name");
-                    }}
+                    onClick={
+                      () => {
+                        CheckDuplication("Name");
+                      }
+                      // sampleTest
+                    }
                   >
                     중복확인
                   </div>
@@ -167,8 +226,10 @@ const Join = () => {
                 <div className="flex flex-row justify-between ">
                   <input
                     type="text"
+                    id="id"
                     className="min-w-[70%] px-3 py-1 md:px-4 md:py-2 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
                     onChange={ChangeNickname}
+                    onKeyUp={chkCharCode}
                   />
                   <div
                     className="px-3 py-1 md:px-4 md:py-2 border-2 bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
@@ -196,12 +257,23 @@ const Join = () => {
                 <div className="text-[#A87C6E] font-extrabold text-base">
                   비밀번호확인
                 </div>
-                <div className="flex flex-row ">
+                <div className="flex flex-col ">
                   <input
                     type="text"
                     className="min-w-[100%] px-3 py-1 md:px-4 md:py-2 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
-                    onChange={ChangePasswordCheck}
+                    onChange={onChangePasswordConfirm}
+                    title="비밀번호 확인"
                   />
+
+                  {PasswordCheck && PasswordCheck.length > 0 && (
+                    <span
+                      className={`message ${
+                        isPasswordConfirm ? "success" : "error"
+                      }`}
+                    >
+                      {passwordConfirmMessage}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="my-4">
@@ -224,7 +296,7 @@ const Join = () => {
                   </div>
                 </div>
               </div>
-              <div className="my-2 hidden">
+              <div className="my-2">
                 <div className="text-[#A87C6E] font-extrabold text-base">
                   인증번호
                 </div>
@@ -245,13 +317,13 @@ const Join = () => {
                 </div>
               </div>
               <div className="w-full">
-                <div
-                  className="pt-3 cursor-pointer"
-                  onClick={() => {
-                    GoJoin();
-                  }}
-                >
-                  <div className="flex justify-center items-center h-[3.5rem] rounded-lg font-extrabold bg-[#F0ECE9] text-[#A87E6E]">
+                <div className="pt-3 cursor-pointer">
+                  <div
+                    className="flex justify-center items-center h-[3.5rem] rounded-lg font-extrabold bg-[#F0ECE9] text-[#A87E6E]"
+                    onClick={() => {
+                      GoJoin();
+                    }}
+                  >
                     <div>가입하기</div>
                   </div>
                 </div>
