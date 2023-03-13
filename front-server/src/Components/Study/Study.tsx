@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function Study({question, studyType,num,setNum,correct,setCorrect,wrong,setWrong,setSemo}:any): JSX.Element {
+function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,setSemo, setRight, openModal}:any): JSX.Element {
 
   // 초성 뽑아내기
   const cho = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
@@ -13,7 +13,35 @@ function Study({question, studyType,num,setNum,correct,setCorrect,wrong,setWrong
 
   const [hint, setHint] = useState<Boolean>(false);
 
+  const [input, setInput] = useState("");
+  const onChange = (e:any)  => {
+    setInput(e.target.value)
+  }
 
+  const submit = () => {
+    console.log("here")
+    setInput("")
+
+    //정답
+    if(input === question[num].word_name) {
+      // 힌트를 보고 맞춤 => 맞춤, semo 개수++, hint 원상복귀, modal open
+      if(hint) {
+        setSemo(semo+1)
+        setHint(false)
+      }
+      // 힌트 안보고 맞춤 => 맞춤, correct에 추가, modal open
+      else {
+        setCorrect([...correct,question[num].word_id])
+      }
+      setRight(true)
+      openModal()
+    }
+
+    // 오답 -> toast 띄우기
+    else{
+      
+    }
+  }
 
   return(
     <>
@@ -38,8 +66,9 @@ function Study({question, studyType,num,setNum,correct,setCorrect,wrong,setWrong
             </div>
             <div>
               <div className="relative">
-                <input type="answer" id="answer" className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="정답을 입력하세요." required/>
-                <button type="submit" className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 ">제출</button>
+                <input type="text" value={input} className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="정답을 입력하세요." 
+                required onChange={(e:any)=>onChange(e)}/>
+                <button type="submit" onClick={()=>submit()} className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 ">제출</button>
               </div>
             </div>
           </div>
