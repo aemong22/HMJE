@@ -28,6 +28,18 @@ function Login(): JSX.Element {
     setPassword(event.target.value);
   };
 
+  // const go: React.MouseEventHandler<HTMLButtonElement> | undefined = (
+  //   event: React.DOMAttributes<HTMLButtonElement>,
+  // ) => {
+  //   if (event.target.id === "forgetPassword") {
+  //     navigate("forgetpassword");
+  //   } else if (event.target.id === "forgetId") {
+  //     navigate("forgetid");
+  //   } else if (event.target.id === "join") {
+  //     navigate("/join");
+  //   }
+  // };
+
   const ForgetPassword = () => {
     navigate("/forgetpassword");
   };
