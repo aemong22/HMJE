@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
 import API from "../Common/Api";
-import axios from "axios";
+
+var pattern2 = /[a-zA-Z]/; //영어
 
 const Join = () => {
   const navigate = useNavigate();
@@ -27,9 +28,12 @@ const Join = () => {
     setPasswordCheck(event.target.value);
   };
   const ChangeNickname = (event: any): void => {
+    event.preventDefault();
     console.log(event.target.value);
     setNickname(event.target.value);
+    // CheckEnglish();
   };
+
   const ChangePhonenum = (event: any): void => {
     console.log(event.target.value);
     setPhonenum(event.target.value);
@@ -114,6 +118,20 @@ const Join = () => {
     });
   };
 
+  const CheckEnglish = () => {
+    if (pattern2.test(Nickname)) {
+      alert("영어가 포함됩니다."); //false
+    }
+  };
+  const chkCharCode = (event: any) => {
+    const regExp = /[^0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g;
+    const ele = event.target;
+    if (regExp.test(ele.value)) {
+      ele.value = ele.value.replace(regExp, "");
+      setNickname(ele.value);
+    }
+  };
+
   return (
     <>
       <div className="flex flex-col justify-between h-[100vh]">
@@ -167,8 +185,10 @@ const Join = () => {
                 <div className="flex flex-row justify-between ">
                   <input
                     type="text"
+                    id="id"
                     className="min-w-[70%] px-3 py-1 md:px-4 md:py-2 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
                     onChange={ChangeNickname}
+                    onKeyUp={chkCharCode}
                   />
                   <div
                     className="px-3 py-1 md:px-4 md:py-2 border-2 bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
