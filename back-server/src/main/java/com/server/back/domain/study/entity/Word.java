@@ -4,6 +4,8 @@ package com.server.back.domain.study.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -21,10 +23,10 @@ public class Word {
 	private Integer wordIso;
 	private String wordType;
 	private String wordRating;
-	private String wordClass;
 	private String wordOrigin;
-	private String wordDetail; // 이후에 리스트로 분기할수도
-	private String wordExample; // 이후에 리스트로 분기할수도
-	private String wordRelation; // 이후에 리스트로 분기할수도
+
+	@OneToMany(mappedBy = "word", fetch = FetchType.LAZY)
+	private List<WordDetail> wordDetailList = new ArrayList<>();
+
 
 }
