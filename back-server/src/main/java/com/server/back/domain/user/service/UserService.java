@@ -18,4 +18,5 @@ public interface UserService {
     void userDelete(Long userId);
     void updateBadge(Long userId, Long badgeId);
     void updateStudyResult(StudyRequestDto requestDto);
+    void updateStudyExp(Long userId,Integer rightexp);
 }

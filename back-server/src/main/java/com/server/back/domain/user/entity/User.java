@@ -31,13 +31,13 @@ public class User extends CommonEntity {
 
     private Integer exp;
     //    @Column(nullable = false)
-    private Integer semo;
+    private Integer todaysemo;
     //    @Column(nullable = false)
-    private Integer totalTime;
+//    private Integer totalTime;
+//        @Column(nullable = false)
+    private Integer todayRight;
     //    @Column(nullable = false)
-    private Integer totalRight;
-    //    @Column(nullable = false)
-    private Integer totalWrong;
+    private Integer todayWrong;
     //    @Column(nullable = false)
 
     private Boolean isAdmin;
@@ -81,8 +81,11 @@ public class User extends CommonEntity {
         this.nowBadge = badge;
     }
     public void updateResult(Integer semo, Integer wrongCount, Integer rightCount){
-        this.semo = this.semo + semo;
-        this.totalRight = this.totalRight + rightCount;
-        this.totalWrong = this.totalWrong + wrongCount;
+        this.todaysemo = this.todaysemo + semo;
+        this.todayRight = this.todayRight + rightCount;
+        this.todayWrong = this.todayWrong + wrongCount;
+    }
+    public void updateExp(Integer rightExp){
+        this.exp = this.exp + rightExp;
     }
 }

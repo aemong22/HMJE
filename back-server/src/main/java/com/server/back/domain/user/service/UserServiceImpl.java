@@ -41,10 +41,9 @@ public class UserServiceImpl implements UserService {
                 .phoneNumber(requestDto.getPhoneNumber())
                 .level(0)
                 .exp(0)
-                .semo(0)
-                .totalTime(0)
-                .totalRight(0)
-                .totalWrong(0)
+                .todaysemo(0)
+                .todayRight(0)
+                .todayWrong(0)
                 .isAdmin(requestDto.getIsAdmin())
                 .isSecession(requestDto.getIsSecession())
                 .build();
@@ -118,5 +117,10 @@ public class UserServiceImpl implements UserService {
         Integer rightCount = requestDto.getRightIdList().size();
         User user = userRepository.findByUserId(requestDto.getUserId());
         user.updateResult(requestDto.getSemo(), wrongCount, rightCount);
+    }
+    @Override
+    public void updateStudyExp(Long userId,Integer rightExp){
+        User user = userRepository.findByUserId(userId);
+        user.updateExp(rightExp);
     }
 }
