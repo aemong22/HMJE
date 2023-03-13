@@ -12,30 +12,20 @@ function Login(): JSX.Element {
   const [Id, setId] = useState<input>();
   const [Password, setPassword] = useState<input>();
 
-  const TextSize: number = 3; //가입하기 32 기준
-  const defaultnum: number = 25;
-  const HongSize: number = (TextSize * 60) / defaultnum;
-  const TitleSize: number = (TextSize * 25) / defaultnum;
-  const EnterSize: number = (TextSize * 32) / defaultnum;
-  const SmallSize: number = (TextSize * 16) / defaultnum;
-
   const ChangeId = (event: any): void => {
-    // console.log(event.target.value);
     setId(event.target.value);
   };
   const ChangePassword = (event: any): void => {
-    // console.log(event.target.value);
     setPassword(event.target.value);
   };
-
-  const ForgetPassword = () => {
-    navigate("/forgetpassword");
-  };
-  const ForgetId = () => {
-    navigate("/forgetid");
-  };
-  const GoJoin = () => {
-    navigate("/join");
+  const Nav = (e: any) => {
+    if (e.target.id === "forgetPassword") {
+      navigate("/forgetpassword");
+    } else if (e.target.id === "forgetId") {
+      navigate("/forgetid");
+    } else if (e.target.id === "join") {
+      navigate("/join");
+    }
   };
 
   const Enter = () => {
@@ -69,9 +59,9 @@ function Login(): JSX.Element {
           {/* <!-- Container --> */}
           <div className="flex flex-row justify-center w-full">
             {/* <!-- Login --> */}
-            <div className="flex flex-col items-center justify-center px-10 relative">
+            <div className="flex flex-col items-center justify-center px-10">
               {/* <!-- Login box --> */}
-              <div className="flex flex-col  justify-center">
+              <div className="flex flex-col justify-center">
                 <div className="flex flex-col items-center space-y-2 text-center">
                   <div className="text-5xl font-extrabold text-[#A87E6E] md:text-6xl">
                     홍민정음
@@ -80,7 +70,7 @@ function Login(): JSX.Element {
                     즐거운 단어 학습
                   </div>
                 </div>
-                <div className="flex flex-col max-w-xl w-[50rem] space-y-5">
+                <div className="flex flex-col max-w-xl w-[100%] lg:w-[50rem] space-y-5">
                   <div className="text-[#A87C6E] font-extrabold text-[22px] leading-7">
                     계정
                   </div>
@@ -109,20 +99,23 @@ function Login(): JSX.Element {
                     className={`flex flex-row-reverse items-center text-[#666666]  h-4 text-base`}
                   >
                     <div
+                      id="forgetPassword"
                       className=" cursor-pointer font-extrabold "
-                      onClick={ForgetPassword}
+                      onClick={Nav}
                     >
                       비밀번호 찾기
                     </div>
                     <div
+                      id="forgetId"
                       className=" cursor-pointer font-extrabold px-10"
-                      onClick={ForgetId}
+                      onClick={Nav}
                     >
-                      또이름 찾기{" "}
+                      계정 찾기{" "}
                     </div>
                     <div
+                      id="join"
                       className=" cursor-pointer font-extrabold "
-                      onClick={GoJoin}
+                      onClick={Nav}
                     >
                       가입하기
                     </div>
