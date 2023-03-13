@@ -1,17 +1,20 @@
 // createSlice: store state 생성 (name: state 변수 이름, initialState: 초기 데이터, reducers: state 변경 함수)
-import { createSlice, configureStore, PayloadAction } from "@reduxjs/toolkit";
-
-
+import { createSlice, configureStore, PayloadAction, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/dist/query";
+import { hmjeApi } from "./api"
 
 
 //
 export const store = configureStore({
   // store에서 만든 state를 전역에서 사용할 수 있도록 등록하기
   reducer: {
-    
+    [hmjeApi.reducerPath]: hmjeApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(hmjeApi.middleware),
 });
 //주석추가
+setupListeners(store.dispatch)
 
 
 // store의 타입 미리 export 해둔 것.
