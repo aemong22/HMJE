@@ -12,7 +12,7 @@ const Join = () => {
   const [PasswordCheck, setPasswordCheck] = useState<string>();
   const [Nickname, setNickname] = useState<string>("");
   const [Phonenum, setPhonenum] = useState<string>("");
-  const [Authnum, setAuthnum] = useState<number>();  
+  const [Authnum, setAuthnum] = useState<number>();
 
   function ChangeName(event: any): void {
     console.log(event.target.value);
@@ -74,26 +74,21 @@ const Join = () => {
 
   // 인증번호 전송
   const SendAuthnum = (phonenum: string): void => {
-    console.log("폰번호확인", Phonenum);
-    //
+    console.log("폰번호확인", phonenum);
     API.post(`/sms/send/newbie`, {
-      isAdmin: false,
-      isSecession: false,
-      nickname: Nickname,
-      password: Password,
-      phoneNumber: Phonenum,
-      username: Name,
-      role: "newbie",
+      to: phonenum,
     }).then((r) => {
       console.log("전화번호 중복 결과", r.data);
     });
   };
 
   const CheckAuthnum = (authnum: number | undefined): void => {
-    // if (Authnum == 1) {
-    // } else {
-    // }
-    // 인증번호확인axios
+    API.post(`/user/modify`, {
+      modifyNumber: authnum,
+      phoneNumber: Phonenum,
+    }).then((r) => {
+      console.log(r.data);
+    });
   };
 
   const GoJoin = (): void => {

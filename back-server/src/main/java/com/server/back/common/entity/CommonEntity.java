@@ -13,9 +13,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.EntityListeners;
+import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
-
+@MappedSuperclass
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
