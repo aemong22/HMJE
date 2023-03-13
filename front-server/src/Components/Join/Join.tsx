@@ -224,7 +224,7 @@ const Join = () => {
                   </div>
                 </div>
               </div>
-              <div className="my-2">
+              <div className="my-2 hidden">
                 <div className="text-[#A87C6E] font-extrabold text-base">
                   인증번호
                 </div>
