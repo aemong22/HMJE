@@ -5,7 +5,6 @@ import com.server.back.domain.study.entity.*;
 import com.server.back.domain.study.repository.*;
 import com.server.back.domain.user.entity.User;
 import com.server.back.domain.user.repository.UserRepository;
-import com.server.back.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,41 +24,60 @@ public class StudyServiceImpl implements StudyService{
     private final DogamResultRepository dogamResultRepository;
 
     @Override
-    public void wordResult(StudyRequestDto requestDto) {
+    public Integer wordResult(StudyRequestDto requestDto) {
+        int rightCount = 0;
         User user = userRepository.findByUserId(requestDto.getUserId());
         for (Long i : requestDto.getRightIdList()) {
             Word word = wordRepository.findByWordId(i);
+            WrongWord wrong = wrongWordRepository.findByWordAndUser(word, user);
+            //틀렸던 문제인지 확인
+            if (!wrong.equals(null)){
+                //틀렸던 문제이면 틀린문제에서는 삭제
+                wrongWordRepository.delete(wrong);
+            }
             RightWord rightWord = RightWord.builder()
-                    .userId(user)
-                    .wordId(word)
+                    .user(user)
+                    .word(word)
                     .build();
             rightWordRepository.save(rightWord);
+            //경험치
+            rightCount += 1;
         }
         for (Long j : requestDto.getWrongIdList()) {
             Word word = wordRepository.findByWordId(j);
-            WrongWord wrongWord = WrongWord.builder()
-                    .userId(user)
-                    .wordId(word)
-                    .build();
-            wrongWordRepository.save(wrongWord);
+            WrongWord wrong = wrongWordRepository.findByWordAndUser(word, user);
+            //틀린 문제 리스트에 없으면 추가해주기
+            if (wrong.equals(null)){
+                WrongWord wrongWord = WrongWord.builder()
+                        .user(user)
+                        .word(word)
+                        .build();
+                wrongWordRepository.save(wrongWord);
+            }
         }
+        return rightCount;
     }
+
     @Override
-    public void contextResult(StudyRequestDto requestDto) {
+    public List<Long> contextResult(StudyRequestDto requestDto) {
         User user = userRepository.findByUserId(requestDto.getUserId());
-        List<Long> badgeli = new ArrayList<>();
+        List<Long> newDogamli = new ArrayList<>();
         for (Long i : requestDto.getRightIdList()) {
             Dogam dogam = dogamRepository.findDogamByDogamId(i);
             DogamResult d = dogamResultRepository.findByDogamIdAndUserId(dogam,user);
-            if (!d.equals(null)){
+            //획득한 도감에 없으면
+            if (d.equals(null)){
+                //도감 생성
                 DogamResult dogamresult = DogamResult.builder()
                         .userId(user)
                         .dogamId(dogam)
                         .build();
                 dogamResultRepository.save(dogamresult);
-                badgeli.add(dogam.getDogamId());
+                //획득한 뱃지로 결과 보내주기
+                newDogamli.add(dogam.getDogamId());
             }
         }
-//        return badgeli;
+        //경험치
+        return newDogamli;
     }
 }
