@@ -113,4 +113,12 @@ public class UserController {
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    @ApiOperation(value = "학습시간,단어,문맥,통계 ")
+    @PutMapping("/mystudy/{userId}")
+    public ResponseEntity<Map<String, Object>> mystudy(@PathVariable(value = "userId") Long userId){
+        Map<String, Object> response = new HashMap<>();
+        userService.mystudy(userId);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

@@ -5,7 +5,10 @@ import com.server.back.common.repository.RefreshTokenRepository;
 
 import com.server.back.domain.study.dto.StudyRequestDto;
 import com.server.back.domain.study.dto.StudyTimeRequestDto;
+import com.server.back.domain.study.entity.RightWord;
+import com.server.back.domain.study.repository.RightWordRepository;
 import com.server.back.domain.user.dto.BadgeResultResponseDto;
+import com.server.back.domain.user.dto.StudyResponseDto;
 import com.server.back.domain.user.dto.UserRequestDto;
 import com.server.back.domain.user.dto.UserResponseDto;
 import com.server.back.domain.user.entity.Badge;
@@ -35,6 +38,7 @@ public class UserServiceImpl implements UserService {
     private final BadgeResultRepository badgeresultRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final StudyTimeRepository studyTimeRepository;
+    private final RightWordRepository rightWordRepository;
 
     @Override
     public void join(UserRequestDto requestDto) {
@@ -137,5 +141,22 @@ public class UserServiceImpl implements UserService {
                 .studyType(requestDto.getStudyType())
                 .build();
         studyTimeRepository.save(studytime);
+    }
+    @Override
+    public StudyResponseDto mystudy(Long userId){
+        User user = userRepository.findByUserId(userId);
+        Integer totalword = rightWordRepository.findAllByUser(user).size();
+        StudyResponseDto responseDto = StudyResponseDto.builder()
+                .todayWord(totalword)
+                .totalWord()
+                .todayContext()
+                .totalContext()
+                .todayTime()
+                .totalTime()
+                .statsRight()
+                .statsWrong()
+                .statsSemo()
+                .build();
+        return responseDto;
     }
 }
