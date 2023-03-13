@@ -6,6 +6,8 @@ import API from "../Common/Api";
 
 var pattern2 = /[a-zA-Z]/; //영어
 
+var pattern2 = /[a-zA-Z]/; //영어
+
 const Join = () => {
   const navigate = useNavigate();
 
@@ -41,6 +43,7 @@ const Join = () => {
     setPasswordCheck(event.target.value);
   };
   const ChangeNickname = (event: any): void => {
+    event.preventDefault();
     event.preventDefault();
     console.log(event.target.value);
     setNickname(event.target.value);
