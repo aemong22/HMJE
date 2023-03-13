@@ -23,7 +23,7 @@ public class StudyController {
     private final UserService userService;
 
     @ApiOperation(value = "단어학습 문제")
-    @GetMapping("/study/word")
+    @GetMapping("/word")
     public ResponseEntity<Map<String, Object>> wordQuestion(Long userId){
         Map<String, Object> response = new HashMap<>();
         List<Word> wordQuestion = studyService.wordQuestion(userId);
@@ -45,7 +45,7 @@ public class StudyController {
     }
 
     @ApiOperation(value = "문맥학습 문제")
-    @GetMapping("/study/context")
+    @GetMapping("/context")
     public ResponseEntity<Map<String, Object>> contextQuestion(){
         Map<String, Object> response = new HashMap<>();
         List<Dogam> contextQuestion = studyService.contextQuestion();
@@ -65,5 +65,11 @@ public class StudyController {
         response.put("data", newDogamli);
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "학습 시간 관리")
+    @PostMapping("/studytime")
+    public void studyTime(@RequestBody StudyTimeRequestDto requestDto){
+
     }
 }
