@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Transactional
@@ -63,7 +65,7 @@ public class StudyServiceImpl implements StudyService{
         User user = userRepository.findByUserId(requestDto.getUserId());
         List<Long> newDogamli = new ArrayList<>();
         for (Long i : requestDto.getRightIdList()) {
-            Dogam dogam = dogamRepository.findDogamByDogamId(i);
+            Dogam dogam = dogamRepository.findByDogamId(i);
             DogamResult d = dogamResultRepository.findByDogamIdAndUserId(dogam,user);
             //획득한 도감에 없으면
             if (d == null){
@@ -79,5 +81,55 @@ public class StudyServiceImpl implements StudyService{
         }
         //경험치
         return newDogamli;
+    }
+
+    @Override
+    public List<Dogam> contextQuestion(){
+        //랜덤 5문제 (숫자) 뽑기
+        Set<Long> set = new HashSet<>();
+        while (set.size() < 5) {
+            Double d = Math.random() * 10 + 1;                        // 문맥학습 문제 갯수~!~!~!
+            set.add(d.longValue());
+        }
+        List<Long> list = new ArrayList<>(set);
+        //도감 리스트로 변신
+        List<Dogam> DogamQuestion = new ArrayList<>();
+        for (Long i : list){
+            Dogam dogam = dogamRepository.findByDogamId(i);
+            DogamQuestion.add(dogam);
+        }
+        return DogamQuestion;
+    }
+    @Override
+    public List<Word> wordQuestion(Long userId){
+        User user = userRepository.findByUserId(userId);
+        Set<Word> wordQuestion = new HashSet<>(); //문제 리스트 준비
+        Set<Long> set = new HashSet<>(); //랜덤 10문제 (숫자) 뽑기
+        List<WrongWord> myWrong = wrongWordRepository.findAllByUser(user);
+        if (myWrong.size() < 3){
+            for (WrongWord m : myWrong){
+                set.add(m.getWord().getWordId());
+                wordQuestion.add(m.getWord());
+            }
+        }else{
+            while (set.size() < 2) {
+                Double d = Math.random() * myWrong.size() + 1;
+                Word word = wordRepository.findByWordId(d.longValue());
+                set.add(d.longValue());
+                wordQuestion.add(word);
+            }
+        }
+        while (set.size() < 10) {
+            Double d = Math.random() * 20 + 1;                                           //단어학습 단어 갯수//////////
+            Word word = wordRepository.findByWordId(d.longValue());
+            WrongWord wrong = wrongWordRepository.findByWordAndUser(word, user);
+            RightWord right = rightWordRepository.findByWordAndUser(word, user);
+            if (wrong == null && right == null){
+                set.add(d.longValue());
+                wordQuestion.add(word);
+            }
+        }
+        List<Word> WordQuestion = new ArrayList<>(wordQuestion);
+        return WordQuestion;
     }
 }
