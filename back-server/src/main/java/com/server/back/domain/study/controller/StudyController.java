@@ -1,9 +1,11 @@
 package com.server.back.domain.study.controller;
 
 import com.server.back.domain.study.dto.StudyRequestDto;
+import com.server.back.domain.study.dto.StudyTimeRequestDto;
 import com.server.back.domain.study.entity.Dogam;
 import com.server.back.domain.study.entity.Word;
 import com.server.back.domain.study.service.StudyService;
+import com.server.back.domain.user.repository.StudyTimeRepository;
 import com.server.back.domain.user.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +23,10 @@ import java.util.Map;
 public class StudyController {
     private final StudyService studyService;
     private final UserService userService;
+    private final StudyTimeRepository studyTimeRepository;
 
     @ApiOperation(value = "단어학습 문제")
-    @GetMapping("/study/word")
+    @GetMapping("/word")
     public ResponseEntity<Map<String, Object>> wordQuestion(Long userId){
         Map<String, Object> response = new HashMap<>();
         List<Word> wordQuestion = studyService.wordQuestion(userId);
@@ -45,7 +48,7 @@ public class StudyController {
     }
 
     @ApiOperation(value = "문맥학습 문제")
-    @GetMapping("/study/context")
+    @GetMapping("/context")
     public ResponseEntity<Map<String, Object>> contextQuestion(){
         Map<String, Object> response = new HashMap<>();
         List<Dogam> contextQuestion = studyService.contextQuestion();
@@ -63,6 +66,16 @@ public class StudyController {
         int badgeExp = newDogamli.size()*30;
         userService.updateStudyExp(requestDto.getUserId(), badgeExp); //경험치 부여
         response.put("data", newDogamli);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "학습 시간 관리")
+    @PostMapping("/studytime")
+    public ResponseEntity<Map<String, Object>> studyTime(@RequestBody StudyTimeRequestDto requestDto){
+        Map<String, Object> response = new HashMap<>();
+         userService.studyTime(requestDto);
+//        response.put("data", "");
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
