@@ -24,7 +24,7 @@ const Join = () => {
   };
   const ChangePasswordCheck = (event: any): void => {
     console.log(event.target.value);
-    console.log(typeof event.target.value);
+    console.log(event.target.value);
     setPasswordCheck(event.target.value);
     SameCheck(event.tartget.value);
   };
@@ -116,7 +116,40 @@ const Join = () => {
     });
   };
 
-  const SameCheck = (test: string) => {
+  const CheckEnglish = () => {
+    if (pattern2.test(Nickname)) {
+      alert("영어가 포함됩니다."); //false
+    }
+  };
+  const chkCharCode = (event: any) => {
+    const regExp = /[^0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g;
+    const ele = event.target;
+    if (regExp.test(ele.value)) {
+      ele.value = ele.value.replace(regExp, "");
+      setNickname(ele.value);
+    }
+  };
+  // 비밀번호 확인
+  const onChangePasswordConfirm = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const passwordConfirmCurrent = e.target.value;
+      setPasswordCheck(passwordConfirmCurrent);
+      console.log(passwordConfirmCurrent);
+
+      if (Password === passwordConfirmCurrent) {
+        setPasswordConfirmMessage("비밀번호를 똑같이 입력했어요 : )");
+        // alert("비밀번호를 똑같이 입력했어요 : )");
+        console.log("비밀번호를 똑같이 입력했어요 : )");
+        setIsPasswordConfirm(true);
+      } else {
+        setPasswordConfirmMessage("비밀번호가 틀려요. 다시 확인해주세요 ㅜ ㅜ");
+        setIsPasswordConfirm(false);
+      }
+    },
+    [Password],
+  );
+
+  const SameCheck = (test: any) => {
     console.log("props넘어오는값", test);
     console.log("Password", Password);
   };
