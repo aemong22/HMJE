@@ -17,7 +17,7 @@ function AdminExamSection1():JSX.Element {
     <div className="w-full border-b-2">
       <div className="container max-w-screen-lg w-[90%] lg:w-full mx-auto">
         <div className="flex justify-center mb-10">
-          <span className="pt-28 text-[1.5rem] md:text-[1.8rem] text-[#A87E6E] font-bold">
+          <span className="pt-14 text-[1.8rem] md:text-[2rem] text-[#A87E6E] font-bold  border-b-[#A87E6E]/70 border-b-4">
             알림공간
           </span>
         </div>
