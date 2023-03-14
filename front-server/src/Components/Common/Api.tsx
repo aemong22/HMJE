@@ -66,13 +66,15 @@ API.interceptors.request.use(
     // 토큰이 null인 경우
     // 로그인 / 회원가입
     else {
-      console.log("accessToken없당");      
+      console.log("accessToken없당");
       // 뭐해야하지?
     }
     return config;
   },
 
   function (err) {
+    console.log("error당", err.data);
+
     return Promise.reject(err.data);
   },
 );
@@ -85,7 +87,9 @@ API.interceptors.response.use(
     return config;
   },
   function (err) {
-    return Promise.reject(err);
+    console.log("response 받은 값 : ", err);
+    // return Promise.reject(err);
+    return err
   },
 );
 

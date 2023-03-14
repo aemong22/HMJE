@@ -25,24 +25,48 @@ function Login(): JSX.Element {
       navigate("/forgetid");
     } else if (e.target.id === "join") {
       navigate("/join");
+    } else if (e.target.id === "enter") {
+      // axios 입장하기
+      Api.post("/login", {
+        password: Password,
+        username: Id,
+      }).then((r) => {
+        console.log("받는 데이터", r.data);
+
+        // const accessToken = r.data.accessToken;
+        // const refreshToken = r.data.refreshToken;
+        // console.log("accessToken", accessToken);
+        // console.log("refreshToken", refreshToken);
+        // localStorage.setItem("accessToken", accessToken);
+        // localStorage.setItem("refreshToken", refreshToken);
+        // navigate("/main");
+      });
     }
   };
 
   const Enter = () => {
     // axios 입장하기
+    console.log(Id);
+    console.log(Password);
+
     Api.post("/login", {
       password: Password,
       username: Id,
     }).then((r) => {
-      console.log("받는 데이터", r.data);
-
-      const accessToken = r.data.accessToken;
-      const refreshToken = r.data.refreshToken;
-      console.log("accessToken", accessToken);
-      console.log("refreshToken", refreshToken);
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-      navigate("/main");
+      console.log("로그인 하면 받는 데이터", r.request.status);
+      // console.log("받는 데이터", r.data. === "200");
+      if (r.request.status === "200") {
+        const accessToken = r.data.accessToken;
+        const refreshToken = r.data.refreshToken;
+        console.log("accessToken", accessToken);
+        console.log("refreshToken", refreshToken);
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        navigate("/main");
+      } else if (r.request.status === 401 || r.request.status === 500) {
+        console.log("password가 틀렸습니다");
+        console.log("ID가 틀렸습니다");
+      }
     });
   };
 
