@@ -1,12 +1,13 @@
 @keyframes cycle {
   0% {
-    right: 0vw;
+    /* right: 0vw; */
+    transform: translateX(0vw);
   }
   50% {
-    right: 95vw;
+    transform: translateX(-93vw);
   }
   100% {
-    right: 0vw;
+    transform: translateX(0vw);
   }
 }
 
