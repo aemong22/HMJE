@@ -15,6 +15,7 @@ import AdminMain from "./Components/Admin/AdminMain";
 import AdminExam from "./Components/Admin/AdminExam";
 import AdminContext from "./Components/Admin/AdminContext";
 import AdminBadge from "./Components/Admin/AdminBadge";
+import CheckTest from "./Components/Admin/CheckTest";
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
           <Route path="badge" element={<AdminBadge/>}/>
           <Route path="context" element={<AdminContext/>}/>
           <Route path="exam" element={<AdminExam/>}/>
+          <Route path="check" element={<CheckTest/>}/>
         </Route>
       </Routes>
     </>
