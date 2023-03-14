@@ -74,7 +74,7 @@ public class StudyController {
     @PostMapping("/studytime")
     public ResponseEntity<Map<String, Object>> studyTime(@RequestBody StudyTimeRequestDto requestDto){
         Map<String, Object> response = new HashMap<>();
-        userService.studyTime(requestDto);
+         userService.studyTime(requestDto);
 //        response.put("data", "");
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
