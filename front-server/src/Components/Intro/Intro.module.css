@@ -1,0 +1,24 @@
+@keyframes moveLeft {
+  from {
+    transform: translate3d(-10rem,0px,0px);
+  }
+  to {
+    transform: translate3d(-150rem,0px,0px);
+  }
+}
+@keyframes moveRight {
+  from {
+    transform: translate3d(-150rem,0px,0px);
+  }
+  to {
+    transform: translate3d(-10rem,0px,0px);
+  }
+}
+.moveCard1 {
+  animation: moveLeft 110s infinite linear;
+}
+
+.moveCard2 {
+  animation: moveRight 100s infinite linear;
+}
+

@@ -9,6 +9,13 @@ import MyPage from "./Components/MyPage/MyPage";
 import Join from "./Components/Join/Join";
 import Main from "./Components/Main/Main";
 import Dictionary from "./Components/Dictionary/Dictionary";
+import AdminUser from "./Components/Admin/AdminUser";
+import AdminPage from "./Components/Admin/AdminPage";
+import AdminMain from "./Components/Admin/AdminMain";
+import AdminExam from "./Components/Admin/AdminExam";
+import AdminContext from "./Components/Admin/AdminContext";
+import AdminBadge from "./Components/Admin/AdminBadge";
+
 
 function App() {
   const notify = () => toast("Wow so easy!");
@@ -21,6 +28,13 @@ function App() {
         <Route path="/join" element={<Join />} />
         <Route path="/main" element={<Main />} />
         <Route path="/dictionary" element={<Dictionary />} />
+        <Route path="/admin" element={<AdminPage/>}>
+          <Route path="" element={<AdminMain/>}/>
+          <Route path="user" element={<AdminUser/>}/>
+          <Route path="badge" element={<AdminBadge/>}/>
+          <Route path="context" element={<AdminContext/>}/>
+          <Route path="exam" element={<AdminExam/>}/>
+        </Route>
       </Routes>
     </>
   );

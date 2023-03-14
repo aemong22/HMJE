@@ -1,0 +1,11 @@
+.testChoiceBtn {
+  border-bottom: solid 4px #A87E6E;
+  transition: all .6s;
+}
+.testChoiceBtnHover:hover {
+  color: white;
+  background-color: #b99384;
+  border-radius: 12px;
+  transition: all .6s;
+  border-bottom: none;
+}
