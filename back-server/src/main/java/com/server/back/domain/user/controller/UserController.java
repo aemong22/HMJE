@@ -3,11 +3,8 @@ package com.server.back.domain.user.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.server.back.common.dto.TokenRequestDto;
 import com.server.back.common.service.JwtService;
-import com.server.back.domain.user.dto.BadgeResultResponseDto;
-import com.server.back.domain.user.dto.StudyResponseDto;
-import com.server.back.domain.user.dto.UserRequestDto;
+import com.server.back.domain.user.dto.*;
 
-import com.server.back.domain.user.dto.UserResponseDto;
 import com.server.back.domain.user.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -119,6 +116,15 @@ public class UserController {
     public ResponseEntity<Map<String, Object>> mystudy(@PathVariable(value = "userId") Long userId){
         Map<String, Object> response = new HashMap<>();
         StudyResponseDto responseDto = userService.mystudy(userId);
+        response.put("data", responseDto);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @ApiOperation(value = "학습시간,단어,문맥,통계 한달치 ")
+    @PostMapping("/monthstudy/{userId}")
+    public ResponseEntity<Map<String, Object>> monthstudy(@PathVariable(value = "userId") Long userId, @RequestBody MonthStudyRequestDto requestDto){
+        Map<String, Object> response = new HashMap<>();
+        List<MonthStudyResponseDto> responseDto = userService.monthstudy(userId,requestDto);
         response.put("data", responseDto);
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
