@@ -1,10 +1,20 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useLocation } from "react-router-dom"
+import internal from "stream"
 import Navbar from "../Common/Navbar"
 import AnswerModal from "./AnswerModal"
 import ResultModal from "./ResultModal"
 import Study from "./Study"
 
 function WordStudy(): JSX.Element {
+
+  // 학습 종류
+  const location = useLocation();
+  const [studyType, setStudyType] = useState<String>();
+  useEffect(()=> {
+    setStudyType((location.pathname).replace("/",""));
+  },[])
+
   const question: object = [{
     word_id: 123,
     word_name: "무지개",
@@ -45,40 +55,45 @@ function WordStudy(): JSX.Element {
     word_name: "강아지",
     word_type: "명사",
     word_rating: "초급",
-    word_detail: "개의 새끼.4",
+    word_detail: "개의 새끼.5",
     word_example: "우리 집 개가 어제 강아지 다섯 마리를 낳았다.",
   },{
     word_id: 129,
     word_name: "강아지",
     word_type: "명사",
     word_rating: "초급",
-    word_detail: "개의 새끼.4",
+    word_detail: "개의 새끼.6",
     word_example: "우리 집 개가 어제 강아지 다섯 마리를 낳았다.",
   },{
     word_id: 130,
     word_name: "강아지",
     word_type: "명사",
     word_rating: "초급",
-    word_detail: "개의 새끼.4",
+    word_detail: "개의 새끼.7",
     word_example: "우리 집 개가 어제 강아지 다섯 마리를 낳았다.",
   },{
     word_id: 131,
     word_name: "강아지",
     word_type: "명사",
     word_rating: "초급",
-    word_detail: "개의 새끼.4",
+    word_detail: "개의 새끼.8",
     word_example: "우리 집 개가 어제 강아지 다섯 마리를 낳았다.",
   },{
     word_id: 132,
     word_name: "강아지",
     word_type: "명사",
     word_rating: "초급",
-    word_detail: "개의 새끼.4",
+    word_detail: "개의 새끼.9",
     word_example: "우리 집 개가 어제 강아지 다섯 마리를 낳았다.",
   }] 
   
   // 학습 시작 시간
-  const startTime = Date.now()
+  const [startTime, setstartTime] = useState<any>();
+
+  useEffect(()=>{
+    setstartTime(Date.now())
+  },[])
+
 
   // 학습 마무리 시간
 
@@ -97,9 +112,6 @@ function WordStudy(): JSX.Element {
   // 정답, 오답 모달
   const [modalOpen, setModalOpen ] = useState<Boolean>(false);
 
-  // 결과 모달
-  const [resultModal, setResultModal] = useState<Boolean>(true);
-
   const openModal = () => {
     setModalOpen(true)
   }
@@ -108,38 +120,42 @@ function WordStudy(): JSX.Element {
     setModalOpen(false)
   }
 
+  // 결과 모달
+  const [resultModal, setResultModal] = useState<Boolean>(false);
+
   // 맞힘 틀림
   const [right, setRight] = useState<Boolean>(false);
   
-
   return (
     <>
       <Navbar/>
       <Study 
         question={question}
-        studyType="word" 
+        studyType={studyType} 
         num={num}
         correct={correct} setCorrect={setCorrect} 
         wrong={wrong} setWrong={setWrong}
         semo={semo}
         setSemo={setSemo}
-        setRight={setRight}
+        right={right} setRight={setRight}
+        setResultModal={setResultModal}
         openModal={openModal}/>
 
       { modalOpen ? 
         <AnswerModal 
           closeModal={closeModal} 
-          studyType="word"
+          studyType={studyType} 
           setRight={setRight}
           right={right} 
           num={num} 
-          setNum={setNum} 
+          setNum={setNum}
+          setResultModal={setResultModal} 
           question={question
         }/> : null }
 
         {resultModal ? 
           <ResultModal 
-            studyType="word"
+            studyType={studyType} 
             setResultModal={setResultModal}
             correct={correct}
             semo={semo}

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
-function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,setSemo, setRight, openModal}:any): JSX.Element {
+function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,setSemo,right, setRight, openModal, setResultModal}:any): JSX.Element {
 
   // 초성 뽑아내기
   const cho = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
@@ -13,15 +14,79 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
 
   const [hint, setHint] = useState<Boolean>(false);
 
+  // 그만두기
+  const [stop, setStop] = useState<Boolean>(false);
+
+  // 타이머
+  const [count, setCount] = useState(30);
+
+   useEffect(() => {
+    setCount(30);
+   },[num])
+
+   
+   
+
+   useEffect(() => {
+    const id = setInterval(() => {
+      setCount(count => count - 1); 
+    }, 1000);
+    
+    // 못맞춤
+    if(count <= 0){
+      clearInterval(id);
+      setWrong([...wrong,question[num].word_id])
+      openModal()
+      setHint(false)
+    }
+    // 시간초 내에 맞춤
+    else if(right) {
+      clearInterval(id);
+    }
+    // 그만두기
+    else if(stop){
+      setResultModal(true)
+    }
+     return () => clearInterval(id);
+   }, [count]);
+
+  // 입력
   const [input, setInput] = useState("");
   const onChange = (e:any)  => {
     setInput(e.target.value)
   }
 
-  const submit = () => {
-    console.log("here")
-    setInput("")
+  // 음성 입력
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition
+  } = useSpeechRecognition();
 
+
+  var word = transcript.split(" ")[0];
+  useEffect(() => {
+      return () => {
+        console.log("음성인식", word)
+        setInput(word)
+      }
+  },[word,listening])
+
+  useEffect(() => {
+    if((transcript.split(" ")[0] === input ) && (transcript.length > 0))  {
+      resetTranscript()
+      setTimeout(() => {
+        console.log("here" , transcript)
+        submit();
+      },2000)
+    }
+  },[input])
+
+  const submit = () => {
+    resetTranscript()
+    word = ""
+    setInput("")
     //정답
     if(input === question[num].word_name) {
       // 힌트를 보고 맞춤 => 맞춤, semo 개수++, hint 원상복귀, modal open
@@ -43,16 +108,21 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     }
   }
 
+
   return(
     <>
-      <div className="bg-[#F9F9F9]">
-        <div className="container max-w-screen-xl w-full p-2 mx-auto flex lg:flex-row flex-col lg:justify-between">
-
+      <div className="bg-[#F9F9F9] lg:py-16 py-10">
+        <div className="relative container max-w-screen-xl w-full p-2 mx-auto flex lg:flex-row flex-col lg:justify-between overflow-x-hidden">
+          {/* 왼쪽 상단 */}
+          <div className="absolute z-10 lg:w-[82%] w-full flex justify-between pr-5">
+            <div className="bg-[#F7CCB7] min-h-[5rem] rounded-md py-1 px-4 font-bold text-[#ffffff]">문제 {num +1}</div>
+            <div className="font-bold"> {num+1} / {Object.keys(question).length}</div>
+          </div>
           {/* 왼쪽 학습 영역 */}
-          <div className="bg-[#F4EFEC] lg:w-[82%] w-full min-h-[25rem] py-6 lg:px-6 px-4 flex flex-col justify-between rounded-lg">
+          <div className="mt-8 z-20 bg-[#F4EFEC] lg:w-[82%] w-full min-h-[25rem] py-6 lg:px-6 px-4 flex flex-col justify-between rounded-lg">
             <div>
               <div className="font-bold md:text-[1.1rem] text-[1rem] mb-6">
-                {studyType === "word" ? 
+                {studyType === "wordStudy" ? 
                   <>
                     해당 뜻을 가진 단어를 적으시오.
                   </>:
@@ -65,10 +135,17 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
               </div>
             </div>
             <div>
-              <div className="relative">
-                <input type="text" value={input} className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="정답을 입력하세요." 
-                required onChange={(e:any)=>onChange(e)}/>
-                <button type="submit" onClick={()=>submit()} className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 ">제출</button>
+              <div className="flex flex-wrap justify-between w-full relative">
+                <input type="text" value={input} className="m-1 block w-full p-4 pl-5 text-sm text-gray-900 border border-gray-300 rounded-lg focus:outline-none bg-gray-50" placeholder="정답을 입력하세요." 
+                required onChange={(e:any)=>onChange(e)} onKeyDown={(e:any)=>{
+                  if (e.key === 'Enter') {
+                    submit(); // Enter 입력이 되면 클릭 이벤트 실행
+                  }
+                }}/>
+                <button onClick={() => SpeechRecognition.startListening()} className="sm:absolute sm:bottom-2.5 right-2.5 m-1 text-white bg-[#F7CCB7] hover:bg-[#BF9F91] focus:outline-none font-bold rounded-lg text-sm px-4 py-2 ">
+                  { listening ? <> 입력 중... </>: <>음성 입력</>}
+                </button>
+                <button type="submit" onClick={()=>submit()} className="sm:absolute sm:bottom-2.5 right-[7rem] m-1 text-white bg-[#F7CCB7] hover:bg-[#BF9F91] focus:outline-none font-bold rounded-lg text-sm px-4 py-2 ">제출</button>
               </div>
             </div>
           </div>
@@ -76,27 +153,33 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
           {/* 오른쪽 학습 상세정보 영역  */}
           <div className="lg:w-[17%] w-full flex lg:block flex-row flex-wrap text-center">
             <div className="px-1 m-2 lg:py-8 rounded-lg md:text-[1.8rem] sm:text-[1.3rem] text-[1rem] text-[#A87C6E] font-bold flex flex-col justify-center">
-              {studyType === "word" ? 
-              <>
-                단어학습
-              </>:
-              <>
-                문맥학습
-              </>}
+              {studyType === "wordStudy"  ? <>단어학습</>
+              : studyType === "contextStudy" ? <>문맥학습</>
+              : <>복습</>
+              }
+
               </div>
             <div className="border-4 lg:py-4 md:py-2 m-2 px-8 rounded-lg md:text-[1.6rem] sm:text-[1.3rem] text-[1rem] flex flex-col justify-center font-bold border-[#F4EFEC] text-[#A87C6E]">
               <span className="md:text-[1.2rem] sm:text-[1rem] text-[0.9rem] font-medium text-[#8E8E8E]">시간</span>
-              30초
+              {count}
             </div>
-            <div className="border-4 m-2 lg:py-4 md:py-2 px-8 rounded-lg md:text-[1.6rem] sm:text-[1.3rem] text-[1rem] flex flex-col justify-center font-bold border-[#F4EFEC] text-[#A87C6E]">
-              <span className="md:text-[1.2rem] sm:text-[1rem] text-[0.9rem] font-medium text-[#8E8E8E]">품사</span>
-              {question[num].word_type}
-            </div>
-            <div className="border-4 m-2 lg:py-4 md:py-2 px-8 rounded-lg md:text-[1.6rem] sm:text-[1.3rem] text-[#A87C6E] text-[1rem] flex flex-col justify-center font-bold border-[#F4EFEC]">
-              <span className="md:text-[1.2rem] sm:text-[1rem] text-[0.9rem] font-medium text-[#8E8E8E]">귀띔</span>
-              {hint ? <>{result}</> : <><div className="hover:text-[#F7CCB7] cursor-pointer" onClick={()=> setHint(true)}>도움받기</div></>}
-            </div>
-            <div className="border-4 m-2 py-4 md:py-2 px-8 rounded-lg md:text-[1.2rem] sm:text-[1.1rem] text-[1rem] flex flex-col justify-center border-[#F4EFEC] text-[#5F5F5F] font-bold cursor-pointer">그만두기</div>
+            
+            {studyType === "wordStudy" ? 
+            <>
+              <div className="border-4 m-2 lg:py-4 md:py-2 px-8 rounded-lg md:text-[1.6rem] sm:text-[1.3rem] text-[1rem] flex flex-col justify-center font-bold border-[#F4EFEC] text-[#A87C6E]">
+                <span className="md:text-[1.2rem] sm:text-[1rem] text-[0.9rem] font-medium text-[#8E8E8E]">품사</span>
+                {question[num].word_type}
+              </div>
+              <div className="border-4 m-2 lg:py-4 md:py-2 px-8 rounded-lg md:text-[1.6rem] sm:text-[1.3rem] text-[#A87C6E] text-[1rem] flex flex-col justify-center font-bold border-[#F4EFEC]">
+                <span className="md:text-[1.2rem] sm:text-[1rem] text-[0.9rem] font-medium text-[#8E8E8E]">귀띔</span>
+                {hint ? <>{result}</> : <><div className="hover:text-[#F7CCB7] cursor-pointer" onClick={()=> setHint(true)}>도움받기</div></>}
+              </div>
+            </>
+              :
+              null
+            }
+
+            <div className="border-4 m-2 py-4 md:py-2 px-8 rounded-lg md:text-[1.2rem] sm:text-[1.1rem] text-[1rem] flex flex-col justify-center border-[#F4EFEC] text-[#5F5F5F] font-bold cursor-pointer hover:text-[#D30000]" onClick={()=> setStop(true)}>그만두기</div>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import style from "./Study.module.css";
 
-function AnswerModal({closeModal, right,question,num,setNum, setRight, studyType}:any):JSX.Element {
+function AnswerModal({closeModal, right,question,num,setNum, setRight, studyType, setResultModal}:any):JSX.Element {
 
 
     return(
@@ -13,15 +13,16 @@ function AnswerModal({closeModal, right,question,num,setNum, setRight, studyType
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 
                 {/*header*/}
-                <div className="mx-4 my-1 border-b border-solid border-slate-200 rounded-t md:pt-2 pt-1">
+                <div className="mx-4 my-1 border-b border-solid border-slate-200 md:pt-2 pt-1">
                     {right ?
                     <>
                         <div className={`${style.checkicon} md:h-[3rem] h-[2rem]`}></div>
                         <div className="text-[1.5rem] font-bold mx-auto text-center">정답입니다</div>
                     </>:
                     <>
-                        <div className={`${style.xicon} md:h-[3rem] h-[2rem]`}></div>
-                        <div className="text-[1.5rem] font-bold mx-auto text-center p-1">오답입니다</div>
+                        <div className="p-2"></div>
+                        <div className={`${style.xicon} md:h-[2.5rem] h-[1.8rem]`}></div>
+                        <div className="text-[1.5rem] font-bold mx-auto text-center">오답입니다</div>
                     </>}
                 </div>
 
@@ -54,20 +55,23 @@ function AnswerModal({closeModal, right,question,num,setNum, setRight, studyType
                     onClick={() => {
                             closeModal()
                             setRight(false)
-                            if(studyType === "word"){
+                            if(studyType === "wordStudy"){
                                 if(num < 9){
                                     setNum(num+1)
                                 }
                                 else{
                                     // 결과 모달창 뜨기
+                                    setResultModal(true)
                                 }
                             }
                             else {
                                 if(num < 4) {
                                     setNum(num+1)
+                                    setResultModal(true)
                                 }
                                 else{
                                     // 결과 모달창 뜨기
+                                    setResultModal(true)
                                 }
                             }
                         }

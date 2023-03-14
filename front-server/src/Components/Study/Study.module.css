@@ -15,9 +15,8 @@
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
-    background-position-y: center; 
-    margin: 0.2rem auto;
-    margin-top: 1.2rem;
+    margin: auto;
+    margin-top: 1.6rem;
   }
 
   .resulticon {
@@ -26,8 +25,7 @@
     background-size: contain;
     background-position: center;
     background-position-y: center; 
-    margin: 0.2rem auto;
-    margin-top: 1.2rem;
+    margin: 0 auto;
   }
 
   .oicon {
