@@ -42,6 +42,7 @@ export const hmjeApi = createApi({
     },
   }),
   endpoints: (builder) => ({
+    // 토큰 재요청
     getRefreshToken: builder.query<any,any>({      
       query: (username:any) => {
         console.log('username:',username);
@@ -59,6 +60,7 @@ export const hmjeApi = createApi({
         return [{type: "Api"}]
       }
     }),
+    // admin
     getAdminUserList: builder.query({      
       query: () => "/admin/user",
       providesTags: (result, error, arg) => {
@@ -67,6 +69,8 @@ export const hmjeApi = createApi({
         return [{type: "Api"}]
       }
     }),
+
+    // user
     putUserdata: builder.mutation({
       query: (data) => {
         const [userId, nickname, phoneNumber, username] = data
