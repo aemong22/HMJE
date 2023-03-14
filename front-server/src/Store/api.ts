@@ -27,11 +27,11 @@
 
 // export const {useGetAdminUserListQuery}:any = api;
 
-// ​https://hmje.net/api​/user​/auth​/refresh​/test13
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 const accessToken:any = localStorage.getItem("accessToken")
 const refreshToken:any = localStorage.getItem("refreshToken")
+
 export const hmjeApi = createApi({
   reducerPath: 'api',
   tagTypes: ['Api'],
@@ -42,12 +42,6 @@ export const hmjeApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getAdminUserList: builder.query({
-      query: () => "/admin/user",
-      providesTags: (result, error, arg) => {        
-        return [{type: "Api"}]
-      }
-    }),
     getRefreshToken: builder.query<any,any>({      
       query: (username:any) => {
         console.log('username:',username);
@@ -60,13 +54,38 @@ export const hmjeApi = createApi({
             refreshToken: refreshToken
           }
         }
-        
       },
       providesTags: (result, error, arg) => {        
         return [{type: "Api"}]
       }
     }),
+    getAdminUserList: builder.query({      
+      query: () => "/admin/user",
+      providesTags: (result, error, arg) => {
+        console.log('수정완료');
+        
+        return [{type: "Api"}]
+      }
+    }),
+    putUserdata: builder.mutation({
+      query: (data) => {
+        const [userId, nickname, phoneNumber, username] = data
+        return {
+          url: `user/${userId}`,
+          method: 'PUT',
+          body: {
+            isAdmin: false,
+            isSecession: false,
+            nickname: nickname,
+            password: 'test13',
+            phoneNumber: phoneNumber,
+            username: username
+          }
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api"}]
+    })
   }),
 })
 
-export const {useGetAdminUserListQuery, useGetRefreshTokenQuery} = hmjeApi 
+export const { useLazyGetAdminUserListQuery, useLazyGetRefreshTokenQuery, usePutUserdataMutation } = hmjeApi 

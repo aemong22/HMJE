@@ -9,6 +9,8 @@ function Navbar():JSX.Element {
       navigate('/main')
     } else if (target.ariaLabel === 'mypage') {
       navigate('/mypage')
+    } else if (target.ariaLabel === 'admin') {
+      navigate('/admin')
     }
     
   }
@@ -17,6 +19,7 @@ function Navbar():JSX.Element {
       {/* 헤더 */}
       <div aria-label="main" className='font-bold text-[0.3rem] sm:text-[0.5rem] md:text-[0.8rem] lg:text-[1rem] cursor-pointer' onClick={onClick}>홍민정음</div>
       <div className='flex justify-center text-[0.2rem] sm:text-[0.3rem] md:text-[0.5rem] lg:text-[0.8rem]'>
+        <div aria-label="admin" className='cursor-pointer mr-4' onClick={onClick}>관리자</div>
         <div aria-label="mypage" className='cursor-pointer mr-2' onClick={onClick}>오리님</div>
         <div className='cursor-pointer'>어서오너라</div>
       </div>

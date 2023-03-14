@@ -1,40 +1,58 @@
+import { useLazyGetAdminUserListQuery, useLazyGetRefreshTokenQuery, usePutUserdataMutation } from "../../Store/api";
+import { useState } from "react";
 import axios from "axios";
-import { useGetAdminUserListQuery, useGetRefreshTokenQuery } from "../../Store/api";
 
 function AdminContext(): JSX.Element {
+  const [username, setUsername] = useState<string>('test13');
+  const userId = 39
+  const nickname = '빅팜'
+  const data:any = [39,'빅팜','000-0000-0000','test13']
 
-  const username:any = 'test13'
-  const {data} = useGetRefreshTokenQuery('test13')
-  const refreshToken:any = localStorage.getItem("refreshToken")
-  // const {data} = useGetAdminUserListQuery('Api') 
-  console.log(data);
-  
-    // console.log(data.data[0]?.nickname);
-    // console.log(data);
-    
-    // axios({
-    //   url: `https://hmje.net/api/user/auth/refresh/${username}`,
-    //   method: 'get',
-    //   headers: {
-    //     refreshToken: refreshToken,
-    //   },
-    //   params: {
-    //     'username': username
-    //   }
-    // }).then((r)=> {
-    //   console.log(r);
-      
-    // })
-    
-    
-  
-  
+  const [userList, setUserList] = useState([{'username':0},{'username':1}])
+  const [getRefreshToken, { data:accessToken, isLoading:tokenLoading , error }] = useLazyGetRefreshTokenQuery()
+  const [getAdminUser] = useLazyGetAdminUserListQuery();
+
+  const mutation = usePutUserdataMutation()
+
+  const setUserData = mutation[0]
+
+  const click = async() => {
+    const getUserlist = getAdminUser('')
+    getUserlist.unwrap().then((r)=> {      
+      if (r.status === '401') {
+        const data = getRefreshToken(username)
+        data.unwrap().then((r)=> {
+          localStorage.setItem("accessToken", r.accessToken)
+        }).then(()=> {
+          getAdminUser('').unwrap().then((r)=> {
+            setUserList(r.data)
+          })
+        })
+      } else {
+        getAdminUser('').unwrap().then((r)=> {          
+          setUserList(r.data)
+        })
+      }
+    })
+  }
+
+  const update = async() => {
+    setUserData(data)
+  }
+
+
+
+
   return (
     <>
-      {/* {
-        isLoading? <div>로딩중</div>: <div>끝</div>
-      } */}
-      {/* {data? data.data[0].nickname: null} */}
+      <button onClick={click}>Click</button>
+      {
+        userList?(userList.map((e)=> {
+          return <div>{e.username}</div>
+        })):<>없어요</>
+      }
+      <button onClick={update}>수정</button>
+      <button>내 정보는?</button>
     </>
   );
 }
