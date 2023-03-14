@@ -120,7 +120,7 @@ public class StudyServiceImpl implements StudyService{
             }
         }
         while (set.size() < 10) {
-            Double d = Math.random() * 20 + 1;                                           //단어학습 단어 갯수//////////
+            Double d = Math.random() * 46697 + 1;                                           //단어학습 단어 갯수//////////
             Word word = wordRepository.findByWordId(d.longValue());
             WrongWord wrong = wrongWordRepository.findByWordAndUser(word, user);
             RightWord right = rightWordRepository.findByWordAndUser(word, user);
