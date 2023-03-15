@@ -354,7 +354,7 @@ const Join = () => {
                   <div className="text-[#A87C6E] font-extrabold text-base pb-2">
                     별명
                   </div>
-                  <div className="text-[#868686] pl-2 lg:pl-4 font-extrabold text-[1px] md:text-xs">
+                  <div className="text-[#868686] pl-2 lg:pl-4 font-extrabold text-sm sm:text-xs">
                     6글자 이내 한글만 사용하실 수 있습니다.
                   </div>
                 </div>
