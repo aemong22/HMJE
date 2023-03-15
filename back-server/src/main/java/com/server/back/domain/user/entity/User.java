@@ -33,8 +33,6 @@ public class User extends CommonEntity {
     //    @Column(nullable = false)
     private Integer todaysemo;
     //    @Column(nullable = false)
-//    private Integer totalTime;
-//        @Column(nullable = false)
     private Integer todayRight;
     //    @Column(nullable = false)
     private Integer todayWrong;
@@ -54,7 +52,7 @@ public class User extends CommonEntity {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "character_id")
-    private RefreshToken characterId;
+    private MyCharacter characterId;
 
     /**
      *  refresh 생성자, setter
