@@ -9,6 +9,9 @@ import style from "./Main.module.css";
 
 
 function Main(): JSX.Element {
+  // const [getUserInfo, {data:userId}] = useGetUserMyinfoQuery();
+
+
   const [selectKeyWord, setSelectKeyWord] = useState<number>(0);
 
   // 뉴스 핵심 단어 List
