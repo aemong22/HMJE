@@ -67,10 +67,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
 
   var word = transcript.split(" ")[0];
   useEffect(() => {
-      return () => {
-        console.log("음성인식", word)
         setInput(word)
-      }
   },[word,listening])
 
   useEffect(() => {
