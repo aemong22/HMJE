@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../Common/Footer";
-import Navbar from "../Common/Navbar";
 import API from "../Common/Api";
 import axios from "axios";
 import { usePostUserchecknicknameMutation } from "../../Store/api";
+import IntroNavbar from "../Intro/IntroNavbar";
 var pattern2 = /[a-zA-Z]/; //영어
 const Join = () => {
   const navigate = useNavigate();
@@ -306,7 +306,7 @@ const Join = () => {
   return (
     <>
       <div className="flex flex-col justify-between h-[100vh]">
-        <Navbar />
+        <IntroNavbar />
         {/* 상 */}
         <div className="w-full">
           <div className="flex flex-col mx-5 sm:mx-5 md:mx-7 lg:mx-[20%]">

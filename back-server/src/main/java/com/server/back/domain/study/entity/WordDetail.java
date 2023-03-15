@@ -1,10 +1,11 @@
 package com.server.back.domain.study.entity;
 
-import com.server.back.common.entity.CommonEntity;
-import com.server.back.domain.user.entity.User;
+
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -12,17 +13,20 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class RightWord extends CommonEntity {
+public class WordDetail {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "right_word_id")
-	private Long rightWordId;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
-	private User user;
+	@Column(name = "word_detail_id")
+	private Long wordDetailId;
+	private String details;
+	private Integer detailNum;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "word_id")
 	private Word word;
+
+	@OneToMany(mappedBy = "wordDetail", fetch = FetchType.LAZY)
+	private List<WordExample> wordExampleList = new ArrayList<>();
+
+
 }

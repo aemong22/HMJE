@@ -86,7 +86,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        Map<String, String> jsonResponse = jwtService.successLoginResponse(tokenRequestDto);
+        Map<String, String> jsonResponse = jwtService.successLoginResponse(tokenRequestDto, principalDetails.getUser().getUserId());
         String result = objectMapper.writeValueAsString(jsonResponse);
 //        response.setStatus(HttpStatus.OK.value());
 
