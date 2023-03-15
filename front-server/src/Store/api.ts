@@ -68,6 +68,7 @@ export const hmjeApi = createApi({
   }),
   
   endpoints: (builder) => ({
+
     // --------------admin---------------
     
     // 1. 전체 회원 목록
@@ -82,7 +83,23 @@ export const hmjeApi = createApi({
     
     // --------------user---------------
 
-    // 1. 정보 수정
+    // 1. 내 정보 조회
+    getUserMyinfo: builder.query({
+      query: (userId: any) => {
+        console.log("userId", userId);
+        return {
+          url : `/api/user/myinfo/${userId}`,
+          params : {
+            userId: userId
+          }
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
+
+    // 2. 정보 수정
     putUserdata: builder.mutation({
       query: (data) => {
         const [userId, nickname, phoneNumber, username] = data
@@ -102,7 +119,7 @@ export const hmjeApi = createApi({
       invalidatesTags: (result, error, arg) => [{ type: "Api" }]
     }),
 
-    // 2. 닉네임 중복 체크
+    // 3. 닉네임 중복 체크
     postUserchecknickname: builder.mutation({
       query: (data) => {
         const [nickname, password, phoneNumber, username] = data;
@@ -123,7 +140,11 @@ export const hmjeApi = createApi({
     }),
 
 
-    // STUDY
+
+
+    // ---------------STUDY---------------
+
+    // 1. 단어학습 문제 
     getStudyWord: builder.query({
       query: () => "/study/word",
       providesTags: (result, error, arg) => {
@@ -131,9 +152,7 @@ export const hmjeApi = createApi({
       }
     }),
 
-
-
   }),
 })
 
-export const { useLazyGetAdminUserListQuery, usePutUserdataMutation, usePostUserchecknicknameMutation } = hmjeApi 
+export const { useGetUserMyinfoQuery, useGetStudyWordQuery, useLazyGetAdminUserListQuery, usePutUserdataMutation, usePostUserchecknicknameMutation } = hmjeApi 
