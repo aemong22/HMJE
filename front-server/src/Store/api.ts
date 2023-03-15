@@ -120,7 +120,18 @@ export const hmjeApi = createApi({
         }
       },
       invalidatesTags: (result, error, arg) => [{ type: "Api" }]
-    })
+    }),
+
+
+    // STUDY
+    getStudyWord: builder.query({
+      query: () => "/study/word",
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
+
+
 
   }),
 })
