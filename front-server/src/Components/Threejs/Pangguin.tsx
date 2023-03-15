@@ -2,21 +2,24 @@ import {Suspense, useRef} from 'react'
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 
-function Pangguin() {
+interface guin {
+  position: number ,
+
+}
+
+function Pangguin({position}:guin) {
   return (
-    <div  className='h-full w-full'>
-      <div>
-        <Canvas>
-          <mesh scale={1} position={[0,-2,0]}>
-            <Suspense fallback={null}>
-              <ambientLight intensity={0.8} />
-              <spotLight intensity={0.1} angle={0.1} penumbra={1} position={[10,5,3]} castShadow/>
-                <Model/>
-              <OrbitControls enablePan={true} enableZoom={true} enableRotate={true}/>
-            </Suspense>
-          </mesh>
-        </Canvas>
-      </div>
+    <div className='flex justify-center items-center h-full w-full '>
+      <Canvas style={{width: '100%', height: '100%',  justifyContent: 'center', alignItems: 'center'}}> 
+        <mesh scale={1} position={[0,position,0]}>
+          <Suspense fallback={null}>
+            <ambientLight intensity={0.8} />
+            <spotLight intensity={0.1} angle={0.1} penumbra={1} position={[10,5,3]} castShadow/>
+              <Model/>
+            <OrbitControls enablePan={true} enableZoom={true} enableRotate={true}/>
+          </Suspense>
+        </mesh>
+      </Canvas>
     </div>
   );
 }

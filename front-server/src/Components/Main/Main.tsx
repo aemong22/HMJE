@@ -140,7 +140,7 @@ function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
     <div className="bg-[#F0ECE9]">
       <div className="container max-w-screen-xl w-full mx-auto flex flex-col md:flex-row md:justify-around items-center text-center py-[2rem]">
         <div className="md:w-[40%] w-[90%] bg-[#ffffff] py-[1.5rem] md:px-[2.5rem] rounded-md px-[1rem]">
-          <Pangguin />
+          <Pangguin position={-2} />
           <div className="flex justify-center md:text-[1.2rem] sm:text-[1.1rem] text-[1rem] py-1">
             <div className={`${style.badgeImg}`} style={{backgroundImage:`url('/Assets/Badge/${userMyInfo?.nowbagdeImage}.png')`}}></div>{userMyInfo?.nowbagdeName}</div>
             <div className="md:text-[2.4rem] sm:text-[2.2rem] text-[2rem] font-bold">{userMyInfo?.nickname}</div>
