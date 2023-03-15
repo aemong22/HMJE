@@ -79,7 +79,8 @@ public class DictServiceImpl implements DictService{
 
 	@Override
 	public Word getDict(Long wordId) {
-		return null;
+		Word word = wordRepository.findByWordId(wordId);
+		return word;
 	}
 
 }
