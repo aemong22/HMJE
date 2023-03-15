@@ -43,7 +43,20 @@ const Join = () => {
   // Store 호출
   const CheckNicknameDuplication = usePostUserchecknicknameMutation();
 
-  const setNicknameCheck = CheckNicknameDuplication[0];
+  const setNicknameTest = CheckNicknameDuplication[0];
+  // const Dupldata = mutation[0];
+
+  const data: any = ["39", "빅팜", "000-0000-0000", `test13`];
+
+  const click = () => {
+    // const data = {
+    //   nickname: "Nickname",
+    //   password: "Password",
+    //   phoneNumber: "Phonenum",
+    //   username: "test",
+    // };
+    setNicknameTest(data);
+  };
 
   function ChangeName(event: any): void {
     console.log(event.target.value);
@@ -291,17 +304,15 @@ const Join = () => {
       data: {
         modifyNumber: Authnum,
         phoneNumber: Phonenum,
-        purpose: "string",
+        purpose: "",
       },
     }).then((r) => {
       console.log("인증번호 결과", typeof r.data.data);
       if (r.data.data === "true") {
         // 인증성공!
-
         setIsAuthnum(true);
       } else if (r.data.data === "false") {
         // 인증실패!
-
         setIsAuthnum(false);
       }
     });
@@ -312,8 +323,8 @@ const Join = () => {
 
   return (
     <>
+      <IntroNavbar />
       <div className="flex flex-col justify-between h-[100vh]">
-        <IntroNavbar />
         {/* 상 */}
         <div className="w-full">
           <div className="flex flex-col mx-5 sm:mx-5 md:mx-7 lg:mx-[20%]">
@@ -349,6 +360,7 @@ const Join = () => {
                       () => {
                         CheckDuplication("Name");
                       }
+                      // click
                       // sampleTest
                     }
                   >
@@ -361,7 +373,7 @@ const Join = () => {
                   <div className="text-[#A87C6E] font-extrabold text-base pb-2">
                     별명
                   </div>
-                  <div className="text-[#868686] pl-2 lg:pl-4 font-extrabold text-[1px] md:text-xs">
+                  <div className="text-[#868686] pl-2 lg:pl-4 font-extrabold text-sm sm:text-xs">
                     6글자 이내 한글만 사용하실 수 있습니다.
                   </div>
                 </div>
@@ -499,8 +511,8 @@ const Join = () => {
           {/* 하 */}
           <div className="h-[2rem]"></div>
         </div>
-        <Footer />
       </div>
+      <Footer />
     </>
   );
 };

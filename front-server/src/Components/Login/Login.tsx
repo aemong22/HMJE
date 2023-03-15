@@ -31,8 +31,8 @@ function Login(): JSX.Element {
   const Enter = () => {
     // axios 입장하기
     Api.post("/login", {
-      password: Password,
       username: Id,
+      password: Password,
     }).then((r) => {
       console.log("받는 데이터", r.data);
 
@@ -88,7 +88,7 @@ function Login(): JSX.Element {
                     비밀번호
                   </div>
                   <input
-                    type="text"
+                    type="password"
                     placeholder="비밀번호"
                     className="flex px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
                     onChange={ChangePassword}
