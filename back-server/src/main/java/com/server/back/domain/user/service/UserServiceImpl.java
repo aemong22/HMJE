@@ -110,11 +110,18 @@ public class UserServiceImpl implements UserService {
         return MyBadgeResultList(badgeresult);
     }
     @Override
+    public void uesrLogout(Long userId){
+        User user = userRepository.findByUserId(userId);
+        RefreshToken token = refreshTokenRepository.findRefreshTokenById(user.getJwtRefreshToken().getId());
+        refreshTokenRepository.delete(token);
+        user.logout();
+    }
+    @Override
     public void userDelete(Long userId){
         User user = userRepository.findByUserId(userId);
         RefreshToken token = refreshTokenRepository.findRefreshTokenById(user.getJwtRefreshToken().getId());
-//        refreshTokenRepository.delete(token);
-//        user.logout();
+        refreshTokenRepository.delete(token);
+        user.logout();
         user.userdelete();
     }
     @Override

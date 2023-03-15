@@ -93,6 +93,14 @@ public class UserController {
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    @ApiOperation(value = "로그아웃")
+    @PutMapping("/logout/{userId}")
+    public ResponseEntity<Map<String, Object>> uesrLogout(@PathVariable(value = "userId") Long userId) {
+        Map<String, Object> response = new HashMap<>();
+        userService.uesrLogout(userId);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
     @ApiOperation(value = "회원정보(닉네임) 수정")
     @PutMapping("/{userId}")
     public ResponseEntity<Map<String, Object>> userUpdate(@PathVariable(value = "userId") Long userId , @RequestBody UserRequestDto requestDto){
@@ -101,6 +109,7 @@ public class UserController {
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
     @ApiOperation(value = "회원 탈퇴")
     @DeleteMapping("/{userId}")
     public ResponseEntity<Map<String, Object>> userDelete(@PathVariable(value = "userId") Long userId){
