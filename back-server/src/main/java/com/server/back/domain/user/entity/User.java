@@ -73,6 +73,9 @@ public class User extends CommonEntity {
     public void update(UserRequestDto requestDto){
         this.nickname = requestDto.getNickname();
     }
+    public void logout(){
+        this.jwtRefreshToken = null;
+    }
     public void userdelete(){
         this.nickname = "delete" + this.getUserId();
         this.isSecession = true;
@@ -89,9 +92,7 @@ public class User extends CommonEntity {
         this.exp = this.exp + rightExp;
     }
     public void changePassord(String newPassword){
-        System.out.println("now /// Password = " + this.password);
         this.password = newPassword;
         this.jwtRefreshToken = null;
-        System.out.println("new /// Password = " + newPassword);
     }
 }
