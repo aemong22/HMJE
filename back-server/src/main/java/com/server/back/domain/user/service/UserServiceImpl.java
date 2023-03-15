@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
         entity.update(requestDto);
     }
     @Override
-    public List<BadgeResultResponseDto> userBadge(Long userId) {
+    public List<BadgeResultResponseDto> myBadgeAll(Long userId) {
         User user = userRepository.findByUserId(userId);
         List<BadgeResult> badgeresult = badgeresultRepository.findByUser(user);
         return MyBadgeResultList(badgeresult);
@@ -164,7 +164,7 @@ public class UserServiceImpl implements UserService {
                 todayword += 1;
             }
         }
-        List<DogamResult> totalcontextlist = dogamResultRepository.findAllByUserId(user);
+        List<DogamResult> totalcontextlist = dogamResultRepository.findAllByUserOrderByDogamDesc(user);
         Integer totalcontext = totalcontextlist.size();
         int todaycontext = 0;
         for (DogamResult d : totalcontextlist){

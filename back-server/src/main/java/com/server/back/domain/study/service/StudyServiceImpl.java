@@ -66,13 +66,13 @@ public class StudyServiceImpl implements StudyService{
         List<Long> newDogamli = new ArrayList<>();
         for (Long i : requestDto.getRightIdList()) {
             Dogam dogam = dogamRepository.findByDogamId(i);
-            DogamResult d = dogamResultRepository.findByDogamIdAndUserId(dogam,user);
+            DogamResult d = dogamResultRepository.findByDogamAndUser(dogam,user);
             //획득한 도감에 없으면
             if (d == null){
                 //도감 생성
                 DogamResult dogamresult = DogamResult.builder()
-                        .userId(user)
-                        .dogamId(dogam)
+                        .user(user)
+                        .dogam(dogam)
                         .build();
                 dogamResultRepository.save(dogamresult);
                 //획득한 뱃지로 결과 보내주기
