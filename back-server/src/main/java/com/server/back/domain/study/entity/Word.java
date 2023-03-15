@@ -1,6 +1,7 @@
 package com.server.back.domain.study.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,6 +26,7 @@ public class Word {
 	private String wordRating;
 	private String wordOrigin;
 
+	@JsonManagedReference
 	@OneToMany(mappedBy = "word", fetch = FetchType.LAZY)
 	private List<WordDetail> wordDetailList = new ArrayList<>();
 
