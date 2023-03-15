@@ -25,9 +25,9 @@ public class StudyController {
     private final UserService userService;
     private final StudyTimeRepository studyTimeRepository;
 
-    @ApiOperation(value = "단어학습 문제")
-    @GetMapping("/word")
-    public ResponseEntity<Map<String, Object>> wordQuestion(Long userId){
+        @ApiOperation(value = "단어학습 문제")
+        @GetMapping("/word/{userId}")
+        public ResponseEntity<Map<String, Object>> wordQuestion(@PathVariable(value = "userId") Long userId){
         Map<String, Object> response = new HashMap<>();
         List<Word> wordQuestion = studyService.wordQuestion(userId);
         response.put("data", wordQuestion);

@@ -22,11 +22,11 @@ const Join = () => {
 
   const [PasswordShow, setPasswordShow] = useState("password");
   const [PasswordShowIcon, setPasswordShowIcon] = useState(
-    "/AsseTs/Icon/view.png",
+    "/Assets/Icon/view.png",
   );
   const [PasswordCheckShow, setPasswordCheckShow] = useState("password");
   const [PasswordCheckShowIcon, setPasswordCheckShowIcon] = useState(
-    "/AsseTs/Icon/view.png",
+    "/Assets/Icon/view.png",
   );
 
   // 오류메세지 상태저장
@@ -127,20 +127,20 @@ const Join = () => {
   const ChangePasswordShow = () => {
     if (PasswordShow === "password") {
       setPasswordShow("");
-      setPasswordShowIcon("/AsseTs/Icon/invisible.png");
+      setPasswordShowIcon("/Assets/Icon/invisible.png");
     } else if (PasswordShow === "") {
       setPasswordShow("password");
-      setPasswordShowIcon("/AsseTs/Icon/view.png");
+      setPasswordShowIcon("/Assets/Icon/view.png");
     }
   };
 
   const ChangePasswordCheckShow = () => {
     if (PasswordCheckShow === "password") {
       setPasswordCheckShow("");
-      setPasswordCheckShowIcon("/AsseTs/Icon/invisible.png");
+      setPasswordCheckShowIcon("/Assets/Icon/invisible.png");
     } else if (PasswordCheckShow === "") {
       setPasswordCheckShow("password");
-      setPasswordCheckShowIcon("/AsseTs/Icon/view.png");
+      setPasswordCheckShowIcon("/Assets/Icon/view.png");
     }
   };
 

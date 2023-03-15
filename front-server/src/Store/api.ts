@@ -12,6 +12,7 @@ export const hmjeApi = createApi({
     },
   }),
   endpoints: (builder) => ({
+
     // 토큰 재요청
     getRefreshToken: builder.query<any, any>({
       query: (username: any) => {
@@ -30,6 +31,7 @@ export const hmjeApi = createApi({
         return [{ type: "Api" }]
       }
     }),
+
     // admin
     getAdminUserList: builder.query({
       query: () => "/admin/user",
@@ -76,9 +78,20 @@ export const hmjeApi = createApi({
         }
       },
       invalidatesTags: (result, error, arg) => [{ type: "Api" }]
-    })
+    }),
+
+
+    // STUDY
+    getStudyWord: builder.query({
+      query: () => "/study/word",
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
+
+
 
   }),
 })
 
-export const { useLazyGetAdminUserListQuery, useLazyGetRefreshTokenQuery, usePutUserdataMutation, usePostUserchecknicknameMutation } = hmjeApi 
+export const { useGetStudyWordQuery, useLazyGetAdminUserListQuery, useLazyGetRefreshTokenQuery, usePutUserdataMutation, usePostUserchecknicknameMutation } = hmjeApi 
