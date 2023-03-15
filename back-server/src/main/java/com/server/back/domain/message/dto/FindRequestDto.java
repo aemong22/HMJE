@@ -5,12 +5,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Builder
-public class ModifyNumberDto {
-    private String phoneNumber;
-    private String modifyNumber;
-    private String purpose;
+public class FindRequestDto {
+    private String username;
+    private String phoneNum;
+    private String modifyNum;
+    private String newPassword;
 }

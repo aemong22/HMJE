@@ -47,7 +47,7 @@ public class SmsController {
     @PostMapping("/sms/modify")
     public ResponseEntity<Map<String, Object>> checkSms(@RequestBody ModifyNumberDto requestDto) {
         Map<String, Object> response = new HashMap<>();
-        Boolean modifyResult = smsService.modifySms(requestDto);
+        String modifyResult = smsService.modifySms(requestDto);
         response.put("data", modifyResult);
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);

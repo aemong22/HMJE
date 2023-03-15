@@ -24,7 +24,7 @@ public class User extends CommonEntity {
     private String password;
     @Column(length = 12, nullable = false)
     private String nickname;
-    @Column(length = 25, nullable = false)
+    @Column(length = 30, nullable = false)
     private String phoneNumber;
 
     private Integer level;
@@ -87,5 +87,11 @@ public class User extends CommonEntity {
     }
     public void updateExp(Integer rightExp){
         this.exp = this.exp + rightExp;
+    }
+    public void changePassord(String newPassword){
+        System.out.println("now /// Password = " + this.password);
+        this.password = newPassword;
+        this.jwtRefreshToken = null;
+        System.out.println("new /// Password = " + newPassword);
     }
 }
