@@ -210,8 +210,12 @@ public class SmsService {
             //인증번호와 휴대폰 번호가 일치하는지 확인
             if (result){
                 redisUtil.deleteData(requestDto.getModifyNum()); //인증번호 일치하면 인증번호 삭제
+                System.out.println("result = " + result);
                 User user = userRepository.findByPhoneNumber(requestDto.getPhoneNum());
-                user.changePassord(bCryptPasswordEncoder.encode(requestDto.getNewPassword()));
+                System.out.println("user.getUserId() = " + user.getUserId());
+                String newpassword = bCryptPasswordEncoder.encode(requestDto.getNewPassword());
+                System.out.println("newpassword = " + newpassword);
+                user.changePassord(newpassword);
                 return true;
             }
         }

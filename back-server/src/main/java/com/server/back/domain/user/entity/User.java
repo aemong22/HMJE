@@ -89,6 +89,9 @@ public class User extends CommonEntity {
         this.exp = this.exp + rightExp;
     }
     public void changePassord(String newPassword){
+        System.out.println("now /// Password = " + this.password);
         this.password = newPassword;
+        this.jwtRefreshToken = null;
+        System.out.println("new /// Password = " + newPassword);
     }
 }
