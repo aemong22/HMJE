@@ -305,8 +305,8 @@ const Join = () => {
   var disable = IsPasswordConfirm && IsAuthnum && IsName && IsNickname;
   return (
     <>
+      <IntroNavbar />
       <div className="flex flex-col justify-between h-[100vh]">
-        <IntroNavbar />
         {/* 상 */}
         <div className="w-full">
           <div className="flex flex-col mx-5 sm:mx-5 md:mx-7 lg:mx-[20%]">
@@ -492,8 +492,8 @@ const Join = () => {
           {/* 하 */}
           <div className="h-[2rem]"></div>
         </div>
-        <Footer />
       </div>
+      <Footer />
     </>
   );
 };
