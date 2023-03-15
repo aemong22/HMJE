@@ -15,33 +15,23 @@ function WordStudy(): JSX.Element {
     setStudyType((location.pathname).replace("/",""));
   },[])
 
-  // 문제
-  const [question, setQuestion] = useState<Object>([
-    {
-      word_id: 123,
-      word_name: "무지개",
-      word_type: "명사",
-      word_rating: "초급",
-      word_detail: "공중에 떠 있는 물방울이 햇빛을 받아 나타나는, 반원 모양의 일곱 빛깔의 줄",
-      word_example: "비가 그치고 구름 사이로 무지개가 나타났다.",
-    }
-  ]);
+
+  const [question, setQuestion] = useState<any>([]);
   
   // RTK QUERY 불러오기
   const [ getStudyWord,{ data:questions, isLoading, error } ] = useLazyGetStudyWordQuery();
 
   useEffect(() => {
     if(studyType === "wordStudy") {
-      getStudyWord(50)
-    }
+      getStudyWord(50).then((r) => { 
+        return(r)
+      }).then((r) => { 
+        console.log(r.data.data) 
+        setQuestion(r.data.data)
+    })
+  }
+  
   },[studyType])
-
-  useEffect(() => {
-    if(questions){
-      console.log("here",questions.data.length)
-      setQuestion(questions.data)
-    }
-  },[questions?.data])
   
   // 학습 시작 시간
   const [startTime, setstartTime] = useState<any>();
@@ -85,18 +75,15 @@ function WordStudy(): JSX.Element {
   if(error) {
     return <div>error</div>
   }
-  if(!questions && ){
-    return <div>로딩중</div>
-  }
-
 
   return (
     <>
-      {!isLoading && !error && 
+
+       {question.length > 0 && 
        <>
        <Navbar/>
        <Study 
-         question={question ? question : null}
+         question={question}
          studyType={studyType} 
          num={num}
          correct={correct} setCorrect={setCorrect} 

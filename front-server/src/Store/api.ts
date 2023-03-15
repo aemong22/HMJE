@@ -176,6 +176,24 @@ export const hmjeApi = createApi({
       }
     }),
 
+    // 2. 결과
+    postStudyWordResult: builder.mutation({
+      query: (data) => {
+        const [rightIdList,semo,userId,wrongIdList] = data;
+        return {
+          url: `study/word/result`,
+          method: `POST`,
+          body: {
+            rightIdList,
+            semo,
+            userId,
+            wrongIdList,
+          }
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
   }),
 })
 
@@ -190,4 +208,6 @@ export const {
   useGetUserMystudyQuery,
   
   // STUDY
-  useLazyGetStudyWordQuery } = hmjeApi 
+  useLazyGetStudyWordQuery,
+  usePostStudyWordResultMutation
+  } = hmjeApi 

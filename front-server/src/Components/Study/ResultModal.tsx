@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {usePostStudyWordResultMutation} from "../../Store/api";
 import { Navigate, useNavigate } from "react-router-dom";
 import style from "./Study.module.css";
 
@@ -9,9 +9,6 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
 
       // 학습 시작 시간
     const endTime = Date.now()
-
-    console.log(correct)
-
     let studyTime = Math.round((endTime - startTime) / 1000)
     console.log(studyTime)
     
