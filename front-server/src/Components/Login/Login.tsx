@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Api from "../Common/Api";
 import Footer from "../Common/Footer";
-import Navbar from "../Common/Navbar";
+import IntroNavbar from "../Intro/IntroNavbar";
 
 function Login(): JSX.Element {
   const navigate = useNavigate();
   // 입력 타입
-  type input = string | undefined;
+  // type input = string | undefined;
 
-  const [Id, setId] = useState<input>();
-  const [Password, setPassword] = useState<input>();
+  const [Id, setId] = useState<string>();
+  const [Password, setPassword] = useState<string>();
 
   const ChangeId = (event: any): void => {
     setId(event.target.value);
@@ -38,9 +38,13 @@ function Login(): JSX.Element {
 
       const accessToken = r.data.accessToken;
       const refreshToken = r.data.refreshToken;
+      const userId = r.data.userid;
+
       console.log("accessToken", accessToken);
       console.log("refreshToken", refreshToken);
       localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("userName", Id!);
+      localStorage.setItem("userId", userId);
       localStorage.setItem("refreshToken", refreshToken);
       navigate("/main");
     });
@@ -52,7 +56,7 @@ function Login(): JSX.Element {
 
   return (
     <>
-      <Navbar />
+      <IntroNavbar />
       <div className="">
         {/* <!-- Example --> */}
         <div className="flex min-h-screen max-w-screen-x">
