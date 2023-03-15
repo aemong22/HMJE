@@ -43,7 +43,20 @@ const Join = () => {
   // Store 호출
   const CheckNicknameDuplication = usePostUserchecknicknameMutation();
 
-  const setNicknameCheck = CheckNicknameDuplication[0];
+  const setNicknameTest = CheckNicknameDuplication[0];
+  // const Dupldata = mutation[0];
+
+  const data: any = ["39", "빅팜", "000-0000-0000", `test13`];
+
+  const click = () => {
+    // const data = {
+    //   nickname: "Nickname",
+    //   password: "Password",
+    //   phoneNumber: "Phonenum",
+    //   username: "test",
+    // };
+    setNicknameTest(data);
+  };
 
   function ChangeName(event: any): void {
     console.log(event.target.value);
@@ -291,17 +304,15 @@ const Join = () => {
       data: {
         modifyNumber: Authnum,
         phoneNumber: Phonenum,
-        purpose: "string",
+        purpose: "",
       },
     }).then((r) => {
       console.log("인증번호 결과", typeof r.data.data);
       if (r.data.data === "true") {
         // 인증성공!
-
         setIsAuthnum(true);
       } else if (r.data.data === "false") {
         // 인증실패!
-
         setIsAuthnum(false);
       }
     });
@@ -349,6 +360,7 @@ const Join = () => {
                       () => {
                         CheckDuplication("Name");
                       }
+                      // click
                       // sampleTest
                     }
                   >
