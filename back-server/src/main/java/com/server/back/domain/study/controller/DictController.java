@@ -4,6 +4,8 @@ package com.server.back.domain.study.controller;
 import com.server.back.domain.study.dto.DictRequestDto;
 import com.server.back.domain.study.entity.Word;
 import com.server.back.domain.study.repository.WordRepository;
+import com.server.back.domain.study.service.DictService;
+import com.server.back.domain.study.service.DictServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
@@ -23,7 +25,7 @@ import java.util.Map;
 @RestController
 public class DictController {
 
-	private final WordRepository wordRepository;
+	private final DictService dictService;
 	private final Map<String, String[]> wordFilter = new HashMap<>(){ // 필터링에 사용할 맵 생성
 		{
 			put("가", new String[] {"가", "나"});
@@ -49,25 +51,18 @@ public class DictController {
 	public ResponseEntity<Map<String, Object>> getDictList(@RequestBody DictRequestDto dictRequestDto){
 
 		Map<String, Object> response = new HashMap<>();
-		int page = dictRequestDto.getPage();
-		Pageable pageable = PageRequest.of(page, 10); // 페이지네이션. 10개씩 보여줌.
+
 		if(dictRequestDto.getFilter().isBlank()){ // 만약 필터정보(가,나,다...)가 없으면
-			List<Word> wordList = wordRepository.findByWordNameStartsWith(dictRequestDto.getKeyword(), pageable).getContent(); // 키워드와 페이지네이션 한 결과값 출력
-			int wordCount = wordRepository.countAllByWordNameStartsWith(dictRequestDto.getKeyword()); // 전체 페이지를 위해서 전체 갯수 보내줌
-			response.put("data", wordList);
-			response.put("count", wordCount);
-			response.put("message", "success");
+			dictService.getDictList(dictRequestDto);
 		}
 		else{ // 필터정보가 있으면
-			String[] filters = wordFilter.get(dictRequestDto.getFilter());
-			String startFilter = filters[0];
-			String endFilter = filters[1];
-			List<Word> wordList = wordRepository.findAllByWordNameAndFilterAndPaging(startFilter, endFilter, dictRequestDto.getKeyword(), pageable).getContent(); // 필터 정보를 넣고 검색
-			int wordCount = wordRepository.countAllByWordNameAndFilterAndPaging(startFilter, endFilter, dictRequestDto.getKeyword()); // 전체 페이지를 위해서 전체 갯수 보내줌
-			response.put("data", wordList);
-			response.put("count", wordCount);
-			response.put("message", "success");
+
+
+
 		}
+		response.put("data", wordList);
+		response.put("count", wordCount);
+		response.put("message", "success");
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
