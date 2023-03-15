@@ -41,12 +41,14 @@ const Join = () => {
   const [IsPasswordConfirm, setIsPasswordConfirm] = useState<boolean>(false);
 
   // Store 호출
-  const CheckNicknameDuplication = usePostUserchecknicknameMutation();
+  const [CheckNicknameDuplication, response] =
+    usePostUserchecknicknameMutation();
 
-  const setNicknameTest = CheckNicknameDuplication[0];
-  // const Dupldata = mutation[0];
+  const Dupldata = CheckNicknameDuplication(0);
 
-  const data: any = ["39", "빅팜", "000-0000-0000", `test13`];
+  // interface data = {dada:string,}
+
+  const data = ["54", "얼음저금통", "01050323109", `wndjf11`];
 
   const click = () => {
     // const data = {
@@ -55,7 +57,17 @@ const Join = () => {
     //   phoneNumber: "Phonenum",
     //   username: "test",
     // };
-    setNicknameTest(data);
+    // Dupldata(data)
+    //   .unwrap()
+    //   .then((r) => {
+    //     console.log(r.data);
+    //   })
+    //   .catch((e) => {
+    //     console.log(e);
+    //   })
+    //   .finally(() => {
+    //     console.log("살려줘");
+    //   });
   };
 
   function ChangeName(event: any): void {
@@ -357,10 +369,10 @@ const Join = () => {
                   <div
                     className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
                     onClick={
-                      () => {
-                        CheckDuplication("Name");
-                      }
-                      // click
+                      // () => {
+                      //   CheckDuplication("Name");
+                      // }
+                      click
                       // sampleTest
                     }
                   >
