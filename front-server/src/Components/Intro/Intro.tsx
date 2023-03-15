@@ -2,6 +2,9 @@ import styled, { css } from "styled-components";
 import Footer from "../Common/Footer"
 import IntroNavbar from "./IntroNavbar"
 import sModule from './Intro.module.css'
+import './Intro.css'
+import { useNavigate } from "react-router-dom";
+import { MouseEventHandler, useRef } from "react";
 
 function Intro():JSX.Element {
   return (
@@ -20,6 +23,40 @@ function Intro():JSX.Element {
 export default Intro;
 
 function IntroSection1(): JSX.Element {
+  const navigate = useNavigate()
+  const div1 = useRef<HTMLDivElement>(null)
+  const div2 = useRef<HTMLDivElement>(null)
+
+
+
+  const nav:MouseEventHandler<HTMLDivElement> = (e) => {
+    const target = e.target as HTMLElement
+    if (target.ariaLabel === 'login') {
+      navigate('/login')  
+    } else if (target.ariaLabel === 'join')
+    navigate('/join')
+  }
+
+  const hover:MouseEventHandler<HTMLDivElement> = (e) => {
+    const target = e.target as HTMLElement
+    if (target.ariaLabel === 'login') {
+      div1.current?.classList.add('routeHover')
+      div2.current?.classList.remove('routeHover')
+    } else {
+      div2.current?.classList.add('routeHover')
+      div1.current?.classList.remove('routeHover')
+    }
+
+    // target.classList.add('routeHover')
+  }
+
+  const hoverOut:MouseEventHandler<HTMLDivElement> = (e) => {
+    const target = e.target as HTMLElement
+    target.classList.remove('routeHover')
+  }
+
+
+
   return (
     <div className="flex justify-center items-center h-[13rem] sm:h-[18rem] md:h-[20rem] lg:h-[29rem] px-4 bg-[#D6B17A]">
       <div id="introSection1" className="flex justify-between items-center text-white sm:px-2 w-full max-w-screen-xl">
@@ -39,8 +76,8 @@ function IntroSection1(): JSX.Element {
               문해력실력을 <br />향상시킬 수 있는 곳
             </div>
             <div className="flex justify-start mb-3 h-[1.5rem] sm:h-[2.4rem] md:h-[2.5rem] w-[6.8rem] sm:w-[15rem] md:w-[16rem] text-[0.5rem] sm:text-[1rem] md:text-[1rem] lg:text-[1.2rem]">
-              <div className="w-full h-[90%] flex justify-center items-center border-2 rounded-xl px-1 mr-1 sm:mr-2 cursor-pointer">입장하기</div>
-              <div className="w-full h-[90%] flex justify-center items-center border-2 rounded-xl px-1 cursor-pointer">가입하기</div>
+              <div ref={div1} aria-label="login" className="w-full h-[90%] flex justify-center items-center border-2 rounded-xl px-1 mr-1 sm:mr-2 cursor-pointer" onClick={nav} onMouseLeave={hoverOut} onMouseEnter={hover}>입장하기</div>
+              <div ref={div2} aria-label="join" className="w-full h-[90%] flex justify-center items-center border-2 rounded-xl px-1 cursor-pointer" onClick={nav} onMouseLeave={hoverOut} onMouseEnter={hover}>가입하기</div>
             </div>
           </div>
         </div>

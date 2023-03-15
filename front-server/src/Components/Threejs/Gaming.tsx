@@ -2,7 +2,12 @@ import {Suspense, useEffect, useRef, useState} from 'react'
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF, useAnimations } from '@react-three/drei';
 
+interface GamingProps {
+  abdx: number | string;
+}
+
 function Gaming() {
+  
   return (
     <div>
       <Canvas>

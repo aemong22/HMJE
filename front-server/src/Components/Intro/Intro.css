@@ -1,0 +1,14 @@
+.routeHover:hover {
+  border-color: #D6B17A;
+  color: #D6B17A;
+  transition: all .4s;
+  font-weight: 400;
+  background-color: white;
+}
+.routeHover:active {
+  border-color: #D6B17A;
+  color: #dc911f;
+  transition: all .4s;
+  font-weight: 500;
+  background-color: white;
+}
