@@ -1,3 +1,4 @@
+import { useGetUserMyinfoQuery } from "../../Store/api";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../Common/Footer";
