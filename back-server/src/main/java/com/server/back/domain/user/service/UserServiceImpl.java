@@ -13,14 +13,8 @@ import com.server.back.domain.user.dto.BadgeResultResponseDto;
 import com.server.back.domain.user.dto.StudyResponseDto;
 import com.server.back.domain.user.dto.UserRequestDto;
 import com.server.back.domain.user.dto.UserResponseDto;
-import com.server.back.domain.user.entity.Badge;
-import com.server.back.domain.user.entity.BadgeResult;
-import com.server.back.domain.user.entity.StudyTime;
-import com.server.back.domain.user.entity.User;
-import com.server.back.domain.user.repository.BadgeRepository;
-import com.server.back.domain.user.repository.BadgeResultRepository;
-import com.server.back.domain.user.repository.StudyTimeRepository;
-import com.server.back.domain.user.repository.UserRepository;
+import com.server.back.domain.user.entity.*;
+import com.server.back.domain.user.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -43,14 +37,19 @@ public class UserServiceImpl implements UserService {
     private final StudyTimeRepository studyTimeRepository;
     private final RightWordRepository rightWordRepository;
     private final DogamResultRepository dogamResultRepository;
+    private final MyCharacterRepository myCharacterRepository;
 
     @Override
     public void join(UserRequestDto requestDto) {
+        MyCharacter myCharacter = myCharacterRepository.findAll().get(0);
+        Badge badge = badgeRepository.findAll().get(0);
         User user = User.builder()
                 .username(requestDto.getUsername())
                 .password(bCryptPasswordEncoder.encode(requestDto.getPassword()))
                 .nickname(requestDto.getNickname())
                 .phoneNumber(requestDto.getPhoneNumber())
+                .characterId(myCharacter)
+                .nowBadge(badge)
                 .level(0)
                 .exp(0)
                 .todaysemo(0)
