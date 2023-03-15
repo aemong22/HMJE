@@ -120,9 +120,9 @@ public class UserController {
     }
     @ApiOperation(value = "내 뱃지 조회")
     @GetMapping("/badge/{userId}")
-    public ResponseEntity<Map<String, Object>> userBadge(@PathVariable(value = "userId") Long userId){
+    public ResponseEntity<Map<String, Object>> myBadgeAll(@PathVariable(value = "userId") Long userId){
         Map<String, Object> response = new HashMap<>();
-        List<BadgeResultResponseDto> responseDtoList = userService.userBadge(userId);
+        List<BadgeResultResponseDto> responseDtoList = userService.myBadgeAll(userId);
         response.put("data", responseDtoList);
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);

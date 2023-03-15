@@ -28,6 +28,7 @@ public class Dogam {
 	private String dogamExam2;
 	private String dogamExam3;
 	private Boolean isRared;
+
     public void update(DogamRequestDto requestDto) {
 		this.dogamName = requestDto.getDogamName();
 		this.dogamClass = requestDto.getDogamClass();
@@ -38,6 +39,6 @@ public class Dogam {
 		this.dogamExam1 = requestDto.getDogamExam1();
 		this.dogamExam2 = requestDto.getDogamExam2();
 		this.dogamExam3 = requestDto.getDogamExam3();
-		this.isRared = requestDto.isRared();
+		this.isRared = requestDto.getIsRared();
 	}
 }
