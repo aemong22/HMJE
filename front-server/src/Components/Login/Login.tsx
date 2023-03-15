@@ -38,7 +38,7 @@ function Login(): JSX.Element {
 
       const accessToken = r.data.accessToken;
       const refreshToken = r.data.refreshToken;
-      const userId = r.data.userid;
+      const userId = r.data.userId;
 
       console.log("accessToken", accessToken);
       console.log("refreshToken", refreshToken);
