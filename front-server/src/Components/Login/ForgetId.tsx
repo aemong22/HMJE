@@ -44,7 +44,6 @@ const ForgetId = () => {
     // }).then((r) => {
     //   console.log(r.data);
     // });
-
     // axios({
     //   method: "post",
     //   url: "https://hmje.net/api/sms/modify",
@@ -82,6 +81,8 @@ const ForgetId = () => {
         console.log("인증message api 요청");
 
         setAmIHidden("");
+        setAuthnum("");
+        setIsAuthnum(false);
         // 인증번호 닫고
         setTimeout(
           () => {
@@ -105,7 +106,7 @@ const ForgetId = () => {
     <div className="flex flex-col justify-between h-[100vh] ">
       <IntroNavbar />
       <div className="container max-w-screen-lg w-full mx-auto flex flex-col ">
-        <div className="flex flex-col mx-5 sm:mx-5 sm:[10%] md:mx-[30%] lg:mx-[10%]">
+        <div className="flex flex-col mx-5 sm:mx-5 sm:[10%] md:mx-[25%] lg:mx-[10%]">
           <div className="my-4 font-extrabold text-[#A87E6E] text-4xl  sm:text-4xl md:text-4xl lg:text-6xl">
             홍민정음
           </div>
@@ -113,7 +114,7 @@ const ForgetId = () => {
             계정찾기
           </div>
         </div>
-        <div className=" flex flex-col max-w-[100%] justify-center my-[2rem] mx-6 md:mx-[30%] lg:mx-[20%]">
+        <div className=" flex flex-col max-w-[100%] justify-center my-[2rem] mx-6 md:mx-[25%] lg:mx-[30%]">
           <div className="w-full">
             <div className={`my-2 `}>
               <div className="text-[#A87C6E] font-extrabold text-base">
