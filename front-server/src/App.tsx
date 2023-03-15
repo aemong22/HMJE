@@ -17,7 +17,8 @@ import AdminExam from "./Components/Admin/AdminExam";
 import AdminContext from "./Components/Admin/AdminContext";
 import AdminBadge from "./Components/Admin/AdminBadge";
 import CheckTest from "./Components/Admin/CheckTest";
-
+import ForgetId from "./Components/Login/ForgetId";
+import ForgetPassword from "./Components/Login/ForgetPassword";
 
 function App() {
   const notify = () => toast("Wow so easy!");
@@ -26,22 +27,24 @@ function App() {
       <Routes>
         <Route path="/" element={<Intro />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forgetid" element={<ForgetId />} />
+        <Route path="/forgetpassword" element={<ForgetPassword />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/join" element={<Join />} />
         <Route path="/main" element={<Main />} />
         <Route path="/dictionary" element={<Dictionary />} />
-        
-        <Route path="/wordStudy" element={<StudyPage/>}/>
-        <Route path="/contextStudy" element={<StudyPage/>}/>
-        <Route path="/reviewStudy" element={<StudyPage/>}/>
 
-        <Route path="/admin" element={<AdminPage/>}>
-          <Route path="" element={<AdminMain/>}/>
-          <Route path="user" element={<AdminUser/>}/>
-          <Route path="badge" element={<AdminBadge/>}/>
-          <Route path="context" element={<AdminContext/>}/>
-          <Route path="exam" element={<AdminExam/>}/>
-          <Route path="check" element={<CheckTest/>}/>
+        <Route path="/wordStudy" element={<StudyPage />} />
+        <Route path="/contextStudy" element={<StudyPage />} />
+        <Route path="/reviewStudy" element={<StudyPage />} />
+
+        <Route path="/admin" element={<AdminPage />}>
+          <Route path="" element={<AdminMain />} />
+          <Route path="user" element={<AdminUser />} />
+          <Route path="badge" element={<AdminBadge />} />
+          <Route path="context" element={<AdminContext />} />
+          <Route path="exam" element={<AdminExam />} />
+          <Route path="check" element={<CheckTest />} />
         </Route>
       </Routes>
     </>
