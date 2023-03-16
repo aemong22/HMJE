@@ -5,9 +5,7 @@ import com.server.back.common.dto.TokenRequestDto;
 import com.server.back.common.service.JwtService;
 import com.server.back.domain.message.dto.FindRequestDto;
 import com.server.back.domain.message.service.SmsService;
-import com.server.back.domain.user.dto.BadgeResultResponseDto;
-import com.server.back.domain.user.dto.StudyResponseDto;
-import com.server.back.domain.user.dto.UserRequestDto;
+import com.server.back.domain.user.dto.*;
 
 import com.server.back.domain.user.service.UserService;
 import io.swagger.annotations.ApiOperation;
