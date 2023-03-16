@@ -1,13 +1,9 @@
 import Footer from "../Common/Footer"
 import Navbar from "../Common/Navbar"
-import CamelSit from "../Threejs/CamelSit"
-import Checked from "../Threejs/Checked"
-import Gaming from "../Threejs/Gaming"
-import Dolphin from "../Threejs/Dolphin"
-import ClownFish from "../Threejs/ClownFish"
 import Pangguin from "../Threejs/Pangguin"
 import { useGetUserMyinfoQuery, useGetUserMystudyQuery } from "../../Store/api"
 import React, { useState } from "react"
+import styled from './MyPage.module.css'
 
 interface UserDataType {
   exp: number,
@@ -37,6 +33,13 @@ interface LevelType {
   levelName: string,
   levelName2: string,
   totalExp: number
+}
+
+interface StudyType {
+  statsRight: number,
+  statsSemo: number,
+  statsWrong: number,
+
 }
 
 function MyPage():JSX.Element {
@@ -123,7 +126,7 @@ function MyPage():JSX.Element {
   const todayTotal = studyData?.data.todayContext + studyData?.data.todayTime + studyData?.data.todayWord
   const statsDate:number = studyData?.data.statsRight - studyData?.data.statsWrong
   const level = levelInfo[userMyInfo?.data.level].levelName2
-  console.log('level: ', level);
+  // console.log('level: ', level);
   
 
   if (todayTotal === 0) {
@@ -141,9 +144,9 @@ function MyPage():JSX.Element {
       {/* 필요 데이터
         nickname, nowbadgeName, expWidth, exp, totalExp, 학습 시간에 따른 문구 
       */}
-      <MyPageSection1V1 nickname={userMyInfo?.data.nickname} nowbadgeName={userMyInfo?.data.nowbadgeName} expWidth={expWidth} exp={userMyInfo?.data.exp} totalExp={totalExp} sentence={sentence} level={level}/>
+      <MyPageSection1V1 nickname={userMyInfo?.data.nickname} nowbadgeName={userMyInfo?.data.nowbadgeName} expWidth={expWidth} exp={userMyInfo?.data.exp} totalExp={totalExp} sentence={sentence} level={level} />
       <MyPageSection2V1 />
-      <MyPageSection1V2 nickname={userMyInfo?.data.nickname} nowbadgeName={userMyInfo?.data.nowbadgeName} expWidth={expWidth} exp={userMyInfo?.data.exp} totalExp={totalExp} sentence={sentence} level={level}/>
+      <MyPageSection1V2 nickname={userMyInfo?.data.nickname} nowbadgeName={userMyInfo?.data.nowbadgeName} expWidth={expWidth} exp={userMyInfo?.data.exp} totalExp={totalExp} sentence={sentence} level={level} />
       <MyPageSection2V2/>
       <MyPageSection3/>
       <Footer/>
@@ -154,8 +157,6 @@ export default MyPage
 
 // 데스크탑 & 태블릿
 function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sentence, level}:Type):JSX.Element {
-  console.log('data: ',nickname, nowbadgeName, expWidth, exp, totalExp, sentence);
-  
   
   return (
     <div className="container max-w-screen-xl h-[26rem] w-[70%] mx-auto hidden md:flex flex-col md:flex-row md:justify-around items-center text-center py-[2rem]">
@@ -245,7 +246,7 @@ function MyPageSection2V1():JSX.Element {
           </div>
         </div>
       </div>
-      <div className="w-1/2 h-full border-4">통계</div>
+      <div className="flex justify-center items-center w-1/2 h-full border-4">통계</div>
     </div>
   )
 }
@@ -360,22 +361,62 @@ function MyPageSection2V2():JSX.Element {
 }
 
 function MyPageSection3():JSX.Element {
+  const nowDate = new Date()
+  const startService:number = 2023
+  
+  const createYearCnt = nowDate.getFullYear() - startService +1  
+  const yearList:number[] = Array.from({length: createYearCnt}, (v,i) => startService+i)
+  const monthList:number[] = Array.from({length: 12}, (v,i)=> i+1)
+
+  const yearSelectElement = (
+    <select className="w-full text-center font-semibold text-[0.7rem] md:text-[0.8rem] lg:text-[0.9rem] text-[#A2A2A2]">
+      {
+        yearList.map((year:number)=> {
+          return <option className="text-center w-full" value={year}>{year}년</option>
+        })
+      }
+    </select>
+  )
+
+  const monthSelectElement = (
+    <select className='w-full text-center font-semibold text-[0.7rem] md:text-[0.8rem] lg:text-[0.9rem] text-[#A2A2A2]'>
+      {
+        monthList.map((month:number)=> {
+          return <option className="text-center w-full" value={month}>{month}월</option>
+        })
+      }
+    </select>
+  )
+
+  console.log('yearSelectElement: ',yearSelectElement);
+  
+  
+
   return (
     <div className="flex flex-col justify-center items-center w-full h-[53rem] sm:h-[57rem] md:h-[58rem] lg:h-[70rem] mb-24">
       <div className="flex justify-center items-center h-[67%] max-w-screen-xl w-[90%] md:w-[70%]">
         {/* 학습 관리 */}
         <div className="flex flex-col justify-center items-start w-full h-[90%]">
-          <div className="h-[10%] sm:h-[8%]">
-            <div className="block text-[0.9rem] sm:text-[1rem] lg:text-[1.1rem] font-semibold pb-2">학습 관리</div>
-            <div className="block font-semibold text-[0.6rem] md:text-[0.7rem] lg:text-[0.8rem] text-[#A2A2A2]">나의 학습 정보를 확인해보세요!</div>
+          <div className="flex justify-between items-center w-full h-[10%] sm:h-[8%]">
+            <div className="flex flex-col w-1/2">
+              <div className="block text-[0.9rem] sm:text-[1rem] lg:text-[1.1rem] font-semibold pb-2">학습 관리</div>
+              <div className="block font-semibold text-[0.6rem] md:text-[0.7rem] lg:text-[0.8rem] text-[#A2A2A2]">나의 학습 정보를 확인해보세요!</div>
+            </div>
+            <div className="flex justify-between items-end w-[45%] md:w-[30%] h-full">
+              {/* <div className="w-full"><span className="flex justify-center items-center border-2 ">2023</span></div> */}
+              <div className="w-full">
+                {yearSelectElement}
+              </div>
+              <div className="w-full">
+                {monthSelectElement}
+              </div>
+            </div>
           </div>
           <div className="h-[45%] sm:h-[46%] w-full mt-4">
             {/* 학습 시간 문구 */}
             <div className="flex justify-between items-center w-full h-[16%] sm:h-[20%]">
               <div className="flex justify-center items-center w-[35%] md:w-[19%] h-[80%] sm:h-[60%] lg:h-[70%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.7rem] sm:text-[0.8rem] lg:text-[1rem]"><span>학습 시간</span></div>
-              <div className="flex justify-between items-center w-[28%] md:w-[15%] sm:h-[60%] lg:h-[70%] font-semibold text-[0.8rem] sm:text-[0.8rem] lg:text-[0.9rem] text-[#868686]">
-                <div className="w-[55%]"><span className="flex justify-center items-center border-2 ">2023</span></div>
-                <div className="w-[45%]"><span className="flex justify-center items-center border-2 ">3월</span></div>
+              <div className="flex justify-between items-center w-[28%] md:w-[20%] sm:h-[60%] lg:h-[70%] font-semibold text-[0.8rem] sm:text-[0.8rem] lg:text-[0.9rem] text-[#868686]">
               </div>
             </div>
             {/* 학습 시간 데이터 */}
@@ -389,10 +430,6 @@ function MyPageSection3():JSX.Element {
             {/* 학습 단어 개수 */}
             <div className="flex justify-between items-center w-full h-[16%] sm:h-[20%]">
               <div className="flex justify-center items-center w-[35%] md:w-[19%] h-[80%] sm:h-[60%] lg:h-[70%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.7rem] sm:text-[0.8rem] lg:text-[1rem]"><span>학습 단어 개수</span></div>
-              <div className="flex justify-between items-center w-[28%] md:w-[15%] sm:h-[60%] lg:h-[70%] font-semibold text-[0.8rem] sm:text-[0.8rem] lg:text-[0.9rem] text-[#868686]">
-                <div className="w-[55%]"><span className="flex justify-center items-center border-2">2023</span></div>
-                <div className="w-[45%]"><span className="flex justify-center items-center border-2">3월</span></div>
-              </div>
             </div>
             {/* 학습 단어 개수 데이터 */}
             <div className="flex justify-center items-center w-full h-[80%]">
