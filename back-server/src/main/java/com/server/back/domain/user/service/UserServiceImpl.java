@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static com.server.back.domain.user.dto.BadgeResultResponseDto.MyBadgeResultList;
@@ -193,5 +195,71 @@ public class UserServiceImpl implements UserService {
                 .statsSemo(user.getTodaysemo())
                 .build();
         return responseDto;
+    }
+    @Override
+    public List<MonthStudyResponseDto> monthstudy(Long userId, MonthStudyRequestDto requestDto){
+        // 달의 마지막 일 찾기
+        int year = requestDto.getYear();
+        int month = requestDto.getMonth();
+        int day = 1;
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month-1, day);
+        int dayMax = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        User user = userRepository.findByUserId(userId);
+
+        //그만큼 dto 담은 리스트 만들어주기
+        List<MonthStudyResponseDto> monthStudyResponseDtos = new ArrayList<>();
+        for (int i=0; i<=dayMax; i++){
+            MonthStudyResponseDto dayStudyResponse = MonthStudyResponseDto.builder()
+                    .WordCount(0)
+                    .ContextCount(0)
+                    .Time(0)
+                    .build();
+            monthStudyResponseDtos.add(dayStudyResponse);
+        }
+
+        //찾는 년월 만들기
+        LocalDate findDate = LocalDate.of(year,month,day);
+        String findMonth = findDate.toString().substring(0,7);   //년월 합쳐서만들어야함
+
+        //단어 갯수 체크
+        List<RightWord> totalwordlist = rightWordRepository.findAllByUser(user);
+        for (RightWord r : totalwordlist){
+            String createdAtMonth = r.getCreatedAt().toString().substring(0,7);
+            String createdAtDay = r.getCreatedAt().toString().substring(8,10);
+            if ((createdAtMonth).equals(findMonth)){
+                MonthStudyResponseDto nowday = monthStudyResponseDtos.get(Integer.parseInt(createdAtDay));
+                System.out.println("nowday = " + nowday);
+                int nowdayword = nowday.getWordCount();
+                nowday.setWordCount(nowdayword+1);
+            }
+        }
+
+        //문맥 갯수 체크
+        List<DogamResult> totalcontextlist = dogamResultRepository.findAllByUserId(user);
+        for (DogamResult d : totalcontextlist){
+            String createdAtMonth = d.getCreatedAt().toString().substring(0,7);
+            String createdAtDay = d.getCreatedAt().toString().substring(8,10);
+            if ((createdAtMonth).equals(findMonth)){
+                MonthStudyResponseDto nowday = monthStudyResponseDtos.get(Integer.parseInt(createdAtDay));
+                System.out.println("nowday = " + nowday);
+                int nowdaycontext = nowday.getContextCount();
+                nowday.setContextCount(nowdaycontext+1);
+            }
+        }
+
+        //학습 시간 체크
+        List<StudyTime> totalstudytimelist = studyTimeRepository.findAllByUser(user);
+        for (StudyTime s : totalstudytimelist){
+            String endTimeMonth = s.getEndTime().toString().substring(0,7);
+            String endTimeDay = s.getEndTime().toString().substring(8,10);
+            if ((endTimeMonth).equals(findMonth)){
+                MonthStudyResponseDto nowday = monthStudyResponseDtos.get(Integer.parseInt(endTimeDay));
+                int nowdayTime = nowday.getTime();
+                nowday.setTime(nowdayTime+s.getStudyTime());
+            }
+        }
+
+        return monthStudyResponseDtos;
     }
 }
