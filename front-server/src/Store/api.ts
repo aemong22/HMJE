@@ -10,6 +10,15 @@ interface decodedInfo {
   username: string; //유저이름
 }
 
+type PostData = {
+  isAdmin: boolean,
+  isSecession: boolean,
+  nickname: string,
+  password: string,
+  phoneNumber: string,
+  username: string
+}
+
 const fetchAccessToken = async () => {
   // const userName: string = localStorage.getItem("userName")
   let accessToken: string | null = localStorage.getItem("accessToken");
@@ -17,7 +26,7 @@ const fetchAccessToken = async () => {
   if (accessToken != null) {
     // 유효성판단 ㄱㄱ
     console.log('유효성판단 ㄱㄱ');
-    
+
     const decode: decodedInfo = jwtDecode(accessToken);
     const nowDate: number = new Date().getTime() / 1000;
     // 토큰 만료시간이 지났다면
@@ -42,7 +51,7 @@ const fetchAccessToken = async () => {
     }
   } else {
     // 토큰이 null 일때
-    console.log("토큰이 null 일때");
+    console.log("토큰이 null 일때 하는짓");
   }
 };
 
@@ -57,20 +66,22 @@ export const hmjeApi = createApi({
     prepareHeaders(headers) {
       headers.set('accessToken', accessToken)
     },
-    fetchFn: async (input, init, ...rest) => {      
+    fetchFn: async (input, init, ...rest) => {
       // Call your axios request before fetching from the base URL
       const accessToken = await fetchAccessToken();
       const headers = new Headers(init?.headers);
       headers.set('accessToken', accessToken);
+      headers.set("content-type", "application/json");
       localStorage.setItem('accessToken', accessToken)
-      return fetch(input, { ...init, headers }, ...rest);
+      return fetch(input, { ...init,headers }, ...rest);
+      //return fetch(input, { ...init }, ...rest);
     },
   }),
-  
+
   endpoints: (builder) => ({
 
     // --------------admin---------------
-    
+
     // 1. 전체 회원 목록
     getAdminUserList: builder.query({
       query: () => "/admin/user",
@@ -80,7 +91,7 @@ export const hmjeApi = createApi({
       }
     }),
 
-    
+
     // --------------user---------------
 
     // 1. 내 정보 조회
@@ -88,8 +99,8 @@ export const hmjeApi = createApi({
       query: (userId: any) => {
         console.log("userId", userId);
         return {
-          url : `/user/myinfo/${userId}`,
-          params : {
+          url: `/user/myinfo/${userId}`,
+          params: {
             userId: userId
           }
         }
@@ -119,33 +130,15 @@ export const hmjeApi = createApi({
       invalidatesTags: (result, error, arg) => [{ type: "Api" }]
     }),
 
-    // 3. 닉네임 중복 체크
-    postUserchecknickname: builder.mutation({
-      query: (data) => {
-        const [nickname, password, phoneNumber, username] = data;
-        return {
-          url: `user/check/nickname`,
-          method: `POST`,
-          body: {
-            isAdmin: false,
-            isSecession: false,
-            nickname: nickname,
-            password: password,
-            phoneNumber: phoneNumber,
-            username: username
-          }
-        }
-      },
-      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
-    }),
+    // 3. 닉네임 중복 체크 => NonAuthApi.ts    
 
     // 4. 학습시간,단어, 문맥, 통계
     getUserMystudy: builder.query({
       query: (userId: any) => {
         console.log("userId", userId);
         return {
-          url : `/user/mystudy/${userId}`,
-          params : {
+          url: `/user/mystudy/${userId}`,
+          params: {
             userId: userId
           }
         }
@@ -154,6 +147,10 @@ export const hmjeApi = createApi({
         return [{ type: "Api" }]
       }
     }),
+
+    // 5. 아이디 중복 체크 => NonAuthApi.ts
+
+    // 6. 회원가입 => NonAuthApi.ts
 
 
     // ---------------STUDY---------------
@@ -163,8 +160,8 @@ export const hmjeApi = createApi({
       query: (userId: any) => {
         console.log("userId", userId);
         return {
-          url : `/study/word/${userId}`,
-          params : {
+          url: `/study/word/${userId}`,
+          params: {
             userId: userId
           }
         }
@@ -174,18 +171,35 @@ export const hmjeApi = createApi({
       }
     }),
 
-    // 2. 결과
-    postStudyWordResult: builder.mutation({
+    // 2. 단어학습 결과
+    postStudyWordResult: builder.mutation<any,any>({
       query: (data) => {
-        const [rightIdList,semo,userId,wrongIdList] = data;
         return {
-          url: `study/word/result`,
-          method: `POST`,
+          url: `/study/word/result`,
+          method: 'POST',
+          body:{
+            rightIdList: data.correct,
+            semo: data.semo,
+            userId: data.userId,
+            wrongIdList: data.wrong,
+          }
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+    // 3. 학습 시간 관리
+    postStudyStudyTime: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/study/studytime`,
+          method: 'POST',
           body: {
-            rightIdList,
-            semo,
-            userId,
-            wrongIdList,
+            endTime:data.korEnd,
+            startTime:data.korStart,
+            studyTime:data.studyTime,
+            studyType:data.type,
+            userId:data.userId,
           }
         }
       },
@@ -200,12 +214,12 @@ export const {
   useLazyGetAdminUserListQuery,
 
   // USER
-  useGetUserMyinfoQuery,  
-  usePutUserdataMutation, 
-  usePostUserchecknicknameMutation, 
+  useGetUserMyinfoQuery,
+  usePutUserdataMutation,
   useGetUserMystudyQuery,
-  
+
   // STUDY
   useLazyGetStudyWordQuery,
-  usePostStudyWordResultMutation
+  usePostStudyWordResultMutation,
+  usePostStudyStudyTimeMutation
   } = hmjeApi 
