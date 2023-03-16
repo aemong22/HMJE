@@ -60,7 +60,7 @@ function Login(): JSX.Element {
     PostUserlogin(data)
       .unwrap()
       .then((r: any) => {
-        if (r.status === 200) {
+        if (r.status === "200") {
           console.log("받는 데이터", r);
           const accessToken = r.accessToken;
           const refreshToken = r.refreshToken;
@@ -75,7 +75,7 @@ function Login(): JSX.Element {
         }
       })
       .catch((e) => {
-        if (e.status) {
+        if (e.status === "401" || e.status === "500") {
           alert("아이디 혹은 패스워드가 틀렸습니다");
         }
       });
