@@ -71,9 +71,10 @@ export const hmjeApi = createApi({
       const accessToken = await fetchAccessToken();
       const headers = new Headers(init?.headers);
       headers.set('accessToken', accessToken);
+      headers.set("content-type", "application/json");
       localStorage.setItem('accessToken', accessToken)
-      return fetch(input, { ...init, headers }, ...rest);
-      // return fetch(input, { ...init, }, ...rest);
+      return fetch(input, { ...init,headers }, ...rest);
+      //return fetch(input, { ...init }, ...rest);
     },
   }),
 
@@ -170,18 +171,35 @@ export const hmjeApi = createApi({
       }
     }),
 
-    // 2. 결과
-    postStudyWordResult: builder.mutation({
+    // 2. 단어학습 결과
+    postStudyWordResult: builder.mutation<any,any>({
       query: (data) => {
-        const [rightIdList, semo, userId, wrongIdList] = data;
         return {
-          url: `study/word/result`,
-          method: `POST`,
+          url: `/study/word/result`,
+          method: 'POST',
+          body:{
+            rightIdList: data.correct,
+            semo: data.semo,
+            userId: data.userId,
+            wrongIdList: data.wrong,
+          }
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+    // 3. 학습 시간 관리
+    postStudyStudyTime: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/study/studytime`,
+          method: 'POST',
           body: {
-            rightIdList,
-            semo,
-            userId,
-            wrongIdList,
+            endTime:data.korEnd,
+            startTime:data.korStart,
+            studyTime:data.studyTime,
+            studyType:data.type,
+            userId:data.userId,
           }
         }
       },
@@ -202,5 +220,6 @@ export const {
 
   // STUDY
   useLazyGetStudyWordQuery,
-  usePostStudyWordResultMutation
-} = hmjeApi 
+  usePostStudyWordResultMutation,
+  usePostStudyStudyTimeMutation
+  } = hmjeApi 

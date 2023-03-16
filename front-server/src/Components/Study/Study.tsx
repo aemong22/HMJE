@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import { toast } from "react-toastify";
+import { Toast } from "../Common/Toast";
 
 function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,setSemo,right, setRight, openModal, setResultModal}:any): JSX.Element {
 
@@ -18,10 +20,11 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
   const [stop, setStop] = useState<Boolean>(false);
 
   // 타이머
-  const [count, setCount] = useState(5);
+  const [count, setCount] = useState(30);
 
    useEffect(() => {
-    setCount(5);
+    setCount(30);
+    SpeechRecognition.stopListening();
    },[num])
 
    
@@ -65,24 +68,21 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
   } = useSpeechRecognition();
 
 
-  var word = transcript.split(" ")[0];
   useEffect(() => {
-        setInput(word)
-  },[word,listening])
+      var word = transcript.split(" ")[0];
+      setInput(word)
+  },[transcript,listening])
 
   useEffect(() => {
-    if((transcript.split(" ")[0] === input ) && (transcript.length > 0))  {
-      resetTranscript()
+    if((transcript.split(" ")[0] === input ) && (transcript.length > 0) && (!listening))  {
       setTimeout(() => {
-        console.log("here" , transcript)
         submit();
       },2000)
     }
-  },[input])
+  },[input,listening])
 
   const submit = () => {
     resetTranscript()
-    word = ""
     setInput("")
     //정답
     if(input === question[num].wordName) {
@@ -101,13 +101,14 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
 
     // 오답 -> toast 띄우기
     else{
-      
+      toast.error("틀렸습니다")
     }
   }
 
 
   return(
     <>
+      <Toast />
       <div className="bg-[#F9F9F9] lg:py-16 py-10">
         <div className="relative container max-w-screen-xl w-full p-2 mx-auto flex lg:flex-row flex-col lg:justify-between overflow-x-hidden">
           {/* 왼쪽 상단 */}
@@ -134,8 +135,8 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
             <div>
               <div className="flex flex-wrap justify-between w-full relative">
                 <input type="text" value={input} className="m-1 block w-full p-4 pl-5 text-sm text-gray-900 border border-gray-300 rounded-lg focus:outline-none bg-gray-50" placeholder="정답을 입력하세요." 
-                required onChange={(e:any)=>onChange(e)} onKeyDown={(e:any)=>{
-                  if (e.key === 'Enter') {
+                required onChange={(e:any)=>onChange(e)} onKeyPress={(e:any)=>{
+                  if ((e.key === 'Enter') && input.length > 0) {
                     submit(); // Enter 입력이 되면 클릭 이벤트 실행
                   }
                 }}/>
