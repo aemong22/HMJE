@@ -1,16 +1,22 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { usePostUserloginMutation } from "../../Store/NonAuthApi";
 import Api from "../Common/Api";
 import Footer from "../Common/Footer";
 import IntroNavbar from "../Intro/IntroNavbar";
-
+type login = {
+  username: string;
+  password: string;
+};
 function Login(): JSX.Element {
   const navigate = useNavigate();
   // 입력 타입
   // type input = string | undefined;
 
-  const [Id, setId] = useState<string>();
-  const [Password, setPassword] = useState<string>();
+  const [Id, setId] = useState<string>("");
+  const [Password, setPassword] = useState<string>("");
+
+  const [PostUserlogin, isloading5] = usePostUserloginMutation();
 
   const ChangeId = (event: any): void => {
     setId(event.target.value);
@@ -49,24 +55,26 @@ function Login(): JSX.Element {
     console.log(Id);
     console.log(Password);
 
-    Api.post("/login", {
-      username: Id,
-      password: Password,
-    }).then((r) => {
-      console.log("받는 데이터", r.data);
+    const data: login = { username: Id, password: Password };
 
-      const accessToken = r.data.accessToken;
-      const refreshToken = r.data.refreshToken;
-      const userId = r.data.userId;
+    PostUserlogin(data)
+      .unwrap()
 
-      console.log("accessToken", accessToken);
-      console.log("refreshToken", refreshToken);
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("userName", Id!);
-      localStorage.setItem("userId", userId);
-      localStorage.setItem("refreshToken", refreshToken);
-      navigate("/main");
-    });
+      .then((r: any) => {
+        console.log("받는 데이터", r);
+
+        const accessToken = r.accessToken;
+        const refreshToken = r.refreshToken;
+        const userId = r.userId;
+
+        console.log("accessToken", accessToken);
+        console.log("refreshToken", refreshToken);
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("userName", Id!);
+        localStorage.setItem("userId", userId);
+        localStorage.setItem("refreshToken", refreshToken);
+        // navigate("/main");
+      });
   };
 
   const Social = () => {

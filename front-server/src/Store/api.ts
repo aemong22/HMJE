@@ -136,8 +136,8 @@ export const hmjeApi = createApi({
       query: (userId: any) => {
         console.log("userId", userId);
         return {
-          url : `/user/mystudy/${userId}`,
-          params : {
+          url: `/user/mystudy/${userId}`,
+          params: {
             userId: userId
           }
         }
@@ -159,8 +159,8 @@ export const hmjeApi = createApi({
       query: (userId: any) => {
         console.log("userId", userId);
         return {
-          url : `/study/word/${userId}`,
-          params : {
+          url: `/study/word/${userId}`,
+          params: {
             userId: userId
           }
         }
@@ -173,7 +173,7 @@ export const hmjeApi = createApi({
     // 2. 결과
     postStudyWordResult: builder.mutation({
       query: (data) => {
-        const [rightIdList,semo,userId,wrongIdList] = data;
+        const [rightIdList, semo, userId, wrongIdList] = data;
         return {
           url: `study/word/result`,
           method: `POST`,
@@ -196,11 +196,11 @@ export const {
   useLazyGetAdminUserListQuery,
 
   // USER
-  useGetUserMyinfoQuery,  
-  usePutUserdataMutation,   
+  useGetUserMyinfoQuery,
+  usePutUserdataMutation,
   useGetUserMystudyQuery,
-  
+
   // STUDY
   useLazyGetStudyWordQuery,
   usePostStudyWordResultMutation
-  } = hmjeApi 
+} = hmjeApi 

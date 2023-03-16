@@ -199,6 +199,7 @@ const Join = () => {
     }
     // 닉네임
     else if (e.target.id === "Nickname") {
+      // 2글자에서 6글자
       console.log("닉네임확인", Nickname);
       if (Nickname === "") {
         alert("빈칸은 ㄴㄴ");

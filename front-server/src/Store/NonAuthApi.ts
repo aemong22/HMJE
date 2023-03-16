@@ -8,11 +8,20 @@ type PostData = {
   phoneNumber: string,
   username: string
 }
+
+type login = {
+  username: string,
+  password: string,
+}
+const accessToken: any = localStorage.getItem('accessToken')
 export const NonAuthApi = createApi({
   reducerPath: "NonAuthApi",
   tagTypes: ['NonAuthApi'],
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://hmje.net/api',
+    prepareHeaders(headers) {
+      headers.set(accessToken, accessToken)
+    }
   }),
   endpoints: (builder) => ({
     // ================sms================
@@ -88,18 +97,36 @@ export const NonAuthApi = createApi({
       },
       invalidatesTags: (result, error, arg) => [{ type: "NonAuthApi" }]
     }),
+
+    // 4. 로그인
+
+    postUserlogin: builder.mutation<login, login>({
+      query: (data) => {
+        console.log("로그인 rtk에서 받은 데이터 : ", data);
+        return {
+          url: `/login`,
+          method: "POST",
+          body: {
+            username: data.username,
+            password: data.password
+          },
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "NonAuthApi" }]
+    }),
   })
 })
 
 export const {
   // sms
-  // 인증번호
+
   usePostSmsmodifyMutation,
   usePostSmssendMutation,
   // user
-  //  중복확인
+
   usePostUserchecknicknameMutation,
   usePostUsercheckusernameMutation,
-  usePostUserjoinMutation
+  usePostUserjoinMutation,
+  usePostUserloginMutation
 
 } = NonAuthApi;
