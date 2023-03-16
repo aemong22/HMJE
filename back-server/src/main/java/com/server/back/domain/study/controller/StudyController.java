@@ -2,6 +2,7 @@ package com.server.back.domain.study.controller;
 
 import com.server.back.domain.study.dto.StudyRequestDto;
 import com.server.back.domain.study.dto.StudyTimeRequestDto;
+import com.server.back.domain.study.dto.WordResponseDto;
 import com.server.back.domain.study.entity.Dogam;
 import com.server.back.domain.study.entity.Word;
 import com.server.back.domain.study.service.StudyService;
@@ -29,7 +30,7 @@ public class StudyController {
     @GetMapping("/word/{userId}")
     public ResponseEntity<Map<String, Object>> wordQuestion(@PathVariable(value = "userId") Long userId){
         Map<String, Object> response = new HashMap<>();
-        List<Word> wordQuestion = studyService.wordQuestion(userId);
+        List<WordResponseDto> wordQuestion = studyService.wordQuestion(userId);
         response.put("data", wordQuestion);
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
