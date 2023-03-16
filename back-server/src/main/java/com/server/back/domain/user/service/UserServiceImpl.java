@@ -9,10 +9,7 @@ import com.server.back.domain.study.entity.DogamResult;
 import com.server.back.domain.study.entity.RightWord;
 import com.server.back.domain.study.repository.DogamResultRepository;
 import com.server.back.domain.study.repository.RightWordRepository;
-import com.server.back.domain.user.dto.BadgeResultResponseDto;
-import com.server.back.domain.user.dto.StudyResponseDto;
-import com.server.back.domain.user.dto.UserRequestDto;
-import com.server.back.domain.user.dto.UserResponseDto;
+import com.server.back.domain.user.dto.*;
 import com.server.back.domain.user.entity.*;
 import com.server.back.domain.user.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -236,7 +233,7 @@ public class UserServiceImpl implements UserService {
         }
 
         //문맥 갯수 체크
-        List<DogamResult> totalcontextlist = dogamResultRepository.findAllByUserId(user);
+        List<DogamResult> totalcontextlist = dogamResultRepository.findAllByUserOrderByDogamDesc(user);
         for (DogamResult d : totalcontextlist){
             String createdAtMonth = d.getCreatedAt().toString().substring(0,7);
             String createdAtDay = d.getCreatedAt().toString().substring(8,10);
