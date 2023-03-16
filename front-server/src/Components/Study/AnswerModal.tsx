@@ -29,22 +29,29 @@ function AnswerModal({closeModal, right,question,num,setNum, setRight, studyType
                 {/*body header*/}
                 <div className="relative px-4 pt-3 flex justify-between items-end">
                     <div className="flex items-end">
-                        <div className="md:text-[1.5rem] text-[1.2rem] font-bold mr-1">{question[num].word_name}</div>
-                        <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">[한자]</div>
-                        <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{question[num].word_type}</div>
+                        <div className="md:text-[1.5rem] text-[1.2rem] font-bold mr-1">{question[num].wordName}</div>
+                        {question[num].wordOrigin && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">[{question[num].wordOrigin}]</div>}
+                        <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{question[num].wordType}</div>
                     </div>
-                    <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{question[num].word_rating}</div>
+                    {question[num].wordRating != "없음" && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{question[num].wordRating}</div>}
                 </div>
                 {/* body content */}
-                <div className="relative px-4 py-3">
-                    <div className="bg-[#F4EFEC] rounded-lg p-4 md:text-[1.1rem] text-[1rem] font-medium">
-                    {question[num].word_detail}
-                        <div className="mt-2 md:text-[1rem] text-[0.9rem] text-[#666666] leading-6">
+                <div className="relative px-4 py-3 max-h-[50vh] overflow-y-auto">
+                    {question[num].wordDetailList.map((detail:any , idx:any) => {
+                        console.log("뜻 개수",question[num].wordDetailList.length)
+                        let temp =  detail.wordExampleList.filter((ex:any) => ex.exampleType === "문장")[0]?.exampleDetail
+                        let example = temp ? temp : detail.wordExampleList[0]?.exampleDetail
+                        return(
+                        <div key={idx}className="bg-[#F4EFEC] rounded-lg p-4 md:text-[1.1rem] text-[1rem] font-medium my-2">
+                            {detail.details}
+                            <div className="mt-2 md:text-[1rem] text-[0.9rem] text-[#666666] leading-6">
                             <span className="mr-1 font-bold text-[#ffffff] rounded-full px-3 py-1 bg-[#F7CCB7] md:text-[0.9rem] text-[0.8rem]">예제</span>
-                            {question[num].word_example}
+                            {example}
+                            </div>
                         </div>
-                    </div>
+                        )
 
+                    })}
                 </div>
 
                 {/*footer*/}
