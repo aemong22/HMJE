@@ -9,11 +9,9 @@ function AnswerModal({closeModal, right,question,num,setNum, setRight, studyType
             }
         }
 
-
-    
-    const motion = () => {
-        closeModal()
+        const motion = () => {
         setRight(false)
+        closeModal()
         if(studyType === "wordStudy"){
             if(num < 9){
                 setNum(num+1)
@@ -60,7 +58,7 @@ function AnswerModal({closeModal, right,question,num,setNum, setRight, studyType
                 </div>
 
                 {/*body header*/}
-                <div className="relative px-4 pt-3 flex justify-between items-end">
+                <div className="relative px-4 pt-3 flex justify-between items-end sm:min-w-[25rem] min-w-[19rem]">
                     <div className="flex items-end">
                         <div className="md:text-[1.5rem] text-[1.2rem] font-bold mr-1">{question[num].wordName}</div>
                         {question[num].wordOrigin && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">[{question[num].wordOrigin}]</div>}
@@ -97,7 +95,8 @@ function AnswerModal({closeModal, right,question,num,setNum, setRight, studyType
                         }
                     }
                   >
-                    다음 문제
+                    {studyType === "wordStudy" && num >= 9 ? <>결과 보기</> : <>다음 문제</>}
+                    
                   </button>
                 </div>
               </div>

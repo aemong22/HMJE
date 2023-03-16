@@ -11,13 +11,19 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
 
     //RTK
     const [postStudyWordResult, {isLoading : resultLoading, error:resultError}]= usePostStudyWordResultMutation();
+    const [postStudyStudyTime, {isLoading : timeLoading, error:timeError}] = usePostStudyStudyTimeMutation();
+
     useEffect(() => {
-      postStudyWordResult({correct,semo, userId,wrong}).then((result) =>  {
-        console.log("post 결과", result)
-      })
+      if(studyType === "wordStudy") {
+        postStudyWordResult({correct,semo, userId,wrong}).then((result) =>  {
+        })
+        const type = 0
+        postStudyStudyTime({korEnd,korStart,studyTime,type,userId}).then((result) => {
+        })
+
+      }
 
     },[])
-    const [postStudyStudyTime] = usePostStudyStudyTimeMutation();
 
     let getExp = 0;
 
@@ -27,8 +33,8 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
     
     // 시작시간 커스텀
     const korStart = new Date(startTime).toISOString();
-    // korStart.setHours(korStart.getHours()+9)
-    console.log("한국 시작 시간", korStart)
+    // 끝 시간 커스텀
+    const korEnd = new Date(endTime).toISOString();
 
     // 끝 시간 커스텀
 
@@ -39,12 +45,11 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
         getExp = Object.keys(correct).length * 10
     }
 
-    if(resultLoading) {
+    if(resultLoading || timeLoading) {
       return <>Loading...</>
     }
 
-    if(resultError) {
-      console.log(resultError)
+    if(resultError|| timeError) {
       return <>error...</>
     }
 

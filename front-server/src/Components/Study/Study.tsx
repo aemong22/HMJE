@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
 
 function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,setSemo,right, setRight, openModal, setResultModal}:any): JSX.Element {
@@ -74,12 +74,12 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
   },[transcript,listening])
 
   useEffect(() => {
-    if((transcript.split(" ")[0] === input ) && (transcript.length > 0))  {
+    if((transcript.split(" ")[0] === input ) && (transcript.length > 0) && (!listening))  {
       setTimeout(() => {
         submit();
       },2000)
     }
-  },[input])
+  },[input,listening])
 
   const submit = () => {
     resetTranscript()

@@ -71,6 +71,7 @@ export const hmjeApi = createApi({
       const accessToken = await fetchAccessToken();
       const headers = new Headers(init?.headers);
       headers.set('accessToken', accessToken);
+      headers.set("content-type", "application/json");
       localStorage.setItem('accessToken', accessToken)
       return fetch(input, { ...init,headers }, ...rest);
       //return fetch(input, { ...init }, ...rest);
@@ -190,16 +191,15 @@ export const hmjeApi = createApi({
     // 3. 학습 시간 관리
     postStudyStudyTime: builder.mutation({
       query: (data) => {
-        const [endTime,startTime,studyTime,studyType,userId] = data;
         return {
-          url: `study/studyTime`,
-          method: `POST`,
+          url: `/study/studytime`,
+          method: 'POST',
           body: {
-            endTime,
-            startTime,
-            studyTime,
-            studyType,
-            userId,
+            endTime:data.korEnd,
+            startTime:data.korStart,
+            studyTime:data.studyTime,
+            studyType:data.type,
+            userId:data.userId,
           }
         }
       },

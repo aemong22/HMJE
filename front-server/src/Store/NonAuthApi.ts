@@ -114,25 +114,6 @@ export const NonAuthApi = createApi({
       },
       invalidatesTags: (result, error, arg) => [{ type: "NonAuthApi" }]
     }),
-
-
-    //  --------- STUDY ------------
-        // 2. 단어학습 결과
-        postStudyWordResult: builder.mutation<any,any>({
-          query: (data) => {
-            return {
-              url: `/study/word/result`,
-              method: 'POST',
-              body:{
-                rightIdList: data.correct,
-                semo: data.semo,
-                userId: data.userId,
-                wrongIdList: data.wrong,
-              },
-            }
-          },
-          invalidatesTags: (result, error, arg) => [{ type: "NonAuthApi" }]
-        }),
     
   })
 })
@@ -148,8 +129,5 @@ export const {
   usePostUsercheckusernameMutation,
   usePostUserjoinMutation,
   usePostUserloginMutation,
-
-  // STUDY
-  usePostStudyWordResultMutation,
 
 } = NonAuthApi;

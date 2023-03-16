@@ -128,10 +128,10 @@ function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
   const expWidth = (userMyInfo.exp / levelInfo[userMyInfo.level].totalExp) * 100 + "%"
 
   // 학습 시간 h , m , s
-  let time = userMyStudy.todayTime
-  const h = time / 3600
+  let time:number = userMyStudy.todayTime
+  const h =  Math.floor(time / 3600);
   time = time % 3600
-  const m = time / 60
+  const m:number = Math.floor(time / 60);
   time = time % 60
   const s = time
 
@@ -150,7 +150,7 @@ function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
               {levelInfo[userMyInfo?.level].levelName2}
             </div>
             <div className="bg-[#F0ECE9] rounded-lg my-2">
-              <div className="bg-[#F7CCB7] rounded-lg py-[0.5rem]" style={{width:`${expWidth}`}}></div>
+              <div className="bg-[#F7CCB7] rounded-lg py-[0.5rem]" style={{width:`${expWidth}` , maxWidth:"100%"}}></div>
             </div>
             <div className="text-[1rem] text-zinc-400"> {userMyInfo.exp} / {levelInfo[userMyInfo.level].totalExp}</div>
           </div>
