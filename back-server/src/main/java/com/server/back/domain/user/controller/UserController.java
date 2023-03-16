@@ -132,7 +132,7 @@ public class UserController {
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    @ApiOperation(value = "학습시간,단어,문맥,통계 ")
+    @ApiOperation(value = "학습시간,단어,문맥,통계")
     @GetMapping("/mystudy/{userId}")
     public ResponseEntity<Map<String, Object>> mystudy(@PathVariable(value = "userId") Long userId){
         Map<String, Object> response = new HashMap<>();
@@ -141,7 +141,7 @@ public class UserController {
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    @ApiOperation(value = "학습시간,단어,문맥,통계 한달치 ")
+    @ApiOperation(value = "학습시간,단어,문맥,통계 한달치")
     @PostMapping("/monthstudy/{userId}")
     public ResponseEntity<Map<String, Object>> monthstudy(@PathVariable(value = "userId") Long userId, @RequestBody MonthStudyRequestDto requestDto){
         Map<String, Object> response = new HashMap<>();

@@ -210,7 +210,9 @@ public class UserServiceImpl implements UserService {
             MonthStudyResponseDto dayStudyResponse = MonthStudyResponseDto.builder()
                     .WordCount(0)
                     .ContextCount(0)
-                    .Time(0)
+                    .WrongTime(0)
+                    .ContextTime(0)
+                    .WordTime(0)
                     .build();
             monthStudyResponseDtos.add(dayStudyResponse);
         }
@@ -252,8 +254,16 @@ public class UserServiceImpl implements UserService {
             String endTimeDay = s.getEndTime().toString().substring(8,10);
             if ((endTimeMonth).equals(findMonth)){
                 MonthStudyResponseDto nowday = monthStudyResponseDtos.get(Integer.parseInt(endTimeDay));
-                int nowdayTime = nowday.getTime();
-                nowday.setTime(nowdayTime+s.getStudyTime());
+                if (s.getStudyType().equals(0)){
+                    int nowdayWordTime = nowday.getWordTime();
+                    nowday.setWordTime(nowdayWordTime+s.getStudyTime());
+                } else if (s.getStudyType().equals(1)) {
+                    int nowdayContextTime = nowday.getContextTime();
+                    nowday.setContextTime(nowdayContextTime+s.getStudyTime());
+                }else if (s.getStudyType().equals(2)){
+                    int nowdayWrongTime = nowday.getContextTime();
+                    nowday.setWrongTime(nowdayWrongTime+s.getStudyTime());
+                }
             }
         }
 
