@@ -6,20 +6,144 @@ import Gaming from "../Threejs/Gaming"
 import Dolphin from "../Threejs/Dolphin"
 import ClownFish from "../Threejs/ClownFish"
 import Pangguin from "../Threejs/Pangguin"
-import { useGetUserMyinfoQuery } from "../../Store/api"
+import { useGetUserMyinfoQuery, useGetUserMystudyQuery } from "../../Store/api"
+import React, { useState } from "react"
+
+interface UserDataType {
+  exp: number,
+  isAdmin: boolean,
+  isSecession: boolean,
+  level: number,
+  nickname: string,
+  nowbadgeId: number,
+  nowbadgeImage: string,
+  nowbadgeName: string,
+  phoneNumber: string,
+  username: string
+}
+
+
+interface Type {
+  nickname: string, 
+  nowbadgeName: string, 
+  expWidth: string, 
+  exp: number, 
+  totalExp: number,
+  sentence: React.ReactNode,
+  level: string
+}
+
+interface LevelType {
+  levelName: string,
+  levelName2: string,
+  totalExp: number
+}
 
 function MyPage():JSX.Element {
+  const [userData,setUserData] = useState()
   const userId = localStorage.getItem('userId')
-  const {data, isError, isLoading} = useGetUserMyinfoQuery(userId)
-  console.log('data: ',data);
-  console.log('data: ',data?.data);
+  const {data:userMyInfo, isError:isError1, isLoading:isLoading1} = useGetUserMyinfoQuery(userId)
+  const {data:studyData, isError:isError2, isLoading:isLoading2} = useGetUserMystudyQuery(userId)
+
+  if (isLoading1 || isLoading2) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError1 || isError2) {
+    return <>Error: {isError1 || isError2}</>;
+  }
+
+  // 레벨 경험치
+  const levelInfo: LevelType[] = [
+  {
+    levelName: "정일품",
+    levelName2: "正一品",
+    totalExp: 100
+  },
+  {
+    levelName: "정이품",
+    levelName2: "正二品",
+    totalExp: 200
+  },
+  {
+    levelName: "정삼품",
+    levelName2: "正三品",
+    totalExp: 400
+  },
+  {
+    levelName: "정사품",
+    levelName2: "正四品",
+    totalExp: 800
+  },
+  {
+    levelName: "정오품",
+    levelName2: "正五品",
+    totalExp: 1600
+  },
+  {
+    levelName: "정육품",
+    levelName2: "正六品",
+    totalExp: 3200
+  },
+  {
+    levelName: "정칠품",
+    levelName2: "正七品",
+    totalExp: 6400
+  },
+  {
+    levelName: "정팔품",
+    levelName2: "正八品",
+    totalExp: 12800
+  },
+  {
+    levelName: "정구품",
+    levelName2: "正九品",
+    totalExp: 25600
+  },
+  ]
+  // 경험치 비율 width
+  const expWidth = (userMyInfo?.data.exp / levelInfo[userMyInfo?.data.level].totalExp) * 100 + "%"
   
+  const totalExp = levelInfo[userMyInfo?.data.level].totalExp
+
+  // 학습 데이터에 따른 캐릭터 문구
+  
+  const sentenceList: {
+    [key: number]: React.ReactNode
+  } = {
+    0: <div>오늘 학습한 데이터가 없어서 울고있어요.😥 <br/>서둘러 학습을 해주세요</div>,
+    1: <div>현재 맞춘 개수가 더 많아서 행복해 하고 있어요.😊 <br/>더 화이팅 해주세요</div>,
+    2: <div>현재 틀린 개수가 더 많아서 슬퍼하고 있어요.😓 <br/> 더 힘내주세요</div>,
+  }
+  let sentence:React.ReactNode
+
+  console.log('studyData: ', studyData?.data);
+  
+
+  const todayTotal = studyData?.data.todayContext + studyData?.data.todayTime + studyData?.data.todayWord
+  const statsDate:number = studyData?.data.statsRight - studyData?.data.statsWrong
+  const level = levelInfo[userMyInfo?.data.level].levelName2
+  console.log('level: ', level);
+  
+
+  if (todayTotal === 0) {
+    sentence = sentenceList[0]
+  } else if (statsDate > 0) {
+    sentence = sentenceList[1]
+  } else if (statsDate < 0) {
+    sentence = sentenceList[2]
+  }
+
   return (
     <>
+    
       <Navbar/>
-      <MyPageSection1V1/>
-      <MyPageSection2V1/>
-      <MyPageSection1V2/>
+      {/* 필요 데이터
+        nickname, nowbadgeName, expWidth, exp, totalExp, 학습 시간에 따른 문구 
+      */}
+      <MyPageSection1V1 nickname={userMyInfo?.data.nickname} nowbadgeName={userMyInfo?.data.nowbadgeName} expWidth={expWidth} exp={userMyInfo?.data.exp} totalExp={totalExp} sentence={sentence} level={level}/>
+      <MyPageSection2V1 />
+      <MyPageSection1V2 nickname={userMyInfo?.data.nickname} nowbadgeName={userMyInfo?.data.nowbadgeName} expWidth={expWidth} exp={userMyInfo?.data.exp} totalExp={totalExp} sentence={sentence} level={level}/>
       <MyPageSection2V2/>
       <MyPageSection3/>
       <Footer/>
@@ -29,12 +153,15 @@ function MyPage():JSX.Element {
 export default MyPage
 
 // 데스크탑 & 태블릿
-function MyPageSection1V1():JSX.Element {
+function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sentence, level}:Type):JSX.Element {
+  console.log('data: ',nickname, nowbadgeName, expWidth, exp, totalExp, sentence);
+  
+  
   return (
     <div className="container max-w-screen-xl h-[26rem] w-[70%] mx-auto hidden md:flex flex-col md:flex-row md:justify-around items-center text-center py-[2rem]">
       <div className="flex flex-col md:w-[50%] h-full bg-[#ffffff] rounded-md ">
         <Pangguin position={-2} />
-        <div className="bg-[#D9D9D9] rounded-xl font-semibold text-[0.6rem] md:text-[0.7rem] lg:text-[0.8rem] w-full py-1">학습 데이터 없어 슬퍼요 <br />서둘러 학습해주세요😥</div>
+        <div className="bg-[#D9D9D9] rounded-xl font-semibold text-[0.6rem] md:text-[0.7rem] lg:text-[0.8rem] w-full py-1">{sentence}</div>
       </div>
       <div className="md:w-[45%] pt-[1rem] pb-[0.5rem] px-4">
         <div className="flex justify-center items-center h-full w-full">
@@ -42,7 +169,7 @@ function MyPageSection1V1():JSX.Element {
           <div className="flex flex-col justify-center items-center h-4/5 w-full">
             <div className="flex justify-between items-center w-full pb-1">
               {/* 칭호 & 수정 */}
-              <div className="sm:text-[0.7rem] md:text-[0.8rem] lg:text-[1rem]">🥕&nbsp;한글을 사랑하는 자</div>
+              <div className="sm:text-[0.7rem] md:text-[0.8rem] lg:text-[1rem]">🥕&nbsp; {nowbadgeName}</div>
               <div className="text-[#8E8E8E] sm:text-[0.7rem] lg:text-[0.8rem]">정보 수정⚙</div>
             </div>
             <div className="flex flex-col justify-center items-center w-full">
@@ -50,16 +177,16 @@ function MyPageSection1V1():JSX.Element {
                 {/* 닉네임 & 등급 & 경험치 */}
                 <div className="pb-1">
                   {/* 닉네임 & 등급 */}
-                  <span className="mr-1 sm:text-[1.5rem] lg:text-[1.8rem] font-semibold">오리</span><span className="sm:text-[0.75rem] lg:text-[1rem] text-[#525252]">정 2품</span>
+                  <span className="mr-1 sm:text-[1.5rem] lg:text-[1.8rem] font-semibold">{nickname}</span><span className="text-[0.5rem] px-1 border-2 border-[#A87E6E] w-fit mx-auto rounded-full bg-[#F0ECE9] font-bold text-[#A87E6E]">{level}</span>
                 </div>
                 <div className="text-[1rem] text-[#525252]">
                   {/* 등급 */}
-                  220 / 480
+                  {exp}/{totalExp}
                 </div>
               </div>
               <div className="w-full rounded-xl h-4 bg-[#F0ECE9]">
                 {/* 경험치 바: 위에서 퍼센트 계산해서 넣으면 될듯?*/}
-                <div className="w-[50%] rounded-xl h-full bg-[#F7CCB7]">
+                <div className="rounded-xl h-full bg-[#F7CCB7]" style={{width: `${expWidth}`}}>
                   &nbsp;
                 </div>
               </div>
@@ -125,7 +252,7 @@ function MyPageSection2V1():JSX.Element {
 
 
 // 모바일
-function MyPageSection1V2():JSX.Element {
+function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sentence, level}:Type):JSX.Element {
   return (
     <div className="flex flex-col md:hidden justify-center items-center h-[26rem] mt-7">
       <div className="flex justify-center items-center w-[90%] h-[70%]">
@@ -134,10 +261,10 @@ function MyPageSection1V2():JSX.Element {
           <div className="flex flex-col justify-end items-center w-full h-full">
             <div className="flex justify-between items-center w-full pb-1 text-[0.6rem]">
               {/* 칭호 & 수정 */}
-              <div>🥕&nbsp;한글을 사랑하는 자</div>
+              <div>🥕&nbsp;{nowbadgeName}</div>
               <div className="text-[#8E8E8E]">정보 수정⚙</div>
             </div>
-            <span className="text-left w-full mr-1 text-[1.2rem] font-semibold">오리</span>
+            <span className="text-left w-full mr-1 text-[1.2rem] font-semibold">{nickname}</span>
             {/* <Gaming/> */}
             <Pangguin position={-2}/>
           </div>
@@ -159,20 +286,20 @@ function MyPageSection1V2():JSX.Element {
               {/* 닉네임 & 등급 & 경험치 */}
               <div className="pb-1">
                 {/* 닉네임 & 등급 */}
-                <span className="text-[0.5rem] text-[#525252]">정 2품</span>
+                <span className="text-[0.5rem] px-1 border-2 border-[#A87E6E] w-fit mx-auto rounded-full bg-[#F0ECE9] font-bold text-[#A87E6E]">{level}</span>
               </div>
               <div className="text-[0.7rem] text-[#525252]">
                 {/* 등급 */}
-                220 / 480
+                {exp}/{totalExp}
               </div>
             </div>
             <div className="flex justify-start items-center w-full rounded-xl h-4 bg-[#F0ECE9]">
               {/* 경험치 바: 위에서 퍼센트 계산해서 넣으면 될듯?*/}
-              <div className="w-[50%] rounded-xl h-full bg-[#F7CCB7]">
+              <div className="rounded-xl h-full bg-[#F7CCB7]" style={{width: `${expWidth}`}}>
                 &nbsp;
               </div>
             </div>
-            <div className="bg-[#D9D9D9] rounded-lg w-full text-center font-semibold text-[0.6rem] md:text-[0.7rem] lg:text-[0.8rem] my-2 py-2">학습 데이터 없어 슬퍼요 <br />서둘러 학습해주세요😥</div>
+            <div className="bg-[#D9D9D9] rounded-lg w-full text-center font-semibold text-[0.6rem] md:text-[0.7rem] lg:text-[0.8rem] my-2 py-2">{sentence}</div>
           </div>
         </div>
       </div>
