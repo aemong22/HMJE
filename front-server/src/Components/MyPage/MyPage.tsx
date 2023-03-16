@@ -7,19 +7,99 @@ import Dolphin from "../Threejs/Dolphin"
 import ClownFish from "../Threejs/ClownFish"
 import Pangguin from "../Threejs/Pangguin"
 import { useGetUserMyinfoQuery } from "../../Store/api"
+import { useState } from "react"
+
+interface UserDataType {
+  exp: number,
+  isAdmin: boolean,
+  isSecession: boolean,
+  level: number,
+  nickname: string,
+  nowbadgeId: number,
+  nowbadgeImage: string,
+  nowbadgeName: string,
+  phoneNumber: string,
+  username: string
+}
+
+
+interface Type {
+  userMyInfo: UserDataType,
+  expWidth: string
+}
 
 function MyPage():JSX.Element {
+  const [userData,setUserData] = useState()
   const userId = localStorage.getItem('userId')
-  const {data, isError, isLoading} = useGetUserMyinfoQuery(userId)
-  console.log('data: ',data);
-  console.log('data: ',data?.data);
+  const {data:userMyInfo, isError, isLoading} = useGetUserMyinfoQuery(userId)
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <>Error: {isError}</>;
+  }
+
+  // 레벨 경험치
+  const levelInfo: any = [
+  {
+    levelName: "정일품",
+    levelName2: "正一品",
+    totalExp: 100
+  },
+  {
+    levelName: "정이품",
+    levelName2: "正二品",
+    totalExp: 200
+  },
+  {
+    levelName: "정삼품",
+    levelName2: "正三品",
+    totalExp: 400
+  },
+  {
+    levelName: "정사품",
+    levelName2: "正四品",
+    totalExp: 800
+  },
+  {
+    levelName: "정오품",
+    levelName2: "正五品",
+    totalExp: 1600
+  },
+  {
+    levelName: "정육품",
+    levelName2: "正六品",
+    totalExp: 3200
+  },
+  {
+    levelName: "정칠품",
+    levelName2: "正七品",
+    totalExp: 6400
+  },
+  {
+    levelName: "정팔품",
+    levelName2: "正八品",
+    totalExp: 12800
+  },
+  {
+    levelName: "정구품",
+    levelName2: "正九品",
+    totalExp: 25600
+  },
+  ]
+  // 경험치 비율 width
+  const expWidth = (userMyInfo?.data.exp / levelInfo[userMyInfo?.data.level].totalExp) * 100 + "%"
+  console.log('경험치 비율: ',expWidth);
   
   return (
     <>
+    
       <Navbar/>
-      <MyPageSection1V1/>
+      <MyPageSection1V1 userMyInfo={userMyInfo?.data} expWidth={expWidth}/>
       <MyPageSection2V1/>
-      <MyPageSection1V2/>
+      <MyPageSection1V2 userMyInfo={userMyInfo?.data} expWidth={expWidth}/>
       <MyPageSection2V2/>
       <MyPageSection3/>
       <Footer/>
@@ -29,7 +109,10 @@ function MyPage():JSX.Element {
 export default MyPage
 
 // 데스크탑 & 태블릿
-function MyPageSection1V1():JSX.Element {
+function MyPageSection1V1({userMyInfo, expWidth}:Type):JSX.Element {
+  
+  console.log(userMyInfo);
+  
   return (
     <div className="container max-w-screen-xl h-[26rem] w-[70%] mx-auto hidden md:flex flex-col md:flex-row md:justify-around items-center text-center py-[2rem]">
       <div className="flex flex-col md:w-[50%] h-full bg-[#ffffff] rounded-md ">
@@ -42,7 +125,7 @@ function MyPageSection1V1():JSX.Element {
           <div className="flex flex-col justify-center items-center h-4/5 w-full">
             <div className="flex justify-between items-center w-full pb-1">
               {/* 칭호 & 수정 */}
-              <div className="sm:text-[0.7rem] md:text-[0.8rem] lg:text-[1rem]">🥕&nbsp;한글을 사랑하는 자</div>
+              <div className="sm:text-[0.7rem] md:text-[0.8rem] lg:text-[1rem]">🥕&nbsp; {}</div>
               <div className="text-[#8E8E8E] sm:text-[0.7rem] lg:text-[0.8rem]">정보 수정⚙</div>
             </div>
             <div className="flex flex-col justify-center items-center w-full">
@@ -50,7 +133,7 @@ function MyPageSection1V1():JSX.Element {
                 {/* 닉네임 & 등급 & 경험치 */}
                 <div className="pb-1">
                   {/* 닉네임 & 등급 */}
-                  <span className="mr-1 sm:text-[1.5rem] lg:text-[1.8rem] font-semibold">오리</span><span className="sm:text-[0.75rem] lg:text-[1rem] text-[#525252]">정 2품</span>
+                  <span className="mr-1 sm:text-[1.5rem] lg:text-[1.8rem] font-semibold">{userMyInfo.nickname}</span><span className="sm:text-[0.75rem] lg:text-[1rem] text-[#525252]">정 2품</span>
                 </div>
                 <div className="text-[1rem] text-[#525252]">
                   {/* 등급 */}
@@ -59,7 +142,7 @@ function MyPageSection1V1():JSX.Element {
               </div>
               <div className="w-full rounded-xl h-4 bg-[#F0ECE9]">
                 {/* 경험치 바: 위에서 퍼센트 계산해서 넣으면 될듯?*/}
-                <div className="w-[50%] rounded-xl h-full bg-[#F7CCB7]">
+                <div className="rounded-xl h-full bg-[#F7CCB7]" style={{width: `${expWidth}`}}>
                   &nbsp;
                 </div>
               </div>
@@ -125,7 +208,7 @@ function MyPageSection2V1():JSX.Element {
 
 
 // 모바일
-function MyPageSection1V2():JSX.Element {
+function MyPageSection1V2({userMyInfo, expWidth}:Type):JSX.Element {
   return (
     <div className="flex flex-col md:hidden justify-center items-center h-[26rem] mt-7">
       <div className="flex justify-center items-center w-[90%] h-[70%]">
