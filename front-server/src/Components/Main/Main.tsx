@@ -1,4 +1,4 @@
-import { useGetUserMyinfoQuery } from "../../Store/api";
+import { useGetUserMyinfoQuery, useGetUserMystudyQuery } from "../../Store/api";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../Common/Footer";
@@ -9,7 +9,11 @@ import style from "./Main.module.css";
 
 
 function Main(): JSX.Element {
-  // const [getUserInfo, {data:userId}] = useGetUserMyinfoQuery();
+  const userId = localStorage.getItem("userId");
+  const {data:userMyInfo, error:error1, isLoading:isLoading1 } = useGetUserMyinfoQuery(userId);
+  const {data:userMyStudy, error:error2, isLoading:isLoading2 } = useGetUserMystudyQuery(userId);
+  console.log("유저데이터" , userMyInfo)
+  console.log("유저학습시간", userMyStudy)
 
 
   const [selectKeyWord, setSelectKeyWord] = useState<number>(0);
@@ -45,10 +49,18 @@ function Main(): JSX.Element {
     뱃지이미지:"carrot"
   }]
 
+  if (isLoading1 || isLoading2) {
+    return <div>Loading...</div>;
+  }
+
+  if (error1 || error2) {
+    return <>Error: {error1} {error2}</>;
+  }
+
   return (
     <>
       <Navbar />
-      <MyInfo />
+      <MyInfo userMyInfo={userMyInfo?.data} userMyStudy={userMyStudy?.data}/>
       <StudyContent />
       <News example={example} setSelectKeyWord={setSelectKeyWord} selectKeyWord={selectKeyWord}/>
       <PassUsers users={users}/>
@@ -61,47 +73,116 @@ export default Main;
 // main 페이지는 container, max-w-screen-lg, lg:w-[70%] 설정
 
 // 맨위 : 유저 정보 , 오늘의 정보
-function MyInfo(): JSX.Element {
+function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
+  const navigate = useNavigate()
+  
+  // 레벨 경험치
+  const levelInfo: any = [{
+    levelName: "정일품",
+    levelName2: "正一品",
+    totalExp: 100
+  },
+  {
+    levelName: "정이품",
+    levelName2: "正二品",
+    totalExp: 200
+  },
+  {
+    levelName: "정삼품",
+    levelName2: "正三品",
+    totalExp: 400
+  },
+  {
+    levelName: "정사품",
+    levelName2: "正四品",
+    totalExp: 800
+  },
+  {
+    levelName: "정오품",
+    levelName2: "正五品",
+    totalExp: 1600
+  },
+  {
+    levelName: "정육품",
+    levelName2: "正六品",
+    totalExp: 3200
+  },
+  {
+    levelName: "정칠품",
+    levelName2: "正七品",
+    totalExp: 6400
+  },
+  {
+    levelName: "정팔품",
+    levelName2: "正八品",
+    totalExp: 12800
+  },
+  {
+    levelName: "정구품",
+    levelName2: "正九品",
+    totalExp: 25600
+  },
+
+]
+  // 경험치 비율 width
+  const expWidth = (userMyInfo.exp / levelInfo[userMyInfo.level].totalExp) * 100 + "%"
+
+  // 학습 시간 h , m , s
+  let time = userMyStudy.todayTime
+  const h = time / 3600
+  time = time % 3600
+  const m = time / 60
+  time = time % 60
+  const s = time
+
+
+
   return (
     <div className="bg-[#F0ECE9]">
       <div className="container max-w-screen-xl w-full mx-auto flex flex-col md:flex-row md:justify-around items-center text-center py-[2rem]">
         <div className="md:w-[40%] w-[90%] bg-[#ffffff] py-[1.5rem] md:px-[2.5rem] rounded-md px-[1rem]">
-          <Pangguin position={-1} />
-          <div className="flex justify-center md:text-[1.2rem] sm:text-[1.1rem] text-[1rem] py-1"><div className={`${style.badgeImg}`} style={{backgroundImage:"url('/Assets/Icon/carrot.png')"}}></div>한글을 사랑하는 자</div>
-          <div className="md:text-[2.4rem] sm:text-[2.2rem] text-[2rem] font-bold">펭귄</div>
-          <div className="md:text-[1.2rem] text[1rem] py-1 font-bold text-[#8E8E8E]">정이품</div>
-          <div className="md:text-[0.9rem] sm:text-[0.7rem] text-[0.5rem] px-2 border-2 border-[#A87E6E] w-fit mx-auto rounded-full bg-[#F0ECE9] font-bold text-[#A87E6E]">
-            正二品
-          </div>
-          <div className="bg-[#F0ECE9] rounded-lg my-2">
-            <div className="bg-[#F7CCB7] rounded-lg w-[50%] py-[0.5rem]"></div>
-          </div>
-          <div className="text-[1rem] text-zinc-400">50 / 100</div>
-        </div>
-        <div className="md:w-[43%] w-[90%] pt-[2rem] pb-[0.5rem]">
-          <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold">오늘의</div>
-          <div className="flex justify-center md:my-8 my-3">
-            <div className="w-[50%]">
-              <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold text-[#BE8D65]">
-                1<span className="md:text-[1.5rem] text-[1rem]">시간 </span>27
-                <span className="md:text-[1.5rem] text-[1rem]">분</span>
-              </div>
-              <div className="md:text-[1.5rem] sm:text-[1rem] text-[0.8rem] pt-3  text-zinc-500">학습 시간</div>
+          <Pangguin position={-2} />
+          <div className="flex justify-center md:text-[1.2rem] sm:text-[1.1rem] text-[1rem] py-1">
+            <div className={`${style.badgeImg}`} style={{backgroundImage:`url('/Assets/Badge/${userMyInfo?.nowbagdeImage}.png')`}}></div>{userMyInfo?.nowbagdeName}</div>
+            <div className="md:text-[2.4rem] sm:text-[2.2rem] text-[2rem] font-bold">{userMyInfo?.nickname}</div>
+            <div className="md:text-[1.2rem] text[1rem] py-1 font-bold text-[#8E8E8E]">{levelInfo[userMyInfo.level].levelName}</div>
+            <div className="md:text-[0.9rem] sm:text-[0.7rem] text-[0.5rem] px-2 border-2 border-[#A87E6E] w-fit mx-auto rounded-full bg-[#F0ECE9] font-bold text-[#A87E6E]">
+              {levelInfo[userMyInfo?.level].levelName2}
             </div>
-            <div className="w-[50%]">
-              <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold text-[#BE8D65]">
-                32<span className="md:text-[1.5rem] text-[1rem]">개</span>
-              </div>
-              <div className="md:text-[1.5rem] sm:text-[1rem] pt-3 text-[0.8rem] text-zinc-500">학습 단어</div>
+            <div className="bg-[#F0ECE9] rounded-lg my-2">
+              <div className="bg-[#F7CCB7] rounded-lg py-[0.5rem]" style={{width:`${expWidth}`}}></div>
             </div>
+            <div className="text-[1rem] text-zinc-400"> {userMyInfo.exp} / {levelInfo[userMyInfo.level].totalExp}</div>
           </div>
-          <div className="cursor-pointer flex justify-center rounded-full bg-[#A87E6E] p-[0.7rem] md:text-[2.5rem] sm:text-[2rem] text-[1.5rem] font-bold text-[#ffffff]">
-            <div className={`${style.iconBook}`}></div>
-            <div>오늘의 단어</div>
+          <div className="md:w-[43%] w-[90%] pt-[2rem] pb-[0.5rem]">
+            <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold">오늘</div>
+            <div className="w-full flex flex-wrap justify-center items-end">
+                <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold text-[#BE8D65]">
+                  {h}<span className="md:text-[1.5rem] text-[1rem]">시간 </span>{m}<span className="md:text-[1.5rem] text-[1rem]">분 </span>{s}<span className="md:text-[1.5rem] text-[1rem]">초 </span>
+                </div>
+                <div className="md:text-[1.5rem] sm:text-[1rem] text-[0.8rem] pt-1 pb-2 text-zinc-500"> &nbsp; 학습 시간</div>
+            </div>
+            <div className="flex justify-around md:my-3 my-1">
+              <div className="w-[40%]">
+                <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold text-[#BE8D65]">
+                  {userMyStudy.todayWord}<span className="md:text-[1.5rem] text-[1rem]">개</span>
+                </div>
+                <div className="md:text-[1.5rem] sm:text-[1rem] pt-1 text-[0.8rem] text-zinc-500">학습 단어</div>
+              </div>
+              <div className="w-[40%]">
+                <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold text-[#BE8D65]">
+                  {userMyStudy.todayContext}<span className="md:text-[1.5rem] text-[1rem]">개</span>
+                </div>
+                <div className="md:text-[1.5rem] sm:text-[1rem] pt-1 text-[0.8rem] text-zinc-500">학습 문맥</div>
+              </div>
+            </div>
+            <div className="cursor-pointer flex justify-center rounded-full bg-[#A87E6E] p-[0.7rem] mt-3z md:text-[2.5rem] sm:text-[2rem] text-[1.5rem] font-bold text-[#ffffff] hover:text-[#F0ECE9]"  onClick={()=> navigate('/wordStudy')}>
+              <div className={`${style.iconBook}`}></div>
+              <div>오늘의 단어</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
   );
 }
 

@@ -6,10 +6,10 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
   // 초성 뽑아내기
   const cho = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
   let result = ""
-  for(let i=0; i<question[num].word_name.length;i++){
-    let code = question[num].word_name.charCodeAt(i)-44032;
+  for(let i=0; i<question[num].wordName.length;i++){
+    let code = question[num].wordName.charCodeAt(i)-44032;
     if(code>-1 && code<11172) result += cho[Math.floor(code/588)];
-    else result += question[num].word_name.charCodeAt(i);
+    else result += question[num].wordName.charCodeAt(i);
   }
 
   const [hint, setHint] = useState<Boolean>(false);
@@ -18,10 +18,10 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
   const [stop, setStop] = useState<Boolean>(false);
 
   // 타이머
-  const [count, setCount] = useState(30);
+  const [count, setCount] = useState(5);
 
    useEffect(() => {
-    setCount(30);
+    setCount(5);
    },[num])
 
    
@@ -35,7 +35,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     // 못맞춤
     if(count <= 0){
       clearInterval(id);
-      setWrong([...wrong,question[num].word_id])
+      setWrong([...wrong,question[num].wordId])
       openModal()
       setHint(false)
     }
@@ -67,10 +67,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
 
   var word = transcript.split(" ")[0];
   useEffect(() => {
-      return () => {
-        console.log("음성인식", word)
         setInput(word)
-      }
   },[word,listening])
 
   useEffect(() => {
@@ -88,7 +85,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     word = ""
     setInput("")
     //정답
-    if(input === question[num].word_name) {
+    if(input === question[num].wordName) {
       // 힌트를 보고 맞춤 => 맞춤, semo 개수++, hint 원상복귀, modal open
       if(hint) {
         setSemo(semo+1)
@@ -96,7 +93,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
       }
       // 힌트 안보고 맞춤 => 맞춤, correct에 추가, modal open
       else {
-        setCorrect([...correct,question[num].word_id])
+        setCorrect([...correct,question[num].wordId])
       }
       setRight(true)
       openModal()
@@ -131,7 +128,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
                   </>}
               </div>
               <div>
-                {question[num].word_detail}
+                {question[num].wordDetailList[0].details}
               </div>
             </div>
             <div>
@@ -168,7 +165,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
             <>
               <div className="border-4 m-2 lg:py-4 md:py-2 px-8 rounded-lg md:text-[1.6rem] sm:text-[1.3rem] text-[1rem] flex flex-col justify-center font-bold border-[#F4EFEC] text-[#A87C6E]">
                 <span className="md:text-[1.2rem] sm:text-[1rem] text-[0.9rem] font-medium text-[#8E8E8E]">품사</span>
-                {question[num].word_type}
+                {question[num].wordType}
               </div>
               <div className="border-4 m-2 lg:py-4 md:py-2 px-8 rounded-lg md:text-[1.6rem] sm:text-[1.3rem] text-[#A87C6E] text-[1rem] flex flex-col justify-center font-bold border-[#F4EFEC]">
                 <span className="md:text-[1.2rem] sm:text-[1rem] text-[0.9rem] font-medium text-[#8E8E8E]">귀띔</span>
