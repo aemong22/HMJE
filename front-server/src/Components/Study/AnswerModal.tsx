@@ -1,6 +1,39 @@
+import { useEffect } from "react";
 import style from "./Study.module.css";
 
 function AnswerModal({closeModal, right,question,num,setNum, setRight, studyType, setResultModal}:any):JSX.Element {
+
+        window.onkeyup = (e) => {
+            if (e.key === 'Shift') {
+                motion();
+            }
+        }
+
+
+    
+    const motion = () => {
+        closeModal()
+        setRight(false)
+        if(studyType === "wordStudy"){
+            if(num < 9){
+                setNum(num+1)
+            }
+            else{
+                // 결과 모달창 뜨기
+                setResultModal(true)
+            }
+        }
+        else {
+            if(num < 4) {
+                setNum(num+1)
+                setResultModal(true)
+            }
+            else{
+                // 결과 모달창 뜨기
+                setResultModal(true)
+            }
+        }
+    }
 
 
     return(
@@ -60,27 +93,7 @@ function AnswerModal({closeModal, right,question,num,setNum, setRight, studyType
                     className="text-white bg-[#F7CCB7] font-bold uppercase md:text-base text-sm px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={() => {
-                            closeModal()
-                            setRight(false)
-                            if(studyType === "wordStudy"){
-                                if(num < 9){
-                                    setNum(num+1)
-                                }
-                                else{
-                                    // 결과 모달창 뜨기
-                                    setResultModal(true)
-                                }
-                            }
-                            else {
-                                if(num < 4) {
-                                    setNum(num+1)
-                                    setResultModal(true)
-                                }
-                                else{
-                                    // 결과 모달창 뜨기
-                                    setResultModal(true)
-                                }
-                            }
+                            motion();
                         }
                     }
                   >

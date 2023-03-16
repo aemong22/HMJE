@@ -1,21 +1,49 @@
-import {usePostStudyWordResultMutation} from "../../Store/api";
+import {usePostStudyWordResultMutation, usePostStudyStudyTimeMutation} from "../../Store/api";
 import { Navigate, useNavigate } from "react-router-dom";
 import style from "./Study.module.css";
+import { useEffect } from "react";
 
 function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:any):JSX.Element {
-    const navigate = useNavigate()
+  const userId = localStorage.getItem("userId");  
+  const navigate = useNavigate()
+
+    //RTK
+    const [postStudyWordResult, {isLoading : resultLoading, error:resultError}]= usePostStudyWordResultMutation();
+    useEffect(() => {
+      postStudyWordResult({correct,semo, userId,wrong}).then((result) =>  {
+        console.log("post 결과", result)
+      })
+
+    },[])
+    const [postStudyStudyTime] = usePostStudyStudyTimeMutation();
 
     let getExp = 0;
 
-      // 학습 시작 시간
+    // 학습 시작 시간
     const endTime = Date.now()
     let studyTime = Math.round((endTime - startTime) / 1000)
-    console.log(studyTime)
     
+    // 시작시간 커스텀
+    const korStart = new Date(startTime).toISOString();
+    // korStart.setHours(korStart.getHours()+9)
+    console.log("한국 시작 시간", korStart)
+
+    // 끝 시간 커스텀
+
+
 
     // 단어 학습
     if(studyType === "wordStudy") {
         getExp = Object.keys(correct).length * 10
+    }
+
+    if(resultLoading) {
+      return <>Loading...</>
+    }
+
+    if(resultError) {
+      console.log(resultError)
+      return <>error...</>
     }
 
     return(
