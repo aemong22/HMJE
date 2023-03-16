@@ -13,7 +13,7 @@ function Footer():JSX.Element {
             </div>
             <div className="flex justify-between items-center text-[0.3rem] sm:text-[0.3rem] md:text-[0.5rem] lg:text-[0.7rem]">
               <div className="font-semibold">부울경 1반</div>
-              <div>말랑말랑하조하조?</div>
+              <div>말랑하조</div>
             </div>
             <div className="flex justify-end items-start text-[0.3rem] sm:text-[0.3rem] md:text-[0.5rem] lg:text-[0.7rem]">
               <span className="font-semibold">앞.</span>&nbsp;<span>김홍민&nbsp;김애림&nbsp;김찬희</span>&emsp;
