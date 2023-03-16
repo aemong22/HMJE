@@ -31,7 +31,6 @@ public class AdminDogamServiceImpl implements AdminDogamService {
                 .dogamOrigin(o.getDogamOrigin())
                 .dogamClass(o.getDogamClass())
                 .isRared(o.getIsRared())
-                .dogamImage("hmm?이거 무엇")
                 .build()
         ).collect(Collectors.toList());
     }
@@ -48,7 +47,7 @@ public class AdminDogamServiceImpl implements AdminDogamService {
                 .dogamExam1(requestDto.getDogamExam1())
                 .dogamExam2(requestDto.getDogamExam2())
                 .dogamExam3(requestDto.getDogamExam3())
-                .isRared(requestDto.isRared())
+                .isRared(requestDto.getIsRared())
                 .build();
 
         Dogam entity = dogamRepository.save(dogam);

@@ -17,7 +17,8 @@ public interface UserService {
     UserResponseDto userInfo(Long userId);
 
     void userUpdate(Long userId, UserRequestDto requestDto);
-    List<BadgeResultResponseDto> userBadge(Long userId);
+    List<BadgeResultResponseDto> myBadgeAll(Long userId);
+    void uesrLogout(Long userId);
     void userDelete(Long userId);
     void updateBadge(Long userId, Long badgeId);
     void updateStudyResult(StudyRequestDto requestDto);

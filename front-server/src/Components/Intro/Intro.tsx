@@ -201,8 +201,8 @@ interface CardProps {
 // #ecc8bf
 
 const StyledCard = styled.div<CardProps>`
-  width: 15rem;
-  height: 15rem;
+  width: 10rem;
+  height: 10rem;
   margin-right: 1.2rem;
   margin-left: 1.2rem;
   border-radius: 2rem;
@@ -219,21 +219,27 @@ const StyledCard = styled.div<CardProps>`
 // 서비스 분야
 function IntroSection4V1(): JSX.Element {
   return (
-    <div className="container w-full mx-auto mt-32 mb-10 overflow-hidden">
-      <div className={`flex flex-nowrap h-[15rem] w-[80rem] -translate-x-4 justify-start items-start ${sModule.moveCard1}`}>
-        <StyledCard color="#f7cdb7"/>
+    <div className="container max-w-screen-xl w-full mx-auto mt-24 mb-6 overflow-hidden">
+      <div className={`flex flex-nowrap h-[10rem] w-[80rem] -translate-x-4 justify-start items-start ${sModule.moveCard1}`}>
         <StyledCard color="#a77e6e"/>
         <StyledCard color="#f4eeec"/>
+        <StyledCard color="#f7cdb7"/>
         <StyledCard color="#ac8679"/>
+        <StyledCard color="#ebc7be"/>
         <StyledCard color="#ebc7be"/>
         <StyledCard color="#f9f9f9"/>
-        <StyledCard color="#ebc7be"/>
         <StyledCard/>
-        <StyledCard color="#f7cdb7"/>
-        <StyledCard color="#a77e6e"/>
-        <StyledCard color="#f4eeec"/>
         <StyledCard color="#ac8679"/>
+        <StyledCard color="#f7cdb7"/>
         <StyledCard color="#ebc7be"/>
+        <StyledCard color="#f4eeec"/>
+        <StyledCard color="#ebc7be"/>
+        <StyledCard color="#a77e6e"/>
+        <StyledCard color="#f9f9f9"/>
+        <StyledCard color="#ac8679"/>
+        <StyledCard/>
+        <StyledCard color="#ebc7be"/>
+        <StyledCard color="#ac8679"/>
         <StyledCard color="#f9f9f9"/>
         <StyledCard color="#ebc7be"/>
         <StyledCard/>
@@ -244,23 +250,23 @@ function IntroSection4V1(): JSX.Element {
 
 function IntroSection4V2(): JSX.Element {
   return (
-    <div className="container w-full mx-auto mb-32 mt-10 overflow-hidden">
-      <div className={`flex flex-nowrap h-[15rem] w-[80rem] justify-start items-start ${sModule.moveCard2}`}>
+    <div className="container max-w-screen-xl w-full mx-auto mb-24 mt-6 overflow-hidden">
+      <div className={`flex flex-nowrap h-[10rem] w-[80rem] justify-start items-start ${sModule.moveCard2}`}>
         <StyledCard color="#f7cdb7"/>
-        <StyledCard color="#a77e6e"/>
         <StyledCard color="#f4eeec"/>
-        <StyledCard color="#ac8679"/>
+        <StyledCard color="#a77e6e"/>
         <StyledCard color="#ebc7be"/>
         <StyledCard color="#f9f9f9"/>
         <StyledCard color="#ebc7be"/>
+        <StyledCard color="#ac8679"/>
         <StyledCard/>
         <StyledCard color="#f7cdb7"/>
         <StyledCard color="#a77e6e"/>
         <StyledCard color="#f4eeec"/>
-        <StyledCard color="#ac8679"/>
         <StyledCard color="#ebc7be"/>
         <StyledCard color="#f9f9f9"/>
         <StyledCard color="#ebc7be"/>
+        <StyledCard color="#ac8679"/>
         <StyledCard/>
       </div>
     </div>

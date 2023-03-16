@@ -1,16 +1,21 @@
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../Common/Footer";
-import API from "../Common/Api";
 import axios from "axios";
-import { usePostUserchecknicknameMutation } from "../../Store/api";
 import IntroNavbar from "../Intro/IntroNavbar";
+import {
+  usePostSmsmodifyMutation,
+  usePostSmssendMutation,
+  usePostUserchecknicknameMutation,
+  usePostUsercheckusernameMutation,
+  usePostUserjoinMutation,
+} from "../../Store/NonAuthApi";
 var pattern2 = /[a-zA-Z]/; //영어
 const Join = () => {
   const navigate = useNavigate();
 
   // 이름, 비밀번호, 비밀번호 확인, 별명, 폰번호, 인증번호
-  const [Name, setName] = useState<string>("");
+  const [UserName, setUserName] = useState<string>("");
   const [Password, setPassword] = useState<string>("");
   const [PasswordCheck, setPasswordCheck] = useState<string>();
   const [Nickname, setNickname] = useState<string>("");
@@ -41,13 +46,23 @@ const Join = () => {
   const [IsPasswordConfirm, setIsPasswordConfirm] = useState<boolean>(false);
 
   // Store 호출
-  const CheckNicknameDuplication = usePostUserchecknicknameMutation();
 
-  const setNicknameCheck = CheckNicknameDuplication[0];
+  // 인증번호
+  // 전송 확인
+  const [postSmsmodify, isloading1] = usePostSmsmodifyMutation();
+  const [postSmssend, isloading2] = usePostSmssendMutation();
+
+  // 아이디 패스워드 중복확인
+  const [postUserchecknickname, isloading3] =
+    usePostUserchecknicknameMutation();
+  const [postUsercheckusername, isloading4] =
+    usePostUsercheckusernameMutation();
+
+  const [postUserjoin, isloading5] = usePostUserjoinMutation();
 
   function ChangeName(event: any): void {
     console.log(event.target.value);
-    setName(event.target.value);
+    setUserName(event.target.value);
   }
   const ChangePassword = (event: any): void => {
     console.log(event.target.value);
@@ -145,63 +160,67 @@ const Join = () => {
   };
 
   // 중복확인
-  const CheckDuplication = (check: string): void => {
+  const CheckDuplication = (e: any) => {
     // 이름
-    if (check === "Name") {
-      console.log("Nickname", Nickname);
-      console.log("Name", Name);
-      console.log("Password", Password);
+    const data = {
+      isAdmin: false,
+      isSecession: false,
+      nickname: Nickname,
+      password: Password,
+      phoneNumber: Phonenum,
+      username: UserName,
+    };
 
-      // const test = setNicknameCheck({
-      //   isAdmin: false,
-      //   isSecession: false,
-      //   nickname: Nickname,
-      //   password: Password,
-      //   phoneNumber: Phonenum,
-      //   username: Name,
-      // });
+    if (e.target.id === "UserName") {
+      // console.log("Nickname", Nickname);
+      // console.log("UserName", UserName);
+      // console.log("Password", Password);
+      if (UserName === "") {
+        alert("빈칸은 ㄴㄴ");
+      } else {
+        window.localStorage.clear();
+        const data = {
+          isAdmin: false,
+          isSecession: false,
+          nickname: Nickname,
+          password: Password,
+          phoneNumber: Phonenum,
+          username: UserName,
+        };
 
-      // test.then((r) => {
-      //   console.log(r);
-      // });
-
-      API.post(`/user/check/username`, {
-        isAdmin: false,
-        isSecession: false,
-        nickname: Nickname,
-        password: Password,
-        phoneNumber: Phonenum,
-        username: Name,
-      }).then((r) => {
-        console.log("아이디 중복 결과", r.data.data);
-        if (r.data.data === true) {
-          // 사용가능한 아이디입니다
-          setIsName(true);
-        } else {
-          setIsName(false);
-        }
-      });
+        postUsercheckusername(data)
+          .unwrap()
+          .then((r: any) => {
+            console.log("받았다");
+            alert(r.data);
+            console.log(r);
+          });
+      }
     }
     // 닉네임
-    else if (check === "Nickname") {
+    else if (e.target.id === "Nickname") {
+      // 2글자에서 6글자
       console.log("닉네임확인", Nickname);
+      if (Nickname === "") {
+        alert("빈칸은 ㄴㄴ");
+      } else {
+        window.localStorage.clear();
+        const data = {
+          isAdmin: false,
+          isSecession: false,
+          nickname: Nickname,
+          password: Password,
+          phoneNumber: Phonenum,
+          username: UserName,
+        };
 
-      API.post(`/user/check/nickname`, {
-        isAdmin: false,
-        isSecession: false,
-        nickname: Nickname,
-        password: Password,
-        phoneNumber: Phonenum,
-        username: Name,
-      }).then((r) => {
-        console.log("닉네임 중복 결과", r.data.data);
-        if (r.data.data === true) {
-          // 사용가능한 닉네임
-          setIsNickname(true);
-        } else {
-          setIsNickname(false);
-        }
-      });
+        postUserchecknickname(data)
+          .unwrap()
+          .then((r: any) => {
+            alert(r.data);
+            console.log(r);
+          });
+      }
     }
   };
 
@@ -212,13 +231,15 @@ const Join = () => {
       if (checkNum(Phonenum) === false) {
         // 인증번호 보여주고
 
-        console.log("폰번호확인", Phonenum);
-        API.post(`/sms/send/newbie`, {
-          to: Phonenum,
-        }).then((r) => {
-          console.log("전화번호 중복 결과", r.data);
-          alert("전송하였습니다!");
-        });
+        SendAuthnum(Phonenum);
+        alert("전송하였습니다!");
+
+        // API.post(`/sms/send/newbie`, {
+        //   to: Phonenum,
+        // }).then((r) => {
+        //   console.log("전화번호 중복 결과", r.data);
+        //   alert("전송하였습니다!");
+        // });
 
         setAmIHidden("");
         // 인증번호 닫고
@@ -244,11 +265,14 @@ const Join = () => {
   // 인증번호 전송
   const SendAuthnum = (phonenum: string): void => {
     console.log("폰번호확인", phonenum);
-    API.post(`/sms/send/newbie`, {
+    const data = {
       to: phonenum,
-    }).then((r) => {
-      console.log("전화번호 중복 결과", r.data);
-    });
+    };
+    postSmssend(data)
+      .unwrap()
+      .then((r) => {
+        console.log("전화번호 중복 결과", r.data);
+      });
   };
 
   // 회원가입
@@ -257,19 +281,35 @@ const Join = () => {
     console.log("닉네임", Nickname);
     console.log("패스워드", Password);
     console.log("전화번호", Phonenum);
-    console.log("username", Name);
+    console.log("username", UserName);
 
-    API.post(`/user/join`, {
+    const data = {
       isAdmin: false,
       isSecession: false,
       nickname: Nickname,
       password: Password,
       phoneNumber: Phonenum,
-      username: Name,
-    }).then((r) => {
-      console.log(r.data);
-      navigate("/login");
-    });
+      username: UserName,
+    };
+
+    postUserjoin(data)
+      .unwrap()
+      .then((r: any) => {
+        console.log(r.data);
+        navigate("/login");
+      });
+
+    // API.post(`/user/join`, {
+    //   isAdmin: false,
+    //   isSecession: false,
+    //   nickname: Nickname,
+    //   password: Password,
+    //   phoneNumber: Phonenum,
+    //   username: UserName,
+    // }).then((r) => {
+    //   console.log(r.data);
+    //   navigate("/login");
+    // });
   };
   const CheckAuthnum = (
     authnum: string | undefined,
@@ -285,26 +325,41 @@ const Join = () => {
     console.log(Authnum);
     console.log(Phonenum);
 
-    axios({
-      url: "https://hmje.net/api/sms/modify",
-      method: "post",
-      data: {
-        modifyNumber: Authnum,
-        phoneNumber: Phonenum,
-        purpose: "string",
-      },
-    }).then((r) => {
-      console.log("인증번호 결과", typeof r.data.data);
-      if (r.data.data === "true") {
-        // 인증성공!
-
-        setIsAuthnum(true);
-      } else if (r.data.data === "false") {
-        // 인증실패!
-
-        setIsAuthnum(false);
-      }
-    });
+    const data = {
+      modifyNumber: Authnum,
+      phoneNumber: Phonenum,
+      purpose: "",
+    };
+    postSmsmodify(data)
+      .unwrap()
+      .then((r) => {
+        console.log("인증번호 결과", typeof r.data.data);
+        if (r.data.data === "true") {
+          // 인증성공!
+          setIsAuthnum(true);
+        } else if (r.data.data === "false") {
+          // 인증실패!
+          setIsAuthnum(false);
+        }
+      });
+    // axios({
+    //   url: "https://hmje.net/api/sms/modify",
+    //   method: "post",
+    //   data: {
+    //     modifyNumber: Authnum,
+    //     phoneNumber: Phonenum,
+    //     purpose: "",
+    //   },
+    // }).then((r) => {
+    //   console.log("인증번호 결과", typeof r.data.data);
+    //   if (r.data.data === "true") {
+    //     // 인증성공!
+    //     setIsAuthnum(true);
+    //   } else if (r.data.data === "false") {
+    //     // 인증실패!
+    //     setIsAuthnum(false);
+    //   }
+    // });
   };
 
   const elemetPadding = "my-2";
@@ -312,10 +367,10 @@ const Join = () => {
 
   return (
     <>
-      <div className="flex flex-col justify-between h-[100vh]">
-        <IntroNavbar />
+      <IntroNavbar />
+      <div className="flex flex-col justify-between min-h-[100vh]">
         {/* 상 */}
-        <div className="w-full">
+        <div className="max-h-[100%] w-full">
           <div className="flex flex-col mx-5 sm:mx-5 md:mx-7 lg:mx-[20%]">
             <div className="my-4 font-extrabold text-[#A87E6E] text-4xl  sm:text-4xl md:text-4xl lg:text-6xl">
               홍민정음
@@ -343,25 +398,34 @@ const Join = () => {
                     onChange={ChangeName}
                   />
 
-                  <div
+                  <button
+                    id="UserName"
                     className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
-                    onClick={
-                      () => {
-                        CheckDuplication("Name");
-                      }
-                      // sampleTest
-                    }
+                    onClick={CheckDuplication}
                   >
                     중복확인
-                  </div>
+                  </button>
                 </div>
               </div>
+
+              {/* <form onSubmit={handleSubmit}>
+                <label htmlFor="postTitle">Post Title:</label>
+                <input
+                  type="text"
+                  id="postTitle"
+                  name="postTitle"
+                  value={UserName}
+                  onChange={(e) => setName(e.target.value)}
+                />                
+                <button type="submit">Save Post</button>
+              </form> */}
+
               <div className={`${elemetPadding}`}>
                 <div className="flex flex-row items-baseline">
                   <div className="text-[#A87C6E] font-extrabold text-base pb-2">
                     별명
                   </div>
-                  <div className="text-[#868686] pl-2 lg:pl-4 font-extrabold text-[1px] md:text-xs">
+                  <div className="text-[#868686] pl-2 lg:pl-4 font-extrabold text-sm sm:text-xs">
                     6글자 이내 한글만 사용하실 수 있습니다.
                   </div>
                 </div>
@@ -374,10 +438,9 @@ const Join = () => {
                     onKeyUp={chkCharCode}
                   />
                   <div
+                    id="Nickname"
                     className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
-                    onClick={() => {
-                      CheckDuplication("Nickname");
-                    }}
+                    onClick={CheckDuplication}
                   >
                     중복확인
                   </div>
@@ -499,8 +562,8 @@ const Join = () => {
           {/* 하 */}
           <div className="h-[2rem]"></div>
         </div>
-        <Footer />
       </div>
+      <Footer />
     </>
   );
 };
