@@ -70,8 +70,8 @@ function AnswerModal({closeModal, right,question,num,setNum, setRight, studyType
                 <div className="relative px-4 py-3 max-h-[50vh] overflow-y-auto">
                     {question[num].wordDetailResponseList.map((detail:any , idx:any) => {
                         console.log("뜻 개수",question[num].wordDetailResponseList.length)
-                        let temp =  detail.wordExampleList.filter((ex:any) => ex.exampleType === "문장")[0]?.exampleDetail
-                        let example = temp ? temp : detail.wordExampleList[0]?.exampleDetail
+                        let temp =  detail.wordExampleResponseList.filter((ex:any) => ex.exampleType === "문장")[0]?.exampleDetail
+                        let example = temp ? temp : detail.wordExampleResponseList[0]?.exampleDetail
                         return(
                         <div key={idx}className="bg-[#F4EFEC] rounded-lg p-4 md:text-[1.1rem] text-[1rem] font-medium my-2">
                             {detail.details}
