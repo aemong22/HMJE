@@ -59,21 +59,25 @@ function Login(): JSX.Element {
 
     PostUserlogin(data)
       .unwrap()
-
       .then((r: any) => {
-        console.log("받는 데이터", r);
-
-        const accessToken = r.accessToken;
-        const refreshToken = r.refreshToken;
-        const userId = r.userId;
-
-        console.log("accessToken", accessToken);
-        console.log("refreshToken", refreshToken);
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("userName", Id!);
-        localStorage.setItem("userId", userId);
-        localStorage.setItem("refreshToken", refreshToken);
-        // navigate("/main");
+        if (r.status === 200) {
+          console.log("받는 데이터", r);
+          const accessToken = r.accessToken;
+          const refreshToken = r.refreshToken;
+          const userId = r.userId;
+          console.log("accessToken", accessToken);
+          console.log("refreshToken", refreshToken);
+          localStorage.setItem("accessToken", accessToken);
+          localStorage.setItem("userName", Id!);
+          localStorage.setItem("userId", userId);
+          localStorage.setItem("refreshToken", refreshToken);
+          navigate("/main");
+        }
+      })
+      .catch((e) => {
+        if (e.status) {
+          alert("아이디 혹은 패스워드가 틀렸습니다");
+        }
       });
   };
 
