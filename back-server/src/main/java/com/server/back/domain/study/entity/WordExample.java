@@ -1,6 +1,7 @@
 package com.server.back.domain.study.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,9 +20,9 @@ public class WordExample {
 	private String exampleType;
 	private String exampleDetail;
 
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "word_detail_id")
 	private WordDetail wordDetail;
-
 
 }

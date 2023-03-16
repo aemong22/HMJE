@@ -2,10 +2,7 @@ package com.server.back.domain.message.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.server.back.domain.message.dto.MessageDto;
-import com.server.back.domain.message.dto.ModifyNumberDto;
-import com.server.back.domain.message.dto.SmsRequestDto;
-import com.server.back.domain.message.dto.SmsResponseDto;
+import com.server.back.domain.message.dto.*;
 import com.server.back.domain.user.entity.User;
 import com.server.back.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +15,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -40,7 +38,7 @@ import java.util.Random;
 @Service
 public class SmsService {
     private final UserRepository userRepository;
-
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     //휴대폰 인증 번호
     private final String smsConfirmNum = createSmsKey();
     private final RedisUtilService redisUtil;
@@ -148,15 +146,6 @@ public class SmsService {
         return false;
     }
 
-    public boolean modifySms(ModifyNumberDto requestDto){
-        // 인증번호 확인
-        if (isModify(requestDto)) {
-            redisUtil.deleteData(requestDto.getModifyNumber()); //인증번호 일치하면 인증번호 삭제
-            return true;
-        }
-        return false;
-    }
-
     // 인증번호와 휴대폰번호가 일치하면 true
     public boolean isModify(ModifyNumberDto requestDto){
         String value = redisUtil.getData(requestDto.getModifyNumber());
@@ -165,5 +154,69 @@ public class SmsService {
         }
         Boolean result = redisUtil.getData(requestDto.getModifyNumber()).equals(requestDto.getPhoneNumber()); //인증번호와 휴대폰 번호가 일치하는지 확인
         return result;
+    }
+
+    // 아이디, 비밀번호 찾기 인증코드 만들기
+    public static String createFindKey() {
+        StringBuffer key = new StringBuffer();
+        Random rnd = new Random();
+
+        for (int i = 0; i < 7; i++) { // 인증코드 7자리
+            key.append((rnd.nextInt(10)));
+        }
+        return key.toString();
+    }
+
+    public String modifySms(ModifyNumberDto requestDto) {
+        // 인증번호 확인
+        if (isModify(requestDto)) {
+            redisUtil.deleteData(requestDto.getModifyNumber()); //인증번호 일치하면 인증번호 삭제
+            if (requestDto.getPurpose().equals("findId")) {
+                String findConfirmNum = createFindKey();
+                redisUtil.setDataExpire(findConfirmNum, requestDto.getPhoneNumber(), 30 * 1L); // 인증시간 30초
+                return findConfirmNum;
+            } else if (requestDto.getPurpose().equals("findPassword")) {
+                String findConfirmNum = createFindKey();
+                redisUtil.setDataExpire(findConfirmNum, requestDto.getPhoneNumber(), 60 * 5L); // 인증시간 5분
+                return findConfirmNum;
+            }
+            return "true";
+        }
+        return "false";
+    }
+
+    // 인증번호와 휴대폰번호가 일치하면 username
+    public String findUsername(FindRequestDto requestDto){
+        Boolean result = false;
+        String value = redisUtil.getData(requestDto.getModifyNum());
+        // 인증번호 오류가 아니고
+        if (value != null) {
+            result = redisUtil.getData(requestDto.getModifyNum()).equals(requestDto.getPhoneNum()); //인증번호와 휴대폰 번호가 일치하는지 확인
+        }
+        //결론
+        if (result){
+            redisUtil.deleteData(requestDto.getModifyNum()); //인증번호 일치하면 인증번호 삭제
+            String username = userRepository.findByPhoneNumber(requestDto.getPhoneNum()).getUsername();
+            return username;
+        }
+        return "false";
+    }
+
+    public Boolean findPassword(FindRequestDto requestDto){
+        String value = redisUtil.getData(requestDto.getModifyNum());
+        // 인증번호 오류, 새로운 비밀번호 존재여부 확인
+        if ((value != null) && (requestDto.getNewPassword() != null)) {
+            Boolean result = redisUtil.getData(requestDto.getModifyNum()).equals(requestDto.getPhoneNum());
+            //인증번호와 휴대폰 번호가 일치하는지 확인
+            if (result){
+                redisUtil.deleteData(requestDto.getModifyNum()); //인증번호 일치하면 인증번호 삭제
+                User user = userRepository.findByPhoneNumber(requestDto.getPhoneNum());
+                String newpassword = bCryptPasswordEncoder.encode(requestDto.getNewPassword());
+                user.changePassord(newpassword);
+                userRepository.save(user);
+                return true;
+            }
+        }
+        return false;
     }
 }

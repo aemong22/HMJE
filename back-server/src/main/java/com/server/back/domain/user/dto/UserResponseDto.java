@@ -1,14 +1,12 @@
 package com.server.back.domain.user.dto;
 
-import com.server.back.common.entity.RefreshToken;
+
 import com.server.back.domain.user.entity.User;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,6 +23,9 @@ public class UserResponseDto {
     private Integer exp;
     private Boolean isAdmin;
     private Boolean isSecession;
+    private Long nowbadgeId;
+    private String nowbadgeName;
+    private String nowbadgeImage;
 
 
     public UserResponseDto(User e) {
@@ -33,6 +34,9 @@ public class UserResponseDto {
         this.phoneNumber = e.getPhoneNumber();
         this.level = e.getLevel();
         this.exp = e.getExp();
+        this.nowbadgeId = e.getNowBadge().getBadgeId();
+        this.nowbadgeName = e.getNowBadge().getBadgeName();
+        this.nowbadgeImage = e.getNowBadge().getBadgeImage();
         this.isAdmin = e.getIsAdmin();
         this.isSecession = e.getIsSecession();
     }
