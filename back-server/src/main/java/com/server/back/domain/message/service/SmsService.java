@@ -211,10 +211,12 @@ public class SmsService {
             if (result){
                 redisUtil.deleteData(requestDto.getModifyNum()); //인증번호 일치하면 인증번호 삭제
                 User user = userRepository.findByPhoneNumber(requestDto.getPhoneNum());
-                String newpassword = bCryptPasswordEncoder.encode(requestDto.getNewPassword());
-                user.changePassord(newpassword);
-                userRepository.save(user);
-                return true;
+                if (user.getUsername().equals(requestDto.getUsername())){  //아이디도 일치한지 확인
+                    String newpassword = bCryptPasswordEncoder.encode(requestDto.getNewPassword());
+                    user.changePassord(newpassword);
+                    userRepository.save(user);
+                    return true;
+                }
             }
         }
         return false;
