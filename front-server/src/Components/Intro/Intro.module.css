@@ -1,6 +1,6 @@
 @keyframes moveLeft {
   from {
-    transform: translate3d(-10rem,0px,0px);
+    transform: translate3d(-12rem,0px,0px);
   }
   to {
     transform: translate3d(-150rem,0px,0px);
@@ -8,7 +8,7 @@
 }
 @keyframes moveRight {
   from {
-    transform: translate3d(-150rem,0px,0px);
+    transform: translate3d(-94rem,0px,0px);
   }
   to {
     transform: translate3d(-10rem,0px,0px);
@@ -19,6 +19,6 @@
 }
 
 .moveCard2 {
-  animation: moveRight 100s infinite linear;
+  animation: moveRight 110s infinite linear;
 }
 
