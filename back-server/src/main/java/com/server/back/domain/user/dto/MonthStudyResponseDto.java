@@ -15,5 +15,7 @@ import lombok.NoArgsConstructor;
 public class MonthStudyResponseDto {
     private Integer WordCount;
     private Integer ContextCount;
-    private Integer Time;
+    private Integer WordTime;
+    private Integer ContextTime;
+    private Integer WrongTime;
 }
