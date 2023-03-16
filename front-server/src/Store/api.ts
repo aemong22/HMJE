@@ -88,7 +88,7 @@ export const hmjeApi = createApi({
       query: (userId: any) => {
         console.log("userId", userId);
         return {
-          url : `/api/user/myinfo/${userId}`,
+          url : `/user/myinfo/${userId}`,
           params : {
             userId: userId
           }
