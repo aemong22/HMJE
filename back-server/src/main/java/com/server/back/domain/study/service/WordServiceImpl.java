@@ -1,10 +1,13 @@
 package com.server.back.domain.study.service;
 
 
+import com.server.back.domain.study.dto.DailyWordResponseDto;
 import com.server.back.domain.study.dto.DictRequestDto;
 import com.server.back.domain.study.dto.WordResponseDto;
+import com.server.back.domain.study.entity.DailyWord;
 import com.server.back.domain.study.entity.Word;
 import com.server.back.domain.study.entity.WrongWord;
+import com.server.back.domain.study.repository.DailyWordRepository;
 import com.server.back.domain.study.repository.WordRepository;
 import com.server.back.domain.user.entity.User;
 import com.server.back.domain.user.repository.UserRepository;
@@ -14,6 +17,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +31,7 @@ import java.util.Map;
 public class WordServiceImpl implements WordService {
 
 	private final WordRepository wordRepository;
+	private final DailyWordRepository dailyWordRepository;
 	private final Map<String, String[]> wordFilter = new HashMap<>(){ // 필터링에 사용할 맵 생성
 		{
 			put("가", new String[] {"가", "나"});
@@ -124,8 +131,19 @@ public class WordServiceImpl implements WordService {
 	}
 
 
+	@Override
+	public List<DailyWordResponseDto> getDailyWordList() {
+		// 시간 변경해야 함
+		LocalDateTime startDatetime = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.of(0,0,0)); //어제 00:00:00
+		LocalDateTime endDatetime = LocalDateTime.of(LocalDate.now(), LocalTime.of(23,59,59)); //오늘 23:59:59
 
-//	@Override
+		List<DailyWord> dailyWordList = dailyWordRepository.findByCreatedAtBetween(startDatetime, endDatetime);
+		List<DailyWordResponseDto> result = DailyWordResponseDto.fromEntityList(dailyWordList);
+
+		return result;
+	}
+
+	//	@Override
 //	public Integer getWrongWordCount(Long userId) {
 //		User user = userRepository.findByUserId(userId);
 //		Integer wrongWordCount = wrongWordRepository.countAllByUser(user);

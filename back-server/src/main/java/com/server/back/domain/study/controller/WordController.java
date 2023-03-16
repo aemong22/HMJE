@@ -1,9 +1,12 @@
 package com.server.back.domain.study.controller;
 
 
+import com.server.back.domain.study.dto.DailyWordResponseDto;
 import com.server.back.domain.study.dto.DictRequestDto;
 import com.server.back.domain.study.dto.WordResponseDto;
 
+
+import com.server.back.domain.study.repository.DailyWordRepository;
 import com.server.back.domain.study.service.WordService;
 
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -117,5 +121,18 @@ public class WordController {
 //
 //		return new ResponseEntity<>(response, HttpStatus.OK);
 //	}
+
+
+	@ApiOperation(value = "오늘의 단어 전체 조회")
+	@GetMapping("/daily")
+	public ResponseEntity<Map<String, Object>> getDailyWordList(){
+		Map<String, Object> response = new HashMap<>();
+		List<DailyWordResponseDto> dailyWord = wordService.getDailyWordList();
+
+		response.put("data", dailyWord);
+		response.put("message", "success");
+
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
 
 }

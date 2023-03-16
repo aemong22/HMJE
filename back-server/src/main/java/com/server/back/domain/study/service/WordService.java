@@ -1,6 +1,7 @@
 package com.server.back.domain.study.service;
 
 
+import com.server.back.domain.study.dto.DailyWordResponseDto;
 import com.server.back.domain.study.dto.DictRequestDto;
 import com.server.back.domain.study.dto.WordResponseDto;
 
@@ -18,5 +19,7 @@ public interface WordService {
 //	List<WordResponseDto> getWrongWordList(Long userId, Integer page);
 //	List<WordResponseDto> getWrongWordQuestion(Long userId);
 //	Integer getWrongWordCount(Long userId);
+
+	List<DailyWordResponseDto> getDailyWordList();
 
 }
