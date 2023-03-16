@@ -3,10 +3,9 @@ import Footer from "../Common/Footer";
 import IntroNavbar from "../Intro/IntroNavbar";
 
 const ForgetPassword = () => {
-  const [Name, setName] = useState<string>("");
+  const [UserName, setUserName] = useState<string>("");
   const [Phonenum, setPhonenum] = useState<string>("");
   const [Authnum, setAuthnum] = useState<string>();
-
   const [AmIHidden, setAmIHidden] = useState("hidden");
 
   // 유효성

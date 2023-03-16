@@ -75,7 +75,9 @@ function Login(): JSX.Element {
         }
       })
       .catch((e) => {
-        if (e.status === "401" || e.status === "500") {
+        console.log("error났다");
+
+        if (e.status === 401 || e.status === 500) {
           alert("아이디 혹은 패스워드가 틀렸습니다");
         }
       });
