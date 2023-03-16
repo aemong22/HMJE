@@ -7,7 +7,8 @@ import {
   usePostSmsmodifyMutation,
   usePostSmssendMutation,
   usePostUserchecknicknameMutation,
-  usePostUseRcheckusernameMutation,
+  usePostUsercheckusernameMutation,
+  usePostUserjoinMutation,
 } from "../../Store/NonAuthApi";
 var pattern2 = /[a-zA-Z]/; //영어
 const Join = () => {
@@ -45,17 +46,19 @@ const Join = () => {
   const [IsPasswordConfirm, setIsPasswordConfirm] = useState<boolean>(false);
 
   // Store 호출
-  // 아이디 패스워드 중복확인
-  const [postUserchecknickname, isloading1] =
-    usePostUserchecknicknameMutation();
-  const [postUseRcheckusername, isloading2] =
-    usePostUseRcheckusernameMutation();
 
   // 인증번호
   // 전송 확인
+  const [postSmsmodify, isloading1] = usePostSmsmodifyMutation();
+  const [postSmssend, isloading2] = usePostSmssendMutation();
 
-  const [postSmsmodify, isloading3] = usePostSmsmodifyMutation();
-  const [postSmssend, isloading4] = usePostSmssendMutation();
+  // 아이디 패스워드 중복확인
+  const [postUserchecknickname, isloading3] =
+    usePostUserchecknicknameMutation();
+  const [postUsercheckusername, isloading4] =
+    usePostUsercheckusernameMutation();
+
+  const [postUserjoin, isloading5] = usePostUserjoinMutation();
 
   function ChangeName(event: any): void {
     console.log(event.target.value);
@@ -169,13 +172,12 @@ const Join = () => {
     };
 
     if (e.target.id === "UserName") {
-      console.log("Nickname", Nickname);
-      console.log("UserName", UserName);
-      console.log("Password", Password);
+      // console.log("Nickname", Nickname);
+      // console.log("UserName", UserName);
+      // console.log("Password", Password);
       if (UserName === "") {
         alert("빈칸은 ㄴㄴ");
       } else {
-        console.log("클릭");
         window.localStorage.clear();
         const data = {
           isAdmin: false,
@@ -186,29 +188,14 @@ const Join = () => {
           username: UserName,
         };
 
-        postUseRcheckusername(data)
+        postUsercheckusername(data)
           .unwrap()
           .then((r: any) => {
-            console.log(r);
+            console.log("받았다");
             alert(r.data);
+            console.log(r);
           });
       }
-      // API.post(`/user/check/username`, {
-      //   isAdmin: false,
-      //   isSecession: false,
-      //   nickname: Nickname,
-      //   password: Password,
-      //   phoneNumber: Phonenum,
-      //   username: UserName,
-      // }).then((r) => {
-      //   console.log("아이디 중복 결과", r.data.data);
-      //   if (r.data.data === true) {
-      //     // 사용가능한 아이디입니다
-      //     setIsName(true);
-      //   } else {
-      //     setIsName(false);
-      //   }
-      // });
     }
     // 닉네임
     else if (e.target.id === "Nickname") {
@@ -216,7 +203,6 @@ const Join = () => {
       if (Nickname === "") {
         alert("빈칸은 ㄴㄴ");
       } else {
-        console.log("클릭");
         window.localStorage.clear();
         const data = {
           isAdmin: false,
@@ -229,10 +215,11 @@ const Join = () => {
 
         postUserchecknickname(data)
           .unwrap()
-          .then((r) => {
+          .then((r: any) => {
+            alert(r.data);
             console.log(r);
           });
-      }      
+      }
     }
   };
 
@@ -295,17 +282,33 @@ const Join = () => {
     console.log("전화번호", Phonenum);
     console.log("username", UserName);
 
-    API.post(`/user/join`, {
+    const data = {
       isAdmin: false,
       isSecession: false,
       nickname: Nickname,
       password: Password,
       phoneNumber: Phonenum,
       username: UserName,
-    }).then((r) => {
-      console.log(r.data);
-      navigate("/login");
-    });
+    };
+
+    postUserjoin(data)
+      .unwrap()
+      .then((r: any) => {
+        console.log(r.data);
+        navigate("/login");
+      });
+
+    // API.post(`/user/join`, {
+    //   isAdmin: false,
+    //   isSecession: false,
+    //   nickname: Nickname,
+    //   password: Password,
+    //   phoneNumber: Phonenum,
+    //   username: UserName,
+    // }).then((r) => {
+    //   console.log(r.data);
+    //   navigate("/login");
+    // });
   };
   const CheckAuthnum = (
     authnum: string | undefined,
@@ -321,24 +324,41 @@ const Join = () => {
     console.log(Authnum);
     console.log(Phonenum);
 
-    axios({
-      url: "https://hmje.net/api/sms/modify",
-      method: "post",
-      data: {
-        modifyNumber: Authnum,
-        phoneNumber: Phonenum,
-        purpose: "",
-      },
-    }).then((r) => {
-      console.log("인증번호 결과", typeof r.data.data);
-      if (r.data.data === "true") {
-        // 인증성공!
-        setIsAuthnum(true);
-      } else if (r.data.data === "false") {
-        // 인증실패!
-        setIsAuthnum(false);
-      }
-    });
+    const data = {
+      modifyNumber: Authnum,
+      phoneNumber: Phonenum,
+      purpose: "",
+    };
+    postSmsmodify(data)
+      .unwrap()
+      .then((r) => {
+        console.log("인증번호 결과", typeof r.data.data);
+        if (r.data.data === "true") {
+          // 인증성공!
+          setIsAuthnum(true);
+        } else if (r.data.data === "false") {
+          // 인증실패!
+          setIsAuthnum(false);
+        }
+      });
+    // axios({
+    //   url: "https://hmje.net/api/sms/modify",
+    //   method: "post",
+    //   data: {
+    //     modifyNumber: Authnum,
+    //     phoneNumber: Phonenum,
+    //     purpose: "",
+    //   },
+    // }).then((r) => {
+    //   console.log("인증번호 결과", typeof r.data.data);
+    //   if (r.data.data === "true") {
+    //     // 인증성공!
+    //     setIsAuthnum(true);
+    //   } else if (r.data.data === "false") {
+    //     // 인증실패!
+    //     setIsAuthnum(false);
+    //   }
+    // });
   };
 
   const elemetPadding = "my-2";
@@ -347,9 +367,9 @@ const Join = () => {
   return (
     <>
       <IntroNavbar />
-      <div className="flex flex-col justify-between h-[100vh]">
+      <div className="flex flex-col justify-between min-h-[100vh]">
         {/* 상 */}
-        <div className="w-full">
+        <div className="max-h-[100%] w-full">
           <div className="flex flex-col mx-5 sm:mx-5 md:mx-7 lg:mx-[20%]">
             <div className="my-4 font-extrabold text-[#A87E6E] text-4xl  sm:text-4xl md:text-4xl lg:text-6xl">
               홍민정음

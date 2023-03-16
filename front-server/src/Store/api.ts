@@ -129,25 +129,7 @@ export const hmjeApi = createApi({
       invalidatesTags: (result, error, arg) => [{ type: "Api" }]
     }),
 
-    // 3. 닉네임 중복 체크
-    postUserchecknickname: builder.mutation({
-      query: (data) => {
-        const [nickname, password, phoneNumber, username] = data;
-        return {
-          url: `user/check/nickname`,
-          method: `POST`,
-          body: {
-            isAdmin: false,
-            isSecession: false,
-            nickname: nickname,
-            password: password,
-            phoneNumber: phoneNumber,
-            username: username
-          }
-        }
-      },
-      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
-    }),
+    // 3. 닉네임 중복 체크 => NonAuthApi.ts    
 
     // 4. 학습시간,단어, 문맥, 통계
     getUserMystudy: builder.query({
@@ -164,6 +146,10 @@ export const hmjeApi = createApi({
         return [{ type: "Api" }]
       }
     }),
+
+    // 5. 아이디 중복 체크 => NonAuthApi.ts
+
+    // 6. 회원가입 => NonAuthApi.ts
 
 
     // ---------------STUDY---------------
@@ -211,8 +197,7 @@ export const {
 
   // USER
   useGetUserMyinfoQuery,  
-  usePutUserdataMutation, 
-  usePostUserchecknicknameMutation, 
+  usePutUserdataMutation,   
   useGetUserMystudyQuery,
   
   // STUDY
