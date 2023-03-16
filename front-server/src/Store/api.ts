@@ -98,7 +98,7 @@ export const hmjeApi = createApi({
       query: (userId: any) => {
         console.log("userId", userId);
         return {
-          url: `/api/user/myinfo/${userId}`,
+          url: `/user/myinfo/${userId}`,
           params: {
             userId: userId
           }
@@ -129,24 +129,93 @@ export const hmjeApi = createApi({
       invalidatesTags: (result, error, arg) => [{ type: "Api" }]
     }),
 
-    // 3. 닉네임 중복 체크 => NonAuthApi.ts
+    // 3. 닉네임 중복 체크
+    postUserchecknickname: builder.mutation({
+      query: (data) => {
+        const [nickname, password, phoneNumber, username] = data;
+        return {
+          url: `user/check/nickname`,
+          method: `POST`,
+          body: {
+            isAdmin: false,
+            isSecession: false,
+            nickname: nickname,
+            password: password,
+            phoneNumber: phoneNumber,
+            username: username
+          }
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
 
-    // 4. 아이디 중복 체크 => NonAuthApi.ts
-
-    // 5. 회원가입 => NonAuthApi.ts
+    // 4. 학습시간,단어, 문맥, 통계
+    getUserMystudy: builder.query({
+      query: (userId: any) => {
+        console.log("userId", userId);
+        return {
+          url : `/user/mystudy/${userId}`,
+          params : {
+            userId: userId
+          }
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
 
 
     // ---------------STUDY---------------
 
     // 1. 단어학습 문제 
     getStudyWord: builder.query({
-      query: () => "/study/word",
+      query: (userId: any) => {
+        console.log("userId", userId);
+        return {
+          url : `/study/word/${userId}`,
+          params : {
+            userId: userId
+          }
+        }
+      },
       providesTags: (result, error, arg) => {
         return [{ type: "Api" }]
       }
     }),
 
+    // 2. 결과
+    postStudyWordResult: builder.mutation({
+      query: (data) => {
+        const [rightIdList,semo,userId,wrongIdList] = data;
+        return {
+          url: `study/word/result`,
+          method: `POST`,
+          body: {
+            rightIdList,
+            semo,
+            userId,
+            wrongIdList,
+          }
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
   }),
 })
 
-export const { useGetUserMyinfoQuery, useGetStudyWordQuery, useLazyGetAdminUserListQuery, usePutUserdataMutation } = hmjeApi 
+export const {
+  // ADMIN
+  useLazyGetAdminUserListQuery,
+
+  // USER
+  useGetUserMyinfoQuery,  
+  usePutUserdataMutation, 
+  usePostUserchecknicknameMutation, 
+  useGetUserMystudyQuery,
+  
+  // STUDY
+  useLazyGetStudyWordQuery,
+  usePostStudyWordResultMutation
+  } = hmjeApi 

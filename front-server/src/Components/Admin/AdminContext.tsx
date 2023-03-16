@@ -15,7 +15,7 @@ function AdminContext(): JSX.Element {
 
   const setUserData = mutation[0]
   const click = () => {
-    getAdminUser('').unwrap().then((r)=> {          
+    getAdminUser('').unwrap().then((r)=> {
       setUserList(r.data)
     })
   }
