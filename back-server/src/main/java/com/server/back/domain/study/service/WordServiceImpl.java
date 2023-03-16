@@ -2,14 +2,19 @@ package com.server.back.domain.study.service;
 
 
 import com.server.back.domain.study.dto.DictRequestDto;
+import com.server.back.domain.study.dto.WordResponseDto;
 import com.server.back.domain.study.entity.Word;
+import com.server.back.domain.study.entity.WrongWord;
 import com.server.back.domain.study.repository.WordRepository;
+import com.server.back.domain.user.entity.User;
+import com.server.back.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +22,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Transactional
 @Service
-public class DictServiceImpl implements DictService{
+public class WordServiceImpl implements WordService {
 
 	private final WordRepository wordRepository;
 	private final Map<String, String[]> wordFilter = new HashMap<>(){ // 필터링에 사용할 맵 생성
@@ -38,25 +43,27 @@ public class DictServiceImpl implements DictService{
 			put("하", new String[] {"하", "힣"});
 		}
 	};
+	private final UserRepository userRepository;
+
 
 	@Override
-	public List<Word> getDictList(DictRequestDto dictRequestDto) {
+	public List<WordResponseDto> getDictList(DictRequestDto dictRequestDto) {
 		int page = dictRequestDto.getPage();
 		Pageable pageable = PageRequest.of(page, 10); // 페이지네이션. 10개씩 보여줌.
-		List<Word> wordList = wordRepository.findByWordNameStartsWith(dictRequestDto.getKeyword(), pageable).getContent(); // 키워드와 페이지네이션 한 결과값 출력
+		List<WordResponseDto> wordList = WordResponseDto.fromEntityList(wordRepository.findByWordNameStartsWith(dictRequestDto.getKeyword(), pageable).getContent()); // 키워드와 페이지네이션 한 결과값 출력
 
 		return wordList;
 	}
 
 
 	@Override
-	public List<Word> getDictListWithFilter(DictRequestDto dictRequestDto) {
+	public List<WordResponseDto> getDictListWithFilter(DictRequestDto dictRequestDto) {
 		int page = dictRequestDto.getPage();
 		Pageable pageable = PageRequest.of(page, 10); // 페이지네이션. 10개씩 보여줌.
 		String[] filters = wordFilter.get(dictRequestDto.getFilter());
 		String startFilter = filters[0];
 		String endFilter = filters[1];
-		List<Word> wordList = wordRepository.findAllByWordNameAndFilterAndPaging(startFilter, endFilter, dictRequestDto.getKeyword(), pageable).getContent(); // 필터 정보를 넣고 검색
+		List<WordResponseDto> wordList = WordResponseDto.fromEntityList(wordRepository.findAllByWordNameAndFilterAndPaging(startFilter, endFilter, dictRequestDto.getKeyword(), pageable).getContent()); // 필터 정보를 넣고 검색
 		return wordList;
 	}
 
@@ -78,9 +85,51 @@ public class DictServiceImpl implements DictService{
 
 
 	@Override
-	public Word getDict(Long wordId) {
-		Word word = wordRepository.findByWordId(wordId);
+	public WordResponseDto getDict(Long wordId) {
+		WordResponseDto word = WordResponseDto.fromEntity(wordRepository.findByWordId(wordId));
 		return word;
 	}
+
+
+//	@Override
+//	public List<WordResponseDto> getWrongWordList(Long userId, Integer page) {
+//		Pageable pageable = PageRequest.of(page, 10); // 페이지네이션. 10개씩 보여줌.
+//		User user = userRepository.findByUserId(userId);
+//		List<Word> wordList = new ArrayList<>();
+//		List<WrongWord> wrongWordList = wrongWordRepository.findByUser(user, pageable).getContent(); // 페이지네이션 하여 10개만 뽑아서 보내줌
+//
+//		for (WrongWord wrongWord : wrongWordList) {
+//			Word word = wrongWord.getWord();
+//			wordList.add(word);
+//		}
+//
+//		List<WordResponseDto> result = WordResponseDto.fromEntityList(wordList);
+//
+//		return result;
+//	}
+
+
+	@Override
+	public List<WordResponseDto> getWrongWordList(Long userId) {
+		User user = userRepository.findByUserId(userId);
+		List<Word> wordList = new ArrayList<>();
+		List<WrongWord> wrongWordList = user.getWrongWordList();
+		for (WrongWord wrongWord : wrongWordList) {
+			Word word = wrongWord.getWord();
+			wordList.add(word);
+		}
+		List<WordResponseDto> result = WordResponseDto.fromEntityList(wordList);
+
+		return result;
+	}
+
+
+
+//	@Override
+//	public Integer getWrongWordCount(Long userId) {
+//		User user = userRepository.findByUserId(userId);
+//		Integer wrongWordCount = wrongWordRepository.countAllByUser(user);
+//		return wrongWordCount;
+//	}
 
 }
