@@ -2,10 +2,14 @@ package com.server.back.domain.user.entity;
 
 import com.server.back.common.entity.CommonEntity;
 import com.server.back.common.entity.RefreshToken;
+import com.server.back.domain.study.entity.WrongWord;
 import com.server.back.domain.user.dto.UserRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
 @Getter
@@ -53,6 +57,9 @@ public class User extends CommonEntity {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "character_id")
     private MyCharacter characterId;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<WrongWord> wrongWordList = new ArrayList<>();
 
     /**
      *  refresh 생성자, setter
