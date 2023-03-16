@@ -1,16 +1,20 @@
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../Common/Footer";
-import API from "../Common/Api";
 import axios from "axios";
-import { usePostUserchecknicknameMutation } from "../../Store/api";
 import IntroNavbar from "../Intro/IntroNavbar";
+import {
+  usePostSmsmodifyMutation,
+  usePostSmssendMutation,
+  usePostUserchecknicknameMutation,
+  usePostUseRcheckusernameMutation,
+} from "../../Store/NonAuthApi";
 var pattern2 = /[a-zA-Z]/; //영어
 const Join = () => {
   const navigate = useNavigate();
 
   // 이름, 비밀번호, 비밀번호 확인, 별명, 폰번호, 인증번호
-  const [Name, setName] = useState<string>("");
+  const [UserName, setUserName] = useState<string>("");
   const [Password, setPassword] = useState<string>("");
   const [PasswordCheck, setPasswordCheck] = useState<string>();
   const [Nickname, setNickname] = useState<string>("");
@@ -41,38 +45,21 @@ const Join = () => {
   const [IsPasswordConfirm, setIsPasswordConfirm] = useState<boolean>(false);
 
   // Store 호출
-  const [CheckNicknameDuplication, response] =
+  // 아이디 패스워드 중복확인
+  const [postUserchecknickname, isloading1] =
     usePostUserchecknicknameMutation();
+  const [postUseRcheckusername, isloading2] =
+    usePostUseRcheckusernameMutation();
 
-  const Dupldata = CheckNicknameDuplication(0);
+  // 인증번호
+  // 전송 확인
 
-  // interface data = {dada:string,}
-
-  const data = ["54", "얼음저금통", "01050323109", `wndjf11`];
-
-  const click = () => {
-    // const data = {
-    //   nickname: "Nickname",
-    //   password: "Password",
-    //   phoneNumber: "Phonenum",
-    //   username: "test",
-    // };
-    // Dupldata(data)
-    //   .unwrap()
-    //   .then((r) => {
-    //     console.log(r.data);
-    //   })
-    //   .catch((e) => {
-    //     console.log(e);
-    //   })
-    //   .finally(() => {
-    //     console.log("살려줘");
-    //   });
-  };
+  const [postSmsmodify, isloading3] = usePostSmsmodifyMutation();
+  const [postSmssend, isloading4] = usePostSmssendMutation();
 
   function ChangeName(event: any): void {
     console.log(event.target.value);
-    setName(event.target.value);
+    setUserName(event.target.value);
   }
   const ChangePassword = (event: any): void => {
     console.log(event.target.value);
@@ -170,63 +157,82 @@ const Join = () => {
   };
 
   // 중복확인
-  const CheckDuplication = (check: string): void => {
+  const CheckDuplication = (e: any) => {
     // 이름
-    if (check === "Name") {
-      console.log("Nickname", Nickname);
-      console.log("Name", Name);
-      console.log("Password", Password);
+    const data = {
+      isAdmin: false,
+      isSecession: false,
+      nickname: Nickname,
+      password: Password,
+      phoneNumber: Phonenum,
+      username: UserName,
+    };
 
-      // const test = setNicknameCheck({
+    if (e.target.id === "UserName") {
+      console.log("Nickname", Nickname);
+      console.log("UserName", UserName);
+      console.log("Password", Password);
+      if (UserName === "") {
+        alert("빈칸은 ㄴㄴ");
+      } else {
+        console.log("클릭");
+        window.localStorage.clear();
+        const data = {
+          isAdmin: false,
+          isSecession: false,
+          nickname: Nickname,
+          password: Password,
+          phoneNumber: Phonenum,
+          username: UserName,
+        };
+
+        postUseRcheckusername(data)
+          .unwrap()
+          .then((r: any) => {
+            console.log(r);
+            alert(r.data);
+          });
+      }
+      // API.post(`/user/check/username`, {
       //   isAdmin: false,
       //   isSecession: false,
       //   nickname: Nickname,
       //   password: Password,
       //   phoneNumber: Phonenum,
-      //   username: Name,
+      //   username: UserName,
+      // }).then((r) => {
+      //   console.log("아이디 중복 결과", r.data.data);
+      //   if (r.data.data === true) {
+      //     // 사용가능한 아이디입니다
+      //     setIsName(true);
+      //   } else {
+      //     setIsName(false);
+      //   }
       // });
-
-      // test.then((r) => {
-      //   console.log(r);
-      // });
-
-      API.post(`/user/check/username`, {
-        isAdmin: false,
-        isSecession: false,
-        nickname: Nickname,
-        password: Password,
-        phoneNumber: Phonenum,
-        username: Name,
-      }).then((r) => {
-        console.log("아이디 중복 결과", r.data.data);
-        if (r.data.data === true) {
-          // 사용가능한 아이디입니다
-          setIsName(true);
-        } else {
-          setIsName(false);
-        }
-      });
     }
     // 닉네임
-    else if (check === "Nickname") {
+    else if (e.target.id === "Nickname") {
       console.log("닉네임확인", Nickname);
+      if (Nickname === "") {
+        alert("빈칸은 ㄴㄴ");
+      } else {
+        console.log("클릭");
+        window.localStorage.clear();
+        const data = {
+          isAdmin: false,
+          isSecession: false,
+          nickname: Nickname,
+          password: Password,
+          phoneNumber: Phonenum,
+          username: UserName,
+        };
 
-      API.post(`/user/check/nickname`, {
-        isAdmin: false,
-        isSecession: false,
-        nickname: Nickname,
-        password: Password,
-        phoneNumber: Phonenum,
-        username: Name,
-      }).then((r) => {
-        console.log("닉네임 중복 결과", r.data.data);
-        if (r.data.data === true) {
-          // 사용가능한 닉네임
-          setIsNickname(true);
-        } else {
-          setIsNickname(false);
-        }
-      });
+        postUserchecknickname(data)
+          .unwrap()
+          .then((r) => {
+            console.log(r);
+          });
+      }      
     }
   };
 
@@ -237,13 +243,15 @@ const Join = () => {
       if (checkNum(Phonenum) === false) {
         // 인증번호 보여주고
 
-        console.log("폰번호확인", Phonenum);
-        API.post(`/sms/send/newbie`, {
-          to: Phonenum,
-        }).then((r) => {
-          console.log("전화번호 중복 결과", r.data);
-          alert("전송하였습니다!");
-        });
+        SendAuthnum(Phonenum);
+        alert("전송하였습니다!");
+
+        // API.post(`/sms/send/newbie`, {
+        //   to: Phonenum,
+        // }).then((r) => {
+        //   console.log("전화번호 중복 결과", r.data);
+        //   alert("전송하였습니다!");
+        // });
 
         setAmIHidden("");
         // 인증번호 닫고
@@ -269,11 +277,14 @@ const Join = () => {
   // 인증번호 전송
   const SendAuthnum = (phonenum: string): void => {
     console.log("폰번호확인", phonenum);
-    API.post(`/sms/send/newbie`, {
+    const data = {
       to: phonenum,
-    }).then((r) => {
-      console.log("전화번호 중복 결과", r.data);
-    });
+    };
+    postSmssend(data)
+      .unwrap()
+      .then((r) => {
+        console.log("전화번호 중복 결과", r.data);
+      });
   };
 
   // 회원가입
@@ -282,7 +293,7 @@ const Join = () => {
     console.log("닉네임", Nickname);
     console.log("패스워드", Password);
     console.log("전화번호", Phonenum);
-    console.log("username", Name);
+    console.log("username", UserName);
 
     API.post(`/user/join`, {
       isAdmin: false,
@@ -290,7 +301,7 @@ const Join = () => {
       nickname: Nickname,
       password: Password,
       phoneNumber: Phonenum,
-      username: Name,
+      username: UserName,
     }).then((r) => {
       console.log(r.data);
       navigate("/login");
@@ -366,20 +377,28 @@ const Join = () => {
                     onChange={ChangeName}
                   />
 
-                  <div
+                  <button
+                    id="UserName"
                     className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
-                    onClick={
-                      // () => {
-                      //   CheckDuplication("Name");
-                      // }
-                      click
-                      // sampleTest
-                    }
+                    onClick={CheckDuplication}
                   >
                     중복확인
-                  </div>
+                  </button>
                 </div>
               </div>
+
+              {/* <form onSubmit={handleSubmit}>
+                <label htmlFor="postTitle">Post Title:</label>
+                <input
+                  type="text"
+                  id="postTitle"
+                  name="postTitle"
+                  value={UserName}
+                  onChange={(e) => setName(e.target.value)}
+                />                
+                <button type="submit">Save Post</button>
+              </form> */}
+
               <div className={`${elemetPadding}`}>
                 <div className="flex flex-row items-baseline">
                   <div className="text-[#A87C6E] font-extrabold text-base pb-2">
@@ -398,10 +417,9 @@ const Join = () => {
                     onKeyUp={chkCharCode}
                   />
                   <div
+                    id="Nickname"
                     className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
-                    onClick={() => {
-                      CheckDuplication("Nickname");
-                    }}
+                    onClick={CheckDuplication}
                   >
                     중복확인
                   </div>
