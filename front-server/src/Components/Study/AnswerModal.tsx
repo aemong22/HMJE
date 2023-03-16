@@ -68,8 +68,8 @@ function AnswerModal({closeModal, right,question,num,setNum, setRight, studyType
                 </div>
                 {/* body content */}
                 <div className="relative px-4 py-3 max-h-[50vh] overflow-y-auto">
-                    {question[num].wordDetailList.map((detail:any , idx:any) => {
-                        console.log("뜻 개수",question[num].wordDetailList.length)
+                    {question[num].wordDetailResponseList.map((detail:any , idx:any) => {
+                        console.log("뜻 개수",question[num].wordDetailResponseList.length)
                         let temp =  detail.wordExampleList.filter((ex:any) => ex.exampleType === "문장")[0]?.exampleDetail
                         let example = temp ? temp : detail.wordExampleList[0]?.exampleDetail
                         return(
