@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
 import Pangguin from "../Threejs/Pangguin";
@@ -101,8 +102,16 @@ function MyInfo(): JSX.Element {
 }
 
 // 학습 (3가지)
-
 function StudyContent(): JSX.Element {
+  const navigate = useNavigate()
+  const nav = (e:any) => {
+    if(e.target.id === 'word'){
+      navigate('/wordStudy')
+    }
+    else if(e.target.id === 'context') {
+      navigate('/contextStudy')
+    }
+  }
   return (
     <>
       <div className="container max-w-screen-lg w-full  mx-auto text-center md:pt-[7rem] pt-[5rem]">
@@ -114,12 +123,12 @@ function StudyContent(): JSX.Element {
           <div className={`${style.studyContents} md:relative static md:h-0 md:p-[3%] p-[4%] md:pb-[27%]  md:w-[30%] w-[90%] rounded-md`}>
                 <div className="md:text-[1.2rem] sm:text-[1rem] text-[0.9rem] text-[#666666]">오늘의 공부 </div>
                 <div className="text-[#A87E6E] font-bold md:text-[1.8rem] sm:text-[1.4rem] text-[1.1rem] py-0.5">단어 학습</div>
-                <div className="sm:text-[1rem] text-[0.9rem] text-[#666666]">
+                <div className="lg:text-[1rem] text-[0.9rem] text-[#666666]">
                     뜻을 읽고 해당 단어를 찾고,
                     정확한 뜻을 학습해보세요!
                 </div>
                 <br/>
-            <div className={`${style.studyBtn} md:text-[1.3rem] md:absolute static md:bottom-[5%]  md:w-[80%] text-center border-2 border-[#A87E6E] rounded-lg py-1 mt-1`}>
+            <div id="word" className={`${style.studyBtn} md:text-[1.3rem] md:absolute static md:bottom-[5%]  md:w-[80%] text-center border-2 border-[#A87E6E] rounded-lg py-1 mt-1`} onClick={nav}>
               시작하기
             </div>
           </div>
@@ -127,12 +136,12 @@ function StudyContent(): JSX.Element {
           <div className={`${style.studyContents} md:relative static md:m-0 m-3 md:h-0 md:p-[3%] p-[4%] md:pb-[27%]  md:w-[30%] w-[90%] rounded-md`}>
             <div className="md:text-[1.2rem] sm:text-[1rem] text-[0.9rem] text-[#666666]">다의어 공부 </div>
             <div className="text-[#A87E6E] font-bold md:text-[1.8rem] sm:text-[1.4rem] text-[1.1rem] py-0.5">문맥 학습</div>
-            <div className="sm:text-[1rem] text-[0.9rem] text-[#666666]">
+            <div className="lg:text-[1rem] text-[0.9rem] text-[#666666]">
               빈칸에 공통적으로 들어갈
               단어를 찾고, 단어의 다양한 의미를 공부해보세요!
             </div>
             <br/>
-            <div className={`${style.studyBtn} md:text-[1.3rem] md:absolute static md:bottom-[5%]  md:w-[80%] text-center border-2 border-[#A87E6E] rounded-lg py-1 mt-1`}>
+            <div id="context" onClick={nav} className={`${style.studyBtn} md:text-[1.3rem] md:absolute static md:bottom-[5%]  md:w-[80%] text-center border-2 border-[#A87E6E] rounded-lg py-1 mt-1`}>
               시작하기
             </div>
           </div>
@@ -140,7 +149,7 @@ function StudyContent(): JSX.Element {
           <div className={`${style.studyContents} md:relative static md:h-0 md:p-[3%] p-[4%] md:pb-[27%]  md:w-[30%] w-[90%] rounded-md`}>
             <div className="md:text-[1.2rem] sm:text-[1rem] text-[0.9rem] text-[#666666]">실력 확인 </div>
             <div className="text-[#A87E6E] font-bold md:text-[1.8rem] sm:text-[1.4rem] text-[1.1rem] py-0.5">과거시험</div>
-            <div className="sm:text-[1rem] text-[0.9rem] text-[#666666]">
+            <div className="lg:text-[1rem] text-[0.9rem] text-[#666666]">
               매달 마지막 주 주말에 열리는
               과거시험을 통해 향상된 실력을 확인해보세요!{" "}
             </div>

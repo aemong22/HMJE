@@ -24,7 +24,7 @@ public class User extends CommonEntity {
     private String password;
     @Column(length = 12, nullable = false)
     private String nickname;
-    @Column(length = 25, nullable = false)
+    @Column(length = 30, nullable = false)
     private String phoneNumber;
 
     private Integer level;
@@ -33,8 +33,6 @@ public class User extends CommonEntity {
     //    @Column(nullable = false)
     private Integer todaysemo;
     //    @Column(nullable = false)
-//    private Integer totalTime;
-//        @Column(nullable = false)
     private Integer todayRight;
     //    @Column(nullable = false)
     private Integer todayWrong;
@@ -54,7 +52,7 @@ public class User extends CommonEntity {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "character_id")
-    private RefreshToken characterId;
+    private MyCharacter characterId;
 
     /**
      *  refresh 생성자, setter
@@ -73,6 +71,9 @@ public class User extends CommonEntity {
     public void update(UserRequestDto requestDto){
         this.nickname = requestDto.getNickname();
     }
+    public void logout(){
+        this.jwtRefreshToken = null;
+    }
     public void userdelete(){
         this.nickname = "delete" + this.getUserId();
         this.isSecession = true;
@@ -87,5 +88,9 @@ public class User extends CommonEntity {
     }
     public void updateExp(Integer rightExp){
         this.exp = this.exp + rightExp;
+    }
+    public void changePassord(String newPassword){
+        this.password = newPassword;
+        this.jwtRefreshToken = null;
     }
 }

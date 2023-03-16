@@ -9,15 +9,12 @@ import com.server.back.domain.study.entity.DogamResult;
 import com.server.back.domain.study.entity.RightWord;
 import com.server.back.domain.study.repository.DogamResultRepository;
 import com.server.back.domain.study.repository.RightWordRepository;
-import com.server.back.domain.user.dto.*;
-import com.server.back.domain.user.entity.Badge;
-import com.server.back.domain.user.entity.BadgeResult;
-import com.server.back.domain.user.entity.StudyTime;
-import com.server.back.domain.user.entity.User;
-import com.server.back.domain.user.repository.BadgeRepository;
-import com.server.back.domain.user.repository.BadgeResultRepository;
-import com.server.back.domain.user.repository.StudyTimeRepository;
-import com.server.back.domain.user.repository.UserRepository;
+import com.server.back.domain.user.dto.BadgeResultResponseDto;
+import com.server.back.domain.user.dto.StudyResponseDto;
+import com.server.back.domain.user.dto.UserRequestDto;
+import com.server.back.domain.user.dto.UserResponseDto;
+import com.server.back.domain.user.entity.*;
+import com.server.back.domain.user.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -42,14 +39,19 @@ public class UserServiceImpl implements UserService {
     private final StudyTimeRepository studyTimeRepository;
     private final RightWordRepository rightWordRepository;
     private final DogamResultRepository dogamResultRepository;
+    private final MyCharacterRepository myCharacterRepository;
 
     @Override
     public void join(UserRequestDto requestDto) {
+        MyCharacter myCharacter = myCharacterRepository.findAll().get(0);
+        Badge badge = badgeRepository.findAll().get(0);
         User user = User.builder()
                 .username(requestDto.getUsername())
                 .password(bCryptPasswordEncoder.encode(requestDto.getPassword()))
                 .nickname(requestDto.getNickname())
                 .phoneNumber(requestDto.getPhoneNumber())
+                .characterId(myCharacter)
+                .nowBadge(badge)
                 .level(0)
                 .exp(0)
                 .todaysemo(0)
@@ -103,17 +105,24 @@ public class UserServiceImpl implements UserService {
         entity.update(requestDto);
     }
     @Override
-    public List<BadgeResultResponseDto> userBadge(Long userId) {
+    public List<BadgeResultResponseDto> myBadgeAll(Long userId) {
         User user = userRepository.findByUserId(userId);
         List<BadgeResult> badgeresult = badgeresultRepository.findByUser(user);
         return MyBadgeResultList(badgeresult);
     }
     @Override
+    public void uesrLogout(Long userId){
+        User user = userRepository.findByUserId(userId);
+        RefreshToken token = refreshTokenRepository.findRefreshTokenById(user.getJwtRefreshToken().getId());
+        refreshTokenRepository.delete(token);
+        user.logout();
+    }
+    @Override
     public void userDelete(Long userId){
         User user = userRepository.findByUserId(userId);
         RefreshToken token = refreshTokenRepository.findRefreshTokenById(user.getJwtRefreshToken().getId());
-//        refreshTokenRepository.delete(token);
-//        user.logout();
+        refreshTokenRepository.delete(token);
+        user.logout();
         user.userdelete();
     }
     @Override
@@ -157,7 +166,7 @@ public class UserServiceImpl implements UserService {
                 todayword += 1;
             }
         }
-        List<DogamResult> totalcontextlist = dogamResultRepository.findAllByUserId(user);
+        List<DogamResult> totalcontextlist = dogamResultRepository.findAllByUserOrderByDogamDesc(user);
         Integer totalcontext = totalcontextlist.size();
         int todaycontext = 0;
         for (DogamResult d : totalcontextlist){

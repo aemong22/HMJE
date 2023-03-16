@@ -3,7 +3,11 @@ package com.server.back.domain.user.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.server.back.common.dto.TokenRequestDto;
 import com.server.back.common.service.JwtService;
-import com.server.back.domain.user.dto.*;
+import com.server.back.domain.message.dto.FindRequestDto;
+import com.server.back.domain.message.service.SmsService;
+import com.server.back.domain.user.dto.BadgeResultResponseDto;
+import com.server.back.domain.user.dto.StudyResponseDto;
+import com.server.back.domain.user.dto.UserRequestDto;
 
 import com.server.back.domain.user.service.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -23,6 +27,7 @@ import java.util.Map;
 public class UserController {
     private final JwtService jwtService;
     private final UserService userService;
+    private final SmsService smsService;
     @ApiOperation(value = "회원 가입")
     @PostMapping("/join")
     public ResponseEntity<Map<String, Object>> join(@RequestBody UserRequestDto requestDto){
@@ -60,15 +65,24 @@ public class UserController {
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-//    @ApiOperation(value = "아이디 찾기")
-//    @GetMapping("/user/find/id")
-//    public ResponseEntity<Map<String, Object>> findId(@PathVariable(value = "userId") Long userId){
-//        Map<String, Object> response = new HashMap<>();
-//        List<BadgeResultResponseDto> responseDtoList = userService.userBadge(userId);
-//        response.put("data", responseDtoList);
-//        response.put("message", "success");
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
+    @ApiOperation(value = "아이디 찾기")
+    @PostMapping("/find/id")
+    public ResponseEntity<Map<String, Object>> findUsername(@RequestBody FindRequestDto requestDto){
+        Map<String, Object> response = new HashMap<>();
+        String username = smsService.findUsername(requestDto);
+        response.put("data", username);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @ApiOperation(value = "비밀번호 찾기")
+    @PostMapping("/find/password")
+    public ResponseEntity<Map<String, Object>> findPassword(@RequestBody FindRequestDto requestDto){
+        Map<String, Object> response = new HashMap<>();
+        Boolean password = smsService.findPassword(requestDto);
+        response.put("data", password);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
     @ApiOperation(value = "내 정보 조회")
     @GetMapping("/myinfo/{userId}")
     public ResponseEntity<Map<String, Object>> userMyInfo(@PathVariable(value = "userId") Long userId){
@@ -78,7 +92,15 @@ public class UserController {
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    @ApiOperation(value = "정보 수정")
+    @ApiOperation(value = "로그아웃")
+    @PutMapping("/logout/{userId}")
+    public ResponseEntity<Map<String, Object>> uesrLogout(@PathVariable(value = "userId") Long userId) {
+        Map<String, Object> response = new HashMap<>();
+        userService.uesrLogout(userId);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @ApiOperation(value = "회원정보(닉네임) 수정")
     @PutMapping("/{userId}")
     public ResponseEntity<Map<String, Object>> userUpdate(@PathVariable(value = "userId") Long userId , @RequestBody UserRequestDto requestDto){
         Map<String, Object> response = new HashMap<>();
@@ -86,6 +108,7 @@ public class UserController {
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
     @ApiOperation(value = "회원 탈퇴")
     @DeleteMapping("/{userId}")
     public ResponseEntity<Map<String, Object>> userDelete(@PathVariable(value = "userId") Long userId){
@@ -96,9 +119,9 @@ public class UserController {
     }
     @ApiOperation(value = "내 뱃지 조회")
     @GetMapping("/badge/{userId}")
-    public ResponseEntity<Map<String, Object>> userBadge(@PathVariable(value = "userId") Long userId){
+    public ResponseEntity<Map<String, Object>> myBadgeAll(@PathVariable(value = "userId") Long userId){
         Map<String, Object> response = new HashMap<>();
-        List<BadgeResultResponseDto> responseDtoList = userService.userBadge(userId);
+        List<BadgeResultResponseDto> responseDtoList = userService.myBadgeAll(userId);
         response.put("data", responseDtoList);
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);

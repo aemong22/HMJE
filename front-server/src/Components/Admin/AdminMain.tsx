@@ -18,10 +18,10 @@ export default AdminMain
 
 function AdminMainSection1():JSX.Element {
   return (
-    <div className="w-full border-b-2">
+    <div className="w-full">
       <div className="container max-w-screen-xl w-[90%] lg:w-full mx-auto">
         <div className="flex justify-center">
-          <span className="pt-28 text-[1.8rem] md:text-[2rem] text-[#A87E6E] font-bold  border-b-[#A87E6E]/70 border-b-4">
+          <span className="pt-8 text-[1.8rem] md:text-[2rem] text-[#A87E6E] font-bold  border-b-[#A87E6E]/70 border-b-4">
             관리자 모드
           </span>
         </div>
@@ -48,12 +48,12 @@ function AdminMainSection2():JSX.Element {
   };
 
   return (
-    <div className="container max-w-screen-xl w-[90%] lg:w-full mx-auto my-12">
-      <div className="hidden lg:flex justify-center text-center lg:text-[1.2rem] font-semibold text-[#A87E6E]">
-        <div aria-label="user" className={`px-28 sm:py-5 mr-2 rounded-lg bg-[#F0ECE9] border-[#A87E6E] border-4 ${styles.choiceBtn}`} onClick={click}>USER</div>
-        <div aria-label="badge" className={`px-28 sm:py-5 mr-2 rounded-lg bg-[#F0ECE9] border-[#A87E6E] border-4 ${styles.choiceBtn}`} onClick={click}>BADGE</div>
-        <div aria-label="context" className={`px-28 sm:py-5 mr-2 rounded-lg bg-[#F0ECE9] border-[#A87E6E] border-4 ${styles.choiceBtn}`} onClick={click}>문맥도감</div>
-        <div aria-label="exam" className={`px-28 sm:py-5 mr-2 rounded-lg bg-[#F0ECE9] border-[#A87E6E] border-4 ${styles.choiceBtn}`} onClick={click}>과거시험</div>
+    <div className="container max-w-screen-xl w-[90%] mx-auto my-12">
+      <div className="hidden lg:flex justify-center text-center lg:text-[1.3rem] font-semibold text-[#A87E6E]">
+        <div aria-label="user" className={`px-16 py-2 mr-2 rounded-lg bg-[#F0ECE9] border-[#A87E6E] border-4 ${styles.choiceBtn}`} onClick={click}>USER</div>
+        <div aria-label="badge" className={`px-16 py-2 mr-2 rounded-lg bg-[#F0ECE9] border-[#A87E6E] border-4 ${styles.choiceBtn}`} onClick={click}>BADGE</div>
+        <div aria-label="context" className={`px-16 py-2 mr-2 rounded-lg bg-[#F0ECE9] border-[#A87E6E] border-4 ${styles.choiceBtn}`} onClick={click}>문맥도감</div>
+        <div aria-label="exam" className={`px-16 py-2 mr-2 rounded-lg bg-[#F0ECE9] border-[#A87E6E] border-4 ${styles.choiceBtn}`} onClick={click}>과거시험</div>
       </div>
       <div className="flex lg:hidden flex-col justify-center text-center text-[1.3rem] font-semibold text-[#A87E6E]">
         <div aria-label="user" className={`bg-[#F0ECE9] py-6 my-2 rounded-lg border-[#A87E6E] border-4 ${styles.choiceBtn}`} onClick={click}>USER</div>
@@ -68,19 +68,19 @@ function AdminMainSection2():JSX.Element {
 // 평균 학습 시간, 평균 학습 단어, 유저수
 function AdminMainSection3():JSX.Element {
   return (
-    <div className="container max-w-screen-xl md:w-[90%] lg:w-full mx-auto my-16">
+    <div className="container max-w-screen-xl md:w-[90%] lg:w-full mx-auto mt-16">
       <div className="flex justify-center font-semibold">
         <div className="flex flex-col mx-auto">
-          <div className="text-[1.5rem] text-[#A87E6E]/80">평균 학습 시간</div>
-          <div className="text-[3rem] text-[#A87E6E]">1시간 24분</div>
+          <div className="text-[1.3rem] text-[#A87E6E]/80">평균 학습 시간</div>
+          <div className="text-[2rem] text-[#A87E6E]">1시간 24분</div>
         </div>
         <div className="flex flex-col mx-auto">
-          <div className="text-[1.5rem] text-[#A87E6E]/80">평균 학습 단어</div>
-          <div className="text-[3rem] text-[#A87E6E]">72개</div>
+          <div className="text-[1.3rem] text-[#A87E6E]/80">평균 학습 단어</div>
+          <div className="text-[2rem] text-[#A87E6E]">72개</div>
         </div>
         <div className="flex flex-col mx-auto">
-          <div className="text-[1.5rem] text-[#A87E6E]/80">유저수</div>
-          <div className="text-[3rem] text-[#A87E6E]">5명</div>
+          <div className="text-[1.3rem] text-[#A87E6E]/80">유저수</div>
+          <div className="text-[2rem] text-[#A87E6E]">5명</div>
         </div>
       </div>
     </div>
@@ -90,7 +90,7 @@ function AdminMainSection3():JSX.Element {
 // 유저 레벨 분포
 function AdminMainSection4():JSX.Element {
   return (
-    <div className="container max-w-screen-xl md:w-[90%] lg:w-full mx-auto my-20">
+    <div className="container max-w-screen-xl md:w-[90%] lg:w-full mx-auto mt-12 mb-8">
       <div className="flex flex-col justify-start">
         <div className="mb-4 font-semibold text-[#A87E6E] text-[1.5rem]">유저 레벨 분포</div>
         <div className="bg-[#D9D9D9] py-36 px-36 rounded-lg"></div>

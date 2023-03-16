@@ -22,5 +22,5 @@ public class DogamRequestDto {
     String dogamExam1;
     String dogamExam2;
     String dogamExam3;
-    boolean isRared;
+    Boolean isRared;
 }

@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface DogamResultRepository extends JpaRepository<DogamResult, Long> {
-    DogamResult findByDogamIdAndUserId(Dogam dogam, User user);
-    List<DogamResult> findAllByUserId(User user);
+    DogamResult findByDogamAndUser(Dogam dogam, User user);
+    List<DogamResult> findAllByUserOrderByDogamDesc(User user);
 }
