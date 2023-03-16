@@ -9,8 +9,9 @@ import style from "./Main.module.css";
 
 
 function Main(): JSX.Element {
-  const {data:userMyInfo, error:error1, isLoading:isLoading1 } = useGetUserMyinfoQuery('50');
-  const {data:userMyStudy, error:error2, isLoading:isLoading2 } = useGetUserMystudyQuery('50');
+  const userId = localStorage.getItem("userId");
+  const {data:userMyInfo, error:error1, isLoading:isLoading1 } = useGetUserMyinfoQuery(userId);
+  const {data:userMyStudy, error:error2, isLoading:isLoading2 } = useGetUserMystudyQuery(userId);
   console.log("유저데이터" , userMyInfo)
   console.log("유저학습시간", userMyStudy)
 

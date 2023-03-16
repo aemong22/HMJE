@@ -36,7 +36,7 @@ function AnswerModal({closeModal, right,question,num,setNum, setRight, studyType
                     {question[num].wordRating != "없음" && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{question[num].wordRating}</div>}
                 </div>
                 {/* body content */}
-                <div className="relative px-4 py-3 max-h-[50vh] overflow-scroll">
+                <div className="relative px-4 py-3 max-h-[50vh] overflow-y-auto">
                     {question[num].wordDetailList.map((detail:any , idx:any) => {
                         console.log("뜻 개수",question[num].wordDetailList.length)
                         let temp =  detail.wordExampleList.filter((ex:any) => ex.exampleType === "문장")[0]?.exampleDetail

@@ -7,6 +7,8 @@ import ResultModal from "./ResultModal"
 import Study from "./Study"
 
 function WordStudy(): JSX.Element {
+  const userId = localStorage.getItem("userId");
+
  
   // 학습 종류
   const location = useLocation();
@@ -23,7 +25,7 @@ function WordStudy(): JSX.Element {
 
   useEffect(() => {
     if(studyType === "wordStudy") {
-      getStudyWord(50).then((r) => { 
+      getStudyWord(userId).then((r) => { 
         return(r)
       }).then((r) => { 
         console.log(r.data.data) 
