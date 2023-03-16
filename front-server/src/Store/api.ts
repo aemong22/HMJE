@@ -72,7 +72,7 @@ export const hmjeApi = createApi({
       const headers = new Headers(init?.headers);
       headers.set('accessToken', accessToken);
       localStorage.setItem('accessToken', accessToken)
-      return fetch(input, { ...init, headers }, ...rest);
+      return fetch(input, { ...init,headers }, ...rest);
       //return fetch(input, { ...init }, ...rest);
     },
   }),
@@ -176,15 +176,12 @@ export const hmjeApi = createApi({
         return {
           url: `/study/word/result`,
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json;charset=UTF-8'
-          },
-          body:JSON.stringify({
+          body:{
             rightIdList: data.correct,
             semo: data.semo,
             userId: data.userId,
             wrongIdList: data.wrong,
-          })
+          }
         }
       },
       invalidatesTags: (result, error, arg) => [{ type: "Api" }]

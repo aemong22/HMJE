@@ -1,4 +1,6 @@
-import {usePostStudyWordResultMutation, usePostStudyStudyTimeMutation} from "../../Store/api";
+import {usePostStudyWordResultMutation,usePostStudyStudyTimeMutation} from "../../Store/api";
+
+// import {usePostStudyWordResultMutation} from "../../Store/NonAuthApi"
 import { Navigate, useNavigate } from "react-router-dom";
 import style from "./Study.module.css";
 import { useEffect } from "react";
