@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../Common/Footer";
-import Navbar from "../Common/Navbar";
 import API from "../Common/Api";
 import axios from "axios";
 import { usePostUserchecknicknameMutation } from "../../Store/api";
+import IntroNavbar from "../Intro/IntroNavbar";
 var pattern2 = /[a-zA-Z]/; //영어
 const Join = () => {
   const navigate = useNavigate();
@@ -152,35 +152,35 @@ const Join = () => {
       console.log("Name", Name);
       console.log("Password", Password);
 
-      const test = setNicknameCheck({
-        isAdmin: false,
-        isSecession: false,
-        nickname: Nickname,
-        password: Password,
-        phoneNumber: Phonenum,
-        username: Name,
-      });
-
-      test.then((r) => {
-        console.log(r);
-      });
-
-      // API.post(`/user/check/username`, {
+      // const test = setNicknameCheck({
       //   isAdmin: false,
       //   isSecession: false,
       //   nickname: Nickname,
       //   password: Password,
       //   phoneNumber: Phonenum,
       //   username: Name,
-      // }).then((r) => {
-      //   console.log("아이디 중복 결과", r.data.data);
-      //   if (r.data.data === true) {
-      //     // 사용가능한 아이디입니다
-      //     setIsName(true);
-      //   } else {
-      //     setIsName(false);
-      //   }
       // });
+
+      // test.then((r) => {
+      //   console.log(r);
+      // });
+
+      API.post(`/user/check/username`, {
+        isAdmin: false,
+        isSecession: false,
+        nickname: Nickname,
+        password: Password,
+        phoneNumber: Phonenum,
+        username: Name,
+      }).then((r) => {
+        console.log("아이디 중복 결과", r.data.data);
+        if (r.data.data === true) {
+          // 사용가능한 아이디입니다
+          setIsName(true);
+        } else {
+          setIsName(false);
+        }
+      });
     }
     // 닉네임
     else if (check === "Nickname") {
@@ -281,21 +281,27 @@ const Join = () => {
     // }).then((r) => {
     //   console.log(r.data);
     // });
+    console.log("인증가자");
+    console.log(Authnum);
+    console.log(Phonenum);
 
     axios({
-      method: "post",
       url: "https://hmje.net/api/sms/modify",
+      method: "post",
       data: {
         modifyNumber: Authnum,
         phoneNumber: Phonenum,
+        purpose: "string",
       },
     }).then((r) => {
-      console.log("인증번호 결과", r.data);
-      if (r.data.data === true) {
+      console.log("인증번호 결과", typeof r.data.data);
+      if (r.data.data === "true") {
         // 인증성공!
+
         setIsAuthnum(true);
-      } else {
+      } else if (r.data.data === "false") {
         // 인증실패!
+
         setIsAuthnum(false);
       }
     });
@@ -303,10 +309,11 @@ const Join = () => {
 
   const elemetPadding = "my-2";
   var disable = IsPasswordConfirm && IsAuthnum && IsName && IsNickname;
+
   return (
     <>
       <div className="flex flex-col justify-between h-[100vh]">
-        <Navbar />
+        <IntroNavbar />
         {/* 상 */}
         <div className="w-full">
           <div className="flex flex-col mx-5 sm:mx-5 md:mx-7 lg:mx-[20%]">
