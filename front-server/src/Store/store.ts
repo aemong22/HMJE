@@ -1,7 +1,8 @@
 // createSlice: store state 생성 (name: state 변수 이름, initialState: 초기 데이터, reducers: state 변경 함수)
-import { createSlice, configureStore, PayloadAction, getDefaultMiddleware } from "@reduxjs/toolkit";
-import { setupListeners } from "@reduxjs/toolkit/dist/query";
+import { configureStore, } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/dist/query/react";
 import { hmjeApi } from "./api"
+import { NonAuthApi } from "./NonAuthApi";
 
 
 //
@@ -9,9 +10,10 @@ export const store = configureStore({
   // store에서 만든 state를 전역에서 사용할 수 있도록 등록하기
   reducer: {
     [hmjeApi.reducerPath]: hmjeApi.reducer,
+    [NonAuthApi.reducerPath]: NonAuthApi.reducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(hmjeApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(hmjeApi.middleware).concat(NonAuthApi.middleware),
+
 });
 //주석추가
 setupListeners(store.dispatch)
