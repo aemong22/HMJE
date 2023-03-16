@@ -1,6 +1,7 @@
 package com.server.back.domain.study.service;
 
 import com.server.back.domain.study.dto.StudyRequestDto;
+import com.server.back.domain.study.dto.WordResponseDto;
 import com.server.back.domain.study.entity.*;
 import com.server.back.domain.study.repository.*;
 import com.server.back.domain.user.entity.User;
@@ -101,7 +102,7 @@ public class StudyServiceImpl implements StudyService{
         return DogamQuestion;
     }
     @Override
-    public List<Word> wordQuestion(Long userId){
+    public List<WordResponseDto> wordQuestion(Long userId){
         User user = userRepository.findByUserId(userId);
         Set<Word> wordQuestion = new HashSet<>(); //문제 리스트 준비
         Set<Long> set = new HashSet<>(); //랜덤 10문제 (숫자) 뽑기
@@ -129,7 +130,8 @@ public class StudyServiceImpl implements StudyService{
                 wordQuestion.add(word);
             }
         }
-        List<Word> WordQuestion = new ArrayList<>(wordQuestion);
-        return WordQuestion;
+        List<Word> wordQuestionList = new ArrayList<>(wordQuestion);
+        List<WordResponseDto> wordResponseDtoList = WordResponseDto.fromEntityList(wordQuestionList);
+        return wordResponseDtoList;
     }
 }
