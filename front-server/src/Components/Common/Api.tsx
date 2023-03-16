@@ -73,6 +73,8 @@ API.interceptors.request.use(
   },
 
   function (err) {
+    console.log("error당", err.data);
+
     return Promise.reject(err.data);
   },
 );
@@ -85,7 +87,9 @@ API.interceptors.response.use(
     return config;
   },
   function (err) {
-    return Promise.reject(err);
+    console.log("response 받은 값 : ", err);
+    // return Promise.reject(err);
+    return err
   },
 );
 
