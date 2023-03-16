@@ -1,16 +1,22 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { usePostUserloginMutation } from "../../Store/NonAuthApi";
 import Api from "../Common/Api";
 import Footer from "../Common/Footer";
 import IntroNavbar from "../Intro/IntroNavbar";
-
+type login = {
+  username: string;
+  password: string;
+};
 function Login(): JSX.Element {
   const navigate = useNavigate();
   // 입력 타입
   // type input = string | undefined;
 
-  const [Id, setId] = useState<string>();
-  const [Password, setPassword] = useState<string>();
+  const [Id, setId] = useState<string>("");
+  const [Password, setPassword] = useState<string>("");
+
+  const [PostUserlogin, isloading5] = usePostUserloginMutation();
 
   const ChangeId = (event: any): void => {
     setId(event.target.value);
@@ -25,29 +31,54 @@ function Login(): JSX.Element {
       navigate("/forgetid");
     } else if (e.target.id === "join") {
       navigate("/join");
+    } else if (e.target.id === "enter") {
+      // axios 입장하기
+      Api.post("/login", {
+        password: Password,
+        username: Id,
+      }).then((r) => {
+        console.log("받는 데이터", r.data);
+
+        // const accessToken = r.data.accessToken;
+        // const refreshToken = r.data.refreshToken;
+        // console.log("accessToken", accessToken);
+        // console.log("refreshToken", refreshToken);
+        // localStorage.setItem("accessToken", accessToken);
+        // localStorage.setItem("refreshToken", refreshToken);
+        // navigate("/main");
+      });
     }
   };
 
   const Enter = () => {
     // axios 입장하기
-    Api.post("/login", {
-      password: Password,
-      username: Id,
-    }).then((r) => {
-      console.log("받는 데이터", r.data);
+    console.log(Id);
+    console.log(Password);
 
-      const accessToken = r.data.accessToken;
-      const refreshToken = r.data.refreshToken;
-      const userId = r.data.userId;
+    const data: login = { username: Id, password: Password };
 
-      console.log("accessToken", accessToken);
-      console.log("refreshToken", refreshToken);
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("userName", Id!);
-      localStorage.setItem("userId", userId);
-      localStorage.setItem("refreshToken", refreshToken);
-      navigate("/main");
-    });
+    PostUserlogin(data)
+      .unwrap()
+      .then((r: any) => {
+        if (r.status === "200") {
+          console.log("받는 데이터", r);
+          const accessToken = r.accessToken;
+          const refreshToken = r.refreshToken;
+          const userId = r.userId;
+          console.log("accessToken", accessToken);
+          console.log("refreshToken", refreshToken);
+          localStorage.setItem("accessToken", accessToken);
+          localStorage.setItem("userName", Id!);
+          localStorage.setItem("userId", userId);
+          localStorage.setItem("refreshToken", refreshToken);
+          navigate("/main");
+        }
+      })
+      .catch((e) => {
+        if (e.status === "401" || e.status === "500") {
+          alert("아이디 혹은 패스워드가 틀렸습니다");
+        }
+      });
   };
 
   const Social = () => {
@@ -88,7 +119,7 @@ function Login(): JSX.Element {
                     비밀번호
                   </div>
                   <input
-                    type="text"
+                    type="password"
                     placeholder="비밀번호"
                     className="flex px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
                     onChange={ChangePassword}
