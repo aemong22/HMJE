@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Api from "../Common/Api";
 import Footer from "../Common/Footer";
-import Navbar from "../Common/Navbar";
+import IntroNavbar from "../Intro/IntroNavbar";
 
 function Login(): JSX.Element {
   const navigate = useNavigate();
   // 입력 타입
-  type input = string | undefined;
+  // type input = string | undefined;
 
-  const [Id, setId] = useState<input>();
-  const [Password, setPassword] = useState<input>();
+  const [Id, setId] = useState<string>();
+  const [Password, setPassword] = useState<string>();
 
   const ChangeId = (event: any): void => {
     setId(event.target.value);
@@ -50,23 +50,22 @@ function Login(): JSX.Element {
     console.log(Password);
 
     Api.post("/login", {
-      password: Password,
       username: Id,
+      password: Password,
     }).then((r) => {
-      console.log("로그인 하면 받는 데이터", r.request.status);
-      // console.log("받는 데이터", r.data. === "200");
-      if (r.request.status === "200") {
-        const accessToken = r.data.accessToken;
-        const refreshToken = r.data.refreshToken;
-        console.log("accessToken", accessToken);
-        console.log("refreshToken", refreshToken);
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("refreshToken", refreshToken);
-        navigate("/main");
-      } else if (r.request.status === 401 || r.request.status === 500) {
-        console.log("password가 틀렸습니다");
-        console.log("ID가 틀렸습니다");
-      }
+      console.log("받는 데이터", r.data);
+
+      const accessToken = r.data.accessToken;
+      const refreshToken = r.data.refreshToken;
+      const userId = r.data.userId;
+
+      console.log("accessToken", accessToken);
+      console.log("refreshToken", refreshToken);
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("userName", Id!);
+      localStorage.setItem("userId", userId);
+      localStorage.setItem("refreshToken", refreshToken);
+      navigate("/main");
     });
   };
 
@@ -76,7 +75,7 @@ function Login(): JSX.Element {
 
   return (
     <>
-      <Navbar />
+      <IntroNavbar />
       <div className="">
         {/* <!-- Example --> */}
         <div className="flex min-h-screen max-w-screen-x">
@@ -108,7 +107,7 @@ function Login(): JSX.Element {
                     비밀번호
                   </div>
                   <input
-                    type="text"
+                    type="password"
                     placeholder="비밀번호"
                     className="flex px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
                     onChange={ChangePassword}

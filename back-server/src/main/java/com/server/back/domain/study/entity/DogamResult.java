@@ -22,5 +22,9 @@ public class DogamResult extends CommonEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
-	private User user_id;
+	private User user;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "dogam_id")
+	private Dogam dogam;
 }

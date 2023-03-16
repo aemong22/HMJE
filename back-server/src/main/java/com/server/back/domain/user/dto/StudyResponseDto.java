@@ -15,10 +15,13 @@ import lombok.NoArgsConstructor;
 @ApiModel(value = "StudyResponseDto")
 public class StudyResponseDto {
     private Integer todayWord;
-    private Integer todayTime;
     private Integer totalWord;
+    private Integer todayContext;
+    private Integer totalContext;
+    private Integer todayTime;
     private Integer totalTime;
-    private Integer semo;
-    private Integer wrongWordCount;
+    private Integer statsRight;
+    private Integer statsWrong;
+    private Integer statsSemo;
 
 }

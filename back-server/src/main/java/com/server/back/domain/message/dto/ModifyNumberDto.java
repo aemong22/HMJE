@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class ModifyNumberDto {
     private String phoneNumber;
     private String modifyNumber;
+    private String purpose;
 }
