@@ -129,7 +129,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
                   </>}
               </div>
               <div>
-                {question[num].wordDetailList[0].details}
+                {question[num].wordDetailResponseList[0].details}
               </div>
             </div>
             <div>
