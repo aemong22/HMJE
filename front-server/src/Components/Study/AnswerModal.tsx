@@ -1,6 +1,37 @@
+import { useEffect } from "react";
 import style from "./Study.module.css";
 
 function AnswerModal({closeModal, right,question,num,setNum, setRight, studyType, setResultModal}:any):JSX.Element {
+
+        window.onkeyup = (e) => {
+            if (e.key === 'Shift') {
+                motion();
+            }
+        }
+
+        const motion = () => {
+        setRight(false)
+        closeModal()
+        if(studyType === "wordStudy"){
+            if(num < 9){
+                setNum(num+1)
+            }
+            else{
+                // 결과 모달창 뜨기
+                setResultModal(true)
+            }
+        }
+        else {
+            if(num < 4) {
+                setNum(num+1)
+                setResultModal(true)
+            }
+            else{
+                // 결과 모달창 뜨기
+                setResultModal(true)
+            }
+        }
+    }
 
 
     return(
@@ -27,7 +58,7 @@ function AnswerModal({closeModal, right,question,num,setNum, setRight, studyType
                 </div>
 
                 {/*body header*/}
-                <div className="relative px-4 pt-3 flex justify-between items-end">
+                <div className="relative px-4 pt-3 flex justify-between items-end sm:min-w-[25rem] min-w-[19rem]">
                     <div className="flex items-end">
                         <div className="md:text-[1.5rem] text-[1.2rem] font-bold mr-1">{question[num].wordName}</div>
                         {question[num].wordOrigin && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">[{question[num].wordOrigin}]</div>}
@@ -37,10 +68,10 @@ function AnswerModal({closeModal, right,question,num,setNum, setRight, studyType
                 </div>
                 {/* body content */}
                 <div className="relative px-4 py-3 max-h-[50vh] overflow-y-auto">
-                    {question[num].wordDetailList.map((detail:any , idx:any) => {
-                        console.log("뜻 개수",question[num].wordDetailList.length)
-                        let temp =  detail.wordExampleList.filter((ex:any) => ex.exampleType === "문장")[0]?.exampleDetail
-                        let example = temp ? temp : detail.wordExampleList[0]?.exampleDetail
+                    {question[num].wordDetailResponseList.map((detail:any , idx:any) => {
+                        console.log("뜻 개수",question[num].wordDetailResponseList.length)
+                        let temp =  detail.wordExampleResponseList.filter((ex:any) => ex.exampleType === "문장")[0]?.exampleDetail
+                        let example = temp ? temp : detail.wordExampleResponseList[0]?.exampleDetail
                         return(
                         <div key={idx}className="bg-[#F4EFEC] rounded-lg p-4 md:text-[1.1rem] text-[1rem] font-medium my-2">
                             {detail.details}
@@ -60,31 +91,12 @@ function AnswerModal({closeModal, right,question,num,setNum, setRight, studyType
                     className="text-white bg-[#F7CCB7] font-bold uppercase md:text-base text-sm px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={() => {
-                            closeModal()
-                            setRight(false)
-                            if(studyType === "wordStudy"){
-                                if(num < 9){
-                                    setNum(num+1)
-                                }
-                                else{
-                                    // 결과 모달창 뜨기
-                                    setResultModal(true)
-                                }
-                            }
-                            else {
-                                if(num < 4) {
-                                    setNum(num+1)
-                                    setResultModal(true)
-                                }
-                                else{
-                                    // 결과 모달창 뜨기
-                                    setResultModal(true)
-                                }
-                            }
+                            motion();
                         }
                     }
                   >
-                    다음 문제
+                    {studyType === "wordStudy" && num >= 9 ? <>결과 보기</> : <>다음 문제</>}
+                    
                   </button>
                 </div>
               </div>

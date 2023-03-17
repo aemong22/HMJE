@@ -19,9 +19,11 @@ public class StudyTime extends CommonEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "study_time_id")
 	private Long studyTimeId;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
+
 	private Integer studyTime;
 
 	private Integer studyType;

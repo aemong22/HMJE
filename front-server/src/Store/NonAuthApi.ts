@@ -114,6 +114,7 @@ export const NonAuthApi = createApi({
       },
       invalidatesTags: (result, error, arg) => [{ type: "NonAuthApi" }]
     }),
+    
   })
 })
 
@@ -127,6 +128,6 @@ export const {
   usePostUserchecknicknameMutation,
   usePostUsercheckusernameMutation,
   usePostUserjoinMutation,
-  usePostUserloginMutation
+  usePostUserloginMutation,
 
 } = NonAuthApi;
