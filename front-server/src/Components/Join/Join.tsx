@@ -116,7 +116,6 @@ const Join = () => {
 
       if (Password === passwordConfirmCurrent) {
         setPasswordConfirmMessage("비밀번호를 똑같이 입력했어요 : )");
-        // alert("비밀번호를 똑같이 입력했어요 : )");
         console.log("비밀번호를 똑같이 입력했어요 : )");
         setIsPasswordConfirm(true);
       } else {
@@ -183,7 +182,7 @@ const Join = () => {
       // console.log("UserName", UserName);
       // console.log("Password", Password);
       if (UserName === "") {
-        alert("빈칸은 ㄴㄴ");
+        alert("빈칸입니다 다시 입력해주세요!");
       } else {
         window.localStorage.clear();
         const data = {
@@ -198,10 +197,12 @@ const Join = () => {
         postUsercheckusername(data)
           .unwrap()
           .then((r: any) => {
-            console.log("받았다");
-            alert(r.data);
-            setIsName(true);
-            console.log(r);
+            if (r.data === true) {
+              alert("사용 가능한 계정입니다.");
+              setIsName(true);
+            } else {
+              alert("중복된 계정입니다.");
+            }
           });
       }
     }
@@ -210,7 +211,7 @@ const Join = () => {
       // 2글자에서 6글자
       console.log("닉네임확인", Nickname);
       if (Nickname === "") {
-        alert("빈칸은 ㄴㄴ");
+        alert("빈칸입니다 다시 입력해주세요!");
       } else {
         window.localStorage.clear();
         const data = {
@@ -225,9 +226,12 @@ const Join = () => {
         postUserchecknickname(data)
           .unwrap()
           .then((r: any) => {
-            alert(r.data);
-            setIsNickname(true);
-            console.log(r);
+            if (r.data === true) {
+              alert("사용 가능한 별명입니다.");
+              setIsNickname(true);
+            } else {
+              alert("중복된 별명입니다.");
+            }
           });
       }
     }
@@ -265,7 +269,6 @@ const Join = () => {
     postSmssend(data)
       .unwrap()
       .then((r: any) => {
-        console.log(r);
         if (r.data !== "이미 가입된 휴대폰입니다.") {
           alert("전송하였습니다!");
           console.log("전화번호 중복 결과", r);
@@ -313,29 +316,11 @@ const Join = () => {
         console.log(r);
         navigate("/login");
       });
-
-    // API.post(`/user/join`, {
-    //   isAdmin: false,
-    //   isSecession: false,
-    //   nickname: Nickname,
-    //   password: Password,
-    //   phoneNumber: Phonenum,
-    //   username: UserName,
-    // }).then((r) => {
-    //   console.log(r.data);
-    //   navigate("/login");
-    // });
   };
   const CheckAuthnum = (
     authnum: string | undefined,
     phonenum: string,
   ): void => {
-    // API.post(`/user/modify`, {
-    //   modifyNumber: authnum,
-    //   phoneNumber: phonenum,
-    // }).then((r) => {
-    //   console.log(r.data);
-    // });
     console.log("인증가자");
     console.log(Authnum);
     console.log(Phonenum);
@@ -351,9 +336,11 @@ const Join = () => {
         console.log("인증번호 결과", r.data);
         if (r.data === "true") {
           // 인증성공!
+          alert("인증되었습니다");
           setIsAuthnum(true);
         } else if (r.data === "false") {
           // 인증실패!
+          alert("인증번호가 틀렸습니다");
           setIsAuthnum(false);
         }
       });
@@ -361,24 +348,6 @@ const Join = () => {
     console.log("IsAuthnum", IsAuthnum);
     console.log("IsName", IsName);
     console.log("IsNickname", IsNickname);
-    // axios({
-    //   url: "https://hmje.net/api/sms/modify",
-    //   method: "post",
-    //   data: {
-    //     modifyNumber: Authnum,
-    //     phoneNumber: Phonenum,
-    //     purpose: "",
-    //   },
-    // }).then((r) => {
-    //   console.log("인증번호 결과", typeof r.data.data);
-    //   if (r.data.data === "true") {
-    //     // 인증성공!
-    //     setIsAuthnum(true);
-    //   } else if (r.data.data === "false") {
-    //     // 인증실패!
-    //     setIsAuthnum(false);
-    //   }
-    // });
   };
 
   const elemetPadding = "my-2";
@@ -422,8 +391,8 @@ const Join = () => {
                     type="text"
                     className="min-w-[70%] px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
                     onChange={ChangeName}
+                    placeholder="계정 입력"
                   />
-
                   <button
                     id="UserName"
                     className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
@@ -442,21 +411,23 @@ const Join = () => {
                     6글자 이내 한글만 사용하실 수 있습니다.
                   </div>
                 </div>
-                <div className="flex flex-row justify-between ">
+                <div className="flex flex-row justify-between">
                   <input
                     type="text"
                     id="id"
-                    className="min-w-[70%] px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] border-[#A87E6E] rounded-lg font-medium  placeholder:font-normal"
+                    className="min-w-[70%] px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] border-[#A87E6E] rounded-lg font-medium  placeholder:font-normal "
                     onChange={ChangeNickname}
                     onKeyUp={chkCharCode}
+                    placeholder="별명 입력"
+                    maxLength={6}
                   />
-                  <div
+                  <button
                     id="Nickname"
                     className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
                     onClick={CheckDuplication}
                   >
                     중복확인
-                  </div>
+                  </button>
                 </div>
               </div>
               <div className={`${elemetPadding}`}>
@@ -469,6 +440,7 @@ const Join = () => {
                       type={`${PasswordShow}`}
                       className="min-w-[100%] max-h-[70%] px-3 py-1 md:px-4 md:py-2 border-2  focus:outline-none focus:border-[#d2860c] border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
                       onChange={ChangePassword}
+                      placeholder="비밀번호 입력"
                     />
                     <div
                       className="cursor-pointer max-w-[1.5rem] mr-5 ml-auto absolute right-0"
@@ -490,6 +462,7 @@ const Join = () => {
                       className="min-w-[100%] max-h-[70%] px-3 py-1 md:px-4 md:py-2 border-2  focus:outline-none focus:border-[#d2860c] border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
                       onChange={onChangePasswordConfirm}
                       title="비밀번호 확인"
+                      placeholder="비밀번호 확인 입력"
                     />
                     <div
                       className="cursor-pointer max-w-[1.5rem] mr-5 ml-auto absolute right-0"
@@ -523,13 +496,14 @@ const Join = () => {
                     type="text"
                     className="min-w-[70%] px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
                     onChange={ChangePhonenum}
+                    placeholder={`전화번호 입력  " - 생략"`}
                   />
-                  <div
+                  <button
                     className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
                     onClick={PhoneCheck}
                   >
                     인증하기
-                  </div>
+                  </button>
                 </div>
               </div>
               <div className={`my-2 ${AmIHidden}`}>
@@ -555,7 +529,7 @@ const Join = () => {
               </div>
               <div className="w-full">
                 <button
-                  className="mt-7 cursor-pointer w-full h-[3.5rem] rounded-lg font-extrabold bg-[#F0ECE9] text-[#A87E6E] disabled:cursor-not-allowed"
+                  className="mt-7 cursor-pointer w-full h-[3.5rem] rounded-lg font-extrabold bg-[#F0ECE9] text-[#A87E6E] disabled:cursor-not-allowed disabled:opacity-50"
                   disabled={!disable}
                   onClick={() => {
                     GoJoin();

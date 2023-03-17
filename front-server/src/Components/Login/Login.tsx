@@ -75,12 +75,17 @@ function Login(): JSX.Element {
         }
       })
       .catch((e) => {
-        console.log("error났다");
-
-        if (e.status === 401 || e.status === 500) {
+        console.log("error났다", e.data.status===401);
+        if (e.data.status === 401 || e.data.status === 500) {
           alert("아이디 혹은 패스워드가 틀렸습니다");
         }
       });
+  };
+
+  const handleOnKeyPress = (e: any) => {
+    if (e.key === "Enter") {
+      Enter();
+    }
   };
 
   const Social = () => {
@@ -125,6 +130,7 @@ function Login(): JSX.Element {
                     placeholder="비밀번호"
                     className="flex px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
                     onChange={ChangePassword}
+                    onKeyPress={handleOnKeyPress}
                   />
                   <button
                     className="flex items-center justify-center flex-none px-3 py-2 md:px-4 md:py-3 border-2 rounded-lg font-extrabold bg-[#BF9F91] text-white"
