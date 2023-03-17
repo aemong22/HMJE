@@ -72,6 +72,7 @@ export const hmjeApi = createApi({
       const headers = new Headers(init?.headers);
       headers.set('accessToken', accessToken);
       headers.set("content-type", "application/json");
+      headers.set("content-type", "application/json");
       localStorage.setItem('accessToken', accessToken)
       return fetch(input, { ...init,headers }, ...rest);
       //return fetch(input, { ...init }, ...rest);

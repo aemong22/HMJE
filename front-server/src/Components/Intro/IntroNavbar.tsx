@@ -1,18 +1,28 @@
+import { MouseEventHandler } from "react"
 import { useNavigate } from "react-router-dom"
 
 function IntroNavbar():JSX.Element {
-  
+  const navigate = useNavigate()
+  const onClick:MouseEventHandler<HTMLDivElement> = (e) => {
+    const target = e.target as HTMLElement
+    if (target.ariaLabel === 'main') {
+      navigate('/main')
+    } else if (target.ariaLabel === 'mypage') {
+      navigate('/mypage')
+    }
+  }
+
   return (
-    <>
-      <div id='header' role={'banner'} className='h-12 flex justify-between items-center bg-white px-8 text-[#A87E6E] border-b-4 border-solid' style={{borderBottomColor: 'rgba(234,234,234,0.25)'}}>
-        {/* 헤더 */}
-        <div className='font-bold text-[0.3rem] sm:text-[0.5rem] md:text-[0.8rem] lg:text-[1rem]'>홍민정음</div>
-        <div className='flex justify-center text-[0.2rem] sm:text-[0.3rem] md:text-[0.5rem] lg:text-[0.8rem]'>
-          {/* <div id="enter" className='cursor-pointer mr-2' onClick={nav}>입장하기</div>
-          <div id="join" className='cursor-pointer' onClick={nav}>가입하기</div> */}
+    <div className="w-full" style={{borderBottom: 'solid 4px rgba(234,234,234,0.5)'}}>
+    <div id='header' role={'banner'} className='container max-w-screen-xl w-[80%] h-12 flex justify-center items-center mx-auto'>
+      {/* 헤더 */}
+      <div className="flex justify-between items-center w-full bg-white text-[#A87E6E] " >
+        <div aria-label="main" className='font-bold text-[0.3rem] sm:text-[0.5rem] md:text-[0.8rem] lg:text-[1rem] cursor-pointer' onClick={onClick}>홍민정음</div>
+        <div className='flex justify-center text-[0.5rem] md:text-[0.55rem] lg:text-[0.85rem]'>
         </div>
       </div>
-    </>
+    </div>
+  </div>
   )
 }
 export default IntroNavbar

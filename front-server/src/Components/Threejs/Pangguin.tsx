@@ -2,12 +2,11 @@ import {Suspense, useRef} from 'react'
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 
-interface guin {
-  position: number ,
-
+interface Guin {
+  position: number
 }
 
-function Pangguin({position}:guin) {
+function Pangguin({position}:Guin) {
   return (
     <div className='flex justify-center items-center h-full w-full '>
       <Canvas style={{width: '100%', height: '100%',  justifyContent: 'center', alignItems: 'center'}}> 
