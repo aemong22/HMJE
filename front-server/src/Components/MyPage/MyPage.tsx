@@ -187,7 +187,7 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
               </div>
               <div className="w-full rounded-xl h-4 bg-[#F0ECE9]">
                 {/* 경험치 바: 위에서 퍼센트 계산해서 넣으면 될듯?*/}
-                <div className="rounded-xl h-full bg-[#F7CCB7]" style={{width: `${expWidth}`}}>
+                <div className="rounded-xl h-full bg-[#F7CCB7]" style={{width: `${expWidth}`, maxWidth: '100%'}}>
                   &nbsp;
                 </div>
               </div>
@@ -246,7 +246,7 @@ function MyPageSection2V1():JSX.Element {
           </div>
         </div>
       </div>
-      <div className="flex justify-center items-center w-1/2 h-full border-4">통계</div>
+      <div className="flex justify-center items-center w-[45%] h-full border-4">통계</div>
     </div>
   )
 }
@@ -296,7 +296,7 @@ function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sent
             </div>
             <div className="flex justify-start items-center w-full rounded-xl h-4 bg-[#F0ECE9]">
               {/* 경험치 바: 위에서 퍼센트 계산해서 넣으면 될듯?*/}
-              <div className="rounded-xl h-full bg-[#F7CCB7]" style={{width: `${expWidth}`}}>
+              <div className="rounded-xl h-full bg-[#F7CCB7]" style={{width: `${expWidth}`, maxWidth: '100%'}}>
                 &nbsp;
               </div>
             </div>
