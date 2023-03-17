@@ -115,17 +115,17 @@ function IntroSection2():JSX.Element {
           </div>
         </div>
         {/* 카드 */}
-        <div className="flex-col justify-center items-center h-[75%] mx-auto w-[85%] sm:w-[60%] lg:w-[50%]">
+        <div className="flex-col justify-center items-center h-[75%] mx-auto w-[85%] sm:w-[60%] lg:w-[50%] xl:w-[42%]">
           {/* 상단 */}
           <div className="flex justify-between items-center h-[43%] ">
             <div className="flex flex-col justify-start items-center text-center h-full w-[47%] rounded-[0.9rem] bg-[#F0ECE9] relative">
-              <div className="mt-5 px-3 md:py-1 rounded-xl bg-[#BE8D65] absolute"><span className="w-full text-white text-[0.8rem] md:text-[1.05rem] lg:text-[1.1rem] font-semibold">단어학습이란?</span></div>
+              <div className="mt-5 px-3 md:py-1 rounded-xl bg-[#BE8D65] absolute"><span className="w-full text-white text-[0.7rem] md:text-[1.05rem] lg:text-[1.1rem] font-semibold">단어학습이란?</span></div>
               <div className="flex justify-center items-center h-full mt-3 text-[0.6rem] md:text-[0.95rem] lg:text-[1.05rem] text-[#BE8D65] font-bold ">
                 <span>단어의 의미를 확인 후 <br /> 알맞은 단어를 맞추는 학습</span>
               </div>
             </div>
             <div className="flex flex-col justify-start items-center text-center h-full w-[47%] rounded-[0.9rem] bg-[#F0ECE9] relative">
-              <div className="mt-5 px-3 md:py-1 rounded-xl bg-[#BE8D65] absolute"><span className="w-full text-white text-[0.8rem] md:text-[1.05rem] lg:text-[1.1rem] font-semibold">문맥학습이란?</span></div>
+              <div className="mt-5 px-3 md:py-1 rounded-xl bg-[#BE8D65] absolute"><span className="w-full text-white text-[0.7rem] md:text-[1.05rem] lg:text-[1.1rem] font-semibold">문맥학습이란?</span></div>
               <div className="flex justify-center items-center h-full mt-3 text-[0.6rem] md:text-[0.95rem] lg:text-[1.05rem] text-[#BE8D65] font-bold ">
                 <span>여러 문장에서 동시에 들어갈<br /> 알맞은 단어를 맞추는 학습</span>
               </div>
@@ -134,16 +134,6 @@ function IntroSection2():JSX.Element {
           <div className="h-[4%]"></div>
           {/* 하단 */}
           <div className="flex justify-start items-center h-[43%] w-full rounded-[0.9rem] bg-[#F0ECE9]">
-            {/* <div className="mr-auto pl-5 xl:pl-12 text-[#BE8D65] text-[0.6rem] md:text-[1rem] lg:text-[1.05rem] font-semibold">
-              <div className="flex w-full">
-                <span>다양하고 즐거운&nbsp;</span>
-                <span>홍민정음</span> 
-              </div>
-              <div className="flex flex-col w-full">
-                <span>게임하면서 신나게 놀다보면</span>
-                <span>어느새 실력이 쑥쑥 성장합니다!</span>
-              </div>
-            </div> */}
             <div className="mx-auto text-[#BE8D65] text-[0.6rem] md:text-[1rem] lg:text-[1.05rem] font-semibold">
               <div className="flex w-full">
                 <span>다양하고 즐거운&nbsp;</span>
@@ -167,7 +157,7 @@ function IntroSection2():JSX.Element {
 // 데스크탑 & 태블릿
 function IntroSection3V1():JSX.Element {
   return(
-    <div className="hidden sm:flex h-[30rem] justify-center items-center">
+    <div className="hidden sm:flex h-[30rem] xl:h-[35rem] justify-center items-center">
       <div className="max-w-screen-xl w-full h-[90%] ">
         {/* 텍스트 */}
         <div className="flex justify-center items-end h-[25%] w-full pb-6 mx-auto sm:w-[70%] md:w-[70%] lg:w-[70%]">
@@ -185,13 +175,13 @@ function IntroSection3V1():JSX.Element {
           <div className="flex justify-center items-center h-full">
             <div className="flex justify-center items-center h-full w-full rounded-[0.9rem] bg-[#F0ECE9] sm:mr-5 lg:mr-10">
               <div className="flex flex-col items-center">
-                <div className="rounded-full">
+                <div className="rounded-full xl:mb-5">
                   <img className="w-[7rem] object-contain" src="/Assets/Intro/introFirst.png" alt="" />
                 </div>
-                <div className="mt-3 mb-4 md:text-[1.1rem] lg:text-[1.2rem] font-bold">
+                <div className="mt-3 mb-4 md:text-[1.1rem] lg:text-[1.2rem] xl:text-[1.3rem] font-bold">
                   정확한 의미 학습
                 </div>
-                <div className="flex flex-col items-center text-[#868686] md:text-[0.65rem] lg:text-[0.7rem]">
+                <div className="flex flex-col items-center text-[#868686] md:text-[0.65rem] lg:text-[0.7rem] xl:text-[0.8rem]">
                   <span>학습을 통해</span>
                   <span>단어의 정확한 뜻을 학습하고</span>
                   <span>예제와 유의어로</span>
@@ -201,13 +191,13 @@ function IntroSection3V1():JSX.Element {
             </div>
             <div className="flex justify-center items-center h-full w-full rounded-[0.9rem] bg-[#F0ECE9] sm:mr-5 lg:mr-10">
               <div className="flex flex-col items-center">
-                <div className="rounded-full">
+                <div className="rounded-full xl:mb-5">
                   <img className="w-[7rem] object-contain" src="/Assets/Intro/introSecond.png" alt="" />
                 </div>
-                <div className="mt-3 mb-4 md:text-[1.1rem] lg:text-[1.2rem] font-bold">
+                <div className="mt-3 mb-4 md:text-[1.1rem] lg:text-[1.2rem] xl:text-[1.3rem] font-bold">
                   학습 관리
                 </div>
-                <div className="flex flex-col items-center text-[#868686] md:text-[0.65rem] lg:text-[0.7rem]">
+                <div className="flex flex-col items-center text-[#868686] md:text-[0.65rem] lg:text-[0.7rem] xl:text-[0.8rem]">
                   <span>날짜별 학습시간과</span>
                   <span>학습한 단어의 수를</span>
                   <span>시각적으로 보여줍니다</span>
@@ -216,13 +206,13 @@ function IntroSection3V1():JSX.Element {
             </div>
             <div className="flex justify-center items-center h-full w-full rounded-[0.9rem] bg-[#F0ECE9]">
               <div className="flex flex-col items-center">
-                <div className="rounded-full">
+                <div className="rounded-full xl:mb-5">
                   <img className="w-[7rem] object-contain" src="/Assets/Intro/introThird.png" alt="" />
                 </div>
-                <div className="mt-3 mb-4 md:text-[1.1rem] lg:text-[1.2rem] font-bold">
+                <div className="mt-3 mb-4 md:text-[1.1rem] lg:text-[1.2rem] xl:text-[1.3rem] font-bold">
                   재미있는 학습 환경
                 </div>
-                <div className="flex flex-col items-center text-[#868686] md:text-[0.65rem] lg:text-[0.7rem]">
+                <div className="flex flex-col items-center text-[#868686] md:text-[0.65rem] lg:text-[0.7rem] xl:text-[0.8rem]">
                   <span>문맥도감과 칭호기능으로</span>
                   <span>수집하는 재미를 줍니다</span>
                 </div>
