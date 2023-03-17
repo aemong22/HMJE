@@ -207,6 +207,18 @@ export const hmjeApi = createApi({
       invalidatesTags: (result, error, arg) => [{ type: "Api" }]
     }),
 
+    // 4. 문맥학습 문제
+    getStudyContext: builder.query({
+      query: () => {
+        return {
+          url: `/study/context`,
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
+
   }),
 })
 
@@ -222,5 +234,7 @@ export const {
   // STUDY
   useLazyGetStudyWordQuery,
   usePostStudyWordResultMutation,
-  usePostStudyStudyTimeMutation
+  usePostStudyStudyTimeMutation,
+  useLazyGetStudyContextQuery,
+
   } = hmjeApi 
