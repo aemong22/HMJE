@@ -241,25 +241,6 @@ const Join = () => {
         // 인증번호 보여주고
 
         SendAuthnum(Phonenum);
-
-        // API.post(`/sms/send/newbie`, {
-        //   to: Phonenum,
-        // }).then((r) => {
-        //   console.log("전화번호 중복 결과", r.data);
-        //   alert("전송하였습니다!");
-        // });
-
-        setAmIHidden("");
-        // 인증번호 닫고
-        setTimeout(
-          () => {
-            setAmIHidden("hidden");
-          },
-          300000,
-          // 1000 = 1초
-          // 180000 = 3분
-          // timeout : 얼만큼 지나서 위 함수를 실행할 것인지(ms)
-        );
       } else {
         // 전화번호 border 변경
         alert("번호가 이상합니다");
@@ -284,10 +265,17 @@ const Join = () => {
     postSmssend(data)
       .unwrap()
       .then((r: any) => {
-        console.log(r);        
-        if (r.status) {
+        console.log(r);
+        if (r.data !== "이미 가입된 휴대폰입니다.") {
           alert("전송하였습니다!");
           console.log("전화번호 중복 결과", r);
+          setAmIHidden("");
+          // 인증번호 닫고
+          setTimeout(() => {
+            setAmIHidden("hidden");
+          }, 300000);
+        } else {
+          alert(`${r.data}`);
         }
       })
       .catch((e) => {

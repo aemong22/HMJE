@@ -141,7 +141,18 @@ export const NonAuthApi = createApi({
       invalidatesTags: (result, error, arg) => [{ type: "NonAuthApi" }]
     }),
 
-    // 
+    // 6. 비밀번호 찾기
+    postUserfindpassword: builder.mutation<find, find>({
+      query: (data) => {
+        console.log("비밀번호 찾기 rtk에서 받은 데이터 : ", data);
+        return {
+          url: `/user/find/password`,
+          method: "POST",
+          body: data,
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "NonAuthApi" }]
+    }),
 
   })
 })
@@ -158,6 +169,7 @@ export const {
   usePostUserjoinMutation,
   usePostUserloginMutation,
   usePostUserfindidMutation,
+  usePostUserfindpasswordMutation,
 
 
 } = NonAuthApi;

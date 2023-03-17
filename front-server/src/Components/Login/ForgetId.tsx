@@ -201,6 +201,7 @@ const ForgetId = () => {
                   type="text"
                   className="min-w-[70%] px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
                   onChange={ChangePhonenum}
+                  placeholder={`전화번호 입력  "- 생략" `}
                 />
                 <div
                   className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium cursor-pointer"
