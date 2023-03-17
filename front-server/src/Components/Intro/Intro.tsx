@@ -163,8 +163,8 @@ function IntroSection3V1():JSX.Element {
         <div className="flex justify-center items-end h-[25%] w-full pb-6 mx-auto sm:w-[70%] md:w-[70%] lg:w-[70%]">
           <div>
             <div className="flex justify-center items-center mb-5 sm:text-[1.2rem] md:text-[1.4rem] lg:text-[1.5rem]">
-              <span className="font-bold ">홍민정음</span>
-              <span className="font-bold text-[#A87E6E]">
+              <span className="font-bold text-[#A87E6E]">홍민정음</span>
+              <span className="font-bold">
                 으로 한글을 배워야 하는 이유
               </span>
             </div>
@@ -233,8 +233,8 @@ function IntroSection3V2():JSX.Element {
         {/* 텍스트 */}
         <div className="flex justify-center items-center h-[10%] w-full mx-auto">
           <div className="flex justify-center items-center text-[0.9rem] mb-5">
-            <span className="font-bold ">훈민정음</span>
-            <span className="font-bold text-[#A87E6E]">
+            <span className="font-bold text-[#A87E6E]">훈민정음</span>
+            <span className="font-bold">
               으로 한글을 배워야 하는 이유
             </span>
           </div>

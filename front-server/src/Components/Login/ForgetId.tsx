@@ -1,17 +1,53 @@
 import React, { useState } from "react";
-import API from "../Common/Api";
+import { useNavigate } from "react-router-dom";
+import {
+  usePostSmsmodifyMutation,
+  usePostSmssendMutation,
+  usePostUserfindidMutation,
+} from "../../Store/NonAuthApi";
+
 import Footer from "../Common/Footer";
 import IntroNavbar from "../Intro/IntroNavbar";
+type smsmodify = {
+  modifyNumber: string;
+  phoneNumber: string;
+  purpose: string;
+};
+
+type smssend = {
+  to: string;
+  role: string;
+};
+
+type find = {
+  modifyNum: string;
+  newPassword: string;
+  phoneNum: string;
+  username: string;
+};
 
 const ForgetId = () => {
-  const [Name, setName] = useState<string>("");
+  const navigate = useNavigate();
+  const [UserName, setUserName] = useState<string>("");
   const [Phonenum, setPhonenum] = useState<string>("");
-  const [Authnum, setAuthnum] = useState<string>();
+  const [Authnum, setAuthnum] = useState<string>("");
 
   const [AmIHidden, setAmIHidden] = useState("hidden");
 
   // 유효성
   const [IsAuthnum, setIsAuthnum] = useState<boolean>(false);
+
+  // API
+  const [postSmsmodify, loading1] = usePostSmsmodifyMutation();
+  const [postSmssend, loading2] = usePostSmssendMutation();
+  const [postUserfindid, loading3] = usePostUserfindidMutation();
+
+  const [Disalbe, setDisalbe] = useState(true);
+
+  function ChangeName(event: any): void {
+    console.log(event.target.value);
+    setUserName(event.target.value);
+  }
 
   const ChangePhonenum = (event: React.ChangeEvent<HTMLInputElement>): void => {
     console.log(event.target.value);
@@ -38,29 +74,26 @@ const ForgetId = () => {
     authnum: string | undefined,
     phonenum: string,
   ): void => {
-    // API.post(`/user/modify`, {
-    //   modifyNumber: authnum,
-    //   phoneNumber: phonenum,
-    // }).then((r) => {
-    //   console.log(r.data);
-    // });
-    // axios({
-    //   method: "post",
-    //   url: "https://hmje.net/api/sms/modify",
-    //   data: {
-    //     modifyNumber: Authnum,
-    //     phoneNumber: Phonenum,
-    //   },
-    // }).then((r) => {
-    //   console.log("인증번호 결과", r.data);
-    //   if (r.data.data === true) {
-    //     // 인증성공!
-    //     setIsAuthnum(true);
-    //   } else {
-    //     // 인증실패!
-    //     setIsAuthnum(false);
-    //   }
-    // });
+    const data: smsmodify = {
+      modifyNumber: authnum!,
+      phoneNumber: phonenum,
+      purpose: "findId",
+    };
+    console.log("인증번호 보내기!", data);
+
+    postSmsmodify(data)
+      .unwrap()
+      .then((r: any) => {
+        console.log(r);
+        if (r.data == false) {
+          console.log("인증번호 에러");
+          setDisalbe(true);
+        } else {
+          alert(`인증되었습니다`);
+          setAuthnum(r.data);
+          setDisalbe(false);
+        }
+      });
   };
 
   // 휴대폰번호가 유효한지 체크
@@ -69,30 +102,31 @@ const ForgetId = () => {
     if (Phonenum.length === 11) {
       if (checkNum(Phonenum) === false) {
         // 인증번호 보여주고
-
         console.log("폰번호확인", Phonenum);
-        // API.post(`/sms/send/newbie`, {
-        //   to: Phonenum,
-        // }).then((r) => {
-        //   console.log("전화번호 중복 결과", r.data);
-        //   alert("전송하였습니다!");
-        // });
+        const data: smssend = {
+          to: Phonenum,
+          role: "else",
+        };
+        console.log("보낼데이터", data);
 
-        console.log("인증message api 요청");
-
-        setAmIHidden("");
-        setAuthnum("");
-        setIsAuthnum(false);
-        // 인증번호 닫고
-        setTimeout(
-          () => {
-            setAmIHidden("hidden");
-          },
-          180000,
-          // 1000 = 1초
-          // 180000 = 3분
-          // timeout : 얼만큼 지나서 위 함수를 실행할 것인지(ms)
-        );
+        postSmssend(data)
+          .unwrap()
+          .then((r: any) => {
+            console.log("받는데이터", r.data.statusCode);
+            if (r.data.statusCode === "202") {
+              alert("전송하였습니다!");
+              setAmIHidden("");
+              setAuthnum("");
+              setIsAuthnum(false);
+              // 인증번호 닫고
+              setTimeout(() => {
+                setAmIHidden("hidden");
+              }, 180000);
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
       } else {
         // 전화번호 border 변경
         alert("번호가 이상합니다");
@@ -102,6 +136,37 @@ const ForgetId = () => {
       alert("번호가 이상합니다");
     }
   };
+
+  const FindButton = () => {
+    console.log("디스에이블", Disalbe);
+
+    const data: find = {
+      modifyNum: Authnum,
+      newPassword: "",
+      phoneNum: Phonenum,
+      username: UserName,
+    };
+    console.log("프론트에서 보내는거", data);
+
+    postUserfindid(data)
+      .unwrap()
+      .then((r: any) => {
+        console.log("받은 결과 : ", r);
+        if (r.data === "false") {
+          alert("false");
+        } else {
+          alert(`회원님의 계정은 [ ${r.data} ] 입니다`);
+          navigate("/login");
+        }
+      })
+      .catch((e) => {
+        if (e.status == 500) {
+          alert("없는 계정입니다");
+          navigate("/login");
+        }
+      });
+  };
+
   return (
     <div className="flex flex-col justify-between h-[100vh] ">
       <IntroNavbar />
@@ -124,6 +189,7 @@ const ForgetId = () => {
                 type="text"
                 className="min-w-[100%] px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
                 placeholder="이름 입력"
+                onChange={ChangeName}
               />
             </div>
             <div className={`my-2 `}>
@@ -135,9 +201,10 @@ const ForgetId = () => {
                   type="text"
                   className="min-w-[70%] px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
                   onChange={ChangePhonenum}
+                  placeholder={`전화번호 입력  "- 생략" `}
                 />
                 <div
-                  className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
+                  className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium cursor-pointer"
                   onClick={PhoneCheck}
                 >
                   인증하기
@@ -169,12 +236,10 @@ const ForgetId = () => {
           <div className="w-full">
             <button
               className="mt-7 cursor-pointer w-full h-[3.5rem] rounded-lg font-extrabold bg-[#F0ECE9] text-[#A87E6E] disabled:cursor-not-allowed"
-              // disabled
+              disabled={Disalbe}
+              onClick={FindButton}
             >
-              <div
-                className="flex justify-center items-center "
-                onClick={() => {}}
-              >
+              <div className="flex justify-center items-center ">
                 <div>계정 찾기</div>
               </div>
             </button>

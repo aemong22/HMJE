@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../Common/Footer";
 import axios from "axios";
@@ -11,6 +11,17 @@ import {
   usePostUserjoinMutation,
 } from "../../Store/NonAuthApi";
 var pattern2 = /[a-zA-Z]/; //영어
+
+type find = {
+  modifyNumber: string;
+  phoneNumber: string;
+  purpose: string;
+};
+
+type smssend = {
+  to: string;
+  role: string;
+};
 const Join = () => {
   const navigate = useNavigate();
 
@@ -20,7 +31,7 @@ const Join = () => {
   const [PasswordCheck, setPasswordCheck] = useState<string>();
   const [Nickname, setNickname] = useState<string>("");
   const [Phonenum, setPhonenum] = useState<string>("");
-  const [Authnum, setAuthnum] = useState<string>();
+  const [Authnum, setAuthnum] = useState<string>("");
 
   // 인증번호 번호 전송후 보여줌
   const [AmIHidden, setAmIHidden] = useState("hidden");
@@ -61,6 +72,10 @@ const Join = () => {
   const [postUserjoin, isloading5] = usePostUserjoinMutation();
 
   function ChangeName(event: any): void {
+    console.log("IsPasswordConfirm", IsPasswordConfirm);
+    console.log("IsAuthnum", IsAuthnum);
+    console.log("IsName", IsName);
+    console.log("IsNickname", IsNickname);
     console.log(event.target.value);
     setUserName(event.target.value);
   }
@@ -162,14 +177,6 @@ const Join = () => {
   // 중복확인
   const CheckDuplication = (e: any) => {
     // 이름
-    const data = {
-      isAdmin: false,
-      isSecession: false,
-      nickname: Nickname,
-      password: Password,
-      phoneNumber: Phonenum,
-      username: UserName,
-    };
 
     if (e.target.id === "UserName") {
       // console.log("Nickname", Nickname);
@@ -193,6 +200,7 @@ const Join = () => {
           .then((r: any) => {
             console.log("받았다");
             alert(r.data);
+            setIsName(true);
             console.log(r);
           });
       }
@@ -218,6 +226,7 @@ const Join = () => {
           .unwrap()
           .then((r: any) => {
             alert(r.data);
+            setIsNickname(true);
             console.log(r);
           });
       }
@@ -232,26 +241,6 @@ const Join = () => {
         // 인증번호 보여주고
 
         SendAuthnum(Phonenum);
-        alert("전송하였습니다!");
-
-        // API.post(`/sms/send/newbie`, {
-        //   to: Phonenum,
-        // }).then((r) => {
-        //   console.log("전화번호 중복 결과", r.data);
-        //   alert("전송하였습니다!");
-        // });
-
-        setAmIHidden("");
-        // 인증번호 닫고
-        setTimeout(
-          () => {
-            setAmIHidden("hidden");
-          },
-          300000,
-          // 1000 = 1초
-          // 180000 = 3분
-          // timeout : 얼만큼 지나서 위 함수를 실행할 것인지(ms)
-        );
       } else {
         // 전화번호 border 변경
         alert("번호가 이상합니다");
@@ -260,18 +249,37 @@ const Join = () => {
       // 전화번호 border변경
       alert("번호가 이상합니다");
     }
+    console.log("IsPasswordConfirm", IsPasswordConfirm);
+    console.log("IsAuthnum", IsAuthnum);
+    console.log("IsName", IsName);
+    console.log("IsNickname", IsNickname);
   };
 
   // 인증번호 전송
   const SendAuthnum = (phonenum: string): void => {
     console.log("폰번호확인", phonenum);
-    const data = {
+    const data: smssend = {
       to: phonenum,
+      role: "only",
     };
     postSmssend(data)
       .unwrap()
-      .then((r) => {
-        console.log("전화번호 중복 결과", r.data);
+      .then((r: any) => {
+        console.log(r);
+        if (r.data !== "이미 가입된 휴대폰입니다.") {
+          alert("전송하였습니다!");
+          console.log("전화번호 중복 결과", r);
+          setAmIHidden("");
+          // 인증번호 닫고
+          setTimeout(() => {
+            setAmIHidden("hidden");
+          }, 300000);
+        } else {
+          alert(`${r.data}`);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
       });
   };
 
@@ -282,6 +290,13 @@ const Join = () => {
     console.log("패스워드", Password);
     console.log("전화번호", Phonenum);
     console.log("username", UserName);
+
+    console.log("IsPasswordConfirm", IsPasswordConfirm);
+    console.log("IsAuthnum", IsAuthnum);
+    console.log("IsName", IsName);
+    console.log("IsNickname", IsNickname);
+
+    console.log("disable", disable);
 
     const data = {
       isAdmin: false,
@@ -295,7 +310,7 @@ const Join = () => {
     postUserjoin(data)
       .unwrap()
       .then((r: any) => {
-        console.log(r.data);
+        console.log(r);
         navigate("/login");
       });
 
@@ -325,23 +340,27 @@ const Join = () => {
     console.log(Authnum);
     console.log(Phonenum);
 
-    const data = {
+    const data: find = {
       modifyNumber: Authnum,
       phoneNumber: Phonenum,
       purpose: "",
     };
     postSmsmodify(data)
       .unwrap()
-      .then((r) => {
-        console.log("인증번호 결과", typeof r.data.data);
-        if (r.data.data === "true") {
+      .then((r: any) => {
+        console.log("인증번호 결과", r.data);
+        if (r.data === "true") {
           // 인증성공!
           setIsAuthnum(true);
-        } else if (r.data.data === "false") {
+        } else if (r.data === "false") {
           // 인증실패!
           setIsAuthnum(false);
         }
       });
+    console.log("IsPasswordConfirm", IsPasswordConfirm);
+    console.log("IsAuthnum", IsAuthnum);
+    console.log("IsName", IsName);
+    console.log("IsNickname", IsNickname);
     // axios({
     //   url: "https://hmje.net/api/sms/modify",
     //   method: "post",
@@ -363,8 +382,15 @@ const Join = () => {
   };
 
   const elemetPadding = "my-2";
-  var disable = IsPasswordConfirm && IsAuthnum && IsName && IsNickname;
+  let disable = IsPasswordConfirm && IsAuthnum && IsName && IsNickname;
+  useEffect(() => {
+    console.log(IsPasswordConfirm);
+    console.log(IsAuthnum);
+    console.log(IsName);
+    console.log(IsName);
 
+    return () => {};
+  }, []);
   return (
     <>
       <IntroNavbar />
@@ -407,19 +433,6 @@ const Join = () => {
                   </button>
                 </div>
               </div>
-
-              {/* <form onSubmit={handleSubmit}>
-                <label htmlFor="postTitle">Post Title:</label>
-                <input
-                  type="text"
-                  id="postTitle"
-                  name="postTitle"
-                  value={UserName}
-                  onChange={(e) => setName(e.target.value)}
-                />                
-                <button type="submit">Save Post</button>
-              </form> */}
-
               <div className={`${elemetPadding}`}>
                 <div className="flex flex-row items-baseline">
                   <div className="text-[#A87C6E] font-extrabold text-base pb-2">
