@@ -149,7 +149,8 @@ function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
 
   return (
     <div className="bg-[#F0ECE9]">
-      <div className="container max-w-screen-xl w-full mx-auto flex flex-col md:flex-row md:justify-around items-center text-center py-[2rem]">
+      <div className="container max-w-screen-xl mx-auto">
+      <div className="lg:w-[80%] w-full  mx-auto flex flex-col md:flex-row md:justify-between items-center text-center py-[2rem]">
         <div className="md:w-[40%] w-[90%] bg-[#ffffff] py-[1.5rem] md:px-[2.5rem] rounded-md px-[1rem]">
           <Pangguin position={-2} />
           <div className="flex justify-center md:text-[1.2rem] sm:text-[1.1rem] text-[1rem] py-1">
@@ -191,6 +192,7 @@ function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
               <div>오늘의 단어</div>
             </div>
           </div>
+        </div>
         </div>
       </div>
   );
