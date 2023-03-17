@@ -3,6 +3,8 @@ import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
 import ReactPaginate from "react-paginate";
 import style from "../Dictionary/Dictionary.module.css";
+import { usePostWorddictMutation } from "../../Store/api";
+import { type } from "@testing-library/user-event/dist/type";
 interface test {
   word_id: string;
   word_name: string;
@@ -16,34 +18,60 @@ interface test {
   word_relation: string;
 }
 
+type dict = {
+  filter: string;
+  keyword: string;
+  page: string;
+};
+
+type wordExampleResponseList = {
+  exampleDetail: string;
+  exampleType: string;
+};
+
+type wordDetailResponseList = {
+  detailNum: number;
+  details: string;
+  wordExampleResponseList: wordExampleResponseList[];
+};
+
+type dictresponse = {
+  wordId: number;
+  wordName: string;
+  wordIso: number;
+  wordType: string;
+  wordRating: string;
+  wordOrigin: string;
+  wordDetailResponseList: wordDetailResponseList[];
+};
+
 const DictionaryPage = () => {
-  const [Words, setWords] = useState<test[]>(); // 백엔드와 통신하여 모든 데이터를 setLists 에 저장해서 사용
+  const [Words, setWords] = useState<dictresponse[]>(); // 백엔드와 통신하여 모든 데이터를 setLists 에 저장해서 사용
   const [limit, setLimit] = useState<number>(10); // 한 페이지에 보여줄 데이터의 개수
   const [page, setPage] = useState(1); // 페이지 초기 값은 1페이지
   const [counts, setCounts] = useState(0); // 데이터의 총 개수를 setCounts 에 저장해서 사용
   const [blockNum, setBlockNum] = useState(0); // 한 페이지에 보여 줄 페이지네이션의 개수를 block으로 지정하는 state. 초기 값은 0
   const offset = (page - 1) * limit;
 
-  var eee: test[] = [];
-  for (let i = 0; i < 100000; i++) {
-    eee.push({
-      word_class: "test_word_class",
-      word_detail:
-        "시와 시, 시와 군 사이의 경계.2시와 시, 시와 군 사이의 경계.2시와 시, 시와 군 사이의 경계.2시와 시, 시와 군 사이의 경계.2시와 시, 시와 군 사이의 경계.2시와 시, 시와 군 사이의 경계.2",
-      word_example: "test_word_example",
-      word_id: "test_word_id",
-      word_iso: "test_word_iso",
-      word_name: `시계${i}`,
-      word_origin: `市界${i}`,
-      word_rating: "test_word_rating",
-      word_relation: "test_word_relation",
-      word_type: `명사${i}`,
-    });
-  }
+  const [postWorddict, loading1] = usePostWorddictMutation();
+
   useEffect(() => {
-    setWords(eee);
-    setLimit(10);
-    setCounts(eee.length);
+    const first: dict = {
+      filter: "",
+      keyword: "",
+      page: "0",
+    };
+    postWorddict(first)
+      .unwrap()
+      .then((r: any) => {
+        // console.log("하잉", typeof r.data);
+
+        setWords(r.data);
+        setLimit(10);
+        setCounts(r.data.length);
+      })
+      .then(() => {});
+
     return () => {};
   }, []);
 
@@ -62,7 +90,7 @@ const DictionaryPage = () => {
         />
         {Words ? (
           <>
-            <List word={eee} limit={limit} offset={offset} />
+            <List word={Words} limit={limit} offset={offset} />
           </>
         ) : null}
         {/* <PaginationList
@@ -107,7 +135,7 @@ const List = ({
   offset,
   limit,
 }: {
-  word: test[];
+  word: dictresponse[];
   offset: number;
   limit: number;
 }): JSX.Element => {
@@ -120,28 +148,40 @@ const List = ({
         <div
           className={`flex flex-col container max-w-screen-lg  w-full mx-auto px-10 lg:px-[10%]`}
         >
-          {word.slice(offset, offset + limit).map(function (word, i) {
-            return (
-              <div className="py-2">
-                <div className="flex flex-row items-baseline">
-                  <div
-                    className="text-[#0078CE] text-2xl underline cursor-pointer"
-                    onClick={
-                      // () => {console.log(`${word.word_name}이라는 데이터야`);}
-                      () => {
-                        showDetail(word.word_name);
-                      }
-                    }
-                  >
-                    {word.word_name}
+          {word
+            .slice(offset, offset + limit)
+            .map(function (word: dictresponse, i) {
+              // console.log(word);
+
+              return (
+                <div className="py-2">
+                  <div className="flex flex-row items-baseline">
+                    <div
+                      className="text-[#0078CE] text-2xl underline cursor-pointer"
+                      onClick={() => {
+                        showDetail(word.wordName);
+                        console.log(word);
+                      }}
+                    >
+                      {word.wordName}
+                    </div>
+                    <div className="px-3">[ {word.wordOrigin} ]</div>
+                    <div>{word.wordType}</div>
                   </div>
-                  <div className="px-3">[ {word.word_origin} ]</div>
-                  <div>{word.word_type}</div>
+                  <div className="max-w-full">
+                    {word.wordDetailResponseList.map(function (
+                      wordDetailResponseList,
+                    ) {
+                      return (
+                        <div className="border-2 border-black max-w-[30%] overflow-hidden">
+                          {wordDetailResponseList.details}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-                <div className="truncate">{word.word_detail}</div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </div>
     </>
