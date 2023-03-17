@@ -544,13 +544,11 @@ const Join = () => {
                 <button
                   className="mt-7 cursor-pointer w-full h-[3.5rem] rounded-lg font-extrabold bg-[#F0ECE9] text-[#A87E6E] disabled:cursor-not-allowed"
                   disabled={!disable}
+                  onClick={() => {
+                    GoJoin();
+                  }}
                 >
-                  <div
-                    className="flex justify-center items-center "
-                    onClick={() => {
-                      GoJoin();
-                    }}
-                  >
+                  <div className="flex justify-center items-center ">
                     <div>가입하기</div>
                   </div>
                 </button>
