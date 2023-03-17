@@ -1,17 +1,27 @@
 import { useGetUserMyinfoQuery, useGetUserMystudyQuery } from "../../Store/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
 import Pangguin from "../Threejs/Pangguin";
 import style from "./Main.module.css";
+import { useAppDispatch } from "../../Store/hooks";
+import { changeUserNickname } from "../../Store/store";
 
 
 
 function Main(): JSX.Element {
+  const dispatch = useAppDispatch()
   const userId = localStorage.getItem("userId");
   const {data:userMyInfo, error:error1, isLoading:isLoading1 } = useGetUserMyinfoQuery(userId);
   const {data:userMyStudy, error:error2, isLoading:isLoading2 } = useGetUserMystudyQuery(userId);
+  
+  useEffect(()=> {
+    if (userMyInfo?.data.nickname) {
+      dispatch(changeUserNickname(userMyInfo?.data.nickname))
+    }
+  },[userMyInfo?.data.nickname])
+  
   console.log("유저데이터" , userMyInfo)
   console.log("유저학습시간", userMyStudy)
 
