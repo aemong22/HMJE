@@ -1,17 +1,21 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
+import ReactDOMServer from 'react-dom/server';
 
 function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,setSemo,right, setRight, openModal, setResultModal}:any): JSX.Element {
-
   // 초성 뽑아내기
   const cho = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
   let result = ""
-  for(let i=0; i<question[num].wordName.length;i++){
-    let code = question[num].wordName.charCodeAt(i)-44032;
-    if(code>-1 && code<11172) result += cho[Math.floor(code/588)];
-    else result += question[num].wordName.charCodeAt(i);
+  
+  // 문맥 도감일 경우 제외
+  if(studyType !== "contextStudy"){
+    for(let i=0; i<question[num].wordName.length;i++){
+      let code = question[num].wordName.charCodeAt(i)-44032;
+      if(code>-1 && code<11172) result += cho[Math.floor(code/588)];
+      else result += question[num].wordName.charCodeAt(i);
+    }
   }
 
   const [hint, setHint] = useState<Boolean>(false);
@@ -35,10 +39,17 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
       setCount(count => count - 1); 
     }, 1000);
     
+
     // 못맞춤
     if(count <= 0){
       clearInterval(id);
-      setWrong([...wrong,question[num].wordId])
+      setInput("");
+      if(studyType !== "contextStudy") {
+        setWrong([...wrong,question[num]?.wordId])
+      }
+      else {
+        setWrong([...wrong,question[num]?.dogamId])
+      }
       openModal()
       setHint(false)
     }
@@ -76,24 +87,54 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
   useEffect(() => {
     if((transcript.split(" ")[0] === input ) && (transcript.length > 0) && (!listening))  {
       setTimeout(() => {
-        submit();
-      },2000)
+        if(studyType !== "contextStudy") {
+          submit();
+        }
+        else {
+          submit2();
+        }
+      },1500)
     }
   },[input,listening])
 
+  // wordStudy, 복습
   const submit = () => {
     resetTranscript()
     setInput("")
+    console.log("제출")
+
     //정답
-    if(input === question[num].wordName) {
-      // 힌트를 보고 맞춤 => 맞춤, semo 개수++, hint 원상복귀, modal open
+    if(input === question[num]?.wordName) {
       if(hint) {
         setSemo(semo+1)
         setHint(false)
       }
-      // 힌트 안보고 맞춤 => 맞춤, correct에 추가, modal open
       else {
-        setCorrect([...correct,question[num].wordId])
+        setCorrect([...correct,question[num]?.wordId])
+      }
+      setRight(true)
+      openModal()
+    }
+    // 오답 -> toast 띄우기
+    else{
+      toast.error("틀렸습니다")
+    }
+  }
+
+  // contextStudy
+  const submit2 = () => {
+    resetTranscript()
+    setInput("")
+    console.log(input, question[num].dogamName)
+
+    //정답
+    if(input === question[num].dogamName) {
+      if(hint) {
+        setSemo(semo+1)
+        setHint(false)
+      }
+      else {
+        setCorrect([...correct,question[num]?.dogamId])
       }
       setRight(true)
       openModal()
@@ -120,7 +161,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
           <div className="mt-8 z-20 bg-[#F4EFEC] lg:w-[82%] w-full min-h-[25rem] py-6 lg:px-6 px-4 flex flex-col justify-between rounded-lg">
             <div>
               <div className="font-bold md:text-[1.1rem] text-[1rem] mb-6">
-                {studyType === "wordStudy" ? 
+                {studyType !== "contextStudy" ? 
                   <>
                     해당 뜻을 가진 단어를 적으시오.
                   </>:
@@ -129,7 +170,25 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
                   </>}
               </div>
               <div>
-                {question[num].wordDetailResponseList[0].details}
+                { studyType !== "contextStudy" ? 
+                <>
+                  {question[num]?.wordDetailResponseList[0]?.details}
+                </> :  
+                <>
+                  <div className= "leading-10" dangerouslySetInnerHTML={{__html: question[num]?.dogamExam1.replace(
+                    question[num]?.dogamName,
+                    `<span class="px-[2rem] mx-[0.2rem] rounded-lg border-2 border-[#F7CCB7] bg-[#ffffff]"></span>`
+                  )}}></div>
+                  <div className= "leading-10" dangerouslySetInnerHTML={{__html: question[num]?.dogamExam2.replace(
+                    question[num]?.dogamName,
+                    `<span class="px-[2rem] mx-[0.2rem] rounded-lg border-2 border-[#F7CCB7] bg-[#ffffff]"></span>`
+                  )}}></div>
+                  <div className= "leading-10" dangerouslySetInnerHTML={{__html: question[num]?.dogamExam3.replace(
+                    question[num]?.dogamName,
+                    `<span class="px-[2rem] mx-[0.2rem] rounded-lg border-2 border-[#F7CCB7] bg-[#ffffff]"></span>`
+                  )}}></div>
+                </>}
+          
               </div>
             </div>
             <div>
@@ -137,13 +196,25 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
                 <input type="text" value={input} className="m-1 block w-full p-4 pl-5 text-sm text-gray-900 border border-gray-300 rounded-lg focus:outline-none bg-gray-50" placeholder="정답을 입력하세요." 
                 required onChange={(e:any)=>onChange(e)} onKeyPress={(e:any)=>{
                   if ((e.key === 'Enter') && input.length > 0) {
-                    submit(); // Enter 입력이 되면 클릭 이벤트 실행
+                    if(studyType !== "contextStudy") {
+                      submit();
+                  }
+                  else {
+                    submit2();
+                    }
                   }
                 }}/>
-                <button onClick={() => SpeechRecognition.startListening()} className="sm:absolute sm:bottom-2.5 right-2.5 m-1 text-white bg-[#F7CCB7] hover:bg-[#BF9F91] focus:outline-none font-bold rounded-lg text-sm px-4 py-2 ">
+                <button onClick={() => {!listening ? SpeechRecognition.startListening() : SpeechRecognition.stopListening()}} className="sm:absolute sm:bottom-2.5 right-2.5 m-1 text-white bg-[#F7CCB7] hover:bg-[#BF9F91] focus:outline-none font-bold rounded-lg text-sm px-4 py-2 ">
                   { listening ? <> 입력 중... </>: <>음성 입력</>}
                 </button>
-                <button type="submit" onClick={()=>submit()} className="sm:absolute sm:bottom-2.5 right-[7rem] m-1 text-white bg-[#F7CCB7] hover:bg-[#BF9F91] focus:outline-none font-bold rounded-lg text-sm px-4 py-2 ">제출</button>
+                <button type="submit" onClick={()=> {
+                  if(studyType !== "contextStudy") {
+                      submit();
+                  }
+                  else {
+                    submit2();
+                  }}
+                  } className="sm:absolute sm:bottom-2.5 right-[7rem] m-1 text-white bg-[#F7CCB7] hover:bg-[#BF9F91] focus:outline-none font-bold rounded-lg text-sm px-4 py-2 ">제출</button>
               </div>
             </div>
           </div>
@@ -162,11 +233,11 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
               {count}
             </div>
             
-            {studyType === "wordStudy" ? 
+            {studyType !== "contextStudy" ? 
             <>
               <div className="border-4 m-2 lg:py-4 md:py-2 px-8 rounded-lg md:text-[1.6rem] sm:text-[1.3rem] text-[1rem] flex flex-col justify-center font-bold border-[#F4EFEC] text-[#A87C6E]">
                 <span className="md:text-[1.2rem] sm:text-[1rem] text-[0.9rem] font-medium text-[#8E8E8E]">품사</span>
-                {question[num].wordType}
+                {question[num]?.wordType}
               </div>
               <div className="border-4 m-2 lg:py-4 md:py-2 px-8 rounded-lg md:text-[1.6rem] sm:text-[1.3rem] text-[#A87C6E] text-[1rem] flex flex-col justify-center font-bold border-[#F4EFEC]">
                 <span className="md:text-[1.2rem] sm:text-[1rem] text-[0.9rem] font-medium text-[#8E8E8E]">귀띔</span>
