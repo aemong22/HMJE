@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 
+// 타입
 type PostData = {
   isAdmin: boolean,
   isSecession: boolean,
@@ -13,40 +14,55 @@ type login = {
   username: string,
   password: string,
 }
-const accessToken: any = localStorage.getItem('accessToken')
+
+type find = {
+  modifyNum: string,
+  newPassword: string,
+  phoneNum: string,
+  username: string
+}
+
+type smsmodify = {
+  modifyNumber: string,
+  phoneNumber: string,
+  purpose: string,
+}
+
+type smssend = {
+  to: string,
+  role: string
+}
+
+
+
+const accessToken: string | undefined | null = localStorage.getItem('accessToken')
+
 export const NonAuthApi = createApi({
   reducerPath: "NonAuthApi",
   tagTypes: ['NonAuthApi'],
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://hmje.net/api',
-    prepareHeaders(headers) {
-      headers.set(accessToken, accessToken)
-    }
   }),
   endpoints: (builder) => ({
     // ================sms================
     // 1. 인증번호 체크
-    postSmsmodify: builder.mutation({
+    postSmsmodify: builder.mutation<smsmodify, smsmodify>({
       query: (data) => {
         console.log("인증번호 체크 rtk에서 받은 데이터 : ", data);
         return {
           url: `sms/modify`,
           method: "POST",
-          body: {
-            modifyNumber: data.modifyNumber,
-            phoneNumber: data.phoneNumber,
-            purpose: ""
-          }
+          body: data
         }
       },
       invalidatesTags: (result, error, arg) => [{ type: "NonAuthApi" }]
     }),
     // 2. 인증번호 보내기
-    postSmssend: builder.mutation({
+    postSmssend: builder.mutation<smssend, smssend>({
       query: (data) => {
         console.log("인증번호 보내기 rtk에서 받은 데이터 : ", data);
         return {
-          url: `sms/modify`,
+          url: `sms/send/${data.role}`,
           method: "POST",
           body: {
             to: data.to
@@ -106,15 +122,38 @@ export const NonAuthApi = createApi({
         return {
           url: `/login`,
           method: "POST",
-          body: {
-            username: data.username,
-            password: data.password
-          },
+          body: data,
         }
       },
       invalidatesTags: (result, error, arg) => [{ type: "NonAuthApi" }]
     }),
-    
+
+    // 5. 아이디 찾기
+    postUserfindid: builder.mutation<find, find>({
+      query: (data) => {
+        console.log("아이디 찾기 rtk에서 받은 데이터 : ", data);
+        return {
+          url: `/user/find/id`,
+          method: "POST",
+          body: data,
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "NonAuthApi" }]
+    }),
+
+    // 6. 비밀번호 찾기
+    postUserfindpassword: builder.mutation<find, find>({
+      query: (data) => {
+        console.log("비밀번호 찾기 rtk에서 받은 데이터 : ", data);
+        return {
+          url: `/user/find/password`,
+          method: "POST",
+          body: data,
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "NonAuthApi" }]
+    }),
+
   })
 })
 
@@ -129,5 +168,8 @@ export const {
   usePostUsercheckusernameMutation,
   usePostUserjoinMutation,
   usePostUserloginMutation,
+  usePostUserfindidMutation,
+  usePostUserfindpasswordMutation,
+
 
 } = NonAuthApi;
