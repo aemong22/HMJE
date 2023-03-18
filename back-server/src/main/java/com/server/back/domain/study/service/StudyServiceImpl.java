@@ -89,7 +89,7 @@ public class StudyServiceImpl implements StudyService{
         //랜덤 5문제 (숫자) 뽑기
         Set<Long> set = new HashSet<>();
         while (set.size() < 5) {
-            Double d = Math.random() * 10 + 1;                        // 문맥학습 문제 갯수~!~!~!
+            Double d = Math.random() * 100 + 1;                        // 문맥학습 문제 갯수~!~!~!
             set.add(d.longValue());
         }
         List<Long> list = new ArrayList<>(set);
