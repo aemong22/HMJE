@@ -29,7 +29,7 @@ public class DogamController {
     }
 
     @ApiOperation(value = "획득한 도감번호 조회")
-    @PostMapping("/{userId}")
+    @GetMapping("/{userId}")
     public ResponseEntity<Map<String, Object>> myDogamAll(@PathVariable(value = "userId") Long userId){
         Map<String, Object> response = new HashMap<>();
         List<Long> myDogamList = dogamService.myDogamList(userId);
