@@ -98,10 +98,18 @@ export const hmjeApi = createApi({
     getAdminUserList: builder.query({
       query: () => "/admin/user",
       providesTags: (result, error, arg) => {
-        console.log('유저리스트 출력');
         return [{ type: "Api" }]
       }
     }),
+
+    // 2. 전체 뱃지 목록 조회
+    getAdminBadgeList: builder.query({
+      query: () => "/admin/badge",
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
+
 
 
     // --------------user---------------
@@ -271,6 +279,7 @@ export const hmjeApi = createApi({
 export const {
   // ADMIN
   useLazyGetAdminUserListQuery,
+  useLazyGetAdminBadgeListQuery,
 
   // USER
   useGetUserMyinfoQuery,
