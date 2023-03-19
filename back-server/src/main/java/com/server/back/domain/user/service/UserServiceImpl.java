@@ -206,7 +206,7 @@ public class UserServiceImpl implements UserService {
 
         //그만큼 dto 담은 리스트 만들어주기
         List<MonthStudyResponseDto> monthStudyResponseDtos = new ArrayList<>();
-        for (int i=0; i<=dayMax; i++){
+        for (int i=0; i<dayMax; i++){
             MonthStudyResponseDto dayStudyResponse = MonthStudyResponseDto.builder()
                     .WordCount(0)
                     .ContextCount(0)
@@ -227,7 +227,7 @@ public class UserServiceImpl implements UserService {
             String createdAtMonth = r.getCreatedAt().toString().substring(0,7);
             String createdAtDay = r.getCreatedAt().toString().substring(8,10);
             if ((createdAtMonth).equals(findMonth)){
-                MonthStudyResponseDto nowday = monthStudyResponseDtos.get(Integer.parseInt(createdAtDay));
+                MonthStudyResponseDto nowday = monthStudyResponseDtos.get(Integer.parseInt(createdAtDay)-1);
                 System.out.println("nowday = " + nowday);
                 int nowdayword = nowday.getWordCount();
                 nowday.setWordCount(nowdayword+1);
@@ -240,7 +240,7 @@ public class UserServiceImpl implements UserService {
             String createdAtMonth = d.getCreatedAt().toString().substring(0,7);
             String createdAtDay = d.getCreatedAt().toString().substring(8,10);
             if ((createdAtMonth).equals(findMonth)){
-                MonthStudyResponseDto nowday = monthStudyResponseDtos.get(Integer.parseInt(createdAtDay));
+                MonthStudyResponseDto nowday = monthStudyResponseDtos.get(Integer.parseInt(createdAtDay)-1);
                 System.out.println("nowday = " + nowday);
                 int nowdaycontext = nowday.getContextCount();
                 nowday.setContextCount(nowdaycontext+1);
@@ -253,7 +253,7 @@ public class UserServiceImpl implements UserService {
             String endTimeMonth = s.getEndTime().toString().substring(0,7);
             String endTimeDay = s.getEndTime().toString().substring(8,10);
             if ((endTimeMonth).equals(findMonth)){
-                MonthStudyResponseDto nowday = monthStudyResponseDtos.get(Integer.parseInt(endTimeDay));
+                MonthStudyResponseDto nowday = monthStudyResponseDtos.get(Integer.parseInt(endTimeDay)-1);
                 if (s.getStudyType().equals(0)){
                     int nowdayWordTime = nowday.getWordTime();
                     nowday.setWordTime(nowdayWordTime+s.getStudyTime());
