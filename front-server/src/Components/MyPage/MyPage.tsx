@@ -1,10 +1,15 @@
 import Footer from "../Common/Footer"
 import Navbar from "../Common/Navbar"
 import Pangguin from "../Threejs/Pangguin"
-import { useGetUserMyinfoQuery, useGetUserMystudyQuery } from "../../Store/api"
-import React, { useState } from "react"
+import { useGetUserMyinfoQuery, useGetUserMystudyQuery, usePostUserMonthstudyMutation, usePutUserdataMutation } from "../../Store/api"
+import { usePostUserchecknicknameMutation } from "../../Store/NonAuthApi";
+import React, { KeyboardEvent, KeyboardEventHandler, MouseEventHandler, useEffect, useRef, useState } from "react"
 import styled from './MyPage.module.css'
-import { Doughnut } from "react-chartjs-2"
+import { Doughnut, Line } from "react-chartjs-2"
+import { toast } from "react-toastify";
+import { Toast } from "../Common/Toast";
+import { useAppDispatch } from "../../Store/hooks";
+import { changeUserNickname } from "../../Store/store";
 
 interface UserDataType {
   exp: number,
@@ -27,7 +32,9 @@ interface Type {
   exp: number, 
   totalExp: number,
   sentence: React.ReactNode,
-  level: string
+  level: string,
+  nowbadgeImage: string,
+  userId: (string | null)
 }
 
 interface LevelType {
@@ -54,8 +61,11 @@ function MyPage():JSX.Element {
   const userId = localStorage.getItem('userId')
   const {data:userMyInfo, isError:isError1, isLoading:isLoading1} = useGetUserMyinfoQuery(userId)
   const {data:studyData, isError:isError2, isLoading:isLoading2} = useGetUserMystudyQuery(userId)
+  
+  // console.log('userMyInfo: ', userMyInfo);
+  
 
-  if (isLoading1 || isLoading2) {
+  if (isLoading1 || isLoading2 ) {
     return <div>Loading...</div>;
   }
 
@@ -124,18 +134,15 @@ function MyPage():JSX.Element {
     0: <div>오늘 학습한 데이터가 없어서 울고있어요.😥 <br/>서둘러 학습을 해주세요</div>,
     1: <div>현재 맞춘 개수가 더 많아서 행복해 하고 있어요.😊 <br/>더 화이팅 해주세요</div>,
     2: <div>현재 틀린 개수가 더 많아서 슬퍼하고 있어요.😓 <br/> 더 힘내주세요</div>,
+    3: <div>현재 정답과 오답이 같아요😮 <br/> 조금만 더 해볼까요?</div>,
   }
-  let sentence:React.ReactNode
+  let sentence
 
-  console.log('studyData: ', studyData?.data);
   const {todayWord, totalWord, todayContext, totalContext, todayTime, totalTime}:StudyType = studyData?.data
   const todayTotal = studyData?.data.todayContext + studyData?.data.todayTime + studyData?.data.todayWord
   const statsDate:number = studyData?.data.statsRight - studyData?.data.statsWrong
   const  {statsRight, statsSemo, statsWrong} = studyData?.data
-  const level = levelInfo[userMyInfo?.data.level].levelName2
-
-  // console.log('level: ', level);
-  
+  const level = levelInfo[userMyInfo?.data.level].levelName2  
 
   if (todayTotal === 0) {
     sentence = sentenceList[0]
@@ -143,79 +150,160 @@ function MyPage():JSX.Element {
     sentence = sentenceList[1]
   } else if (statsDate < 0) {
     sentence = sentenceList[2]
+  } else {
+    sentence = sentenceList[3]
   }
 
   return (
     <>
-    
       <Navbar/>
-      {/* 필요 데이터
-        nickname, nowbadgeName, expWidth, exp, totalExp, 학습 시간에 따른 문구 
-      */}
-      <MyPageSection1V1 nickname={userMyInfo?.data.nickname} nowbadgeName={userMyInfo?.data.nowbadgeName} expWidth={expWidth} exp={userMyInfo?.data.exp} totalExp={totalExp} sentence={sentence} level={level} />
+      <MyPageSection1V1 nickname={userMyInfo?.data.nickname} nowbadgeName={userMyInfo?.data.nowbadgeName} expWidth={expWidth} exp={userMyInfo?.data.exp} totalExp={totalExp} sentence={sentence} level={level} nowbadgeImage={userMyInfo?.data.nowbadgeImage} userId={userId}/>
       <MyPageSection2V1 todayWord={todayWord} totalWord={totalWord} todayContext={todayContext} totalContext={totalContext} todayTime={todayTime} totalTime={totalTime} statsRight={statsRight} statsSemo={statsSemo} statsWrong={statsWrong}/>
-      <MyPageSection1V2 nickname={userMyInfo?.data.nickname} nowbadgeName={userMyInfo?.data.nowbadgeName} expWidth={expWidth} exp={userMyInfo?.data.exp} totalExp={totalExp} sentence={sentence} level={level} />
+      <MyPageSection1V2 nickname={userMyInfo?.data.nickname} nowbadgeName={userMyInfo?.data.nowbadgeName} expWidth={expWidth} exp={userMyInfo?.data.exp} totalExp={totalExp} sentence={sentence} level={level} nowbadgeImage={userMyInfo?.data.nowbadgeImage} userId={userId}/>
       <MyPageSection2V2 todayWord={todayWord} totalWord={totalWord} todayContext={todayContext} totalContext={totalContext} todayTime={todayTime} totalTime={totalTime} statsRight={statsRight} statsSemo={statsSemo} statsWrong={statsWrong}/>
-      <MyPageSection3/>
+      <MyPageSection3 userId={userId}/>
       <Footer/>
     </>
   )
 }
 export default MyPage
 
+
 // 데스크탑 & 태블릿
-function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sentence, level}:Type):JSX.Element {
-  
-  return (
-    <div className="container max-w-screen-xl h-[26rem] md:w-[90%] mx-auto hidden md:flex flex-col md:flex-row md:justify-around items-center text-center py-[2rem]">
-      <div className="flex flex-col md:w-[55%] h-full bg-[#ffffff] rounded-md ">
-        <Pangguin position={-2} />
-        <div className="bg-[#D9D9D9] rounded-xl font-semibold md:text-[1rem] w-full py-1">{sentence}</div>
-      </div>
-      <div className="md:w-[45%] pt-[1rem] pb-[0.5rem] px-4">
-        <div className="flex justify-center items-center h-full w-full">
-          {/* 메인 데이터 */}
-          <div className="flex flex-col justify-center items-center h-4/5 w-full">
-            <div className="flex justify-between items-center w-full pb-1">
-              {/* 칭호 & 수정 */}
-              <div className="md:text-[1.2rem]">🥕&nbsp; {nowbadgeName}</div>
-              <div className="text-[#8E8E8E] md:text-[1rem]">정보 수정⚙</div>
-            </div>
-            <div className="flex flex-col justify-center items-center w-full">
-              <div className="flex justify-between items-end w-full">
-                {/* 닉네임 & 등급 & 경험치 */}
-                <div className="pb-1">
-                  {/* 닉네임 & 등급 */}
-                  <span className="mr-1 md:text-[2.4rem] text-[2rem] font-bold">{nickname}</span><span className="md:text-[1.1rem] px-1 border-2 border-[#A87E6E] w-fit mx-auto rounded-full bg-[#F0ECE9] font-bold text-[#A87E6E]">{level}</span>
-                </div>
-                <div className="text-[1rem] pb-2 text-[#8E8E8E]">
-                  {/* 등급 */}
-                  {exp} / {totalExp}
-                </div>
-              </div>
-              <div className="w-full rounded-xl h-4 bg-[#F0ECE9]">
-                {/* 경험치 바: 위에서 퍼센트 계산해서 넣으면 될듯?*/}
-                <div className="rounded-xl h-full bg-[#F7CCB7]" style={{width: `${expWidth}`, maxWidth: '100%'}}>
-                  &nbsp;
-                </div>
-              </div>
-            </div>
-            <div className="flex justify-start items-center w-full pt-4">
-              <div className="md:w-[1.5rem] lg:w-[2rem] md:h-[1.5rem] lg:h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="" /></div>
-              <div className="md:w-[1.5rem] lg:w-[2rem] md:h-[1.5rem] lg:h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="" /></div>
-              <div className="md:w-[1.5rem] lg:w-[2rem] md:h-[1.5rem] lg:h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="" /></div>
-              <div className="md:w-[1.5rem] lg:w-[2rem] md:h-[1.5rem] lg:h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="" /></div>
-              <div className="md:w-[1.5rem] lg:w-[2rem] md:h-[1.5rem] lg:h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="" /></div>
-            </div>
+function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sentence, level, nowbadgeImage, userId}:Type):JSX.Element {
+  const dispatch = useAppDispatch()
+  const [isClick,setIsClick] = useState<boolean>(false)
+  const [nameCheckMutation] = usePostUserchecknicknameMutation()
+  const [mutation] = usePutUserdataMutation()
+  const [changeNickname,setChangeNickname] = useState<string>()
+  const ref = useRef<HTMLDivElement>(null)
+
+  const change= (e:React.ChangeEvent<HTMLInputElement>) => {    
+    setChangeNickname(e.target.value);
+  }
+
+  const click:MouseEventHandler<HTMLDivElement> = (e) => {
+    // const target = e.target as HTMLElement
+    if (e.currentTarget.ariaLabel === '정보수정') {
+      setIsClick(!isClick)
+    } else if (e.currentTarget.ariaLabel === '변경') {
+      e.preventDefault()
+      const data:any = {
+        nickname: changeNickname,
+        username: userId
+      }
+      nameCheckMutation(data).unwrap().then((r:any)=> {
+        console.log(changeNickname);
+        if (r.data === false) {
+          toast.error("닉네임을 사용할 수 없습니다")
+        } else {
+          mutation([userId, changeNickname]).unwrap().then((r)=> {
+            dispatch(changeUserNickname(changeNickname))
+            toast.success('닉네임 변경!')
+            setIsClick(false)
+          })
+        }
+      })
+    }
+    else if (e.target === ref.current) {
+      console.log('hi');
+      setIsClick(false)
+    }
+  }
+  const enter = (e:KeyboardEvent) => {
+    // const target = e.target as HTMLElement
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      const data:any = {
+        nickname: changeNickname,
+        username: userId
+      }
+      nameCheckMutation(data).unwrap().then((r:any)=> {
+        console.log(changeNickname);
+        if (r.data === false) {
+          toast.error("닉네임을 사용할 수 없습니다")
+        } else {
+          mutation([userId, changeNickname]).unwrap().then((r)=> {
+            dispatch(changeUserNickname(changeNickname))
+            toast.success('닉네임 변경!')
+            setIsClick(false)
+          })
+        }
+      })
+    }
+  }
+
+  const updateModal = (
+    <div ref={ref} className="w-full py-10 bg-[#d4b3a5] rounded-lg" onClick={click}>
+      <div className="bg-[#F7CCB7] my-5 py-10 w-full">
+        <div className="flex flex-col font-semibold text-[1.3rem] w-full">
+          <div><span>변경할 닉네임을 작성해주세요</span></div>
+          <div className="flex md:flex-col lg:flex-row lg:justify-center md:justify-end lg:items-end w-full ">
+            <div className="mt-2 mx-2"><input className="text-center rounded-lg w-full" type="text" maxLength={6} placeholder="닉네임" autoFocus onChange={change} onKeyPress={enter}/></div>
+            <div aria-label="변경" className="border-[#B18978] lg:px-3 md:mx-2 lg:mx-0 border-2 rounded-lg" onClick={click}>변경</div>
           </div>
         </div>
       </div>
     </div>
   )
+
+  return (
+    <>
+    <Toast />
+      <div className="container max-w-screen-xl h-[30rem] md:w-[90%] mx-auto hidden md:flex flex-col md:flex-row md:justify-around items-center text-center mb-2">
+        <div className="flex flex-col md:w-[55%] h-full bg-[#ffffff] rounded-md ">
+          <Pangguin position={-2} />
+          <div className="bg-[#D9D9D9] rounded-xl font-semibold md:text-[1rem] w-full py-1">{sentence}</div>
+        </div>
+        <div className="md:w-[45%] pt-[1rem] pb-[0.5rem] px-4">
+          <div className="flex justify-center items-center h-full w-full">
+            {/* 메인 데이터 */}
+            <div className="flex flex-col justify-center items-center h-4/5 w-full">
+              <div className="flex justify-between items-center w-full pb-1">
+                {/* 칭호 & 수정 */}
+                <div className="flex justify-start items-center md:text-[1.2rem]"><img className="w-[1.5rem]" src={`/Assets/Badge/${nowbadgeImage}.png`} alt="뱃지" />&nbsp; {nowbadgeName}</div>
+                <div aria-label="정보수정" className="text-[#8E8E8E] md:text-[1rem]" onClick={click}>정보 수정⚙</div>
+              </div>
+              {
+                isClick ? updateModal: (
+                  <div className="flex flex-col justify-center items-center w-full">
+                    <div className="flex justify-between items-end w-full">
+                      {/* 닉네임 & 등급 & 경험치 */}
+                      <div className="pb-1">
+                        {/* 닉네임 & 등급 */}
+                        <span className="mr-1 md:text-[2.4rem] text-[2rem] font-bold">{nickname}</span><span className="md:text-[1.1rem] px-1 border-2 border-[#A87E6E] w-fit mx-auto rounded-full bg-[#F0ECE9] font-bold text-[#A87E6E]">{level}</span>
+                      </div>
+                      <div className="text-[1rem] pb-2 text-[#8E8E8E]">
+                        {/* 등급 */}
+                        {exp} / {totalExp}
+                      </div>
+                    </div>
+                    <div className="w-full rounded-xl h-4 bg-[#F0ECE9]">
+                      {/* 경험치 바: 위에서 퍼센트 계산해서 넣으면 될듯?*/}
+                      <div className="rounded-xl h-full bg-[#F7CCB7]" style={{width: `${expWidth}`, maxWidth: '100%'}}>
+                        &nbsp;
+                      </div>
+                    </div>
+                  </div>
+                )
+              }
+              <div className="flex justify-start items-center w-full pt-4">
+                <div className="md:w-[1.5rem] lg:w-[2rem] md:h-[1.5rem] lg:h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="버튼1" /></div>
+                <div className="md:w-[1.5rem] lg:w-[2rem] md:h-[1.5rem] lg:h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="버튼2" /></div>
+                <div className="md:w-[1.5rem] lg:w-[2rem] md:h-[1.5rem] lg:h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="버튼3" /></div>
+                <div className="md:w-[1.5rem] lg:w-[2rem] md:h-[1.5rem] lg:h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="버튼4" /></div>
+                <div className="md:w-[1.5rem] lg:w-[2rem] md:h-[1.5rem] lg:h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="버튼5" /></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
 }
+
 // 데스크탑 & 태블릿
 function MyPageSection2V1({todayWord, totalWord, todayContext, totalContext, todayTime, totalTime, statsRight, statsSemo, statsWrong}:StudyType):JSX.Element {
-  console.log('216줄: ',todayWord, totalWord, todayContext, totalContext, todayTime, totalTime);
   // 학습 시간 h , m , s
   let time1:number = todayTime
   const m1:number = Math.floor(time1 / 60);
@@ -241,107 +329,181 @@ function MyPageSection2V1({todayWord, totalWord, todayContext, totalContext, tod
     
     labels: ['정답', '세모', '오답' ]
   };
-  return (
-    <div className="container max-w-screen-xl h-[15rem] md:w-[90%] mx-auto hidden md:flex md:justify-around items-center text-center py-[0.5rem] overflow-hidden">
-      <div className="flex flex-col w-1/2">
-        <div className="flex justify-evenly items-center">
-          {/* 통계 */}
-          <div className="flex flex-col justify-center items-center w-1/4">
-            {/* 오늘의 단어 */}
-            <div className="text-[#B18978]"><span className="font-bold md:text-[2.7rem]">{todayWord}</span><span className=" md:text-[1rem]">개</span></div>
-            <div className="text-[#A2A2A2] text-[0.8rem]"><span>오늘의 단어</span></div>
-          </div>
-          <div className="flex flex-col justify-center items-center md:w-[21%] lg:w-1/4">
-            {/* 총 단어 */}
-            <div className="text-[#FFA800]"><span className="font-bold md:text-[2.7rem]">{totalWord}</span><span className=" md:text-[1rem]">개</span></div>
-            <div className="text-[#A2A2A2] text-[0.8rem]"><span>총 단어</span></div>
-          </div>
-          <div className="flex flex-col justify-center items-center md:w-[29%] lg:w-1/4">
-            {/* 오늘의 학습시간 */}
-            <div className="text-[#B18978]"><span className="font-bold md:text-[2.7rem]">{todayContext}</span><span className=" md:text-[1rem]">개</span></div>
-            <div className="text-[#A2A2A2] text-[0.8rem]"><span>오늘의 문맥도감</span></div>
-          </div>
-          <div className="flex flex-col justify-center items-center w-1/4">
-            {/* 총 학습시간 */}
-            <div className="text-[#FFA800]"><span className="font-bold md:text-[2.7rem]">{totalContext}</span><span className=" md:text-[1rem]">개</span></div>
-            <div className="text-[#A2A2A2] text-[0.8rem]"><span>총 문맥도감</span></div>
-          </div>
-        </div>
-        <div className="flex justify-evenly items-center mt-2">
-          <div className="flex flex-col justify-center items-center md:w-full ">
-            {/* 오늘의 학습시간 */}
-            <div className="text-[#B18978]"><span className="font-bold md:text-[2.7rem]">{m1}</span><span className=" md:text-[1rem]">분</span></div>
-            <div className="text-[#A2A2A2] text-[0.8rem]"><span>오늘의 학습시간</span></div>
-          </div>
-          <div className="flex flex-col justify-center items-center md:w-full ">
-            {/* 총 학습시간 */}
-            <div className="text-[#FFA800]"><span className="font-bold md:text-[2.7rem]">{h2}</span><span className=" md:text-[1rem]">시간</span><span className="font-bold md:text-[2.7rem]">{m2}</span><span className=" md:text-[1rem]">분</span></div>
-            <div className="text-[#A2A2A2] text-[0.8rem]"><span>총 학습시간</span></div>
-          </div>
-        </div>
-      </div>
+
+  const showDataChart = (
+    statsRight+statsRight+statsRight !== 0 ? (
       <div className="flex justify-center items-center w-[45%] h-[110%] -translate-y-11 relative">
         <div className="absolute -bottom-[2.3rem] font-semibold text-[1.2rem] text-[#FFA800]">오늘의 학습</div>
         <Doughnut typeof='doughnut' data={data}/>
       </div>
+      ): <div className="flex justify-center items-center w-[45%] h-full"><span className="font-semibold text-[1.2rem] text-[#FFA800]">아직 오늘의 학습 데이터가 없어요...</span></div> 
+  )
+  return (
+    <div className="container max-w-screen-xl h-[15rem] md:w-[90%] mx-auto hidden md:flex md:justify-around items-center text-center my-12 py-[0.5rem] overflow-hidden">
+      <div className="flex flex-col w-1/2">
+        <div className="flex justify-center items-center w-full mx-auto">
+          {/* Text */}
+          <div className="flex flex-col md:w-full lg:w-[80%] mx-auto">
+            <div className="flex justify-center items-center w-full text-[#A2A2A2]">
+              <span className="text-right w-[40%]">&nbsp;</span><span className="w-full">오늘</span><span className="w-full">총</span>
+            </div>
+            <div className="flex justify-center items-center w-full text-[#B18978]">
+              <span className="text-right w-[40%] text-[#A2A2A2]">단어</span><span className="w-full font-bold md:text-[2.7rem]">{todayWord}<span className="md:text-[1rem]">개</span></span><span className="w-full font-bold md:text-[2.7rem] text-[#FFA800]">{totalWord}<span className="md:text-[1rem]">개</span></span>
+            </div>
+            <div className="flex justify-center items-center w-full text-[#B18978]">
+              <span className="text-right w-[40%] text-[#A2A2A2]">문맥학습</span><span className="w-full font-bold md:text-[2.7rem]">{todayContext}<span className="md:text-[1rem]">개</span></span><span className="w-full font-bold md:text-[2.7rem] text-[#FFA800]">{totalContext}<span className="md:text-[1rem]">개</span></span>
+            </div>
+            <div className="flex justify-center items-center w-full text-[#B18978]">
+              <span className="text-right w-[40%] text-[#A2A2A2]">학습시간</span><span className="w-full font-bold md:text-[2.7rem]">{m1}<span className="md:text-[1rem]">분</span></span><span className="w-full font-bold md:text-[2.7rem]"><span className="text-[#FFA800]">{h2}<span  className="md:text-[1rem]">시간</span></span><span className="text-[#FFA800]">{m2}<span className="md:text-[1rem]">분</span></span></span>
+            </div>
+          </div>  
+        </div>
+      </div>
+      {showDataChart}
     </div>
   )
 }
 
 
+
+
 // 모바일
-function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sentence, level}:Type):JSX.Element {
-  return (
-    <div className="flex flex-col md:hidden justify-center items-center h-[26rem] mt-7">
-      <div className="flex justify-center items-center w-[90%] h-[70%]">
-        <div className="flex justify-center items-center h-full w-full">
-          {/* 렙업에 따른 3D 캐릭터 */}
-          <div className="flex flex-col justify-end items-center w-full h-full">
-            <div className="flex justify-between items-center w-full pb-1 text-[0.6rem]">
-              {/* 칭호 & 수정 */}
-              <div>🥕&nbsp;{nowbadgeName}</div>
-              <div className="text-[#8E8E8E]">정보 수정⚙</div>
-            </div>
-            <span className="text-left w-full mr-1 text-[1.2rem] font-semibold">{nickname}</span>
-            {/* <Gaming/> */}
-            <Pangguin position={-2}/>
-          </div>
-        </div>
-      </div>
-      <div className="flex justify-center items-center w-[90%] h-[5%]">
-        {/* 캐릭터 행동 버튼 */}
-        <div className="w-[1.5rem] h-[1.5rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="" /></div>
-        <div className="w-[1.5rem] h-[1.5rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="" /></div>
-        <div className="w-[1.5rem] h-[1.5rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="" /></div>
-        <div className="w-[1.5rem] h-[1.5rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="" /></div>
-        <div className="w-[1.5rem] h-[1.5rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="" /></div>
-      </div>
-      <div className="flex justify-center items-center w-[90%] h-[25%]">
-        {/* 메인 데이터 */}
-        <div className="flex flex-col justify-center items-center h-3/5 w-full">
-          <div className="flex flex-col justify-center items-center w-full">
-            <div className="flex justify-between items-center w-full">
-              {/* 닉네임 & 등급 & 경험치 */}
-              <div className="pb-1">
-                {/* 닉네임 & 등급 */}
-                <span className="text-[0.5rem] px-1 border-2 border-[#A87E6E] w-fit mx-auto rounded-full bg-[#F0ECE9] font-bold text-[#A87E6E]">{level}</span>
-              </div>
-              <div className="text-[0.7rem] text-[#525252]">
-                {/* 등급 */}
-                {exp}/{totalExp}
-              </div>
-            </div>
-            <div className="flex justify-start items-center w-full rounded-xl h-4 bg-[#F0ECE9]">
-              {/* 경험치 바: 위에서 퍼센트 계산해서 넣으면 될듯?*/}
-              <div className="rounded-xl h-full bg-[#F7CCB7]" style={{width: `${expWidth}`, maxWidth: '100%'}}>
-                &nbsp;
-              </div>
-            </div>
-            <div className="bg-[#D9D9D9] rounded-lg w-full text-center font-semibold text-[0.6rem] md:text-[0.7rem] lg:text-[0.8rem] my-2 py-2">{sentence}</div>
+function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sentence, level, nowbadgeImage, userId}:Type):JSX.Element {
+  const dispatch = useAppDispatch()
+  const [isClick,setIsClick] = useState<boolean>(false)
+  const [nameCheckMutation] = usePostUserchecknicknameMutation()
+  const [mutation] = usePutUserdataMutation()
+  const [changeNickname,setChangeNickname] = useState<string>()
+  const ref = useRef<HTMLDivElement>(null)
+
+  const change= (e:React.ChangeEvent<HTMLInputElement>) => {    
+    setChangeNickname(e.target.value);
+  }
+
+  const click:MouseEventHandler<HTMLDivElement> = (e) => {
+    // const target = e.target as HTMLElement
+    if (e.currentTarget.ariaLabel === '정보수정') {
+      setIsClick(!isClick)
+    } else if (e.currentTarget.ariaLabel === '변경') {
+      e.preventDefault()
+      const data:any = {
+        nickname: changeNickname,
+        username: userId
+      }
+      nameCheckMutation(data).unwrap().then((r:any)=> {
+        console.log(changeNickname);
+        if (r.data === false) {
+          toast.error("닉네임을 사용할 수 없습니다")
+        } else {
+          mutation([userId, changeNickname]).unwrap().then((r)=> {
+            dispatch(changeUserNickname(changeNickname))
+            toast.success('닉네임 변경!')
+            setIsClick(false)
+          })
+        }
+      })
+    }
+    else if (e.target === ref.current) {
+      console.log('hi');
+      setIsClick(false)
+    }
+  }
+
+  const enter = (e:KeyboardEvent) => {
+    // const target = e.target as HTMLElement
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      const data:any = {
+        nickname: changeNickname,
+        username: userId
+      }
+      nameCheckMutation(data).unwrap().then((r:any)=> {
+        console.log(changeNickname);
+        if (r.data === false) {
+          toast.error("닉네임을 사용할 수 없습니다")
+        } else {
+          mutation([userId, changeNickname]).unwrap().then((r)=> {
+            dispatch(changeUserNickname(changeNickname))
+            toast.success('닉네임 변경!')
+            setIsClick(false)
+          })
+        }
+      })
+    }
+  }
+
+  const updateModal = (
+    <div ref={ref} className="w-full py-10 bg-[#d4b3a5] rounded-lg" onClick={click}>
+      <div className="bg-[#F7CCB7] my-5 py-10 w-full">
+        <div className="flex flex-col justify-center items-center font-semibold text-[1.3rem] w-full">
+          <div><span>변경할 닉네임을 작성해주세요</span></div>
+          <div className="flex flex-col justify-center w-full ">
+            <div className="mt-2 mx-2 my-1"><input className="text-center rounded-lg w-full" type="text" maxLength={6} placeholder="닉네임" autoFocus onChange={change} onKeyPress={enter}/></div>
+            <div aria-label="변경" className="text-center mx-auto w-[50%] border-[#B18978] border-2 rounded-lg" onClick={click}>변경</div>
           </div>
         </div>
       </div>
     </div>
+  )
+
+  return (
+    <>
+      <Toast />
+      <div className="flex flex-col md:hidden justify-center items-center h-[35rem] mt-7">
+        <div className="flex justify-center items-center w-[90%] h-[67%]">
+          <div className="flex justify-center items-center h-full w-full">
+            {/* 렙업에 따른 3D 캐릭터 */}
+            {
+              isClick ? updateModal: (
+                <div className="flex flex-col justify-end items-center w-full h-full">
+                  <div className="flex justify-between items-center w-full pb-1 text-[1rem]">
+                    {/* 칭호 & 수정 */}
+                    <div className="flex justify-start items-center"><img className="w-[1.5rem]" src={`/Assets/Badge/${nowbadgeImage}.png`} alt="뱃지" />&nbsp;{nowbadgeName}</div>
+                    <div aria-label="정보수정" className="text-[#8E8E8E]" onClick={click}>정보 수정⚙</div>
+                  </div>
+                  <span className="text-left w-full mr-1 text-[1.5rem] font-semibold">{nickname}</span>
+                  {/* <Gaming/> */}
+                  <Pangguin position={-2}/>
+                </div>
+              )
+            }
+          </div>
+        </div>
+        <div className="flex justify-center items-center w-[90%] h-[8%] ">
+          {/* 캐릭터 행동 버튼 */}
+          <div className="w-[2rem] h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="버튼1" /></div>
+          <div className="w-[2rem] h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="버튼2" /></div>
+          <div className="w-[2rem] h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="버튼3" /></div>
+          <div className="w-[2rem] h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="버튼4" /></div>
+          <div className="w-[2rem] h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="버튼5" /></div>
+        </div>
+        <div className="flex justify-center items-center w-[90%] h-[25%]">
+          {/* 메인 데이터 */}
+          <div className="flex flex-col justify-center items-center h-3/5 w-full">
+            <div className="flex flex-col justify-center items-center w-full">
+              <div className="flex justify-between items-center w-full">
+                {/* 닉네임 & 등급 & 경험치 */}
+                <div className="pb-1">
+                  {/* 닉네임 & 등급 */}
+                  <span className="text-[0.7rem] px-1 border-2 border-[#A87E6E] w-fit mx-auto rounded-full bg-[#F0ECE9] font-bold text-[#A87E6E]">{level}</span>
+                </div>
+                <div className="text-[0.9rem] text-[#525252]">
+                  {/* 등급 */}
+                  {exp} / {totalExp}
+                </div>
+              </div>
+              <div className="flex justify-start items-center w-full rounded-xl h-4 bg-[#F0ECE9]">
+                {/* 경험치 바: 위에서 퍼센트 계산해서 넣으면 될듯?*/}
+                <div className="rounded-xl h-full bg-[#F7CCB7]" style={{width: `${expWidth}`, maxWidth: '100%'}}>
+                  &nbsp;
+                </div>
+              </div>
+              <div className="bg-[#D9D9D9] rounded-lg w-full text-center font-semibold text-[1rem] my-2 py-2">{sentence}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   )
 }
 
@@ -355,48 +517,72 @@ function MyPageSection2V2({todayWord, totalWord, todayContext, totalContext, tod
     const h2 =  Math.floor(time2 / 3600);
     time2 = time2 % 3600
     const m2:number = Math.floor(time2 / 60);
-  return (
-    <div className="flex flex-col md:hidden justify-center items-center h-[23rem] my-6">
-      <div className="flex justify-center items-center h-[73%] w-[90%] mb-[2%]">
-        <div className="flex justify-center items-center h-full w-full border-4">
-          통계
+    
+    const data = {
+      datasets: [
+        {
+          data: [statsRight, statsSemo, statsWrong], 
+          backgroundColor: [
+            'rgb(54, 162, 235)',
+            'rgb(255, 205, 86)',
+            'rgb(255, 99, 132)',
+        ], 
+          hoverBorderColor: ['#d5cdcf'],
+          hoverOffset: 4,
+        }
+      ],
+      
+      labels: ['정답', '세모', '오답' ]
+    };
+  
+    const showDataChart = (
+      statsRight+statsRight+statsRight !== 0 ? (
+        <div className="flex justify-center items-center w-full h-full -translate-y-8 relative">
+          <div className="absolute -bottom-[2.3rem] font-semibold text-[1.2rem] text-[#FFA800]">오늘의 학습</div>
+          <Doughnut typeof='doughnut' data={data}/>
         </div>
+        ): <div className="flex justify-center items-center w-[45%] h-full"><span className="font-semibold text-[1.2rem] text-[#FFA800]">아직 오늘의 학습 데이터가 없어요...</span></div> 
+    )
+  return (
+    <div className="flex flex-col md:hidden justify-center items-center h-[28rem] mt-16">
+      <div className="flex justify-center items-center h-[60%] w-full mb-[2%] overflow-hidden">
+        {showDataChart}
       </div>
-      <div className="flex justify-center items-center h-[25%] w-[90%]">
+      <div className="flex justify-center items-center h-[40%] w-[90%]">
         {/* 메인 데이터 */}
         <div className="flex flex-col w-full">
           <div className="flex justify-evenly items-center">
             <div className="flex flex-col justify-center items-center w-1/4">
               {/* 오늘의 단어 */}
-              <div className="text-[#B18978]"><span className="font-bold text-[1.3rem]">{todayWord}</span><span className="text-[0.7rem]">개</span></div>
-              <div className="text-[#A2A2A2] text-[0.6rem]"><span>오늘의 단어</span></div>
+              <div className="text-[#B18978]"><span className="font-bold text-[2rem]">{todayWord}</span><span className="text-[1rem]">개</span></div>
+              <div className="text-[#A2A2A2] text-[0.7rem]"><span>오늘의 단어</span></div>
             </div>
             <div className="flex flex-col justify-center items-center w-[21%]">
               {/* 총 단어 */}
-              <div className="text-[#FFA800]"><span className="font-bold text-[1.3rem]">{totalWord}</span><span className="text-[0.7rem]">개</span></div>
-              <div className="text-[#A2A2A2] text-[0.6rem]"><span>총 단어</span></div>
+              <div className="text-[#FFA800]"><span className="font-bold text-[2rem]">{totalWord}</span><span className="text-[1rem]">개</span></div>
+              <div className="text-[#A2A2A2] text-[0.7rem]"><span>총 단어</span></div>
             </div>
             <div className="flex flex-col justify-center items-center w-[29%]">
               {/* 오늘의 학습시간 */}
-              <div className="text-[#B18978]"><span className="font-bold text-[1.3rem]">{todayContext}</span><span className="text-[0.7rem]">개</span></div>
-              <div className="text-[#A2A2A2] text-[0.6rem]"><span>오늘의 문맥도감</span></div>
+              <div className="text-[#B18978]"><span className="font-bold text-[2rem]">{todayContext}</span><span className="text-[1rem]">개</span></div>
+              <div className="text-[#A2A2A2] text-[0.7rem]"><span>오늘의 문맥도감</span></div>
             </div>
             <div className="flex flex-col justify-center items-center w-1/4">
               {/* 총 학습시간 */}
-              <div className="text-[#FFA800]"><span className="font-bold text-[1.3rem]">{totalContext}</span><span className="text-[0.7rem]">개</span></div>
-              <div className="text-[#A2A2A2] text-[0.6rem]"><span>총 문맥도감</span></div>
+              <div className="text-[#FFA800]"><span className="font-bold text-[2rem]">{totalContext}</span><span className="text-[1rem]">개</span></div>
+              <div className="text-[#A2A2A2] text-[0.7rem]"><span>총 문맥도감</span></div>
             </div>
           </div>
           <div className="flex justify-evenly items-center mt-1 ">
-            <div className="flex flex-col justify-center items-center w-[28%]">
+            <div className="flex flex-col justify-center items-center w-[40%]">
               {/* 오늘의 학습시간 */}
-              <div className="text-[#B18978]"><span className="font-bold text-[1.3rem]">{m1}</span><span className="text-[0.7rem]">분</span></div>
-              <div className="text-[#A2A2A2] text-[0.6rem]"><span>오늘의 학습시간</span></div>
+              <div className="text-[#B18978]"><span className="font-bold text-[2rem]">{m1}</span><span className="text-[1rem]">분</span></div>
+              <div className="text-[#A2A2A2] text-[0.7rem]"><span>오늘의 학습시간</span></div>
             </div>
-            <div className="flex flex-col justify-center items-center w-[28%]">
+            <div className="flex flex-col justify-center items-center w-[40%]">
               {/* 총 학습시간 */}
-              <div className="text-[#FFA800]"><span className="font-bold text-[1.3rem]">{h2}</span><span className="text-[0.7rem]">시간</span><span className="font-bold text-[1.3rem]">{m2}</span><span className="text-[0.7rem]">분</span></div>
-              <div className="text-[#A2A2A2] text-[0.6rem]"><span>총 학습시간</span></div>
+              <div className="text-[#FFA800]"><span className="font-bold text-[2rem]">{h2}</span><span className="text-[1rem]">시간</span><span className="font-bold text-[2rem]">{m2}</span><span className="text-[1rem]">분</span></div>
+              <div className="text-[#A2A2A2] text-[0.7rem]"><span>총 학습시간</span></div>
             </div>
           </div>
         </div>
@@ -405,40 +591,317 @@ function MyPageSection2V2({todayWord, totalWord, todayContext, totalContext, tod
   )
 }
 
-function MyPageSection3():JSX.Element {
+interface MyPageSection3Type {
+  userId: (string|null)
+} 
+
+interface check3 {
+  wrongTime: number,
+  wordCount: number,
+  contextCount: number,
+  wordTime: number,
+  contextTime: number
+}
+
+function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
+  const [monthStuty, {isLoading : monthStudyLoading, error:monthStudyError}] = usePostUserMonthstudyMutation()
+
+  const [studyTimeChart, setStudyTimeChart] = useState<any>()
+  const [studyCntChart, setStudyCntChart] = useState<any>()
+
+  const monthRef = useRef<HTMLSelectElement>(null)
+  const yearRef = useRef<HTMLSelectElement>(null)
+
   const nowDate = new Date()
+  const nowYear = nowDate.getFullYear()
+  const nowMonth = nowDate.getMonth()+1
   const startService:number = 2023
-  
-  const createYearCnt = nowDate.getFullYear() - startService +1  
+  const createYearCnt = nowYear - startService +1  
   const yearList:number[] = Array.from({length: createYearCnt}, (v,i) => startService+i)
   const monthList:number[] = Array.from({length: 12}, (v,i)=> i+1)
 
+  const postData:(string|number|null)[] = [userId, nowYear, nowMonth]
+  useEffect(()=> {
+    monthStuty(postData).then((r:any)=> {
+      const wordCnt = r.data.data.map((data:any)=> {
+        return data.wordCount
+      })
+      const conTextCnt = r.data.data.map((data:any) => {
+        return data.contextCount
+      })
+      const conTextTm = r.data.data.map((data:any) => {
+        return Math.floor(data.contextTime/60)
+      })
+      const wordTm = r.data.data.map((data:any) => {
+        return Math.floor(data.wordTime/60)
+      })
+      const wrongTm = r.data.data.map((data:any) => {
+        return Math.floor(data.wrongTime/60)
+      })
+
+      
+      const labels:number[] = Array.from({length: conTextTm.length}, (v,i)=> i+1)
+
+      const options = {
+        // 옵션 (1)
+        responsive: true,
+        // 옵션 (2)
+        interaction: {
+          mode: "index" as const,
+          intersect: false,
+        },
+        // 옵션 (3)
+        scales: {
+          x: {
+            grid: {
+              display: false,
+            },
+          },
+          y: {
+            grid: {
+              color: "#E3E3E3",
+            },
+          },
+        },
+        maintainAspectRatio: false
+      };
+
+      // 학습 시간
+
+      const studyTimeData = {
+        datasets: [
+          {
+            label: '단어학습 시간',
+            data: wordTm, 
+            borderColor: 'rgb(54, 162, 235)',
+            // fill: false,
+            tension: 0.1,
+            hoverBorderColor: ['#d5cdcf'],
+            hoverOffset: 4,
+          },
+          {
+            label: '문맥학습 시간',
+            data: conTextTm, 
+            backgroundColor: [
+              'rgb(255, 205, 86)',
+          ], 
+            hoverBorderColor: ['#d5cdcf'],
+            hoverOffset: 4,
+          },
+          {
+            label: '틀린단어 시간?',
+            data: wrongTm, 
+            backgroundColor: [
+              'rgb(255, 99, 132)',
+          ], 
+            hoverBorderColor: ['#d5cdcf'],
+            hoverOffset: 4,
+          },
+        ],
+        
+        labels: labels
+      };
+
+      const Chart = 
+        (
+          <div className="h-full w-full ">
+            <Line options={options} typeof='line' data={studyTimeData} />
+          </div>
+        )
+      setStudyTimeChart(Chart)
+
+      // 학습 단어 개수
+      
+      const studyCntData = {
+        datasets: [
+          {
+            label: '단어학습 개수',
+            data: wordCnt, 
+            borderColor: 'rgb(54, 162, 235)',
+            // fill: false,
+            tension: 0.1,
+            hoverBorderColor: ['#d5cdcf'],
+            hoverOffset: 4,
+          },
+          {
+            label: '문맥학습 개수',
+            data: conTextCnt, 
+            backgroundColor: [
+              'rgb(255, 205, 86)',
+          ], 
+            hoverBorderColor: ['#d5cdcf'],
+            hoverOffset: 4,
+          },
+        ],
+        labels: labels
+      };
+
+      const Chart2 = 
+        (
+          <div className="h-full w-full ">
+            <Line options={options} typeof='line' data={studyCntData}/>
+          </div>
+        )
+        setStudyCntChart(Chart2)
+    })
+  },[])
+  
+
+
+  const selectDateChart:MouseEventHandler<HTMLSelectElement> = (e) => {
+    monthStuty([userId, yearRef.current?.value, monthRef.current?.value]).then((r:any)=> {
+      const wordCnt = r.data.data.map((data:any)=> {
+        return data.wordCount
+      })
+      const conTextCnt = r.data.data.map((data:any) => {
+        return data.contextCount
+      })
+      const conTextTm = r.data.data.map((data:any) => {
+        return Math.floor(data.contextTime/60)
+      })
+      const wordTm = r.data.data.map((data:any) => {
+        return Math.floor(data.wordTime/60)
+      })
+      const wrongTm = r.data.data.map((data:any) => {
+        return Math.floor(data.wrongTime/60)
+      })
+      const labels:number[] = Array.from({length: conTextTm.length}, (v,i)=> i+1)
+
+      const options = {
+        // 옵션 (1)
+        responsive: true,
+        // 옵션 (2)
+        interaction: {
+          mode: "index" as const,
+          intersect: false,
+        },
+        // 옵션 (3)
+        scales: {
+          x: {
+            grid: {
+              display: false,
+            },
+          },
+          y: {
+            grid: {
+              color: "#E3E3E3",
+            },
+          },
+        },
+        maintainAspectRatio: false
+      };
+
+      // 학습 시간
+
+      const studyTimeData = {
+        datasets: [
+          {
+            label: '단어학습 시간',
+            data: wordTm, 
+            borderColor: 'rgb(54, 162, 235)',
+            // fill: false,
+            tension: 0.1,
+            hoverBorderColor: ['#d5cdcf'],
+            hoverOffset: 4,
+          },
+          {
+            label: '문맥학습 시간',
+            data: conTextTm, 
+            backgroundColor: [
+              'rgb(255, 205, 86)',
+          ], 
+            hoverBorderColor: ['#d5cdcf'],
+            hoverOffset: 4,
+          },
+          {
+            label: '틀린단어 시간?',
+            data: wrongTm, 
+            backgroundColor: [
+              'rgb(255, 99, 132)',
+          ], 
+            hoverBorderColor: ['#d5cdcf'],
+            hoverOffset: 4,
+          },
+        ],
+        
+        labels: labels
+      };
+
+      const Chart = 
+        (
+          <div className="h-full w-full ">
+            <Line options={options} typeof='line' data={studyTimeData} />
+          </div>
+        )
+      setStudyTimeChart(Chart)
+
+      // 학습 단어 개수
+      
+      const studyCntData = {
+        datasets: [
+          {
+            label: '단어학습 개수',
+            data: wordCnt, 
+            borderColor: 'rgb(54, 162, 235)',
+            // fill: false,
+            tension: 0.1,
+            hoverBorderColor: ['#d5cdcf'],
+            hoverOffset: 4,
+          },
+          {
+            label: '문맥학습 개수',
+            data: conTextCnt, 
+            backgroundColor: [
+              'rgb(255, 205, 86)',
+          ], 
+            hoverBorderColor: ['#d5cdcf'],
+            hoverOffset: 4,
+          },
+        ],
+        labels: labels
+      };
+
+      const Chart2 = 
+        (
+          <div className="h-full w-full ">
+            <Line options={options} typeof='line' data={studyCntData}/>
+          </div>
+        )
+        setStudyCntChart(Chart2)
+    })
+    
+  }
+
+
   const yearSelectElement = (
-    <select className="w-full h-full text-center font-semibold text-[0.7rem] md:text-[0.8rem] lg:text-[0.9rem] text-[#A2A2A2]">
+    <select ref={yearRef} className="w-full h-full text-center font-semibold text-[0.7rem] md:text-[0.8rem] lg:text-[0.9rem] text-[#A2A2A2]" onClick={selectDateChart}>
       {
-        yearList.map((year:number)=> {
-          return <option className="text-center w-full" value={year}>{year}년</option>
+        yearList.map((year:number,key:number)=> {         
+          const isSelected = key === nowYear          
+          return <option key={key} className="text-center w-full" value={year} selected={isSelected}>{year}년</option>
         })
       }
     </select>
   )
 
   const monthSelectElement = (
-    <select className='w-full text-center font-semibold text-[0.8rem] md:text-[0.9rem] lg:text-[1rem] text-[#A2A2A2]'>
+    <select ref={monthRef} className='w-full text-center font-semibold text-[0.8rem] md:text-[0.9rem] lg:text-[1rem] text-[#A2A2A2]' onClick={selectDateChart}>
       {
-        monthList.map((month:number)=> {
-          return <option className="text-center w-full" value={month}>{month}월</option>
+        monthList.map((month:number, key:number)=> {
+          const isSelected = key === nowMonth-1
+          console.log(nowMonth);
+          
+          return <option key={key} className="text-center w-full" value={month} selected={isSelected}>{month}월</option>
         })
       }
     </select>
   )
-
-  console.log('yearSelectElement: ',yearSelectElement);
   
+  const loading = <div>로딩중</div>
   
 
   return (
-    <div className="flex flex-col justify-center items-center w-full px-[5%] h-[53rem] sm:h-[57rem] md:h-[58rem] lg:h-[70rem] mt-20 mb-24">
+    <div className="flex flex-col justify-center items-center w-full px-[5%] h-[53rem] sm:h-[57rem] md:h-[58rem] lg:h-[70rem] mt-6 mb-12 md:my-12">
       <div className="flex justify-center items-center h-[67%] max-w-screen-xl w-full">
         {/* 학습 관리 */}
         <div className="flex flex-col justify-center items-start w-full h-[90%]">
@@ -468,6 +931,9 @@ function MyPageSection3():JSX.Element {
             <div className="flex justify-center items-center w-full h-[80%]">
               <div className="h-[90%] w-full bg-[#D9D9D9] rounded-md">
                 {/* 한달 간격으로 학습시간 & 학습 단어 갯수를 꺽은선 or 막대 그래프로 보여주기 */}
+                {monthStudyLoading && loading}
+                {studyTimeChart? studyTimeChart: null}
+                
               </div>
             </div>
           </div>
@@ -480,6 +946,10 @@ function MyPageSection3():JSX.Element {
             <div className="flex justify-center items-center w-full h-[80%]">
               <div className="h-[90%] w-full bg-[#D9D9D9] rounded-md">
                 {/* 한달 간격으로 날짜별 맞힌 개수, 틀린 개수를 꺽은선 or 막대 그래프로 보여주기 */}
+                {monthStudyLoading && loading}
+                {
+                  studyCntChart? studyCntChart:null
+                }
               </div>
             </div>
           </div>

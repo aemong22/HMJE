@@ -40,9 +40,6 @@ const fetchAccessToken = async () => {
   let accessToken: string | null = localStorage.getItem("accessToken");
 
   if (accessToken != null) {
-    // 유효성판단 ㄱㄱ
-    console.log('유효성판단 ㄱㄱ');
-
     const decode: decodedInfo = jwtDecode(accessToken);
     const nowDate: number = new Date().getTime() / 1000;
     // 토큰 만료시간이 지났다면
@@ -56,9 +53,7 @@ const fetchAccessToken = async () => {
           refreshToken: localStorage.getItem("refreshToken"),
         }
       })
-      console.log(data);
       // 엑세스 토큰 갱신
-      // localStorage.setItem('accessToken', data.accessToken)
       return data.accessToken;
     } else {
       // 유효기간이 싱싱할때
@@ -130,17 +125,14 @@ export const hmjeApi = createApi({
     // 2. 정보 수정
     putUserdata: builder.mutation({
       query: (data) => {
-        const [userId, nickname, phoneNumber, username] = data
+        const [userId, nickname] = data
         return {
-          url: `user/${userId}`,
+          url: `/user/${userId}`,
           method: 'PUT',
           body: {
-            isAdmin: false,
-            isSecession: false,
+            isAdmin: true,
+            isSecession: true,
             nickname: nickname,
-            password: 'test13',
-            phoneNumber: phoneNumber,
-            username: username
           }
         }
       },
@@ -169,13 +161,31 @@ export const hmjeApi = createApi({
 
     // 6. 회원가입 => NonAuthApi.ts
 
+    // 7. 학습시간,단어,문맥,통계 한달치
+    postUserMonthstudy: builder.mutation({
+      query: (data:(string|number|null|undefined)[]) => {
+        const [userId, year, month] = data
+        console.log(month);
+        
+        console.log(userId, month, year);
+        
+        return {
+          url: `user/monthstudy/${userId}`,
+          method: 'POST',
+          body: {
+            year: year,
+            month: month,
+          },
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api"}]
+    }),
 
     // ---------------STUDY---------------
 
     // 1. 단어학습 문제 
     getStudyWord: builder.query({
       query: (userId: any) => {
-        console.log("userId", userId);
         return {
           url: `/study/word/${userId}`,
           params: {
@@ -272,7 +282,7 @@ export const {
   usePostStudyWordResultMutation,
   usePostStudyStudyTimeMutation,
   useLazyGetStudyContextQuery,
-
+  usePostUserMonthstudyMutation,
 
 
   // WORD

@@ -5,7 +5,7 @@ import { hmjeApi } from "./api"
 import { NonAuthApi } from "./NonAuthApi";
 
 
-// 친구 요청 검색 모달 켜고 끄는 함수
+// 유저 닉네임 저장
 const userNickname = createSlice({
   name: "userNickname",
   initialState: '유저',
