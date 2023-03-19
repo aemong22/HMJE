@@ -19,6 +19,28 @@
     margin-top: 1.6rem;
   }
 
+
+  /* 획득 icon */
+  .geticon {
+    background-image: url('../../../public/Assets/Icon/get.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    margin: auto;
+    margin-top: 1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .failicon {
+    background-image: url('../../../public/Assets/Icon/sad.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    margin: auto;
+    margin-top: 1rem;
+    margin-bottom: 0.4rem;
+  }
+
   .resulticon {
     background-image: url('../../../public/Assets/Icon/star.png');
     background-repeat: no-repeat;

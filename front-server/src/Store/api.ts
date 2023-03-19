@@ -235,6 +235,23 @@ export const hmjeApi = createApi({
       }
     }),
 
+    // 5. 문맥학습 결과
+    postStudyContextResult: builder.mutation<any, any>({
+      query: (data) => {
+        return {
+          url: `/study/context/result`,
+          method: 'POST',
+          body: {
+            rightIdList: data.correct,
+            semo: data.semo,
+            userId: data.userId,
+            wrongIdList: data.wrong,
+          }
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
 
     // --------------word---------------
 
@@ -272,6 +289,7 @@ export const {
   usePostStudyWordResultMutation,
   usePostStudyStudyTimeMutation,
   useLazyGetStudyContextQuery,
+  usePostStudyContextResultMutation,
 
 
 
