@@ -285,7 +285,9 @@ const Join = () => {
         console.log(e);
       });
   };
-
+  const Cancel = () => {
+    navigate("/login");
+  };
   // 회원가입
   const GoJoin = (): void => {
     // 회원가입axios
@@ -381,7 +383,7 @@ const Join = () => {
             {/* <div></div> */}
             {/* 가운데 */}
             {/* <div className="mx-5 sm:mx-5 md:mx-[20%] lg:mx-[33%] justify-center"> */}
-            <div className="flex flex-col w-[85%] sm:w-[85%] md:w-[60%] lg:w-[34%] justify-center">
+            <div className="flex flex-col w-[95%] sm:w-[95%] md:w-[60%] lg:w-[34%] justify-center">
               <div className={`"${elemetPadding}"`}>
                 <div className="text-[#A87C6E] font-extrabold text-base pb-2">
                   계정
@@ -395,7 +397,7 @@ const Join = () => {
                   />
                   <button
                     id="UserName"
-                    className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
+                    className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c]  bg-[#BF9F91] text-[#FFFFFF] rounded-lg font-medium"
                     onClick={CheckDuplication}
                   >
                     중복확인
@@ -527,9 +529,9 @@ const Join = () => {
                   </button>
                 </div>
               </div>
-              <div className="w-full">
+              <div className="flex flex-row justify-between w-full">
                 <button
-                  className="mt-7 cursor-pointer w-full h-[3.5rem] rounded-lg font-extrabold bg-[#F0ECE9] text-[#A87E6E] disabled:cursor-not-allowed disabled:opacity-50"
+                  className="mt-7 cursor-pointer w-[45%] h-[3.5rem] rounded-lg font-extrabold bg-[#F0ECE9] text-[#A87E6E] disabled:cursor-not-allowed disabled:opacity-50 "
                   disabled={!disable}
                   onClick={() => {
                     GoJoin();
@@ -537,6 +539,14 @@ const Join = () => {
                 >
                   <div className="flex justify-center items-center ">
                     <div>가입하기</div>
+                  </div>
+                </button>
+                <button
+                  className="mt-7 cursor-pointer w-[45%] h-[3.5rem] rounded-lg font-extrabold bg-[#F0ECE9] text-[#A87E6E] disabled:cursor-not-allowed"
+                  onClick={Cancel}
+                >
+                  <div className="flex justify-center items-center ">
+                    <div>취소</div>
                   </div>
                 </button>
               </div>

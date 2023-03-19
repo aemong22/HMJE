@@ -137,6 +137,10 @@ const ForgetPassword = () => {
     }
   };
 
+  const Cancel = () => {
+    navigate("/login");
+  };
+
   const FindButton = () => {
     console.log("디스에이블", Disalbe);
 
@@ -172,7 +176,7 @@ const ForgetPassword = () => {
             비밀번호찾기
           </div>
         </div>
-        <div className=" flex flex-col max-w-[100%] justify-center my-[2rem] mx-6 md:mx-[25%] lg:mx-[30%]">
+        <div className=" flex flex-col max-w-[100%] justify-center my-[2rem] mx-4 md:mx-[25%] lg:mx-[30%]">
           <div className="w-full">
             <div className={`my-2 `}>
               <div className="text-[#A87C6E] font-extrabold text-base">
@@ -226,14 +230,22 @@ const ForgetPassword = () => {
               </div>
             </div>
           </div>
-          <div className="w-full">
+          <div className="flex flex-row justify-between w-full">
             <button
-              className="mt-7 cursor-pointer w-full h-[3.5rem] rounded-lg font-extrabold bg-[#F0ECE9] text-[#A87E6E] disabled:cursor-not-allowed"
+              className="mt-7 cursor-pointer w-[45%] h-[3.5rem] rounded-lg font-extrabold bg-[#F0ECE9] text-[#A87E6E] disabled:cursor-not-allowed"
               disabled={Disalbe}
               onClick={FindButton}
             >
               <div className="flex justify-center items-center ">
                 <div>비밀번호 찾기</div>
+              </div>
+            </button>
+            <button
+              className="mt-7 cursor-pointer w-[45%] h-[3.5rem] rounded-lg font-extrabold bg-[#F0ECE9] text-[#A87E6E] disabled:cursor-not-allowed"
+              onClick={Cancel}
+            >
+              <div className="flex justify-center items-center ">
+                <div>취소</div>
               </div>
             </button>
           </div>
