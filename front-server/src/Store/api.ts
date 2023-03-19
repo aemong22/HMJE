@@ -254,7 +254,28 @@ export const hmjeApi = createApi({
 
 
     // 6. 획득한 도감번호 조회
-    
+    getDogamUserId: builder.query({
+      query: (userId: any) => {
+        return {
+          url: `/dogam/${userId}`,
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
+
+    // 7. 전체 도감 목록
+    getDogam: builder.query({
+      query: () => {
+        return {
+          url: `/dogam/`,
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
 
 
     // --------------word---------------
@@ -306,6 +327,8 @@ export const {
   usePostStudyStudyTimeMutation,
   useLazyGetStudyContextQuery,
   usePostStudyContextResultMutation,
+  useGetDogamUserIdQuery,
+  useGetDogamQuery,
 
 
 
