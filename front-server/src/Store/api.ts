@@ -253,6 +253,10 @@ export const hmjeApi = createApi({
     }),
 
 
+    // 6. 획득한 도감번호 조회
+    
+
+
     // --------------word---------------
 
     // 1. 오늘의 단어 전체 조회
@@ -272,6 +276,18 @@ export const hmjeApi = createApi({
     // 3. 사전 개별조회
 
     // 4. 오답공책 전체조회
+    getWordWrong: builder.query({
+      query: (userId: any) => {
+        return {
+          url: `/word/wrong/${userId}`,
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
+
+
   }),
 })
 
@@ -295,4 +311,5 @@ export const {
 
   // WORD
   usePostWorddictMutation,
+  useGetWordWrongQuery,
 } = hmjeApi 
