@@ -31,7 +31,7 @@ type wordExampleResponseList = {
 
 type wordDetailResponseList = {
   detailNum: number;
-  details: string;
+  details: Array<string>;
   wordExampleResponseList: wordExampleResponseList[];
 };
 
@@ -151,7 +151,16 @@ const List = ({
           {word
             .slice(offset, offset + limit)
             .map(function (word: dictresponse, i) {
-              // console.log(word);
+              // console.log("??????", word);
+              var a = new Array();
+
+              word.wordDetailResponseList.map(function (
+                wordDetailResponseList,
+              ) {
+                a.push(wordDetailResponseList.details);
+              });
+              const temp = a.join(" / ");
+              // console.log(temp);
 
               return (
                 <div className="py-2">
@@ -160,7 +169,6 @@ const List = ({
                       className="text-[#0078CE] text-2xl underline cursor-pointer"
                       onClick={() => {
                         showDetail(word.wordName);
-                        console.log(word);
                       }}
                     >
                       {word.wordName}
@@ -168,16 +176,8 @@ const List = ({
                     <div className="px-3">[ {word.wordOrigin} ]</div>
                     <div>{word.wordType}</div>
                   </div>
-                  <div className="max-w-full">
-                    {word.wordDetailResponseList.map(function (
-                      wordDetailResponseList,
-                    ) {
-                      return (
-                        <div className="border-2 border-black max-w-[30%] overflow-hidden">
-                          {wordDetailResponseList.details}
-                        </div>
-                      );
-                    })}
+                  <div>
+                    <div className="max-w-full truncate">{temp}</div>
                   </div>
                 </div>
               );
@@ -226,7 +226,7 @@ const ListPagination = ({
   });
 
   useEffect(() => {
-    console.log(Width);
+    // console.log(Width);
     if (Width < 475) {
       console.log("적어지게");
 
@@ -274,10 +274,10 @@ const ListPagination = ({
     setPage((n: number) => n + 1); //setPage에 현재 페이지 + 1을 한다.
   };
   const ariaState =
-    "aria-[current]:bg-pink-800 aria-[current]:font-extrabold aria-[current]:pointer-events-auto hover:-translate-y-2 hover:cursor-pointer hover:bg-orange-600 disabled:bg-slate-600 disabled:cursor-none disabled:translate-y-0 px-3 m-2 rounded-[3rem]";
+    "aria-[current]:bg-[#F7CCB7] aria-[current]:text-white aria-[current]:font-extrabold aria-[current]:pointer-events-auto text-[#A87E6E] hover:-translate-y-1 hover:cursor-pointer disabled:hover:bg-transparent disabled:opacity-50 disabled:cursor-default disabled:translate-y-0 px-3 m-2 rounded-lg";
 
   return (
-    <div className="ListPagenationWrapper flex flex-row justify-center pb-10">
+    <div className="ListPagenationWrapper flex flex-row justify-center pb-10  ">
       <button
         className={`moveToFirstPage ${ariaState}`}
         onClick={() => {
@@ -495,11 +495,14 @@ const ListCharPagination = ({
     setPage((n: number) => n + 1); //setPage에 현재 페이지 + 1을 한다.
   };
   const ariaState =
-    "aria-[current]:bg-pink-800 aria-[current]:font-extrabold aria-[current]:pointer-events-auto hover:-translate-y-2 hover:cursor-pointer hover:bg-orange-600 disabled:bg-slate-600 disabled:cursor-none disabled:translate-y-0 px-3 m-2 rounded-[3rem]";
-
+    "aria-[current]:bg-pink-800 aria-[current]:font-extrabold aria-[current]:pointer-events-auto text-[#A87E6E] font-extrabold text-xl hover:text-white hover:-translate-y-1 hover:cursor-pointer hover:bg-[#F7CCB7] disabled:opacity-40 disabled:cursor-default disabled:translate-y-0 px-3 m-2 rounded-xl";
+  // 전체 호출
+  function allWord() {
+    console.log("전체호출");
+  }
   return (
-    <div className="ListPagenationWrapper flex flex-row justify-center">
-      <button
+    <div className="ListPagenationWrapper flex flex-row justify-center ">
+      {/* <button
         className={`moveToPreviousPage ${ariaState}`}
         onClick={() => {
           prevPage();
@@ -507,6 +510,14 @@ const ListCharPagination = ({
         disabled={page === 1}
       >
         &lt;
+      </button> */}
+      <button
+        className={`${ariaState}`}
+        onClick={() => {
+          allWord();
+        }}
+      >
+        전체
       </button>
       <div className="pageBtnWrapper">
         {wordlock.map((n: any) => (
@@ -522,7 +533,7 @@ const ListCharPagination = ({
           </button>
         ))}
       </div>
-      <button
+      {/* <button
         className={`moveToNextPage ${ariaState}`}
         onClick={() => {
           nextPage();
@@ -530,7 +541,7 @@ const ListCharPagination = ({
         disabled={page === totalPage}
       >
         &gt;
-      </button>
+      </button> */}
 
       {/* <style jsx>
         {`
