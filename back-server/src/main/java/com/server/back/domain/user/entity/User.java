@@ -100,4 +100,8 @@ public class User extends CommonEntity {
         this.password = newPassword;
         this.jwtRefreshToken = null;
     }
+    public void levelup(Integer newExp, Integer newlevel){
+        this.exp = newExp;
+        this.level = newlevel;
+    }
 }
