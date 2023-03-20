@@ -43,9 +43,7 @@ function App() {
         <Route path="/reviewStudy" element={<StudyPage />} />
         <Route path="/note" element={<WrongNote />} />
         <Route path="/dogam" element={<Dogam />} />
-        <Route path="/pasttestintromodal" element={<PastTestIntroModal />} />
         <Route path="/pasttest" element={<PastTest />} />
-
 
         <Route path="/admin" element={<AdminPage />}>
           <Route path="" element={<AdminMain />} />
