@@ -322,7 +322,7 @@ function News({example,setSelectKeyWord,selectKeyWord}:any): JSX.Element {
 function PassUsers({users}:any): JSX.Element {
   return (
     <>
-      <div className="bg-[#F4EFEC]">
+      <div className="bg-[#F4EFEC] w-full">
         <div className="container max-w-screen-xl mx-auto text-center py-24">
           
           <div className="md:text-[1.7rem] text-[1.2rem]">제 32회 과거시험 결과</div>
