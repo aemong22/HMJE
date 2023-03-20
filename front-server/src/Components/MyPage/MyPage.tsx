@@ -76,6 +76,11 @@ function MyPage():JSX.Element {
   // 레벨 경험치
   const levelInfo: LevelType[] = [
   {
+    levelName: "0",
+    levelName2: "0",
+    totalExp: -100
+  },
+  {
     levelName: "정일품",
     levelName2: "正一品",
     totalExp: 100

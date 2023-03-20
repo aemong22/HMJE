@@ -87,7 +87,12 @@ function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
   const navigate = useNavigate()
   
   // 레벨 경험치
-  const levelInfo: any = [{
+  const levelInfo: any = [
+    {
+      levelName: "0",
+      levelName2: "0",
+      totalExp: -100
+    },{
     levelName: "정일품",
     levelName2: "正一品",
     totalExp: 100
