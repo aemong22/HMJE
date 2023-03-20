@@ -1,7 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import Navbar from "../Common/Navbar"
-import { MouseEventHandler } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 import styles from "./Admin.module.css";
+import { useLazyGetAdminUserListQuery } from "../../Store/api";
+import { Line } from "react-chartjs-2";
+import Chart from 'chart.js/auto';
 
 function AdminMain():JSX.Element {
   return (
@@ -9,7 +12,7 @@ function AdminMain():JSX.Element {
       <Navbar/>
       <AdminMainSection1/>
       <AdminMainSection2/>
-      <AdminMainSection3/>
+      {/* <AdminMainSection3/> */}
       <AdminMainSection4/>
     </>
   )
@@ -87,13 +90,132 @@ function AdminMainSection3():JSX.Element {
   )
 }
 
+
+interface UserListType {
+  'userId': number,
+  'username': string,
+  'nickname': string,
+  'phoneNumber': string,
+  'level': number,
+  'exp': number,
+  'isAdmin': boolean,
+  'isSecession': boolean,
+  'nowbadgeId': number,
+  'characterId': number,
+  'todayRight': number,
+  'todayWrong': number,
+  'todaySemo': number,
+}
+
 // 유저 레벨 분포
 function AdminMainSection4():JSX.Element {
+  const [userList, setUserList] = useState<UserListType[]>()
+  const [userMyInfo, {error:error1, isLoading:isLoading1}] = useLazyGetAdminUserListQuery()
+  useEffect(()=> {
+    userMyInfo('').unwrap().then((r)=> {
+      setUserList(r.data)
+    })
+    Chart.register();
+  },[])
+  
+  const loading = <div>로딩중</div>
+
+  const levelArray = Array.from({length:9},()=> 0)
+  // console.log('levelArray: ', levelArray);
+  
+  if (userList) {
+    userList.map((user)=> {
+      if (user.level === 1) {
+        levelArray[0] += 1
+      } 
+      else if (user.level === 2) {
+        levelArray[1] += 1
+      }
+      else if (user.level === 3) {
+        levelArray[2] += 1
+      }
+      else if (user.level === 4) {
+        levelArray[3] += 1
+      }
+      else if (user.level === 5) {
+        levelArray[4] += 1
+      }
+      else if (user.level === 6) {
+        levelArray[5] += 1
+      }
+      else if (user.level === 7) {
+        levelArray[6] += 1
+      }
+      else if (user.level === 8) {
+        levelArray[7] += 1
+      }
+      else if (user.level === 9) {
+        levelArray[8] += 1
+      }
+      
+    })
+  }
+
+  const options = {
+    // 옵션 (1)
+    responsive: true,
+    // 옵션 (2)
+    interaction: {
+      mode: "index" as const,
+      intersect: false,
+    },
+    // 옵션 (3)
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+      },
+      y: {
+        grid: {
+          color: "#E3E3E3",
+        },
+      },
+    },
+    maintainAspectRatio: false
+  };
+  console.log('levelArray: ', levelArray);
+  
+  const data = {
+    datasets: [
+      {
+        data: levelArray, 
+        backgroundColor: [
+          'rgb(255, 99, 132)',
+          'rgb(255, 210, 86)',
+          'rgb(255, 247, 86)',
+          'rgb(136, 235, 54)',
+          'rgb(54, 162, 235)',
+          'rgb(99, 125, 255)',
+          'rgb(161, 99, 255)',
+          'rgb(250, 99, 255)',
+          'rgb(255, 99, 146)',
+      ], 
+        hoverBorderColor: ['#d5cdcf'],
+        hoverOffset: 4,
+        label: '레벨'
+      }
+    ],
+    
+    labels: ['레벨1','레벨2','레벨3','레벨4','레벨5','레벨6','레벨7','레벨8','레벨9',]
+  };
+
   return (
     <div className="container max-w-screen-xl md:w-[90%] lg:w-full mx-auto mt-12 mb-8">
       <div className="flex flex-col justify-start">
-        <div className="mb-4 font-semibold text-[#A87E6E] text-[1.5rem]">유저 레벨 분포</div>
-        <div className="bg-[#D9D9D9] py-36 px-36 rounded-lg"></div>
+        <div className="flex justify-between">
+          <div className="mb-4 font-semibold text-[#A87E6E] text-[1.5rem]">유저 레벨 분포</div>
+          <div className="mb-4 font-semibold text-[#A87E6E] text-[1.5rem]">유저 수: &nbsp; {userList?.length}명</div>
+        </div>
+        <div className="bg-white py-5 px-5 rounded-lg">
+          {isLoading1&&loading}
+          <Line options={options} width={'100%'} height={'250px'} typeof='line' data={data}/>
+        </div>
       </div>
     </div>
   )
