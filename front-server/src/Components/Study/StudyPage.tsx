@@ -1,4 +1,4 @@
-import { useLazyGetStudyWordQuery } from "../../Store/api";
+import { useLazyGetStudyWordQuery, useLazyGetStudyContextQuery } from "../../Store/api";
 import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
 import Navbar from "../Common/Navbar"
@@ -21,7 +21,8 @@ function WordStudy(): JSX.Element {
   const [question, setQuestion] = useState<any>([]);
   
   // RTK QUERY 불러오기
-  const [ getStudyWord,{ data:questions, isLoading, error } ] = useLazyGetStudyWordQuery();
+  const [ getStudyWord,{ isLoading:LoadingWords, error:ErrorWords } ] = useLazyGetStudyWordQuery();
+  const [ getStudyContext, { isLoading:LoadingContexts, error:ErrorContext } ] = useLazyGetStudyContextQuery();
 
   useEffect(() => {
     if(studyType === "wordStudy") {
@@ -30,8 +31,17 @@ function WordStudy(): JSX.Element {
       }).then((r) => { 
         console.log(r.data.data) 
         setQuestion(r.data.data)
-    })
-  }
+      })
+    }
+    else if(studyType === "contextStudy"){
+      getStudyContext(userId).then((r) => { 
+        return(r)
+      }).then((r) => { 
+        console.log(r.data.data) 
+        setQuestion(r.data.data)
+      })
+    }
+
   
   },[studyType])
   
@@ -71,10 +81,10 @@ function WordStudy(): JSX.Element {
   // 맞힘 틀림
   const [right, setRight] = useState<Boolean>(false);
 
-  if(isLoading) {
+  if(LoadingContexts || LoadingWords) {
     return <div>Loading...</div>
   }
-  if(error) {
+  if(ErrorWords || ErrorContext) {
     return <div>error</div>
   }
 

@@ -25,11 +25,11 @@ public class SmsController {
     @PostMapping("/sms/send/{role}")
     public ResponseEntity<Map<String, Object>> sendSms(@PathVariable(value = "role") String role, @RequestBody MessageDto messageDto) throws UnsupportedEncodingException, URISyntaxException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException {
         Map<String, Object> response = new HashMap<>();
-        if (role.equals("newbie")){
+        if (role.equals("")){
             SmsResponseDto responseDto = smsService.sendSms(messageDto);
             response.put("data", responseDto);
             response.put("message", "success");
-        }else{
+        }else if (role.equals("only")){
             Boolean onlyPhoneNumber = smsService.userPhonenumberCheck(messageDto);
             if (onlyPhoneNumber){
                 System.out.println("수정가능한 번호임");

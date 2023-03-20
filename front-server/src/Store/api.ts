@@ -19,6 +19,22 @@ type PostData = {
   username: string
 }
 
+type dict = {
+  filter: string,
+  keyword: string,
+  page: string
+}
+
+type dictresponse = {
+  wordId: number,
+  wordName: string,
+  wordIso: number,
+  wordType: string,
+  wordRating: string,
+  wordOrigin: string,
+  wordDetailResponseList: []
+}
+
 const fetchAccessToken = async () => {
   // const userName: string = localStorage.getItem("userName")
   let accessToken: string | null = localStorage.getItem("accessToken");
@@ -71,9 +87,11 @@ export const hmjeApi = createApi({
       const accessToken = await fetchAccessToken();
       const headers = new Headers(init?.headers);
       headers.set('accessToken', accessToken);
+      headers.set("content-type", "application/json");
+      headers.set("content-type", "application/json");
       localStorage.setItem('accessToken', accessToken)
       return fetch(input, { ...init, headers }, ...rest);
-      // return fetch(input, { ...init, }, ...rest);
+      //return fetch(input, { ...init }, ...rest);
     },
   }),
 
@@ -136,8 +154,8 @@ export const hmjeApi = createApi({
       query: (userId: any) => {
         console.log("userId", userId);
         return {
-          url : `/user/mystudy/${userId}`,
-          params : {
+          url: `/user/mystudy/${userId}`,
+          params: {
             userId: userId
           }
         }
@@ -159,8 +177,8 @@ export const hmjeApi = createApi({
       query: (userId: any) => {
         console.log("userId", userId);
         return {
-          url : `/study/word/${userId}`,
-          params : {
+          url: `/study/word/${userId}`,
+          params: {
             userId: userId
           }
         }
@@ -170,24 +188,73 @@ export const hmjeApi = createApi({
       }
     }),
 
-    // 2. 결과
-    postStudyWordResult: builder.mutation({
+    // 2. 단어학습 결과
+    postStudyWordResult: builder.mutation<any, any>({
       query: (data) => {
-        const [rightIdList,semo,userId,wrongIdList] = data;
         return {
-          url: `study/word/result`,
-          method: `POST`,
+          url: `/study/word/result`,
+          method: 'POST',
           body: {
-            rightIdList,
-            semo,
-            userId,
-            wrongIdList,
+            rightIdList: data.correct,
+            semo: data.semo,
+            userId: data.userId,
+            wrongIdList: data.wrong,
           }
         }
       },
       invalidatesTags: (result, error, arg) => [{ type: "Api" }]
     }),
 
+    // 3. 학습 시간 관리
+    postStudyStudyTime: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/study/studytime`,
+          method: 'POST',
+          body: {
+            endTime: data.korEnd,
+            startTime: data.korStart,
+            studyTime: data.studyTime,
+            studyType: data.type,
+            userId: data.userId,
+          }
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+    // 4. 문맥학습 문제
+    getStudyContext: builder.query({
+      query: () => {
+        return {
+          url: `/study/context`,
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
+
+
+    // --------------word---------------
+
+    // 1. 오늘의 단어 전체 조회
+
+    // 2.사전 조회하기
+
+    postWorddict: builder.mutation<dict, dict>({
+      query: (data) => {
+        return {
+          url: `/word/dict`,
+          method: 'POST',
+          body: data
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+    // 3. 사전 개별조회
+
+    // 4. 오답공책 전체조회
   }),
 })
 
@@ -196,11 +263,18 @@ export const {
   useLazyGetAdminUserListQuery,
 
   // USER
-  useGetUserMyinfoQuery,  
-  usePutUserdataMutation,   
+  useGetUserMyinfoQuery,
+  usePutUserdataMutation,
   useGetUserMystudyQuery,
-  
+
   // STUDY
   useLazyGetStudyWordQuery,
-  usePostStudyWordResultMutation
-  } = hmjeApi 
+  usePostStudyWordResultMutation,
+  usePostStudyStudyTimeMutation,
+  useLazyGetStudyContextQuery,
+
+
+
+  // WORD
+  usePostWorddictMutation,
+} = hmjeApi 
