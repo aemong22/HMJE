@@ -114,9 +114,7 @@ export const hmjeApi = createApi({
     putAdminUserDelete: builder.mutation({
       query: (data) => {
         let [delete_id, my_id] = data
-        my_id = parseInt(my_id)
-        console.log(delete_id, my_id);
-        
+        my_id = parseInt(my_id)        
         return {
           url: `/admin/user/${my_id}/${delete_id}`,
           method: 'put'
@@ -129,15 +127,51 @@ export const hmjeApi = createApi({
     putAdminUserUpdate: builder.mutation({
       query: (data) => {
         const [userId, nickname] = data
-        console.log(userId, nickname);
-        
-        
         return {
           url: `/admin/user/${userId}`,
           method: 'put',
           body: {
             "nickname": nickname,
           }
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+    // 5. 검색 회원 목록 
+    getAdminUserSearchList: builder.query({
+      query: (nickname:string) => {
+        console.log(nickname);
+        
+        return {
+          url: `/admin/user/${nickname}`
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
+    
+    // 6. 뱃지 삭제
+    deleteAdminBadge: builder.mutation({
+      query: (badge_id:(number|undefined)) => {        
+        return {
+          url: `/admin/badge/${badge_id}`,
+          method: 'delete'
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+    // 7. 뱃지 추가
+    postAdminBadge: builder.mutation({
+      query: (body) => {       
+        console.log(body);
+        
+        return {
+          url: `/admin/badge/`,
+          method: 'post',
+          body: body
         }
       },
       invalidatesTags: (result, error, arg) => [{ type: "Api" }]
@@ -400,6 +434,9 @@ export const {
   useLazyGetAdminBadgeListQuery,
   usePutAdminUserDeleteMutation,
   usePutAdminUserUpdateMutation,
+  useLazyGetAdminUserSearchListQuery,
+  useDeleteAdminBadgeMutation,
+  usePostAdminBadgeMutation,
 
   // ADMIN PAST
   useGetAdminPastListQuery,
