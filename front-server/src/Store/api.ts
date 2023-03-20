@@ -144,6 +144,15 @@ export const hmjeApi = createApi({
     }),
 
 
+    // --------------admin | past ---------------
+    // 전체 과거시험 회차 목록
+    getAdminPastList: builder.query({
+      query: () => "admin/past",
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
+
 
     // --------------user---------------
 
@@ -391,6 +400,10 @@ export const {
   useLazyGetAdminBadgeListQuery,
   usePutAdminUserDeleteMutation,
   usePutAdminUserUpdateMutation,
+
+  // ADMIN PAST
+  useGetAdminPastListQuery,
+  useLazyGetAdminPastListQuery,
 
   // USER
   useGetUserMyinfoQuery,

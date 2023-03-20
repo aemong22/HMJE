@@ -21,6 +21,7 @@ import WrongNote from "./Components/Study/WrongNote";
 import Dogam from "./Components/Study/Dogam";
 import Notice from "./Components/Notice/Notice";
 import PastTestIntroModal from "./Components/Study/PastTestIntroModal";
+import PastTest from "./Components/Study/PastTest";
 
 function App() {
   const notify = () => toast("Wow so easy!");
@@ -44,7 +45,7 @@ function App() {
         <Route path="/notice" element={<Notice />} />
         <Route path="/note" element={<WrongNote />} />
         <Route path="/dogam" element={<Dogam />} />
-        <Route path="/pasttestintromodal" element={<PastTestIntroModal />} />
+        <Route path="/pasttest" element={<PastTest />} />
 
         <Route path="/admin" element={<AdminPage />}>
           <Route path="" element={<AdminMain />} />
