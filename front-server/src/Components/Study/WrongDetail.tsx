@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
+import { Toast } from "../Common/Toast";
 
-function WrongDetail({index, data , setOpen , open }:any ):JSX.Element {
+function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
     console.log("index값", index)
     
 
@@ -9,6 +11,7 @@ function WrongDetail({index, data , setOpen , open }:any ):JSX.Element {
     
     return(
         <>
+          <Toast />
           <div
             className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50"
           >
@@ -48,17 +51,24 @@ function WrongDetail({index, data , setOpen , open }:any ):JSX.Element {
                 </div>
 
                 {/*footer*/}
-                
-                <div className="flex items-center justify-between p-4 font-bold">
-                  <div className="cursor-pointer text-[1.2rem] rounded-lg h-7 w-15" onClick={()=>{}}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 hover:w-7 hover:h-7">
+                <div className="flex items-center justify-between px-4 py-2 font-bold">
+                  <div className="cursor-pointer text-[1.2rem] rounded-lg h-7 w-10" onClick={()=>{
+                    if(index == 0 ) { toast.error("시작 단어 입니다.")}
+                    else {
+                        setIdx(index--)
+                    }}}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 hover:w-7 hover:h-7 mx-auto">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                     </svg>
                   </div>
 
-                  <div className="text-[1.2rem] text-red-700 cursor-pointer h-7 w-15 hover:text-[1.3rem]" onClick={()=>{}}>닫기</div>
-                  <div className="cursor-pointer text-[1.2rem] hover:shadow-xl rounded-lg h-7 w-15" onClick={()=>{}}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 hover:w-7 hover:h-7">
+                  <div className="text-[1.2rem] text-red-700 cursor-pointer h-7 w-15 hover:text-[1.3rem]" onClick={()=>{setOpen(false)}}>닫기</div>
+                  <div className="cursor-pointer text-[1.2rem] rounded-lg h-7 w-10" onClick={()=>{
+                    if(index == Object.keys(data).length -1) { toast.error("마지막 단어 입니다.")}
+                    else {
+                        setIdx(index++)
+                    }}}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 hover:w-7 hover:h-7 mx-auto">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
                   </div>
@@ -67,7 +77,7 @@ function WrongDetail({index, data , setOpen , open }:any ):JSX.Element {
               </div>
             </div>
           </div>
-          <div className="opacity-10 fixed inset-0 z-40 bg-black"></div>
+          <div className="opacity-70 fixed inset-0 z-40 bg-black"></div>
         </>
     )
 }

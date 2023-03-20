@@ -142,7 +142,7 @@ function WrongList({select, data}:any):JSX.Element {
                       {word?.wordDetailResponseList[0].details}
                   </div>
                 </div>
-                {open && <WrongDetail index={idx} data={data} setOpen={setOpen} open={open} /> }
+                {open && <WrongDetail index={idx} data={data} setOpen={setOpen} open={open} setIdx={setIdx}/> }
               </>
             )
           })}
