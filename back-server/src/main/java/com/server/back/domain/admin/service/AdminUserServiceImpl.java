@@ -1,5 +1,6 @@
 package com.server.back.domain.admin.service;
 
+import com.server.back.domain.admin.dto.AdminUserResponseDto;
 import com.server.back.domain.user.dto.UserRequestDto;
 import com.server.back.domain.user.dto.UserResponseDto;
 import com.server.back.domain.user.entity.User;
@@ -18,15 +19,15 @@ import java.util.stream.Collectors;
 public class AdminUserServiceImpl implements AdminUserService {
     private final UserRepository userRepository;
     @Override
-    public List<UserResponseDto> adminAllUser() {
-        return userRepository.findAll().stream().map(o -> new UserResponseDto(o)).collect(Collectors.toList());
+    public List<AdminUserResponseDto> adminAllUser() {
+        return userRepository.findAll().stream().map(o -> new AdminUserResponseDto(o)).collect(Collectors.toList());
     }
 
     @Override
-    public List<UserResponseDto> adminUserList(String nickname) {
-        List<UserResponseDto> responseList = new ArrayList<>();
+    public List<AdminUserResponseDto> adminUserList(String nickname) {
+        List<AdminUserResponseDto> responseList = new ArrayList<>();
         for(User user : userRepository.findAll()){
-            if(user.getNickname().contains(nickname)) responseList.add(new UserResponseDto(user));
+            if(user.getNickname().contains(nickname)) responseList.add(new AdminUserResponseDto(user));
         }
         return responseList;
     }
