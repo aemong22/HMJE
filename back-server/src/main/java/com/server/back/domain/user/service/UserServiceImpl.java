@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
                 .phoneNumber(requestDto.getPhoneNumber())
                 .characterId(myCharacter)
                 .nowBadge(badge)
-                .level(0)
+                .level(1)
                 .exp(0)
                 .todaysemo(0)
                 .todayRight(0)
@@ -268,5 +268,25 @@ public class UserServiceImpl implements UserService {
         }
 
         return monthStudyResponseDtos;
+    }
+
+    @Override
+    public Integer levelup(Long userId){
+        User user = userRepository.findByUserId(userId);
+        Integer nowlevel = user.getLevel();
+        Integer newlevel = user.getLevel();
+//        System.out.println("nowlevel = " + nowlevel);
+//        System.out.println("100*Math.pow(2,user.getLevel()-1)) = " + 100*Math.pow(2,user.getLevel()-1));
+        while (user.getExp() >= (100*Math.pow(2,user.getLevel()-1))) {
+            Integer newexp = (int) (user.getExp() - (100 * Math.pow(2, user.getLevel() - 1)));
+            newlevel = user.getLevel() + 1;
+            user.levelup(newexp, newlevel);
+//            System.out.println("newexp = " + newexp);
+//            System.out.println("newlevel = " + newlevel);
+        }
+        if (!nowlevel.equals(newlevel)){
+            return newlevel;
+        }
+        return 0;
     }
 }

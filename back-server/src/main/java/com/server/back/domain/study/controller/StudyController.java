@@ -42,8 +42,9 @@ public class StudyController {
         Map<String, Object> response = new HashMap<>();
         Integer rightexp = studyService.wordResult(requestDto)*10; //맞은단어,틀린단어 체크
         userService.updateStudyResult(requestDto); //오늘의 통계 OXV 체크
-        userService.updateStudyExp(requestDto.getUserId(), rightexp); //경험치 부여
-        //response.put("data", responseDto);
+        userService.updateStudyExp(requestDto.getUserId(), rightexp); //경험치
+        Integer newlevel = userService.levelup(requestDto.getUserId()); //레벨업
+        response.put("level", newlevel);
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -66,7 +67,9 @@ public class StudyController {
         userService.updateStudyResult(requestDto); //오늘의 통계 OXV 체크
         int badgeExp = newDogamli.size()*30;
         userService.updateStudyExp(requestDto.getUserId(), badgeExp); //경험치 부여
+        Integer newlevel = userService.levelup(requestDto.getUserId()); //레벨업
         response.put("data", newDogamli);
+        response.put("level", newlevel);
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
