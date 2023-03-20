@@ -84,6 +84,7 @@ export default Main;
 
 // 맨위 : 유저 정보 , 오늘의 정보
 function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
+  localStorage.setItem("nickname", userMyInfo.nickname);
   const navigate = useNavigate()
   
   // 레벨 경험치
