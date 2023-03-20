@@ -22,7 +22,7 @@ type PostData = {
 type dict = {
   filter: string,
   keyword: string,
-  page: string
+  p: number,
 }
 
 type dictresponse = {
@@ -171,12 +171,12 @@ export const hmjeApi = createApi({
 
     // 7. 학습시간,단어,문맥,통계 한달치
     postUserMonthstudy: builder.mutation({
-      query: (data:(string|number|null|undefined)[]) => {
+      query: (data: (string | number | null | undefined)[]) => {
         const [userId, year, month] = data
         console.log(month);
-        
+
         console.log(userId, month, year);
-        
+
         return {
           url: `user/monthstudy/${userId}`,
           method: 'POST',
@@ -186,7 +186,7 @@ export const hmjeApi = createApi({
           },
         }
       },
-      invalidatesTags: (result, error, arg) => [{ type: "Api"}]
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
     }),
 
     // ---------------STUDY---------------
@@ -302,17 +302,39 @@ export const hmjeApi = createApi({
 
     // 2.사전 조회하기
 
-    postWorddict: builder.mutation<dict, dict>({
+    getWorddict: builder.query<dict, dict>({
       query: (data) => {
+        console.log("사전 조회하기 rtk에서 받은 데이터 : ", data);
+        // console.log(`url : word/?filter=${data.filter}/?keyword=${data.keyword}/?p=${data.p}`);
         return {
-          url: `/word/dict`,
-          method: 'POST',
-          body: data
+          url: `word/`,
+          params: {
+            filter: data.filter,
+            keyword: data.keyword,
+            p: data.p,
+          }
         }
       },
-      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
     }),
     // 3. 사전 개별조회
+    getWorddictdetail: builder.query({
+      query: (data) => {
+        console.log("사전 조회하기 rtk에서 받은 데이터 : ", data);
+        // console.log(`url : word/?filter=${data.filter}/?keyword=${data.keyword}/?p=${data.p}`);
+        return {
+          url: `word/dict/`,
+          params: {
+            wordId: data.wordId
+          }
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
 
     // 4. 오답공책 전체조회
     getWordWrong: builder.query({
@@ -352,6 +374,12 @@ export const {
 
 
   // WORD
-  usePostWorddictMutation,
+  useGetWorddictQuery,
+  useLazyGetWorddictQuery,
+
+  useGetWorddictdetailQuery,
+  useLazyGetWorddictdetailQuery,
+
   useGetWordWrongQuery,
+
 } = hmjeApi 
