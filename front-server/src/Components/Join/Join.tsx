@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../Common/Footer";
 import axios from "axios";
@@ -508,6 +508,7 @@ const Join = () => {
                   </button>
                 </div>
               </div>
+              {/* 주석 */}
               <div className={`my-2 ${AmIHidden}`}>
                 <div className="text-[#A87C6E] font-extrabold text-base">
                   인증번호

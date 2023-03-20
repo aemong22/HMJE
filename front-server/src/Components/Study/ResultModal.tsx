@@ -1,4 +1,4 @@
-import {usePostStudyWordResultMutation,usePostStudyStudyTimeMutation} from "../../Store/api";
+import {usePostStudyWordResultMutation,usePostStudyStudyTimeMutation, usePostStudyContextResultMutation} from "../../Store/api";
 import { useNavigate } from "react-router-dom";
 import style from "./Study.module.css";
 import { useEffect } from "react";
@@ -12,12 +12,21 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
     //RTK
     const [postStudyWordResult, {isLoading : resultLoading, error:resultError}]= usePostStudyWordResultMutation();
     const [postStudyStudyTime, {isLoading : timeLoading, error:timeError}] = usePostStudyStudyTimeMutation();
+    const [postStudyContextResult, {isLoading : resultLoading2, error:resultError2}] = usePostStudyContextResultMutation();
 
     useEffect(() => {
       if(studyType === "wordStudy") {
         postStudyWordResult({correct,semo, userId,wrong}).then((result) =>  {
         })
         const type = 0
+        postStudyStudyTime({korEnd,korStart,studyTime,type,userId}).then((result) => {
+        })
+
+      }
+      else if (studyType === "contextStudy") {
+        postStudyContextResult({correct,semo, userId,wrong}).then((result) =>  {
+        })
+        const type = 1
         postStudyStudyTime({korEnd,korStart,studyTime,type,userId}).then((result) => {
         })
 
@@ -45,11 +54,11 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
         getExp = Object.keys(correct).length * 10
     }
 
-    if(resultLoading || timeLoading) {
+    if(resultLoading || timeLoading || resultLoading2) {
       return <>Loading...</>
     }
 
-    if(resultError|| timeError) {
+    if(resultError|| timeError || resultError2) {
       return <>error...</>
     }
 
@@ -74,10 +83,12 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
                             <div className={`${style.oicon} md:h-[5rem] md:w-[5rem] w-[2.5rem] h-[2.5rem]`}></div>
                             <div className="text-center font-bold md:text-[2rem] text-[1.3rem] text-[#0082E0]">{correct.length}</div>
                         </div>
+                        {studyType !== "contextStudy" && 
                         <div className="md:px-10 px-5">
-                            <div className={`${style.semoicon} md:h-[5rem] md:w-[5rem] w-[2.5rem] h-[2.5rem]`}></div>
-                            <div className="text-center font-bold md:text-[2rem] text-[1.3rem] text-[#FFA800]">{semo}</div>
+                          <div className={`${style.semoicon} md:h-[5rem] md:w-[5rem] w-[2.5rem] h-[2.5rem]`}></div>
+                          <div className="text-center font-bold md:text-[2rem] text-[1.3rem] text-[#FFA800]">{semo}</div>
                         </div>
+                        }
                         <div className="md:px-10 px-5">
                             <div className={`${style.xicon} md:h-[5rem] md:w-[5rem] w-[2.5rem] h-[2.5rem]`}></div>
                             <div className="text-center font-bold md:text-[2rem] text-[1.3rem] text-[#E40000]">{wrong.length}</div>
@@ -89,11 +100,8 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
                 {/*footer*/}
                 <div className="flex md:justify-between py-2 px-4 flex-wrap md:flex-row flex-col items-center md:w-auto">
                   <div className="text-sm text-[#5F5F5F]">학습시간 : <span className="text-[#A87E6E] font-bold pr-2">{studyTime}초 </span>{" "}
-                  {studyType === "wordStudy" ?
-                  <>획득 경험치 : <span className="text-[#A87E6E] font-bold">{10 * correct.length}</span></>
-                  : studyType === "contextStudy" ?
-                  <>획득 경험치 : <span className="text-[#A87E6E] font-bold">{30 * correct.length}</span></>
-                  : null
+                  {studyType !== "contextStudy" &&
+                    <>획득 경험치 : <span className="text-[#A87E6E] font-bold">{10 * correct.length}</span></>
                   }
                 
                   </div> 
