@@ -13,14 +13,13 @@ import StudyPage from "./Components/Study/StudyPage";
 import AdminUser from "./Components/Admin/AdminUser";
 import AdminPage from "./Components/Admin/AdminPage";
 import AdminMain from "./Components/Admin/AdminMain";
-import AdminExam from "./Components/Admin/AdminExam";
 import AdminContext from "./Components/Admin/AdminContext";
 import AdminBadge from "./Components/Admin/AdminBadge";
-import CheckTest from "./Components/Admin/CheckTest";
 import ForgetId from "./Components/Login/ForgetId";
 import ForgetPassword from "./Components/Login/ForgetPassword";
 import WrongNote from "./Components/Study/WrongNote";
 import Dogam from "./Components/Study/Dogam";
+import Notice from "./Components/Notice/Notice";
 
 function App() {
   const notify = () => toast("Wow so easy!");
@@ -41,14 +40,13 @@ function App() {
         <Route path="/reviewStudy" element={<StudyPage />} />
         <Route path="/note" element={<WrongNote/>} />
         <Route path="/dogam" element ={<Dogam/>} />
+        <Route path="/notice" element={<Notice />} />
 
         <Route path="/admin" element={<AdminPage />}>
           <Route path="" element={<AdminMain />} />
           <Route path="user" element={<AdminUser />} />
           <Route path="badge" element={<AdminBadge />} />
           <Route path="context" element={<AdminContext />} />
-          <Route path="exam" element={<AdminExam />} />
-          <Route path="check" element={<CheckTest />} />
         </Route>
       </Routes>
     </>
