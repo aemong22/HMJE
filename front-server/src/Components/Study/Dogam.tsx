@@ -56,7 +56,7 @@ function DogamList({get, total}:any): JSX.Element {
     return (
       <>
       <div className="w-full py-4">
-        <div className="container max-w-screen-xl md:w-[90%] w-full mx-auto justify-start flex flex-wrap">
+        <div className="container max-w-screen-xl md:w-[90%] w-full mx-auto justify-start flex flex-wrap px-3">
             <div className={`md:relative static  sm:h-[15rem] sm:w-[15rem] h-[9rem] w-[9rem] rounded-lg border-2`}>
                 <div className="text-[0.9rem] text-[#000000] rounded-full bg-[#AEAEAE]"></div>
                 <div className="text-[#A87E6E] font-bold md:text-[1.8rem] sm:text-[1.4rem] text-[1.1rem] py-0.5"></div>

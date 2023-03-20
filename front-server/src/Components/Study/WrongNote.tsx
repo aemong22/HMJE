@@ -102,7 +102,7 @@ function NoteHeader({select,setSelect,num}:any): JSX.Element {
               <div className="md:px-6 px-4 py-1 bg-[#F7CCB7] mr-2 flex flex-col justify-center rounded-t-lg md:text-[1.2rem] text-[0.9rem]">
                 {num}개
               </div>
-              <div className="md:px-6 px-4 py-1 bg-[#F7CCB7] mr-1 flex flex-col justify-center rounded-t-lg md:text-[1.2rem] text-[0.9rem]">
+              <div className="md:px-6 px-4 py-1 bg-[#F7CCB7] mr-1 flex flex-col justify-center rounded-t-lg md:text-[1.2rem] text-[0.9rem] cursor-pointer hover:bg-[#B18978]">
                 복습하기
               </div>
           </div>
