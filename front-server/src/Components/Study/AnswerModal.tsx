@@ -59,7 +59,7 @@ function AnswerModal({
                   )}
                   <div className="text-[1.5rem] font-bold mx-auto text-center">
                     {studyType !== "contextStudy" ? (
-                      <>과거시험은 한번만 응시 가능합니다.</>
+                      <>정답입니다.</>
                     ) : (
                       <>도감 획득 성공</>
                     )}
@@ -97,19 +97,12 @@ function AnswerModal({
                             <>{question[num].dogamName}</>
                         }
                     </div>
-                    {studyType !== "contextStudy" && <div>({question[num].wordIso})</div>}
+                    {studyType !== "contextStudy" && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">({question[num].wordIso})</div>}
                     {studyType !== "contextStudy" && question[num].wordOrigin && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">[{question[num].wordOrigin}]</div>}
                     {studyType === "contextStudy" && question[num].dogamOrigin && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">[{question[num].dogamOrigin}]</div>}
                     <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{studyType !== "contextStudy" ? <>{question[num].wordType}</>:<>{question[num].dogamClass}</>}</div>
                 </div>        
                 {studyType !== "contextStudy" && question[num].wordRating != "없음" && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{question[num].wordRating}</div>}
-
-              {studyType !== "contextStudy" &&
-                question[num].wordRating != "없음" && (
-                  <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">
-                    {question[num].wordRating}
-                  </div>
-                )}
             </div>
             {/* body content */}
             {studyType !== "contextStudy" && (

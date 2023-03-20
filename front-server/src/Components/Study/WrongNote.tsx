@@ -117,6 +117,7 @@ function WrongList({select, data}:any):JSX.Element {
   // 그만두기
   const [open, setOpen] = useState<Boolean>(false);
   const [idx, setIdx] = useState(0)
+  console.log(data);
   return (
     <>
       <div className="w-full">
