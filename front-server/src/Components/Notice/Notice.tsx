@@ -1,8 +1,8 @@
 import { MouseEventHandler, useEffect, useRef, useState } from "react"
 import Navbar from "../Common/Navbar"
-import "./Admin.css";
+import "./Notice.css";
 
-function AdminExam():JSX.Element {
+function Notice():JSX.Element {
   return (
     <>
       <Navbar/>
@@ -10,7 +10,7 @@ function AdminExam():JSX.Element {
     </>
   )
 }
-export default AdminExam
+export default Notice
 
 function AdminExamSection1():JSX.Element {
   return (

@@ -110,6 +110,48 @@ export const hmjeApi = createApi({
       }
     }),
 
+    // 3. 회원 삭제
+    putAdminUserDelete: builder.mutation({
+      query: (data) => {
+        let [delete_id, my_id] = data
+        my_id = parseInt(my_id)
+        console.log(delete_id, my_id);
+        
+        return {
+          url: `/admin/user/${my_id}/${delete_id}`,
+          method: 'put'
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+    // 4. 회원 수정
+    putAdminUserUpdate: builder.mutation({
+      query: (data) => {
+        const [userId, nickname] = data
+        console.log(userId, nickname);
+        
+        
+        return {
+          url: `/admin/user/${userId}`,
+          method: 'put',
+          body: {
+            "nickname": nickname,
+          }
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+
+    // --------------admin | past ---------------
+    // 전체 과거시험 회차 목록
+    getAdminPastList: builder.query({
+      query: () => "admin/past",
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
 
 
     // --------------user---------------
@@ -154,7 +196,7 @@ export const hmjeApi = createApi({
       query: (userId: any) => {
         console.log("userId", userId);
         return {
-          url: `/user/mystudy/${userId}`,
+          url: `/user/stats/mystudy/${userId}`,
           params: {
             userId: userId
           }
@@ -178,7 +220,7 @@ export const hmjeApi = createApi({
         console.log(userId, month, year);
 
         return {
-          url: `user/monthstudy/${userId}`,
+          url: `user/stats/monthstudy/${userId}`,
           method: 'POST',
           body: {
             year: year,
@@ -356,6 +398,12 @@ export const {
   // ADMIN
   useLazyGetAdminUserListQuery,
   useLazyGetAdminBadgeListQuery,
+  usePutAdminUserDeleteMutation,
+  usePutAdminUserUpdateMutation,
+
+  // ADMIN PAST
+  useGetAdminPastListQuery,
+  useLazyGetAdminPastListQuery,
 
   // USER
   useGetUserMyinfoQuery,

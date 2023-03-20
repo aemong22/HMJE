@@ -2,14 +2,15 @@ import Footer from "../Common/Footer"
 import Navbar from "../Common/Navbar"
 import Pangguin from "../Threejs/Pangguin"
 import { useGetUserMyinfoQuery, useGetUserMystudyQuery, usePostUserMonthstudyMutation, usePutUserdataMutation } from "../../Store/api"
-import { usePostUserchecknicknameMutation } from "../../Store/NonAuthApi";
+// import { usePostUserchecknicknameMutation } from "../../Store/NonAuthApi";
 import React, { KeyboardEvent, KeyboardEventHandler, MouseEventHandler, useEffect, useRef, useState } from "react"
-import styled from './MyPage.module.css'
+// import styled from './MyPage.module.css'
 import { Doughnut, Line } from "react-chartjs-2"
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
-import { useAppDispatch } from "../../Store/hooks";
-import { changeUserNickname } from "../../Store/store";
+// import { useAppDispatch } from "../../Store/hooks";
+// import { changeUserNickname } from "../../Store/store";
+import Chart from 'chart.js/auto';
 
 interface UserDataType {
   exp: number,
@@ -176,85 +177,85 @@ export default MyPage
 
 // 데스크탑 & 태블릿
 function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sentence, level, nowbadgeImage, userId}:Type):JSX.Element {
-  const dispatch = useAppDispatch()
-  const [isClick,setIsClick] = useState<boolean>(false)
-  const [nameCheckMutation] = usePostUserchecknicknameMutation()
-  const [mutation] = usePutUserdataMutation()
-  const [changeNickname,setChangeNickname] = useState<string>()
-  const ref = useRef<HTMLDivElement>(null)
+  // const dispatch = useAppDispatch()
+  // const [isClick,setIsClick] = useState<boolean>(false)
+  // const [nameCheckMutation] = usePostUserchecknicknameMutation()
+  // const [mutation] = usePutUserdataMutation()
+  // const [changeNickname,setChangeNickname] = useState<string>()
+  // const ref = useRef<HTMLDivElement>(null)
 
-  const change= (e:React.ChangeEvent<HTMLInputElement>) => {    
-    setChangeNickname(e.target.value);
-  }
+  // const change= (e:React.ChangeEvent<HTMLInputElement>) => {    
+  //   setChangeNickname(e.target.value);
+  // }
 
-  const click:MouseEventHandler<HTMLDivElement> = (e) => {
-    // const target = e.target as HTMLElement
-    if (e.currentTarget.ariaLabel === '정보수정') {
-      setIsClick(!isClick)
-    } else if (e.currentTarget.ariaLabel === '변경') {
-      e.preventDefault()
-      const data:any = {
-        nickname: changeNickname,
-        username: userId
-      }
-      nameCheckMutation(data).unwrap().then((r:any)=> {
-        console.log(changeNickname);
-        if (r.data === false) {
-          toast.error("닉네임을 사용할 수 없습니다")
-        } else {
-          mutation([userId, changeNickname]).unwrap().then((r)=> {
-            dispatch(changeUserNickname(changeNickname))
-            toast.success('닉네임 변경!')
-            setIsClick(false)
-          })
-        }
-      })
-    }
-    else if (e.target === ref.current) {
-      console.log('hi');
-      setIsClick(false)
-    }
-  }
-  const enter = (e:KeyboardEvent) => {
-    // const target = e.target as HTMLElement
-    if (e.key === 'Enter') {
-      e.preventDefault()
-      const data:any = {
-        nickname: changeNickname,
-        username: userId
-      }
-      nameCheckMutation(data).unwrap().then((r:any)=> {
-        console.log(changeNickname);
-        if (r.data === false) {
-          toast.error("닉네임을 사용할 수 없습니다")
-        } else {
-          mutation([userId, changeNickname]).unwrap().then((r)=> {
-            dispatch(changeUserNickname(changeNickname))
-            toast.success('닉네임 변경!')
-            setIsClick(false)
-          })
-        }
-      })
-    }
-  }
+  // const click:MouseEventHandler<HTMLDivElement> = (e) => {
+  //   // const target = e.target as HTMLElement
+  //   if (e.currentTarget.ariaLabel === '정보수정') {
+  //     setIsClick(!isClick)
+  //   } else if (e.currentTarget.ariaLabel === '변경') {
+  //     e.preventDefault()
+  //     const data:any = {
+  //       nickname: changeNickname,
+  //       username: userId
+  //     }
+  //     nameCheckMutation(data).unwrap().then((r:any)=> {
+  //       console.log(changeNickname);
+  //       if (r.data === false) {
+  //         toast.error("닉네임을 사용할 수 없습니다")
+  //       } else {
+  //         mutation([userId, changeNickname]).unwrap().then((r)=> {
+  //           dispatch(changeUserNickname(changeNickname))
+  //           toast.success('닉네임 변경!')
+  //           setIsClick(false)
+  //         })
+  //       }
+  //     })
+  //   }
+  //   else if (e.target === ref.current) {
+  //     console.log('hi');
+  //     setIsClick(false)
+  //   }
+  // }
+  // const enter = (e:KeyboardEvent) => {
+  //   // const target = e.target as HTMLElement
+  //   if (e.key === 'Enter') {
+  //     e.preventDefault()
+  //     const data:any = {
+  //       nickname: changeNickname,
+  //       username: userId
+  //     }
+  //     nameCheckMutation(data).unwrap().then((r:any)=> {
+  //       console.log(changeNickname);
+  //       if (r.data === false) {
+  //         toast.error("닉네임을 사용할 수 없습니다")
+  //       } else {
+  //         mutation([userId, changeNickname]).unwrap().then((r)=> {
+  //           dispatch(changeUserNickname(changeNickname))
+  //           toast.success('닉네임 변경!')
+  //           setIsClick(false)
+  //         })
+  //       }
+  //     })
+  //   }
+  // }
 
-  const updateModal = (
-    <div ref={ref} className="w-full py-10 bg-[#d4b3a5] rounded-lg" onClick={click}>
-      <div className="bg-[#F7CCB7] my-5 py-10 w-full">
-        <div className="flex flex-col font-semibold text-[1.3rem] w-full">
-          <div><span>변경할 닉네임을 작성해주세요</span></div>
-          <div className="flex md:flex-col lg:flex-row lg:justify-center md:justify-end lg:items-end w-full ">
-            <div className="mt-2 mx-2"><input className="text-center rounded-lg w-full" type="text" maxLength={6} placeholder="닉네임" autoFocus onChange={change} onKeyPress={enter}/></div>
-            <div aria-label="변경" className="border-[#B18978] lg:px-3 md:mx-2 lg:mx-0 border-2 rounded-lg" onClick={click}>변경</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+  // const updateModal = (
+  //   <div ref={ref} className="w-full rounded-lg" onClick={click}>
+  //     <div className="rounded-lg py-5 w-full">
+  //       <div className="flex flex-col font-semibold text-[1.3rem] w-full">
+  //         <div><span>변경할 닉네임을 작성해주세요</span></div>
+  //         <div className="flex md:flex-col lg:flex-row lg:justify-center md:justify-end lg:items-end w-full ">
+  //           <div className="mt-2 mx-2"><input className="border-[#F7CCB7] border-2 text-center rounded-lg w-full focus:outline-[#f0c78a]" type="text" maxLength={6} placeholder="닉네임" autoFocus onChange={change} onKeyPress={enter}/></div>
+  //           <div aria-label="변경" className="bg-[#e7baa4] lg:px-3 md:mx-2 md:mt-2 lg:mx-0 border-2 rounded-lg text-white hover:bg-[#e7a585]" onClick={click}>변경</div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   </div>
+  // )
 
   return (
     <>
-    <Toast />
+    {/* <Toast /> */}
       <div className="container max-w-screen-xl h-[30rem] md:w-[90%] mx-auto hidden md:flex flex-col md:flex-row md:justify-around items-center text-center mb-2">
         <div className="flex flex-col md:w-[55%] h-full bg-[#ffffff] rounded-md ">
           <Pangguin position={-2} />
@@ -267,31 +268,27 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
               <div className="flex justify-between items-center w-full pb-1">
                 {/* 칭호 & 수정 */}
                 <div className="flex justify-start items-center md:text-[1.2rem]"><img className="w-[1.5rem]" src={`/Assets/Badge/${nowbadgeImage}.png`} alt="뱃지" />&nbsp; {nowbadgeName}</div>
-                <div aria-label="정보수정" className="text-[#8E8E8E] md:text-[1rem]" onClick={click}>정보 수정⚙</div>
+                <div aria-label="정보수정" className="text-[#8E8E8E] md:text-[1rem] cursor-pointer">정보 수정⚙</div>
               </div>
-              {
-                isClick ? updateModal: (
-                  <div className="flex flex-col justify-center items-center w-full">
-                    <div className="flex justify-between items-end w-full">
-                      {/* 닉네임 & 등급 & 경험치 */}
-                      <div className="pb-1">
-                        {/* 닉네임 & 등급 */}
-                        <span className="mr-1 md:text-[2.4rem] text-[2rem] font-bold">{nickname}</span><span className="md:text-[1.1rem] px-1 border-2 border-[#A87E6E] w-fit mx-auto rounded-full bg-[#F0ECE9] font-bold text-[#A87E6E]">{level}</span>
-                      </div>
-                      <div className="text-[1rem] pb-2 text-[#8E8E8E]">
-                        {/* 등급 */}
-                        {exp} / {totalExp}
-                      </div>
-                    </div>
-                    <div className="w-full rounded-xl h-4 bg-[#F0ECE9]">
-                      {/* 경험치 바: 위에서 퍼센트 계산해서 넣으면 될듯?*/}
-                      <div className="rounded-xl h-full bg-[#F7CCB7]" style={{width: `${expWidth}`, maxWidth: '100%'}}>
-                        &nbsp;
-                      </div>
-                    </div>
+              <div className="flex flex-col justify-center items-center w-full">
+                <div className="flex justify-between items-end w-full">
+                  {/* 닉네임 & 등급 & 경험치 */}
+                  <div className="pb-1">
+                    {/* 닉네임 & 등급 */}
+                    <span className="mr-1 md:text-[2.4rem] text-[2rem] font-bold">{nickname}</span><span className="md:text-[1.1rem] px-1 border-2 border-[#A87E6E] w-fit mx-auto rounded-full bg-[#F0ECE9] font-bold text-[#A87E6E]">{level}</span>
                   </div>
-                )
-              }
+                  <div className="text-[1rem] pb-2 text-[#8E8E8E]">
+                    {/* 등급 */}
+                    {exp} / {totalExp}
+                  </div>
+                </div>
+                <div className="w-full rounded-xl h-4 bg-[#F0ECE9]">
+                  {/* 경험치 바: 위에서 퍼센트 계산해서 넣으면 될듯?*/}
+                  <div className="rounded-xl h-full bg-[#F7CCB7]" style={{width: `${expWidth}`, maxWidth: '100%'}}>
+                    &nbsp;
+                  </div>
+                </div>
+              </div>
               <div className="flex justify-start items-center w-full pt-4">
                 <div className="md:w-[1.5rem] lg:w-[2rem] md:h-[1.5rem] lg:h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="버튼1" /></div>
                 <div className="md:w-[1.5rem] lg:w-[2rem] md:h-[1.5rem] lg:h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="버튼2" /></div>
@@ -374,104 +371,99 @@ function MyPageSection2V1({todayWord, totalWord, todayContext, totalContext, tod
 
 // 모바일
 function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sentence, level, nowbadgeImage, userId}:Type):JSX.Element {
-  const dispatch = useAppDispatch()
-  const [isClick,setIsClick] = useState<boolean>(false)
-  const [nameCheckMutation] = usePostUserchecknicknameMutation()
-  const [mutation] = usePutUserdataMutation()
-  const [changeNickname,setChangeNickname] = useState<string>()
-  const ref = useRef<HTMLDivElement>(null)
+  // const dispatch = useAppDispatch()
+  // const [isClick,setIsClick] = useState<boolean>(false)
+  // const [nameCheckMutation] = usePostUserchecknicknameMutation()
+  // const [mutation] = usePutUserdataMutation()
+  // const [changeNickname,setChangeNickname] = useState<string>()
+  // const ref = useRef<HTMLDivElement>(null)
 
-  const change= (e:React.ChangeEvent<HTMLInputElement>) => {    
-    setChangeNickname(e.target.value);
-  }
+  // const change= (e:React.ChangeEvent<HTMLInputElement>) => {    
+  //   setChangeNickname(e.target.value);
+  // }
+  // const click:MouseEventHandler<HTMLDivElement> = (e) => {
+  //   // const target = e.target as HTMLElement
+  //   if (e.currentTarget.ariaLabel === '정보수정') {
+  //     setIsClick(!isClick)
+  //   } else if (e.currentTarget.ariaLabel === '변경') {
+  //     e.preventDefault()
+  //     const data:any = {
+  //       nickname: changeNickname,
+  //       username: userId
+  //     }
+  //     nameCheckMutation(data).unwrap().then((r:any)=> {
+  //       console.log(changeNickname);
+  //       if (r.data === false) {
+  //         toast.error("닉네임을 사용할 수 없습니다")
+  //       } else {
+  //         mutation([userId, changeNickname]).unwrap().then((r)=> {
+  //           dispatch(changeUserNickname(changeNickname))
+  //           toast.success('닉네임 변경!')
+  //           setIsClick(false)
+  //         })
+  //       }
+  //     })
+  //   }
+  //   else if (e.target === ref.current) {
+  //     console.log('hi');
+  //     setIsClick(false)
+  //   }
+  // }
 
-  const click:MouseEventHandler<HTMLDivElement> = (e) => {
-    // const target = e.target as HTMLElement
-    if (e.currentTarget.ariaLabel === '정보수정') {
-      setIsClick(!isClick)
-    } else if (e.currentTarget.ariaLabel === '변경') {
-      e.preventDefault()
-      const data:any = {
-        nickname: changeNickname,
-        username: userId
-      }
-      nameCheckMutation(data).unwrap().then((r:any)=> {
-        console.log(changeNickname);
-        if (r.data === false) {
-          toast.error("닉네임을 사용할 수 없습니다")
-        } else {
-          mutation([userId, changeNickname]).unwrap().then((r)=> {
-            dispatch(changeUserNickname(changeNickname))
-            toast.success('닉네임 변경!')
-            setIsClick(false)
-          })
-        }
-      })
-    }
-    else if (e.target === ref.current) {
-      console.log('hi');
-      setIsClick(false)
-    }
-  }
+  // const enter = (e:KeyboardEvent) => {
+  //   // const target = e.target as HTMLElement
+  //   if (e.key === 'Enter') {
+  //     e.preventDefault()
+  //     const data:any = {
+  //       nickname: changeNickname,
+  //       username: userId
+  //     }
+  //     nameCheckMutation(data).unwrap().then((r:any)=> {
+  //       console.log(changeNickname);
+  //       if (r.data === false) {
+  //         toast.error("닉네임을 사용할 수 없습니다")
+  //       } else {
+  //         mutation([userId, changeNickname]).unwrap().then((r)=> {
+  //           dispatch(changeUserNickname(changeNickname))
+  //           toast.success('닉네임 변경!')
+  //           setIsClick(false)
+  //         })
+  //       }
+  //     })
+  //   }
+  // }
 
-  const enter = (e:KeyboardEvent) => {
-    // const target = e.target as HTMLElement
-    if (e.key === 'Enter') {
-      e.preventDefault()
-      const data:any = {
-        nickname: changeNickname,
-        username: userId
-      }
-      nameCheckMutation(data).unwrap().then((r:any)=> {
-        console.log(changeNickname);
-        if (r.data === false) {
-          toast.error("닉네임을 사용할 수 없습니다")
-        } else {
-          mutation([userId, changeNickname]).unwrap().then((r)=> {
-            dispatch(changeUserNickname(changeNickname))
-            toast.success('닉네임 변경!')
-            setIsClick(false)
-          })
-        }
-      })
-    }
-  }
-
-  const updateModal = (
-    <div ref={ref} className="w-full py-10 bg-[#d4b3a5] rounded-lg" onClick={click}>
-      <div className="bg-[#F7CCB7] my-5 py-10 w-full">
-        <div className="flex flex-col justify-center items-center font-semibold text-[1.3rem] w-full">
-          <div><span>변경할 닉네임을 작성해주세요</span></div>
-          <div className="flex flex-col justify-center w-full ">
-            <div className="mt-2 mx-2 my-1"><input className="text-center rounded-lg w-full" type="text" maxLength={6} placeholder="닉네임" autoFocus onChange={change} onKeyPress={enter}/></div>
-            <div aria-label="변경" className="text-center mx-auto w-[50%] border-[#B18978] border-2 rounded-lg" onClick={click}>변경</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+  // const updateModal = (
+  //   <div ref={ref} className="w-full flex justify-center items-center rounded-lg" onClick={click}>
+  //     <div className=" py-10 w-full">
+  //       <div className="flex flex-col justify-center items-center font-semibold text-[1.3rem] w-full">
+  //         <div><span>변경할 닉네임을 작성해주세요</span></div>
+  //         <div className="flex flex-col justify-center w-full ">
+  //           <div className="mt-2 mx-2 my-1"><input className="border-[#F7CCB7] border-2 text-center rounded-lg w-full focus:outline-[#f0c78a]" type="text" maxLength={6} placeholder="닉네임" autoFocus onChange={change} onKeyPress={enter}/></div>
+  //           <div aria-label="변경" className="bg-[#e7baa4] text-center mx-auto w-[50%] border-[#B18978] border-2 rounded-lg text-white hover:bg-[#e7a585]" onClick={click}>변경</div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   </div>
+  // )
 
   return (
     <>
-      <Toast />
+      {/* <Toast /> */}
       <div className="flex flex-col md:hidden justify-center items-center h-[35rem] mt-7">
         <div className="flex justify-center items-center w-[90%] h-[67%]">
           <div className="flex justify-center items-center h-full w-full">
             {/* 렙업에 따른 3D 캐릭터 */}
-            {
-              isClick ? updateModal: (
-                <div className="flex flex-col justify-end items-center w-full h-full">
-                  <div className="flex justify-between items-center w-full pb-1 text-[1rem]">
-                    {/* 칭호 & 수정 */}
-                    <div className="flex justify-start items-center"><img className="w-[1.5rem]" src={`/Assets/Badge/${nowbadgeImage}.png`} alt="뱃지" />&nbsp;{nowbadgeName}</div>
-                    <div aria-label="정보수정" className="text-[#8E8E8E]" onClick={click}>정보 수정⚙</div>
-                  </div>
-                  <span className="text-left w-full mr-1 text-[1.5rem] font-semibold">{nickname}</span>
-                  {/* <Gaming/> */}
-                  <Pangguin position={-2}/>
-                </div>
-              )
-            }
+            <div className="flex flex-col justify-end items-center w-full h-full">
+              <div className="flex justify-between items-center w-full pb-1 text-[1rem]">
+                {/* 칭호 & 수정 */}
+                <div className="flex justify-start items-center"><img className="w-[1.5rem]" src={`/Assets/Badge/${nowbadgeImage}.png`} alt="뱃지" />&nbsp;{nowbadgeName}</div>
+                <div aria-label="정보수정" className="text-[#8E8E8E] cursor-pointer">정보 수정⚙</div>
+              </div>
+              <span className="text-left w-full mr-1 text-[1.5rem] font-semibold">{nickname}</span>
+              {/* <Gaming/> */}
+              <Pangguin position={-2}/>
+            </div>
           </div>
         </div>
         <div className="flex justify-center items-center w-[90%] h-[8%] ">
@@ -668,7 +660,7 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
             },
           },
         },
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
       };
 
       // 학습 시간
@@ -709,7 +701,7 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
 
       const Chart = 
         (
-          <div className="h-full w-full ">
+          <div className="h-full w-full bg-white">
             <Line options={options} typeof='line' data={studyTimeData} />
           </div>
         )
@@ -738,17 +730,18 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
             hoverOffset: 4,
           },
         ],
-        labels: labels
+        labels: labels,
       };
 
       const Chart2 = 
         (
-          <div className="h-full w-full ">
+          <div className="h-full w-full bg-white">
             <Line options={options} typeof='line' data={studyCntData}/>
           </div>
         )
         setStudyCntChart(Chart2)
     })
+    Chart.register();
   },[])
   
 
