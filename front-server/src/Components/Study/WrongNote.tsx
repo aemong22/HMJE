@@ -3,6 +3,7 @@ import Navbar from "../Common/Navbar";
 import { useGetWordWrongQuery } from "../../Store/api"
 import React, { useState } from "react";
 import classNames from "classnames";
+import WrongDetail from "./WrongDetail";
 
 function WrongNote(): JSX.Element {
   const userId = localStorage.getItem("userId")
@@ -23,7 +24,6 @@ function WrongNote(): JSX.Element {
           <Navbar />
           <NoteHeader num={Object.keys(data.data).length} select={select} setSelect={setSelect}/>
           <WrongList select={select} data={data.data}/>
-          
         </div>
         <Footer />
 
@@ -114,31 +114,36 @@ function NoteHeader({select,setSelect,num}:any): JSX.Element {
 
 function WrongList({select, data}:any):JSX.Element {
   
-  console.log(data)
+  // 그만두기
+  const [open, setOpen] = useState<Boolean>(false);
+  const [idx, setIdx] = useState(0)
   return (
     <>
       <div className="w-full">
         <div className="container max-w-screen-xl md:w-[90%] w-full mx-auto flex flex-wrap justify-between py-4">
           {data.map((word:any , index:number) => {
             return(
-              <div key={index} className="bg-[#ffffff] md:w-[46%] w-full rounded-lg py-3 px-6 m-2 overflow-hidden">
-                <div className="flex justify-between items-end">
-                  <div className="flex items-end font-medium text-[#8E8E8E]">
-                    <div className={classNames("md:text-[1.4rem] text-[1.1rem] px-[0.1rem] font-bold ", {'text-[#ffffff]': select === 1} ,{'text-[#000000]': select !== 1})}> {word?.wordName} </div>
-                    <div className="md:text-[1rem] text-[0.8rem] px-[0.1rem]"> ({word?.wordIso}) </div>
-                    {word?.wordOrigin && <div className="md:text-[1rem] text-[0.8rem] px-[0.1rem]">[{word?.wordOrigin}]</div> }
-                    <div className="md:text-[1rem] text-[0.8rem] px-[0.1rem]">{word?.wordType}</div>
-                  </div>
-                  {word?.wordRating !== "없음" && 
-                    <div>
-                      <div className="md:text-[1rem] text-[0.8rem] px-[0.1rem] font-medium  text-[#8E8E8E]"> {word?.wordRating}</div>
+              <>
+                <div key={index} className="bg-[#ffffff] md:w-[46%] w-full rounded-lg py-3 sm:px-6 px-4 m-2 overflow-hidden" onClick={() => {setOpen(true); setIdx(index)}}>
+                  <div className="flex justify-between items-end">
+                    <div className="flex items-end font-medium text-[#8E8E8E]">
+                      <div className={classNames("md:text-[1.5rem] text-[1.25rem] px-[0.1rem] font-bold ", {'text-[#ffffff]': select === 1} ,{'text-[#000000]': select !== 1})}> {word?.wordName} </div>
+                      <div className="md:text-[1.1rem] text-[1rem] px-[0.1rem]"> ({word?.wordIso}) </div>
+                      {word?.wordOrigin && <div className="md:text-[1.1rem] text-[1rem] px-[0.1rem]">[{word?.wordOrigin}]</div> }
+                      <div className="md:text-[1.1rem] text-[1rem] px-[0.1rem]">{word?.wordType}</div>
                     </div>
-                  }
+                    {word?.wordRating !== "없음" && 
+                      <div>
+                        <div className="md:text-[1.1rem] text-[1rem] px-[0.1rem] font-medium  text-[#8E8E8E]"> {word?.wordRating}</div>
+                      </div>
+                    }
+                  </div>
+                  <div className={classNames("truncate w-full md:text-[1.1rem] text-[1rem] px-[0.1rem] pt-[0.2rem]",{'text-[#ffffff]': select === 2} ,{'text-[#525252]': select !== 2})}>
+                      {word?.wordDetailResponseList[0].details}
+                  </div>
                 </div>
-                <div className={classNames("truncate w-full md:text-[1rem] text-[0.8rem] px-[0.1rem] pt-[0.2rem]",{'text-[#ffffff]': select === 2} ,{'text-[#525252]': select !== 2})}>
-                    {word?.wordDetailResponseList[0].details}
-                </div>
-              </div>
+                {open && <WrongDetail index={idx} data={data} setOpen={setOpen} open={open} /> }
+              </>
             )
           })}
         </div>
