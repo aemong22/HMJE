@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,4 +21,5 @@ public class PastQuestionRequestDto {
     String pastChoice4;
     String pastChoice5;
     Integer pastAnswer;
+    String pastText;
 }
