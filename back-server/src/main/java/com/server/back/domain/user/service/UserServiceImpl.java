@@ -18,9 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 import static com.server.back.domain.user.dto.BadgeResultResponseDto.MyBadgeResultList;
 
@@ -288,5 +286,52 @@ public class UserServiceImpl implements UserService {
             return newlevel;
         }
         return 0;
+    }
+    @Override
+    public CompareResponseDto compare(Long userId){
+        User user = userRepository.findByUserId(userId);
+        CompareResponseDto responseDto = new CompareResponseDto();
+
+        //찾는 년월 만들기
+        LocalDate findDate = LocalDate.now(); //오늘
+        String findMonth = findDate.toString().substring(0,7);   //년월 합쳐서만들어야함
+
+        //내 학습 시간 체크 (한달, 하루
+        List<StudyTime> totalstudytimelist = studyTimeRepository.findAllByUser(user);
+        Integer monthMyStatsTime = 0;
+        Integer todayMyTime = 0;
+        for (StudyTime s : totalstudytimelist){
+            System.out.println("s = " + s);
+            LocalDate endTimeDay = s.getEndTime().toLocalDate();
+            String endTimeMonth = endTimeDay.toString().substring(0,7);
+            if ((findMonth).equals(endTimeMonth)){   // 이번달이면
+                monthMyStatsTime += s.getStudyTime();
+                if ((endTimeDay).isEqual(findDate)){  // 오늘이면
+                    todayMyTime += s.getStudyTime();
+                }
+            }
+        }
+        responseDto.setTodayMyTime(todayMyTime);
+        responseDto.setMonthMyStatsTime(monthMyStatsTime);
+
+        //오늘 학습한 유저의 평균
+        List<StudyTime> monthUsersStatsTimeList = studyTimeRepository.findAll();
+        Integer monthUsersStatsTimes = 0;
+        Set<Long> studyusers = new HashSet<>();
+        for (StudyTime s : monthUsersStatsTimeList){
+            LocalDate endTimeDay = s.getEndTime().toLocalDate();
+            if ((endTimeDay).isEqual(findDate)){  // 오늘이면
+                monthUsersStatsTimes += s.getStudyTime();
+                studyusers.add(s.getUser().getUserId());
+            }
+        }
+        if (monthUsersStatsTimes.equals(0)) {
+            responseDto.setMonthUsersStatsTime(0);
+        }else{
+            Integer monthUsersStatsTime = monthUsersStatsTimes/(studyusers.size()) ;
+            responseDto.setMonthUsersStatsTime(monthUsersStatsTime);
+        }
+
+        return responseDto;
     }
 }
