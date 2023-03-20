@@ -9,5 +9,5 @@ import java.util.List;
 
 
 public interface DailyWordRepository extends JpaRepository<DailyWord, Long> {
-	List<DailyWord> findByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
+	List<DailyWord> findByCreatedAtBetweenOrderByCreatedAtDesc(LocalDateTime start, LocalDateTime end);
 }
