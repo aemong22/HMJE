@@ -59,7 +59,7 @@ function AnswerModal({
                   )}
                   <div className="text-[1.5rem] font-bold mx-auto text-center">
                     {studyType !== "contextStudy" ? (
-                      <>정답입니다.</>
+                      <>과거시험은 한번만 응시 가능합니다.</>
                     ) : (
                       <>도감 획득 성공</>
                     )}
