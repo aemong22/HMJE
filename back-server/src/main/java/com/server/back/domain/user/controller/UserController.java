@@ -133,7 +133,7 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @ApiOperation(value = "학습시간,단어,문맥,통계")
-    @GetMapping("/mystudy/{userId}")
+    @GetMapping("/stats/mystudy/{userId}")
     public ResponseEntity<Map<String, Object>> mystudy(@PathVariable(value = "userId") Long userId){
         Map<String, Object> response = new HashMap<>();
         StudyResponseDto responseDto = userService.mystudy(userId);
@@ -142,10 +142,19 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @ApiOperation(value = "학습시간,단어,문맥,통계 한달치")
-    @PostMapping("/monthstudy/{userId}")
+    @PostMapping("/stats/monthstudy/{userId}")
     public ResponseEntity<Map<String, Object>> monthstudy(@PathVariable(value = "userId") Long userId, @RequestBody MonthStudyRequestDto requestDto){
         Map<String, Object> response = new HashMap<>();
         List<MonthStudyResponseDto> responseDto = userService.monthstudy(userId,requestDto);
+        response.put("data", responseDto);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @ApiOperation(value = "다른 유저와 통계 비교")
+    @GetMapping("/stats/compare/{userId}")
+    public ResponseEntity<Map<String, Object>> compare(@PathVariable(value = "userId") Long userId){
+        Map<String, Object> response = new HashMap<>();
+        CompareResponseDto responseDto = userService.compare(userId);
         response.put("data", responseDto);
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);

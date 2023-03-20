@@ -19,7 +19,6 @@ public class PastQuestion extends CommonEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "past_question_id")
 	private Long pastQuestionId;
-
 	private String pastQuestion;
 	private String pastChoice1;
 	private String pastChoice2;
@@ -27,6 +26,7 @@ public class PastQuestion extends CommonEntity {
 	private String pastChoice4;
 	private String pastChoice5;
 	private Integer pastAnswer;
+	private String pastText;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "past_test_id")
 	private PastTest pastTest;
@@ -39,5 +39,6 @@ public class PastQuestion extends CommonEntity {
 		this.pastChoice4 = requestDto.getPastChoice4();
 		this.pastChoice5 = requestDto.getPastChoice5();
 		this.pastAnswer = requestDto.getPastAnswer();
+		this.pastText = requestDto.getPastText();
 	}
 }
