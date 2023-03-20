@@ -518,6 +518,7 @@ const Join = () => {
                   </div>
                 </div>
               </div>
+              {/* 주석 */}
               <div className={`my-2 ${AmIHidden}`}>
                 <div className="text-[#A87C6E] font-extrabold text-base">
                   인증번호
