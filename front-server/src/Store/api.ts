@@ -253,6 +253,48 @@ export const hmjeApi = createApi({
       }
     }),
 
+    // 5. 문맥학습 결과
+    postStudyContextResult: builder.mutation<any, any>({
+      query: (data) => {
+        return {
+          url: `/study/context/result`,
+          method: 'POST',
+          body: {
+            rightIdList: data.correct,
+            semo: data.semo,
+            userId: data.userId,
+            wrongIdList: data.wrong,
+          }
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+
+    // 6. 획득한 도감번호 조회
+    getDogamUserId: builder.query({
+      query: (userId: any) => {
+        return {
+          url: `/dogam/${userId}`,
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
+
+    // 7. 전체 도감 목록
+    getDogam: builder.query({
+      query: () => {
+        return {
+          url: `/dogam/`,
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
+
 
     // --------------word---------------
 
@@ -273,6 +315,18 @@ export const hmjeApi = createApi({
     // 3. 사전 개별조회
 
     // 4. 오답공책 전체조회
+    getWordWrong: builder.query({
+      query: (userId: any) => {
+        return {
+          url: `/word/wrong/${userId}`,
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
+
+
   }),
 })
 
@@ -291,9 +345,13 @@ export const {
   usePostStudyWordResultMutation,
   usePostStudyStudyTimeMutation,
   useLazyGetStudyContextQuery,
+  usePostStudyContextResultMutation,
+  useGetDogamUserIdQuery,
+  useGetDogamQuery,
   usePostUserMonthstudyMutation,
 
 
   // WORD
   usePostWorddictMutation,
+  useGetWordWrongQuery,
 } = hmjeApi 
