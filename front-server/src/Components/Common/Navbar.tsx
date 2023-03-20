@@ -34,8 +34,8 @@ function Navbar():JSX.Element {
       {/* 헤더 */}
       <div className="flex justify-between items-center w-full bg-white text-[#A87E6E] lg:px-0  py-3 px-3" >
         <div className="flex">
-          <div aria-label="main" className='font-bold text-[1.1rem] sm:text-[1.2rem] cursor-pointer' onClick={onClick}>홍민정음</div>
-          <div className="lg:flex text-[0.9rem] px-4 items-center hidden">
+          <div aria-label="main" className='font-bold text-[1.2rem] md:text-[1.3rem] cursor-pointer' onClick={onClick}>홍민정음</div>
+          <div className="lg:flex text-[1rem] px-4 items-center hidden">
             <div aria-label="main" className = "px-4 cursor-pointer" onClick={onClick}>학습</div>
             <div aria-label="note" className = "px-4 cursor-pointer" onClick={onClick}>오답공책</div>
             <div aria-label="dogam" className = "px-4 cursor-pointer" onClick={onClick}>문맥도감</div>
@@ -44,7 +44,7 @@ function Navbar():JSX.Element {
             <div aria-label="notice" className = "px-4 cursor-pointer" onClick={onClick}>알림공간</div>
           </div>
         </div>
-        <div className='flex justify-around text-[0.9rem]'>
+        <div className='flex justify-around text-[1rem]'>
           {/* <div aria-label="admin" className='cursor-pointer mr-4' onClick={onClick}>관리자</div> */}
           <div  className="flex justify-center px-3">
             <div aria-label="mypage" className='cursor-pointer mr-2 font-bold' onClick={onClick}>{nickname}<span className="font-normal">님</span></div>

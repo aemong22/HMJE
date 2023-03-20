@@ -90,32 +90,19 @@ function AnswerModal({
 
             {/*body header*/}
             <div className="relative px-4 pt-3 flex justify-between items-end sm:min-w-[25rem] min-w-[19rem]">
-              <div className="flex items-end">
-                <div className="md:text-[1.5rem] text-[1.2rem] font-bold mr-1">
-                  {studyType !== "contextStudy" ? (
-                    <>{question[num].wordName}</>
-                  ) : (
-                    <>{question[num].dogamName}</>
-                  )}
-                </div>
-                {studyType !== "contextStudy" && question[num].wordOrigin && (
-                  <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">
-                    [{question[num].wordOrigin}]
-                  </div>
-                )}
-                {studyType === "contextStudy" && question[num].dogamOrigin && (
-                  <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">
-                    [{question[num].dogamOrigin}]
-                  </div>
-                )}
-                <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">
-                  {studyType !== "contextStudy" ? (
-                    <>{question[num].wordType}</>
-                  ) : (
-                    <>{question[num].dogamClass}</>
-                  )}
-                </div>
-              </div>
+                <div className="flex items-end">
+                    <div className="md:text-[1.5rem] text-[1.2rem] font-bold mr-1">
+                        { studyType !== "contextStudy" ? 
+                            <>{question[num].wordName}</> :
+                            <>{question[num].dogamName}</>
+                        }
+                    </div>
+                    {studyType !== "contextStudy" && <div>({question[num].wordIso})</div>}
+                    {studyType !== "contextStudy" && question[num].wordOrigin && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">[{question[num].wordOrigin}]</div>}
+                    {studyType === "contextStudy" && question[num].dogamOrigin && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">[{question[num].dogamOrigin}]</div>}
+                    <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{studyType !== "contextStudy" ? <>{question[num].wordType}</>:<>{question[num].dogamClass}</>}</div>
+                </div>        
+                {studyType !== "contextStudy" && question[num].wordRating != "없음" && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{question[num].wordRating}</div>}
 
               {studyType !== "contextStudy" &&
                 question[num].wordRating != "없음" && (
