@@ -280,7 +280,7 @@ function News({example,setSelectKeyWord,selectKeyWord}:any): JSX.Element {
                     <>
                       {selectKeyWord == index ?(
                         <>
-                          <div className="cursor-pointer rounded-full py-1 px-4 mr-3 mt-1 md:text-[1.4rem] sm:text-[1.2rem] text-[1.1rem] text-[#ffffff] border-2 border-[#BF9F91] bg-[#BF9F91] font-bold" onClick={() => {
+                          <div key={index} className="cursor-pointer rounded-full py-1 px-4 mr-3 mt-1 md:text-[1.4rem] sm:text-[1.2rem] text-[1.1rem] text-[#ffffff] border-2 border-[#BF9F91] bg-[#BF9F91] font-bold" onClick={() => {
                             setSelectKeyWord(index);
                           }}>
                             {ex.name}

@@ -44,8 +44,8 @@ function NoteHeader({select,setSelect,num}:any): JSX.Element {
   return(
     <>
       <div className="w-full bg-[#ffffff]">
-        <div className="container max-w-screen-xl lg:w-[80%] w-full mx-auto font-bold sm:flex block justify-between md:pt-14 pt-8">
-          <div className="lg:text-[2.6rem] md:text-[2.3rem] sm:text-[2rem] text-[1.6rem] lg:px-0 px-2 pb-1 text-[#A87E6E]">오답[誤答] <span className="lg:text-[2rem] md:text-[1.8rem] text-[1rem]">공책</span></div>
+        <div className="container max-w-screen-xl md:w-[90%] w-full mx-auto font-bold sm:flex block justify-between md:pt-14 pt-8 md:px-0 px-3">
+          <div className="lg:text-[2.6rem] md:text-[2.3rem] sm:text-[2rem] text-[1.6rem]  pb-1 text-[#A87E6E]">오답[誤答] <span className="lg:text-[2rem] md:text-[1.8rem] text-[1rem]">공책</span></div>
           
           <div className="flex justify-end md:pt-6 pt-4 text-[#ffffff]">
           <div className="relative">
@@ -118,7 +118,7 @@ function WrongList({select, data}:any):JSX.Element {
   return (
     <>
       <div className="w-full">
-        <div className="container max-w-screen-xl lg:w-[80%] w-full mx-auto flex flex-wrap justify-between py-4">
+        <div className="container max-w-screen-xl md:w-[90%] w-full mx-auto flex flex-wrap justify-between py-4">
           {data.map((word:any , index:number) => {
             return(
               <div key={index} className="bg-[#ffffff] md:w-[46%] w-full rounded-lg py-3 px-6 m-2 overflow-hidden">
