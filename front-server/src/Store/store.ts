@@ -16,12 +16,36 @@ const userNickname = createSlice({
   },
 });
 
+// 한페이지에 나타나는 단어 리스트
+const dictList = createSlice({
+  name: "dictList",
+  initialState: '',
+  reducers: {
+    changeDictList(state, action) {
+      return state = action.payload
+    }
+  }
+})
+// 사전 페이지 번호
+const dictPage = createSlice({
+  name: "dictPage",
+  initialState: '',
+  reducers: {
+    changeDictPage(state, action) {
+      return state = action.payload
+    },
+  },
+});
+
 export const store = configureStore({
   // store에서 만든 state를 전역에서 사용할 수 있도록 등록하기
   reducer: {
     [hmjeApi.reducerPath]: hmjeApi.reducer,
     [NonAuthApi.reducerPath]: NonAuthApi.reducer,
-    userNickname: userNickname.reducer
+    userNickname: userNickname.reducer,
+    // 사전
+    dictList: dictList.reducer,
+    dictPage: dictPage.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(hmjeApi.middleware).concat(NonAuthApi.middleware),
 
@@ -31,6 +55,10 @@ setupListeners(store.dispatch)
 
 
 export const { changeUserNickname } = userNickname.actions;
+
+// 사전
+export const { changeDictList } = dictList.actions;
+export const { changeDictPage } = dictPage.actions;
 
 // store의 타입 미리 export 해둔 것.
 export type RootState = ReturnType<typeof store.getState>;
