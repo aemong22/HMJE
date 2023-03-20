@@ -7,6 +7,8 @@ import com.server.back.domain.message.dto.FindRequestDto;
 import com.server.back.domain.message.service.SmsService;
 import com.server.back.domain.user.dto.*;
 
+import com.server.back.domain.user.repository.BadgeRepository;
+import com.server.back.domain.user.service.BadgeService;
 import com.server.back.domain.user.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,8 @@ public class UserController {
     private final JwtService jwtService;
     private final UserService userService;
     private final SmsService smsService;
+    private final BadgeService badgeService;
+
     @ApiOperation(value = "회원 가입")
     @PostMapping("/join")
     public ResponseEntity<Map<String, Object>> join(@RequestBody UserRequestDto requestDto){
@@ -155,6 +159,15 @@ public class UserController {
     public ResponseEntity<Map<String, Object>> compare(@PathVariable(value = "userId") Long userId){
         Map<String, Object> response = new HashMap<>();
         CompareResponseDto responseDto = userService.compare(userId);
+        response.put("data", responseDto);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @ApiOperation(value = "뱃지 획득 확인")
+    @GetMapping("/sms/check/{userId}")
+    public ResponseEntity<Map<String, Object>> badgeCheck(@PathVariable(value = "userId") Long userId){
+        Map<String, Object> response = new HashMap<>();
+        List<Long> responseDto = badgeService.badgecheck(userId);
         response.put("data", responseDto);
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
