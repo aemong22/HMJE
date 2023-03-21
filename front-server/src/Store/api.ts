@@ -178,6 +178,20 @@ export const hmjeApi = createApi({
       invalidatesTags: (result, error, arg) => [{ type: "Api" }]
     }),
 
+    // 8. 뱃지 수정
+    putAdminBadge: builder.mutation({
+      query: (data) => {   
+        const [badge_id, body] = data
+        console.log(badge_id, body);
+        return {
+          url: `/admin/badge/${badge_id}`,
+          method: 'put',
+          body: body
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
 
     // --------------admin | past ---------------
     // 전체 과거시험 회차 목록
@@ -454,6 +468,7 @@ export const {
   useLazyGetAdminUserSearchListQuery,
   useDeleteAdminBadgeMutation,
   usePostAdminBadgeMutation,
+  usePutAdminBadgeMutation,
 
   // ADMIN PAST
   useGetAdminPastListQuery,

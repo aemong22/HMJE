@@ -686,7 +686,7 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
             hoverOffset: 4,
           },
           {
-            label: '틀린단어 시간?',
+            label: '복습시간',
             data: wrongTm, 
             backgroundColor: [
               'rgb(255, 99, 132)',
@@ -812,7 +812,7 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
             hoverOffset: 4,
           },
           {
-            label: '틀린단어 시간?',
+            label: '복습시간',
             data: wrongTm, 
             backgroundColor: [
               'rgb(255, 99, 132)',
