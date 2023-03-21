@@ -1,4 +1,4 @@
-FROM python:3.10-alpine
+FROM python:3.10
 WORKDIR /var/jenkins_home/workspace/hmje-deploy/python-server/news_word
 COPY requirements.txt ./
 
