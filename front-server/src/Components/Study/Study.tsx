@@ -6,7 +6,6 @@ import ReactDOMServer from 'react-dom/server';
 
 function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,setSemo,right, setRight, openModal, setResultModal}:any): JSX.Element {
 
-  // console.log("섞기", question?.sort(() => Math.random() - 0.5))
   // 초성 뽑아내기
   const cho = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
   let result = ""
@@ -128,8 +127,6 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
   const submit2 = () => {
     resetTranscript()
     setInput("")
-    console.log(input, question[num].dogamName)
-
     //정답
     if(input === question[num].dogamName) {
       if(hint) {
@@ -224,10 +221,10 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
 
           {/* 오른쪽 학습 상세정보 영역  */}
           <div className="lg:w-[17%] w-full flex lg:block flex-row flex-wrap text-center">
-            <div className="px-1 m-2 lg:py-8 rounded-lg md:text-[1.8rem] sm:text-[1.3rem] text-[1rem] text-[#A87C6E] font-bold flex flex-col justify-center">
+            <div className="px-2 m-2 lg:py-8 rounded-lg md:text-[1.8rem] sm:text-[1.3rem] text-[1rem] text-[#A87C6E] font-bold flex flex-col justify-center">
               {studyType === "wordStudy"  ? <>단어학습</>
               : studyType === "contextStudy" ? <>문맥학습</>
-              : <>복습</>
+              : <><span className="px-4">복습</span></>
               }
 
               </div>

@@ -13,6 +13,7 @@ function WordStudy(): JSX.Element {
   // 학습 종류
   const location = useLocation();
   const [studyType, setStudyType] = useState<String>();
+  
   useEffect(()=> {
     setStudyType((location.pathname).replace("/",""));
   },[])
@@ -35,7 +36,6 @@ function WordStudy(): JSX.Element {
       getStudyWord(userId).then((r) => { 
         return(r)
       }).then((r) => { 
-        console.log(r.data.data) 
         setQuestion(r.data.data)
       })
     }
@@ -43,7 +43,6 @@ function WordStudy(): JSX.Element {
       getStudyContext(userId).then((r) => { 
         return(r)
       }).then((r) => { 
-        console.log(r.data.data) 
         setQuestion(r.data.data)
       })
     }
@@ -52,7 +51,6 @@ function WordStudy(): JSX.Element {
         const myArray = [...r.data.data];
         myArray.sort(() => Math.random() - 0.5);
         setQuestion(myArray)
-        console.log(myArray);
         
       })
     }

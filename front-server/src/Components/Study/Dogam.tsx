@@ -60,7 +60,6 @@ function DogamList({ get, total }: any): JSX.Element {
   const [open, setOpen] = useState<Boolean>(false);
   const [select, setSelect] = useState<number>();
 
-  console.log(total)
   
     return (
       <>
