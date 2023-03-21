@@ -170,7 +170,7 @@ function AdminUserSection1():JSX.Element {
     }
     
     return (
-      <div ref={ref} className="flex justify-center absolute mx-auto w-full z-10" onClick={(e)=> {
+      <div ref={ref} className="flex justify-center absolute mx-auto w-full h-[90vh]  z-10" onClick={(e)=> {
         if (e.target === ref.current) {
           setIsClickUser(false)
       }}}>

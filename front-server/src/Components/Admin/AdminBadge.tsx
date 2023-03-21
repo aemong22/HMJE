@@ -1,6 +1,6 @@
 import React, { MouseEventHandler, useEffect, useRef, useState } from "react"
 import { toast } from "react-toastify";
-import { useDeleteAdminBadgeMutation, useLazyGetAdminBadgeListQuery, usePostAdminBadgeMutation } from "../../Store/api";
+import { useDeleteAdminBadgeMutation, useLazyGetAdminBadgeListQuery, usePostAdminBadgeMutation, usePutAdminBadgeMutation } from "../../Store/api";
 import Navbar from "../Common/Navbar"
 import { Toast } from "../Common/Toast";
 import styles from "./Admin.module.css";
@@ -32,6 +32,7 @@ function AdminUserSection1():JSX.Element {
   const [getUserBadge, {error:error1, isLoading:isLoading1}] = useLazyGetAdminBadgeListQuery()
   const [deleteAdminBadge, {error:error2, isLoading:isLoading2}] = useDeleteAdminBadgeMutation()
   const [postAdminBadge, {error:error3, isLoading:isLoading3}] = usePostAdminBadgeMutation()
+  const [putAdminBadge, {error:error4, isLoading:isLoading4}] = usePutAdminBadgeMutation()
   
   const loading = <div>로딩중</div>
   
@@ -66,6 +67,9 @@ function AdminUserSection1():JSX.Element {
 
   function BadgeDetail():JSX.Element {
     const ref = useRef<HTMLDivElement>(null)
+    const nameRef = useRef<HTMLInputElement>(null)
+    const detailRef = useRef<HTMLInputElement>(null)
+    const imgRef = useRef<HTMLInputElement>(null)
     const click:MouseEventHandler<HTMLDivElement> = (e) => {
       const target = e.target as HTMLElement 
       if (target.ariaLabel === '취소') {
@@ -79,14 +83,32 @@ function AdminUserSection1():JSX.Element {
             toast.error('에러 발생')
             setIsClickUser(false)
           }
-          
         })
       } else {
-        
+        if ((nameRef.current?.value !== undefined)&&(detailRef.current?.value !== undefined)&&(imgRef.current?.value !== undefined)) {
+          const body = {
+            badgeName: nameRef.current?.value,
+            badgeDetail: detailRef.current?.value,
+            badgeImage: imgRef.current?.value
+          }
+          putAdminBadge([clickUserData?.badgeId,body]).unwrap().then((r)=> {
+            if (r.message === 'success') {
+              toast.success('뱃지 수정 성공!')
+              setIsClickUser(false)
+            } else  {
+              toast.error('에러 발생!')
+              setIsClickUser(false)
+            }
+          })
+        } else {
+          // 비어있음
+          toast.error('값을 모두 입력해주세요!')
+        } 
       }
     }
+
     return (
-      <div ref={ref} className="flex justify-center absolute mx-auto w-full z-10" onClick={(e)=> {
+      <div ref={ref} className="flex justify-center absolute mx-auto w-full h-[88vh] z-10" onClick={(e)=> {
         if (e.target === ref.current) {
           setIsClickUser(false)
       }}}>
@@ -102,9 +124,9 @@ function AdminUserSection1():JSX.Element {
               </div>
               <div className="flex flex-col justify-center items-start w-1/2 mx-5 text-[1rem] text-[#767676] font-semibold">
                 <div className="py-[0.15rem]">{clickUserData?.badgeId}</div>
-                <div className="py-[0.15rem]">{clickUserData?.badgeImage}</div>
-                <div className="py-[0.15rem]">{clickUserData?.badgeName}</div>
-                <div className="py-[0.15rem]">{clickUserData?.badgeDetail}</div>
+                <div className="py-[0.15rem]"><input ref={imgRef} className="focus:outline-[#e9bb78]" id="img" type="text" defaultValue={clickUserData?.badgeImage} autoFocus/></div>
+                <div className="py-[0.15rem]"><input ref={nameRef} className="focus:outline-[#e9bb78]" id="name" type="text" defaultValue={clickUserData?.badgeName}/></div>
+                <div className="py-[0.15rem]"><input ref={detailRef} className="focus:outline-[#e9bb78]" id="detail" type="text" defaultValue={clickUserData?.badgeDetail}/></div>
               </div>
             </div>
             <div className="flex justify-center  text-[1rem] text-[#A87E6E] font-semibold my-4">
@@ -120,20 +142,19 @@ function AdminUserSection1():JSX.Element {
 
   function BadgeAdd():JSX.Element {
     const ref1 = useRef<HTMLDivElement>(null)
-    const [badgeName, setBadgeName] = useState<string>()
-    const [badgeDetail, setBadgeDetail] = useState<string>()
-    const [badgeImage, setBadgeImage] = useState<string>()
+    const nameRef = useRef<HTMLInputElement>(null)
+    const detailRef = useRef<HTMLInputElement>(null)
+    const imgRef = useRef<HTMLInputElement>(null)
     const click:MouseEventHandler<HTMLDivElement> = (e) => {
       const target = e.target as HTMLElement 
       if (target.ariaLabel === '취소') {
         setIsBadgeAdd(false)
       } else {
-        
-        if ((badgeName !== undefined)&&(badgeDetail !== undefined)&&(badgeImage !== undefined)) {
+        if ((nameRef.current?.value !== undefined)&&(detailRef.current?.value !== undefined)&&(imgRef.current?.value !== undefined)) {
           const body = {
-            badgeName: badgeName,
-            badgeDetail: badgeDetail,
-            badgeImage: badgeImage
+            badgeName: nameRef.current?.value,
+            badgeDetail: detailRef.current?.value,
+            badgeImage: imgRef.current?.value
           }
           postAdminBadge(body).unwrap().then((r)=> {
             if (r.message === 'success') {
@@ -143,26 +164,14 @@ function AdminUserSection1():JSX.Element {
               toast.error('에러 발생!')
               setIsBadgeAdd(false)
             }
-            
           })
         } else {
           toast.error('모든 칸에 입력해주세요!')
         }
       } 
     }
-
-    const nameChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-      setBadgeName(e.target.value)
-    }
-    const detailChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-      setBadgeDetail(e.target.value)
-    }
-    const imageChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-      setBadgeImage(e.target.value)
-    }
-
     return (
-      <div ref={ref1} className="flex justify-center absolute mx-auto w-full z-10" onClick={(e)=> {
+      <div ref={ref1} className="flex justify-center absolute mx-auto w-full h-[88vh] z-10" onClick={(e)=> {
         if (e.target === ref1.current) {
           setIsClickUser(false)
       }}}>
@@ -176,9 +185,9 @@ function AdminUserSection1():JSX.Element {
                 <div className="py-[0.15rem]">badgeImage</div>
               </div>
               <div className="flex flex-col justify-center items-start w-1/2 mx-5 text-[1rem] text-[#767676] font-semibold">
-                <div aria-label="이름" className="py-[0.15rem]"><input type="text" placeholder="badgeName" onChange={nameChange}/></div>
-                <div aria-label="설명" className="py-[0.15rem]"><input type="text" placeholder="badgeDetail" onChange={detailChange}/></div>
-                <div aria-label="이미지" className="py-[0.15rem]"><input type="text" placeholder="badgeImage" onChange={imageChange}/></div>
+                <div className="py-[0.15rem]"><input className="focus:outline-[#e9bb78]" ref={nameRef} type="text" placeholder="이름" autoFocus/></div>
+                <div className="py-[0.15rem]"><input className="focus:outline-[#e9bb78]" ref={detailRef} type="text" placeholder="설명"/></div>
+                <div className="py-[0.15rem]"><input className="focus:outline-[#e9bb78]" ref={imgRef} type="text" placeholder="이미지"/></div>
               </div>
             </div>
             <div className="flex justify-center  text-[1rem] text-[#A87E6E] font-semibold my-4">
@@ -215,7 +224,7 @@ function AdminUserSection1():JSX.Element {
             <span className="cursor-pointer" onClick={addBadge}>+</span>
           </div>
         </div>
-        <div className="overflow-y-auto h-[50vh] w-full">
+        <div className="overflow-y-auto h-[49vh] w-full">
           <div className="flex justify-center items-start ">
             <table className="w-full">
               <thead>

@@ -5,7 +5,8 @@ import classNames from "classnames";
 
 function Navbar():JSX.Element {
   const navigate = useNavigate()
-  const nickname:any = useAppSelector((state:any) => state.userNickname)
+  // const nickname:any = useAppSelector((state:any) => state.userNickname)
+  const nickname = localStorage.getItem('nickname')
   const [menuToggle, setMenuToggle] = useState(false);
 
   const onClick:MouseEventHandler<HTMLDivElement> = (e) => {
