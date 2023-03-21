@@ -85,6 +85,33 @@ public class UserController {
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    @ApiOperation(value = "사용자 확인 (수정페이지)")
+    @PostMapping("/change/{userId}")
+    public ResponseEntity<Map<String, Object>> changeInfo(@PathVariable(value = "userId") Long userId , @RequestBody UserRequestDto requestDto){
+        Map<String, Object> response = new HashMap<>();
+        Boolean changeInfo =  userService.changeInfo(userId, requestDto);
+        response.put("data", changeInfo);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @ApiOperation(value = "비밀번호 수정")
+    @PutMapping("/change/password/{userId}")
+    public ResponseEntity<Map<String, Object>> changePassword(@PathVariable(value = "userId") Long userId , @RequestBody ChangeRequestDto requestDto){
+        Map<String, Object> response = new HashMap<>();
+        Boolean changepassword =  userService.changePassword(userId, requestDto);
+        response.put("data", changepassword);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @ApiOperation(value = "휴대폰 번호 수정")
+    @PutMapping("/change/phonenumber/{userId}")
+    public ResponseEntity<Map<String, Object>> changePhonenumber(@PathVariable(value = "userId") Long userId , @RequestBody ChangeRequestDto requestDto){
+        Map<String, Object> response = new HashMap<>();
+        Boolean changePhonenumber = userService.changePhonenumber(userId, requestDto);
+        response.put("data", changePhonenumber);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
     @ApiOperation(value = "내 정보 조회")
     @GetMapping("/myinfo/{userId}")
     public ResponseEntity<Map<String, Object>> userMyInfo(@PathVariable(value = "userId") Long userId){

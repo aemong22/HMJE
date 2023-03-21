@@ -14,6 +14,9 @@ public interface UserService {
     UserResponseDto userInfo(Long userId);
 
     void userUpdate(Long userId, UserRequestDto requestDto);
+    boolean changeInfo(Long userId, UserRequestDto requestDto);
+    boolean changePassword(Long userId, ChangeRequestDto requestDto);
+    boolean changePhonenumber(Long userId, ChangeRequestDto requestDto);
     List<BadgeResultResponseDto> myBadgeAll(Long userId);
     void uesrLogout(Long userId);
     void userDelete(Long userId);
