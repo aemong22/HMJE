@@ -36,7 +36,6 @@ function WordStudy(): JSX.Element {
       getStudyWord(userId).then((r) => { 
         return(r)
       }).then((r) => { 
-        console.log(r.data.data) 
         setQuestion(r.data.data)
       })
     }
@@ -44,7 +43,6 @@ function WordStudy(): JSX.Element {
       getStudyContext(userId).then((r) => { 
         return(r)
       }).then((r) => { 
-        console.log(r.data.data) 
         setQuestion(r.data.data)
       })
     }
@@ -53,7 +51,6 @@ function WordStudy(): JSX.Element {
         const myArray = [...r.data.data];
         myArray.sort(() => Math.random() - 0.5);
         setQuestion(myArray)
-        console.log(myArray);
         
       })
     }

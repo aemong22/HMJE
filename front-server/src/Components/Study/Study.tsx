@@ -6,7 +6,6 @@ import ReactDOMServer from 'react-dom/server';
 
 function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,setSemo,right, setRight, openModal, setResultModal}:any): JSX.Element {
 
-  // console.log("섞기", question?.sort(() => Math.random() - 0.5))
   // 초성 뽑아내기
   const cho = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
   let result = ""
@@ -128,8 +127,6 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
   const submit2 = () => {
     resetTranscript()
     setInput("")
-    console.log(input, question[num].dogamName)
-
     //정답
     if(input === question[num].dogamName) {
       if(hint) {
