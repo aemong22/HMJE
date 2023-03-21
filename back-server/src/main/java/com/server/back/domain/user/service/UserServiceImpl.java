@@ -100,6 +100,38 @@ public class UserServiceImpl implements UserService {
         entity.update(requestDto);
     }
     @Override
+    public boolean changeInfo(Long userId, UserRequestDto requestDto){
+        User user = userRepository.findByUserId(userId);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if (!user.equals(null)){
+            return encoder.matches(requestDto.getPassword(), user.getPassword());
+        }
+        return false;
+    }
+    @Override
+    public boolean changePassword(Long userId, ChangeRequestDto requestDto){
+        User user = userRepository.findByUserId(userId);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if (!user.equals(null)){
+            if (encoder.matches(requestDto.getPassword(), user.getPassword())){
+                String newpassword = bCryptPasswordEncoder.encode(requestDto.getNewPassword());
+                user.changePassord(newpassword);
+                return true;
+            }
+        }
+        return false;
+    }
+    @Override
+    public boolean changePhonenumber(Long userId, ChangeRequestDto requestDto){
+        User user = userRepository.findByUserId(userId);
+        if (!user.equals(null)){
+            user.changePhonenumber(requestDto.getNewPhonenumber());
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public List<BadgeResultResponseDto> myBadgeAll(Long userId) {
         User user = userRepository.findByUserId(userId);
         List<BadgeResult> badgeresult = badgeresultRepository.findByUser(user);
