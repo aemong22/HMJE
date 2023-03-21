@@ -37,7 +37,7 @@ function Login(): JSX.Element {
         password: Password,
         username: Id,
       }).then((r) => {
-        console.log("받는 데이터", r.data);
+        // console.log("받는 데이터", r.data);
 
         // const accessToken = r.data.accessToken;
         // const refreshToken = r.data.refreshToken;
@@ -52,8 +52,8 @@ function Login(): JSX.Element {
 
   const Enter = () => {
     // axios 입장하기
-    console.log(Id);
-    console.log(Password);
+    // console.log(Id);
+    // console.log(Password);
 
     const data: login = { username: Id, password: Password };
 
@@ -61,12 +61,12 @@ function Login(): JSX.Element {
       .unwrap()
       .then((r: any) => {
         if (r.status === "200") {
-          console.log("받는 데이터", r);
+          // console.log("받는 데이터", r);
           const accessToken = r.accessToken;
           const refreshToken = r.refreshToken;
           const userId = r.userId;
-          console.log("accessToken", accessToken);
-          console.log("refreshToken", refreshToken);
+          // console.log("accessToken", accessToken);
+          // console.log("refreshToken", refreshToken);
           localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("userName", Id!);
           localStorage.setItem("userId", userId);

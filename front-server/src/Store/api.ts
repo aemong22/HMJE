@@ -35,6 +35,7 @@ type dictresponse = {
   wordDetailResponseList: []
 }
 
+
 const fetchAccessToken = async () => {
   // const userName: string = localStorage.getItem("userName")
   let accessToken: string | null = localStorage.getItem("accessToken");
@@ -177,10 +178,24 @@ export const hmjeApi = createApi({
       invalidatesTags: (result, error, arg) => [{ type: "Api" }]
     }),
 
+    // 8. 뱃지 수정
+    putAdminBadge: builder.mutation({
+      query: (data) => {   
+        const [badge_id, body] = data
+        console.log(badge_id, body);
+        return {
+          url: `/admin/badge/${badge_id}`,
+          method: 'put',
+          body: body
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
 
     // --------------admin | past ---------------
     // 전체 과거시험 회차 목록
-    getAdminPastList: builder.query({
+    getAdminPastList: builder.query<any, any>({
       query: () => "admin/past",
       providesTags: (result, error, arg) => {
         return [{ type: "Api" }]
@@ -260,6 +275,22 @@ export const hmjeApi = createApi({
             year: year,
             month: month,
           },
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+    // 8. 학습시간,단어,문맥,통계
+
+    // 9. 다른 유저와 통계 비교
+
+    // 10. 로그아웃
+    putUserLogout: builder.mutation({
+      query: (data) => {
+        console.log("로그아웃 data는", data);
+        return {
+          url: `/user/logout/${data.userId}`,
+          method: 'PUT',
         }
       },
       invalidatesTags: (result, error, arg) => [{ type: "Api" }]
@@ -437,6 +468,7 @@ export const {
   useLazyGetAdminUserSearchListQuery,
   useDeleteAdminBadgeMutation,
   usePostAdminBadgeMutation,
+  usePutAdminBadgeMutation,
 
   // ADMIN PAST
   useGetAdminPastListQuery,
@@ -446,6 +478,7 @@ export const {
   useGetUserMyinfoQuery,
   usePutUserdataMutation,
   useGetUserMystudyQuery,
+  usePutUserLogoutMutation,
 
   // STUDY
   useLazyGetStudyWordQuery,
