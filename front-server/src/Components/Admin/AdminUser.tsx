@@ -1,7 +1,7 @@
-import { MouseEventHandler, useEffect, useRef, useState } from "react"
+import React, { MouseEventHandler, useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useGetUserMyinfoQuery, useLazyGetAdminUserListQuery, usePutAdminUserDeleteMutation, usePutAdminUserUpdateMutation } from "../../Store/api";
+import { useGetUserMyinfoQuery, useLazyGetAdminUserListQuery, useLazyGetAdminUserSearchListQuery, usePutAdminUserDeleteMutation, usePutAdminUserUpdateMutation } from "../../Store/api";
 import Navbar from "../Common/Navbar"
 import { Toast } from "../Common/Toast";
 import styles from "./Admin.module.css";
@@ -35,11 +35,12 @@ interface UserListType {
 function AdminUserSection1():JSX.Element {
   const userId = localStorage.getItem('userId')
   const navigate = useNavigate()
-  const [userListddd, setUserList] = useState<UserListType[]>()
+  const [userList, setUserList] = useState<UserListType[]>()
   const [isClickUser,setIsClickUser] = useState<boolean>(false) 
   const [clickUserData, setClickUserData] = useState<UserListType>()
   const [userMyInfo, {error:error1, isLoading:isLoading1}] = useLazyGetAdminUserListQuery()
   const [putAdminUserUpdate, {error:error2, isLoading:isLoading2}] = usePutAdminUserUpdateMutation()
+  const [searchUser, {error:error3, isLoading:isLoading3}] = useLazyGetAdminUserSearchListQuery()
 
   console.log('유저 아이디: ', userId);
   
@@ -57,7 +58,7 @@ function AdminUserSection1():JSX.Element {
 
   // setUserList(userMyInfo?.data)
 
-  const tbodyData = userListddd?.map((e:UserListType, idx:number)=> {
+  const tbodyData = userList?.map((e:UserListType, idx:number)=> {
     let 등급:string = ''
     switch (e.level) {
       case 1:
@@ -111,6 +112,13 @@ function AdminUserSection1():JSX.Element {
     )
   })
   
+  const search = (e:React.ChangeEvent<HTMLInputElement>) => {
+    searchUser(e.target.value).unwrap().then((r)=> {
+      setUserList(r.data)
+      
+    })
+  }
+
   function UserDetail():JSX.Element {
     const [PutAdminUserDelete, {isLoading}] = usePutAdminUserDeleteMutation()
     const [changeNickname, setChangeNickname] = useState<string>('')
@@ -123,32 +131,32 @@ function AdminUserSection1():JSX.Element {
         if (changeNickname === '') {
           toast.error('변경할 닉네임을 입력해주세요.')
         } else {
-            console.log('현재 새로적은 닉네임은? :', changeNickname);
-          putAdminUserUpdate([userId, changeNickname]).unwrap().then((r)=> {
+            putAdminUserUpdate([userId, changeNickname]).unwrap().then((r)=> {
             if (r.message === 'success') {
               toast.success('성공적으로 변경되었습니다.')
+              setIsClickUser(false)
             } else {
               toast.error('요청에 오류가 있습니다.')
+              setIsClickUser(false)
             }
+          }).then(()=> {
+            userMyInfo('').unwrap().then((r)=> {
+              setUserList(r.data)
+            })
           })
         }
-        // userMyInfo('').unwrap().then((r)=> {
-        //   setUserList(r.data)
-        // setIsClickUser(false)
-        // })
       } else {
         if (isAdminInfo?.data.isAdmin) {
           PutAdminUserDelete([clickUserData?.userId, userId]).unwrap().then((r)=> {
             if (r.data) {
               toast.success('성공적으로 처리했습니다')
+              userMyInfo('').unwrap().then((r)=> {
+                setUserList(r.data)
+              setIsClickUser(false)
+              })
             } else {
               toast.error('뭔가 이상한데?')
             }
-          }).then(()=> {
-            userMyInfo('').unwrap().then((r)=> {
-              setUserList(r.data)
-            setIsClickUser(false)
-            })
           })
         } else {
           toast.error('어드민 아닌데요?')
@@ -162,7 +170,7 @@ function AdminUserSection1():JSX.Element {
     }
     
     return (
-      <div ref={ref} className="flex justify-center absolute mx-auto w-full z-10" onClick={(e)=> {
+      <div ref={ref} className="flex justify-center absolute mx-auto w-full h-[90vh]  z-10" onClick={(e)=> {
         if (e.target === ref.current) {
           setIsClickUser(false)
       }}}>
@@ -223,10 +231,15 @@ function AdminUserSection1():JSX.Element {
         <div className="w-full flex justify-center text-[2.2rem] text-[#A87E6E] font-bold mb-5">
           USER 관리
         </div>
-        <div className="w-full mb-4 font-bold">
-          <span className="text-[1.4rem] text-[#A87E6E] border-b-4 border-b-[#A87E6E]/70">
-            USER
-          </span>
+        <div className="w-full mb-4 font-bold flex justify-between">
+          <div>
+            <span className="text-[1.4rem] text-[#A87E6E] border-b-4 border-b-[#A87E6E]/70">
+              USER
+            </span>
+          </div>
+          <div>
+            <input className="text-center border-2 border-[#A87E6E] rounded-lg focus:outline-[#e9bb78]" type="text" placeholder="유저 닉네임" autoFocus onChange={search}/>
+          </div>
         </div>
         <div className="overflow-y-auto h-[50vh] w-full">
           <div className="flex justify-center items-start ">

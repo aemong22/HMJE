@@ -31,6 +31,11 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
         })
 
       }
+      else if(studyType === "wrongStudy") {
+        const type = 3
+        postStudyStudyTime({korEnd,korStart,studyTime,type,userId}).then((result) => {
+        })
+      }
 
     },[])
 
@@ -51,7 +56,7 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
 
     // 단어 학습
     if(studyType === "wordStudy") {
-        getExp = Object.keys(correct).length * 10
+        getExp = (correct.length * 10) + (semo * 5)
     }
 
     if(resultLoading || timeLoading || resultLoading2) {
@@ -100,8 +105,8 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
                 {/*footer*/}
                 <div className="flex md:justify-between py-2 px-4 flex-wrap md:flex-row flex-col items-center md:w-auto">
                   <div className="text-sm text-[#5F5F5F]">학습시간 : <span className="text-[#A87E6E] font-bold pr-2">{studyTime}초 </span>{" "}
-                  {studyType !== "contextStudy" &&
-                    <>획득 경험치 : <span className="text-[#A87E6E] font-bold">{10 * correct.length}</span></>
+                  {studyType === "wordStudy" &&
+                    <>획득 경험치 : <span className="text-[#A87E6E] font-bold">{getExp}</span></>
                   }
                 
                   </div> 
