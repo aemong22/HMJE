@@ -22,6 +22,7 @@ import Dogam from "./Components/Study/Dogam";
 import Notice from "./Components/Notice/Notice";
 import PastTestIntroModal from "./Components/Study/PastTestIntroModal";
 import PastTest from "./Components/Study/PastTest";
+import AdminExam from "./Components/Admin/AdminExam";
 
 function App() {
   const notify = () => toast("Wow so easy!");
@@ -52,6 +53,7 @@ function App() {
           <Route path="user" element={<AdminUser />} />
           <Route path="badge" element={<AdminBadge />} />
           <Route path="context" element={<AdminContext />} />
+          <Route path="exam" element={<AdminExam />} />
         </Route>
       </Routes>
     </>

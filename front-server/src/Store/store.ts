@@ -5,17 +5,6 @@ import { hmjeApi } from "./api"
 import { NonAuthApi } from "./NonAuthApi";
 
 
-// 유저 닉네임 저장
-const userNickname = createSlice({
-  name: "userNickname",
-  initialState: '유저',
-  reducers: {
-    changeUserNickname(state, action) {
-      return state = action.payload
-    },
-  },
-});
-
 // 한페이지에 나타나는 단어 리스트
 const dictList = createSlice({
   name: "dictList",
@@ -42,7 +31,6 @@ export const store = configureStore({
   reducer: {
     [hmjeApi.reducerPath]: hmjeApi.reducer,
     [NonAuthApi.reducerPath]: NonAuthApi.reducer,
-    userNickname: userNickname.reducer,
     // 사전
     dictList: dictList.reducer,
     dictPage: dictPage.reducer,
@@ -53,8 +41,6 @@ export const store = configureStore({
 //주석추가
 setupListeners(store.dispatch)
 
-
-export const { changeUserNickname } = userNickname.actions;
 
 // 사전
 export const { changeDictList } = dictList.actions;
