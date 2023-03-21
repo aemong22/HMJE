@@ -3,7 +3,7 @@ WORKDIR /var/jenkins_home/workspace/hmje-deploy/python-server/news_word
 COPY requirements.txt ./
 
 ENV TZ=Asia/Seoul
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN sudo ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get update
 RUN apt-get install g++ openjdk-8-jdk python3-dev python3-pip curl
