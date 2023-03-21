@@ -2,11 +2,14 @@ import { MouseEventHandler, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAppSelector } from "../../Store/hooks"
 import classNames from "classnames";
+import { usePutUserLogoutMutation } from "../../Store/api";
 
 function Navbar():JSX.Element {
   const navigate = useNavigate()
   const nickname:any = useAppSelector((state:any) => state.userNickname)
   const [menuToggle, setMenuToggle] = useState(false);
+
+  const [putUserLogout,loading]=usePutUserLogoutMutation()
 
   const onClick:MouseEventHandler<HTMLDivElement> = (e) => {
     const target = e.target as HTMLElement
@@ -24,6 +27,21 @@ function Navbar():JSX.Element {
       navigate('/dictionary')
     } else if(target.ariaLabel === 'notice') {
       navigate('/notice')
+    }
+    else if(target.ariaLabel==="logout"){
+      console.log("로그아웃 시작");      
+      const data={
+       userId:localStorage.getItem("userId")
+      }
+      putUserLogout(data).unwrap().then((r)=>{
+        console.log(r.message=="success");
+        
+        if(r.message=="success"){
+          console.log("로그아웃성공");          
+          window.localStorage.clear();
+          navigate("/login");
+        }        
+      })
     }
 
   }
@@ -50,7 +68,7 @@ function Navbar():JSX.Element {
             <div aria-label="mypage" className='cursor-pointer mr-2 font-bold' onClick={onClick}>{nickname}<span className="font-normal">님</span></div>
               <div className='cursor-pointer'>어서오세요</div>
             </div>
-          <div className="lg:block hidden px-3 border-l border-[#A87E6E] cursor-pointer">나가기</div>
+          <div aria-label="logout" className="lg:block hidden px-3 border-l border-[#A87E6E] cursor-pointer" onClick={onClick}>나가기</div>
           <div className="lg:hidden flex items-center">
             <button
               onClick={() => setMenuToggle(!menuToggle)}
