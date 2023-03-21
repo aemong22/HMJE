@@ -178,9 +178,9 @@ function AnswerModal({
                 }}
               >
                 { num < question.length-1 ? (
-                  <>결과 보기</>
-                ) : (
                   <>다음 문제</>
+                ) : (
+                  <>결과 보기</>
                 )}
               </button>
             </div>

@@ -13,6 +13,7 @@ function WordStudy(): JSX.Element {
   // 학습 종류
   const location = useLocation();
   const [studyType, setStudyType] = useState<String>();
+  
   useEffect(()=> {
     setStudyType((location.pathname).replace("/",""));
   },[])
