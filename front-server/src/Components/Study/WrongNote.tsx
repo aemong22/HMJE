@@ -4,6 +4,7 @@ import { useGetWordWrongQuery } from "../../Store/api"
 import React, { useState } from "react";
 import classNames from "classnames";
 import WrongDetail from "./WrongDetail";
+import { useNavigate } from "react-router-dom";
 
 function WrongNote(): JSX.Element {
   const userId = localStorage.getItem("userId")
@@ -37,6 +38,7 @@ export default WrongNote
 
 // 오답노트 헤더
 function NoteHeader({select,setSelect,num}:any): JSX.Element {
+  const navigate = useNavigate()
 
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -54,8 +56,8 @@ function NoteHeader({select,setSelect,num}:any): JSX.Element {
               className="flex items-center justify-between w-[8rem] mr-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 focus:border-[#666666] rounded-md shadow-sm "
             >
               {select === 2 ? "단어만 보이게" : select === 1 ? "뜻만 보이게" : "전체"}
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-3 h-3 ml-2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-3 h-3 ml-2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
               </svg>
 
             </button>
@@ -102,7 +104,7 @@ function NoteHeader({select,setSelect,num}:any): JSX.Element {
               <div className="md:px-6 px-4 py-1 bg-[#F7CCB7] mr-2 flex flex-col justify-center rounded-t-lg md:text-[1.2rem] text-[0.9rem]">
                 {num}개
               </div>
-              <div className="md:px-6 px-4 py-1 bg-[#F7CCB7] mr-1 flex flex-col justify-center rounded-t-lg md:text-[1.2rem] text-[0.9rem]">
+              <div className="md:px-6 px-4 py-1 bg-[#F7CCB7] mr-1 flex flex-col justify-center rounded-t-lg md:text-[1.2rem] text-[0.9rem] cursor-pointer hover:bg-[#B18978]" onClick={() => navigate('/wrongStudy')}>
                 복습하기
               </div>
           </div>
@@ -117,6 +119,7 @@ function WrongList({select, data}:any):JSX.Element {
   // 그만두기
   const [open, setOpen] = useState<Boolean>(false);
   const [idx, setIdx] = useState(0)
+  console.log(data);
   return (
     <>
       <div className="w-full">
@@ -142,7 +145,7 @@ function WrongList({select, data}:any):JSX.Element {
                       {word?.wordDetailResponseList[0].details}
                   </div>
                 </div>
-                {open && <WrongDetail index={idx} data={data} setOpen={setOpen} open={open} /> }
+                {open && <WrongDetail index={idx} data={data} setOpen={setOpen} open={open} setIdx={setIdx}/> }
               </>
             )
           })}

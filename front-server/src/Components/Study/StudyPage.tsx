@@ -1,4 +1,4 @@
-import { useLazyGetStudyWordQuery, useLazyGetStudyContextQuery } from "../../Store/api";
+import { useLazyGetStudyWordQuery, useLazyGetStudyContextQuery,useLazyGetWordWrongQuery } from "../../Store/api";
 import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
 import Navbar from "../Common/Navbar"
@@ -19,10 +19,16 @@ function WordStudy(): JSX.Element {
 
 
   const [question, setQuestion] = useState<any>([]);
+
+  // 현재 문제 번호 
+  const [num, setNum] = useState<number>(0)
   
   // RTK QUERY 불러오기
   const [ getStudyWord,{ isLoading:LoadingWords, error:ErrorWords } ] = useLazyGetStudyWordQuery();
   const [ getStudyContext, { isLoading:LoadingContexts, error:ErrorContext } ] = useLazyGetStudyContextQuery();
+  const [ getWordWrong, { isLoading:LoadingWrong, error:ErrorWrong } ] = useLazyGetWordWrongQuery();
+
+
 
   useEffect(() => {
     if(studyType === "wordStudy") {
@@ -41,6 +47,15 @@ function WordStudy(): JSX.Element {
         setQuestion(r.data.data)
       })
     }
+    else if(studyType === "wrongStudy"){
+      getWordWrong(userId).then((r) => {
+        const myArray = [...r.data.data];
+        myArray.sort(() => Math.random() - 0.5);
+        setQuestion(myArray)
+        console.log(myArray);
+        
+      })
+    }
 
   
   },[studyType])
@@ -52,8 +67,6 @@ function WordStudy(): JSX.Element {
     setstartTime(Date.now())
   },[])
 
-  // 현재 문제 번호
-  const [num, setNum] = useState<number>(0)
 
   // 세모 개수
   const [semo, setSemo] = useState<number>(0)
@@ -81,10 +94,10 @@ function WordStudy(): JSX.Element {
   // 맞힘 틀림
   const [right, setRight] = useState<Boolean>(false);
 
-  if(LoadingContexts || LoadingWords) {
+  if(LoadingContexts || LoadingWords || LoadingWrong) {
     return <div>Loading...</div>
   }
-  if(ErrorWords || ErrorContext) {
+  if(ErrorWords || ErrorContext || ErrorWrong) {
     return <div>error</div>
   }
 
@@ -112,7 +125,8 @@ function WordStudy(): JSX.Element {
            studyType={studyType} 
            setRight={setRight}
            right={right} 
-           num={num} 
+           num={num}
+           modalOpen={modalOpen}
            setNum={setNum}
            setResultModal={setResultModal} 
            question={question

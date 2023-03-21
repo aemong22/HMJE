@@ -548,5 +548,6 @@ export const {
   useLazyGetWorddictdetailQuery,
 
   useGetWordWrongQuery,
+  useLazyGetWordWrongQuery,
 
 } = hmjeApi 
