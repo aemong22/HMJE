@@ -296,7 +296,7 @@ public class UserServiceImpl implements UserService {
         LocalDate findDate = LocalDate.now(); //오늘
         String findMonth = findDate.toString().substring(0,7);   //년월 합쳐서만들어야함
 
-        //내 학습 시간 체크 (한달, 하루
+        //내 학습 시간 체크 (한달, 하루)
         List<StudyTime> totalstudytimelist = studyTimeRepository.findAllByUser(user);
         Integer monthMyStatsTime = 0;
         Integer todayMyTime = 0;
@@ -311,6 +311,8 @@ public class UserServiceImpl implements UserService {
                 }
             }
         }
+        String todayDay = findDate.toString().substring(8,10);   // 오늘 날짜
+        monthMyStatsTime = monthMyStatsTime/Integer.parseInt(todayDay); // 나의 이번달 평균 학습시간
         responseDto.setTodayMyTime(todayMyTime);
         responseDto.setMonthMyStatsTime(monthMyStatsTime);
 

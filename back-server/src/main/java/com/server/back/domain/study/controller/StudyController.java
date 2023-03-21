@@ -1,10 +1,7 @@
 package com.server.back.domain.study.controller;
 
-import com.server.back.domain.study.dto.StudyRequestDto;
-import com.server.back.domain.study.dto.StudyTimeRequestDto;
-import com.server.back.domain.study.dto.WordResponseDto;
+import com.server.back.domain.study.dto.*;
 import com.server.back.domain.study.entity.Dogam;
-import com.server.back.domain.study.entity.Word;
 import com.server.back.domain.study.service.StudyService;
 import com.server.back.domain.user.repository.StudyTimeRepository;
 import com.server.back.domain.user.service.UserService;
@@ -40,7 +37,7 @@ public class StudyController {
     @PostMapping("/word/result")
     public ResponseEntity<Map<String, Object>> wordResult(@RequestBody StudyRequestDto requestDto){
         Map<String, Object> response = new HashMap<>();
-        Integer rightexp = studyService.wordResult(requestDto)*10; //맞은단어,틀린단어 체크
+        Integer rightexp = studyService.wordResult(requestDto)*10 + requestDto.getSemo()*5; //맞은단어,틀린단어 체크
         userService.updateStudyResult(requestDto); //오늘의 통계 OXV 체크
         userService.updateStudyExp(requestDto.getUserId(), rightexp); //경험치
         Integer newlevel = userService.levelup(requestDto.getUserId()); //레벨업
@@ -73,6 +70,46 @@ public class StudyController {
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @ApiOperation(value = "과거시험 회차 정보")
+    @GetMapping("/past")
+    public ResponseEntity<Map<String, Object>> getPastInfo(){
+        Map<String, Object> response = new HashMap<>();
+        PastTestResponseDto pastTestResponseDto = studyService.getPastInfo();
+        response.put("data", pastTestResponseDto);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "과거시험 문제")
+    @GetMapping("/past/test")
+    public ResponseEntity<Map<String, Object>> getPastTest(){
+        Map<String, Object> response = new HashMap<>();
+        List<PastQuestionResponseDto> result = studyService.getPastTest();
+        if(result == null){
+            response.put("message","fail");
+        }else{
+            response.put("data", result);
+            response.put("message", "success");
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @ApiOperation(value="과거시험 점수 저장")
+    @PostMapping("/past/result")
+    public ResponseEntity<Map<String, Object>> createPastTestResult(@RequestBody PastTestResultRequestDto pastTestResultRequestDto){
+        Map<String, Object> response = new HashMap<>();
+        Boolean result = studyService.createPastTestResult(pastTestResultRequestDto);
+        if(result){
+            response.put("message", "success");
+        }else{
+            response.put("message", "fail");
+        }
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
 
     @ApiOperation(value = "학습 시간 관리")
     @PostMapping("/studytime")
