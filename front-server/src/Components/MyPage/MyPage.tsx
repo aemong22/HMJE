@@ -1,11 +1,11 @@
 import Footer from "../Common/Footer"
 import Navbar from "../Common/Navbar"
 import Pangguin from "../Threejs/Pangguin"
-import { useGetUserMyinfoQuery, useGetUserMystudyQuery, usePostUserMonthstudyMutation, usePutUserdataMutation } from "../../Store/api"
+import { useGetUserMyinfoQuery, useGetUserMystudyQuery, useLazyGetUserStatsCompareQuery, usePostUserMonthstudyMutation, usePutUserdataMutation } from "../../Store/api"
 // import { usePostUserchecknicknameMutation } from "../../Store/NonAuthApi";
 import React, { KeyboardEvent, KeyboardEventHandler, MouseEventHandler, useEffect, useRef, useState } from "react"
 // import styled from './MyPage.module.css'
-import { Doughnut, Line } from "react-chartjs-2"
+import { Bar, Doughnut, Line } from "react-chartjs-2"
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
 // import { useAppDispatch } from "../../Store/hooks";
@@ -137,9 +137,9 @@ function MyPage():JSX.Element {
   const sentenceList: {
     [key: number]: React.ReactNode
   } = {
-    0: <div>오늘 학습한 데이터가 없어서 울고있어요.😥 <br/>서둘러 학습을 해주세요</div>,
-    1: <div>현재 맞춘 개수가 더 많아서 행복해 하고 있어요.😊 <br/>더 화이팅 해주세요</div>,
-    2: <div>현재 틀린 개수가 더 많아서 슬퍼하고 있어요.😓 <br/> 더 힘내주세요</div>,
+    0: <div>오늘도 신나는 마음으로 <br/>함께 학습을 해요🤗</div>,
+    1: <div>현재 맞춘 개수가 더 많아서 행복해 하고 있어요.😊 <br/>조금 더 알아볼까요?</div>,
+    2: <div>현재 틀린 개수가 더 많아서 슬퍼하고 있어요.😓 <br/> 더 힘내볼까요?</div>,
     3: <div>현재 정답과 오답이 같아요😮 <br/> 조금만 더 해볼까요?</div>,
   }
   let sentence
@@ -602,9 +602,15 @@ interface check3 {
 
 function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
   const [monthStuty, {isLoading : monthStudyLoading, error:monthStudyError}] = usePostUserMonthstudyMutation()
+  // const {data: getUserStatsCompare, isLoading: isLoading2, isError: isError2} = useGetUserStatsCompareQuery(userId)
+  const [getUserStatsCompare, {isLoading: isLoading2}] = useLazyGetUserStatsCompareQuery()
 
+  // console.log('다른 유저와 통계 비교: ', getUserStatsCompare?.data);
+  
   const [studyTimeChart, setStudyTimeChart] = useState<any>()
   const [studyCntChart, setStudyCntChart] = useState<any>()
+  const [studyCompareChart, setStudyCompareChart] = useState<any>()
+  const [studyCompareChart2, setStudyCompareChart2] = useState<any>()
 
   const monthRef = useRef<HTMLSelectElement>(null)
   const yearRef = useRef<HTMLSelectElement>(null)
@@ -664,7 +670,6 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
       };
 
       // 학습 시간
-
       const studyTimeData = {
         datasets: [
           {
@@ -695,7 +700,6 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
             hoverOffset: 4,
           },
         ],
-        
         labels: labels
       };
 
@@ -708,7 +712,6 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
       setStudyTimeChart(Chart)
 
       // 학습 단어 개수
-      
       const studyCntData = {
         datasets: [
           {
@@ -741,6 +744,95 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
         )
         setStudyCntChart(Chart2)
     })
+
+    getUserStatsCompare((userId)).unwrap().then((r)=> {
+      // console.log('통계 데이터: ',r.data);
+      const options = {
+        // 옵션 (1)
+        responsive: true,
+        // 옵션 (2)
+        interaction: {
+          mode: "index" as const,
+          intersect: false,
+        },
+        // 옵션 (3)
+        scales: {
+          x: {
+            grid: {
+              display: false,
+            },
+          },
+          y: {
+            grid: {
+              color: "#E3E3E3",
+            },
+          },
+        },
+        maintainAspectRatio: false,
+      };
+      // 학습 비교 통계
+      const studyCompareData = {
+        datasets: [
+          {
+            label: '전체 유저 학습 시간 비교(분) ',
+            data: [Math.floor(r.data.monthMyStatsTime/60), Math.floor(r.data.monthUsersStatsTime/60)], 
+            backgroundColor: [
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+            ],
+            borderColor: [
+              'rgb(75, 192, 192)',
+              'rgb(54, 162, 235)',
+            ],
+            tension: 0.1,
+            hoverBorderColor: ['#d5cdcf'],
+            hoverOffset: 4,
+          },
+        ],
+        borderWidth: 4,
+        labels: ["나의 평균", "전체 사용자 평균"],
+      };
+  
+      const Chart3 = 
+        (
+          <div className="h-full w-full bg-white">
+            <Bar options={options} typeof='bar' data={studyCompareData}/>
+          </div>
+        )
+        setStudyCompareChart(Chart3)
+      // 학습 비교 통계
+      const studyCompareData2 = {
+        datasets: [
+          {
+            label: "평균 학습 시간(분) ",
+            data: [Math.floor(r.data.todayMyTime/60), Math.floor(r.data.monthMyStatsTime/60)], 
+            backgroundColor: [
+              'rgba(255, 205, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+            ],
+            borderColor: [
+              'rgb(255, 205, 86)',
+              'rgb(75, 192, 192)',
+            ],
+            fill: false,
+            tension: 0.1,
+            hoverBorderColor: ['#d5cdcf'],
+            hoverOffset: 4,
+          },
+        ],
+        borderWidth: 4,
+        labels: ["오늘", "한달"],
+      };
+  
+      const Chart4 = 
+        (
+          <div className="h-full w-full bg-white">
+            <Bar options={options} typeof='bar' data={studyCompareData2}/>
+          </div>
+        )
+        setStudyCompareChart2(Chart4)
+    })
+
     Chart.register();
   },[])
   
@@ -833,8 +925,7 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
         )
       setStudyTimeChart(Chart)
 
-      // 학습 단어 개수
-      
+      // 학습 단어 개수   
       const studyCntData = {
         datasets: [
           {
@@ -899,31 +990,29 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
   
 
   return (
-    <div className="flex flex-col justify-center items-center w-full px-[5%] h-[53rem] sm:h-[57rem] md:h-[58rem] lg:h-[70rem] mt-6 mb-12 md:my-12">
-      <div className="flex justify-center items-center h-[67%] max-w-screen-xl w-full">
+    <div className="flex flex-col justify-center items-center w-full px-[5%] h-[150rem] lg:h-[110rem] my-6 md:my-12">
+      <div className="flex justify-center items-center h-[80%] max-w-screen-xl w-full">
         {/* 학습 관리 */}
         <div className="flex flex-col justify-center items-start w-full h-[90%]">
-          <div className="flex justify-between items-center w-full h-[16%] sm:h-[8%]">
+          <div className="flex justify-between items-center w-full h-[10%] lg:h-[8%] my-[2%]">
             <div className="flex flex-col w-1/2">
               <div className="block text-[1.1rem] md:text-[1.35rem] lg:text-[1.4rem] font-semibold pb-2">학습 관리</div>
               <div className="block font-semibold text-[0.8rem] md:text-[0.9rem] lg:text-[1rem] text-[#A2A2A2]">나의 학습 정보를 확인해보세요!</div>
             </div>
-            <div className="flex justify-between items-end w-[45%] md:w-[30%] h-full ">
+            <div className="flex justify-between items-center  w-1/2 h-full ">
               {/* <div className="w-full"><span className="flex justify-center items-center border-2 ">2023</span></div> */}
-              <div className="w-full">
+              <div className=" w-full">
                 {yearSelectElement}
               </div>
-              <div className="w-full">
+              <div className=" w-full">
                 {monthSelectElement}
               </div>
             </div>
           </div>
-          <div className="h-[42%] sm:h-[46%] w-full mt-4">
+          <div className="h-[20%] lg:h-[28%] w-full my-[2%]">
             {/* 학습 시간 문구 */}
-            <div className="flex justify-between items-center w-full h-[16%] sm:h-[20%]">
+            <div className="flex justify-between items-center w-full h-[16%] lg:h-[20%]">
               <div className="flex justify-center items-center w-[35%] md:w-[19%] h-[80%] sm:h-[60%] lg:h-[70%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.9rem] md:text-[1rem] lg:text-[1.1rem]"><span>학습 시간</span></div>
-              <div className="flex justify-between items-center w-[28%] md:w-[20%] sm:h-[60%] lg:h-[70%] font-semibold text-[0.8rem] sm:text-[0.8rem] lg:text-[0.9rem] text-[#868686]">
-              </div>
             </div>
             {/* 학습 시간 데이터 */}
             <div className="flex justify-center items-center w-full h-[80%]">
@@ -935,9 +1024,9 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
               </div>
             </div>
           </div>
-          <div className="h-[42%] sm:h-[46%] w-full mt-4">
+          <div className="h-[20%] lg:h-[28%] w-full my-[2%]">
             {/* 학습 단어 개수 */}
-            <div className="flex justify-between items-center w-full h-[16%] sm:h-[20%]">
+            <div className="flex justify-between items-center w-full h-[16%] lg:h-[20%]">
               <div className="flex justify-center items-center w-[35%] md:w-[19%] h-[80%] sm:h-[60%] lg:h-[70%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.9rem] sm:text-[1rem] lg:text-[1.1rem]"><span>학습 단어 개수</span></div>
             </div>
             {/* 학습 단어 개수 데이터 */}
@@ -951,9 +1040,75 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
               </div>
             </div>
           </div>
+          {/* 데스크탑 */}
+          <div className="hidden lg:flex justify-evenly items-center lg:h-[28%] w-full my-[2%]">
+            {/* 다른 유저와 통계 비교 */}
+            <div className="flex flex-col items-start w-[48%] h-full mr-[4%]">
+              <div className="flex justify-center items-center w-[70%] lg:w-[38%] h-[16%] lg:h-[20%] ">
+                <div className="flex justify-center items-center text-center w-full h-full lg:h-[84%] bg-[#F7CCB7] rounded-lg sm:rounded-xl text-white font-semibold lg:text-[1.1rem]">
+                  <span>학습 시간 비교</span>
+                </div>
+              </div>
+              <div className="w-full h-full">
+                  {isLoading2&&loading }
+                  {
+                    studyCompareChart? studyCompareChart:null
+                  }
+              </div>
+            </div>
+            {/* 나의 학습 비교 */}
+            <div className="flex flex-col items-start w-[48%] h-full">
+              <div className="flex justify-center items-center w-[70%] lg:w-[38%] h-[16%] lg:h-[20%] ">
+                <div className="flex justify-center items-center text-center w-full h-full lg:h-[84%] bg-[#F7CCB7] rounded-lg sm:rounded-xl text-white font-semibold lg:text-[1.1rem]">
+                  <span>전체 유저 비교</span>
+                </div>
+              </div>
+              <div className="w-full h-full">
+                  {isLoading2&&loading }
+                  {
+                    studyCompareChart2? studyCompareChart2:null
+                  }
+              </div>
+            </div>
+          </div>
+          {/* 태블릿 & 모바일 */}
+          <div className="flex flex-col lg:hidden justify-center items-center h-[44%] w-full my-[2%]">
+            {/* 다른 유저와 통계 비교 */}
+            <div className="w-full h-[48%] my-[2%]">
+              <div className="flex justify-between items-center w-full h-[17%]">
+                <div className="flex justify-center items-center h-[70%] w-[35%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.9rem] md:text-[1rem] lg:text-[1.1rem]"><span>평균 학습 시간</span></div>
+              </div>
+              {/* 학습 시간 데이터 */}
+              <div className="flex justify-center items-center w-full h-[83%]">
+                <div className="h-[90%] w-full bg-[#D9D9D9] rounded-md">
+                  {/* 한달 간격으로 학습시간 & 학습 단어 갯수를 꺽은선 or 막대 그래프로 보여주기 */}
+                  {isLoading2&&loading }
+                  {
+                    studyCompareChart? studyCompareChart:null
+                  }
+                </div>
+              </div>
+            </div>
+            {/* 다른 유저와 통계 비교 */}
+            <div className="w-full h-[48%] my-[2%]">
+              <div className="flex justify-between items-center w-full h-[17%]">
+                <div className="flex justify-center items-center h-[70%] w-[35%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.9rem] md:text-[1rem] lg:text-[1.1rem]"><span>학습 시간</span></div>
+              </div>
+              {/* 학습 시간 데이터 */}
+              <div className="flex justify-center items-center w-full h-[83%]">
+                <div className="h-[90%] w-full bg-[#D9D9D9] rounded-md">
+                  {/* 한달 간격으로 학습시간 & 학습 단어 갯수를 꺽은선 or 막대 그래프로 보여주기 */}
+                  {isLoading2&&loading }
+                  {
+                    studyCompareChart2? studyCompareChart2:null
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div className="flex justify-center items-center h-[33%] max-w-screen-xl w-full">
+      <div className="flex justify-center items-center h-[20%] max-w-screen-xl w-full ">
         <div className="flex flex-col justify-center items-start w-full h-[90%]">
           <div className="flex items-center h-[15%]">
             <div className="block text-[1.1rem] md:text-[1.35rem] lg:text-[1.4rem] font-semibold">칭호</div>

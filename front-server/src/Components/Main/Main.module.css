@@ -65,3 +65,12 @@
     animation-iteration-count: infinite;
     animation-timing-function: linear;
   }
+
+
+  /* 장원급제 컨포넌트 폰트  */
+  @font-face {
+    font-family: 'EBSJSKMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/EBSJSKMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }

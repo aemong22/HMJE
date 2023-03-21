@@ -192,16 +192,45 @@ export const hmjeApi = createApi({
       invalidatesTags: (result, error, arg) => [{ type: "Api" }]
     }),
 
-
-    // --------------admin | past ---------------
-    // 전체 과거시험 회차 목록
+    // 9. 전체 과거시험 회차 목록
     getAdminPastList: builder.query<any, any>({
       query: () => "admin/past",
       providesTags: (result, error, arg) => {
         return [{ type: "Api" }]
       }
     }),
+    
+    // 10. 과거시험 문제 목록
+    getAdminPastDetailList: builder.query<any, any>({
+      query: (test_id:number) => {
+        return {
+          url: `admin/past/${test_id}`
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
 
+    // 11. 과거시험 회차 추가
+    postAdminPostTest: builder.mutation({
+      query: (body) => {   
+        return {
+          url: "/admin/past/test",
+          method: 'post',
+          body: body
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+    // 12. 전체 도감 목록 조회 리스트
+    getAdminDogam: builder.query<any, any>({
+      query: () => '/admin/dogam',
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
 
     // --------------user---------------
 
@@ -294,6 +323,22 @@ export const hmjeApi = createApi({
         }
       },
       invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+    // 11. 다른 유저와 통계 비교
+    getUserStatsCompare: builder.query({
+      query: (userId: any) => {
+        console.log("userId", userId);
+        return {
+          url: `/user/stats/compare/${userId}`,
+          params: {
+            userId: userId
+          }
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
     }),
 
     // ---------------STUDY---------------
@@ -469,16 +514,20 @@ export const {
   useDeleteAdminBadgeMutation,
   usePostAdminBadgeMutation,
   usePutAdminBadgeMutation,
+  useLazyGetAdminDogamQuery,
 
   // ADMIN PAST
   useGetAdminPastListQuery,
   useLazyGetAdminPastListQuery,
+  useLazyGetAdminPastDetailListQuery,
+  usePostAdminPostTestMutation,
 
   // USER
   useGetUserMyinfoQuery,
   usePutUserdataMutation,
   useGetUserMystudyQuery,
   usePutUserLogoutMutation,
+  useLazyGetUserStatsCompareQuery,
 
   // STUDY
   useLazyGetStudyWordQuery,

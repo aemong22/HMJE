@@ -5,11 +5,14 @@ import React, { useState } from "react";
 import classNames from "classnames";
 import WrongDetail from "./WrongDetail";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { Toast } from "../Common/Toast";
 
 function WrongNote(): JSX.Element {
   const userId = localStorage.getItem("userId")
   const [select, setSelect] = useState("0");
   const {data, isLoading, error}  = useGetWordWrongQuery(userId);
+
   
 
   if(isLoading) {
@@ -40,20 +43,35 @@ export default WrongNote
 function NoteHeader({select,setSelect,num}:any): JSX.Element {
   const navigate = useNavigate()
 
+  const goStudy = () => {
+
+    if(num > 0){
+      navigate('/wrongStudy')
+    }
+    else{
+      toast.error('복습할 단어가 없습니다.')
+    }
+
+  }
+
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return(
     <>
+      <Toast/>
       <div className="w-full bg-[#ffffff]">
-        <div className="container max-w-screen-xl md:w-[90%] w-full mx-auto font-bold sm:flex block justify-between md:pt-14 pt-8 md:px-0 px-3">
-          <div className="lg:text-[2.6rem] md:text-[2.3rem] sm:text-[2rem] text-[1.6rem]  pb-1 text-[#A87E6E]">오답[誤答] <span className="lg:text-[2rem] md:text-[1.8rem] text-[1rem]">공책</span></div>
+        <div className="container max-w-screen-xl md:w-[90%] w-full mx-auto font-bold sm:flex block justify-between md:pt-14 pt-8 md:px-0 px-3 items-end">
+          <div>
+            <div className="lg:text-[2.6rem] md:text-[2.3rem] sm:text-[2rem] text-[1.6rem]  pb-1 text-[#A87E6E]">오답[誤答] <span className="lg:text-[2rem] md:text-[1.8rem] text-[1rem]">공책</span></div>
+            <div className="lg:text-[1.5rem] md:text-[1.4rem] sm:text-[1.2rem] text-[1rem] font-medium text-[#8E8E8E] py-1">못 맞춘 단어들을 복습해보세요!</div>
+          </div>
           
-          <div className="flex justify-end md:pt-6 pt-4 text-[#ffffff]">
-          <div className="relative">
+          <div className="flex justify-end h-[50%] sm:pt-10 pt-4 text-[#ffffff]">
+          <div className="">
             <button
               onClick={toggleMenu}
-              className="flex items-center justify-between w-[8rem] mr-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 focus:border-[#666666] rounded-md shadow-sm "
+              className="flex items-center justify-between w-[8rem] mr-2 mb-1 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 focus:border-[#666666] rounded-md shadow-sm "
             >
               {select === 2 ? "단어만 보이게" : select === 1 ? "뜻만 보이게" : "전체"}
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-3 h-3 ml-2">
@@ -104,7 +122,7 @@ function NoteHeader({select,setSelect,num}:any): JSX.Element {
               <div className="md:px-6 px-4 py-1 bg-[#F7CCB7] mr-2 flex flex-col justify-center rounded-t-lg md:text-[1.2rem] text-[0.9rem]">
                 {num}개
               </div>
-              <div className="md:px-6 px-4 py-1 bg-[#F7CCB7] mr-1 flex flex-col justify-center rounded-t-lg md:text-[1.2rem] text-[0.9rem] cursor-pointer hover:bg-[#B18978]" onClick={() => navigate('/wrongStudy')}>
+              <div className="md:px-6 px-4 py-1 bg-[#F7CCB7] mr-1 flex flex-col justify-center rounded-t-lg md:text-[1.2rem] text-[0.9rem] cursor-pointer hover:bg-[#B18978]" onClick={goStudy}>
                 복습하기
               </div>
           </div>
@@ -119,7 +137,6 @@ function WrongList({select, data}:any):JSX.Element {
   // 그만두기
   const [open, setOpen] = useState<Boolean>(false);
   const [idx, setIdx] = useState(0)
-  console.log(data);
   return (
     <>
       <div className="w-full">
