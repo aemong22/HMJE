@@ -1,4 +1,4 @@
-import { useLazyGetStudyWordQuery, useLazyGetStudyContextQuery } from "../../Store/api";
+import { useLazyGetStudyWordQuery, useLazyGetStudyContextQuery,useLazyGetWordWrongQuery } from "../../Store/api";
 import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
 import Navbar from "../Common/Navbar"
@@ -19,10 +19,19 @@ function WordStudy(): JSX.Element {
 
 
   const [question, setQuestion] = useState<any>([]);
+
+  // 현재 문제 번호 
+  const [num, setNum] = useState<number>(0)
+
+  // 푼 문제 (복습하기에서만 적용)
+  const [num2, setNum2] = useState<number>(0);
   
   // RTK QUERY 불러오기
   const [ getStudyWord,{ isLoading:LoadingWords, error:ErrorWords } ] = useLazyGetStudyWordQuery();
   const [ getStudyContext, { isLoading:LoadingContexts, error:ErrorContext } ] = useLazyGetStudyContextQuery();
+  const [ getWordWrong, { isLoading:LoadingWrong, error:ErrorWrong } ] = useLazyGetWordWrongQuery();
+
+
 
   useEffect(() => {
     if(studyType === "wordStudy") {
@@ -41,6 +50,16 @@ function WordStudy(): JSX.Element {
         setQuestion(r.data.data)
       })
     }
+    else if(studyType === "wrongStudy"){
+      getWordWrong(userId).then((r) => {
+        setQuestion(r.data.data)
+        let max = Object.keys(r.data.data).length
+        console.log(max);
+        console.log(r.data.data) 
+        let random = Math.floor(Math.random() * max);
+        setNum(random);
+      })
+    }
 
   
   },[studyType])
@@ -52,8 +71,6 @@ function WordStudy(): JSX.Element {
     setstartTime(Date.now())
   },[])
 
-  // 현재 문제 번호
-  const [num, setNum] = useState<number>(0)
 
   // 세모 개수
   const [semo, setSemo] = useState<number>(0)
@@ -81,10 +98,10 @@ function WordStudy(): JSX.Element {
   // 맞힘 틀림
   const [right, setRight] = useState<Boolean>(false);
 
-  if(LoadingContexts || LoadingWords) {
+  if(LoadingContexts || LoadingWords || LoadingWrong) {
     return <div>Loading...</div>
   }
-  if(ErrorWords || ErrorContext) {
+  if(ErrorWords || ErrorContext || ErrorWrong) {
     return <div>error</div>
   }
 
@@ -98,6 +115,7 @@ function WordStudy(): JSX.Element {
          question={question}
          studyType={studyType} 
          num={num}
+         num2={num2}
          correct={correct} setCorrect={setCorrect} 
          wrong={wrong} setWrong={setWrong}
          semo={semo}
@@ -112,8 +130,11 @@ function WordStudy(): JSX.Element {
            studyType={studyType} 
            setRight={setRight}
            right={right} 
-           num={num} 
+           num={num}
+           modalOpen={modalOpen}
            setNum={setNum}
+           num2={num2}
+           setNum2={setNum2}
            setResultModal={setResultModal} 
            question={question
          }/> : null }

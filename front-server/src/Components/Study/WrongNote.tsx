@@ -4,6 +4,7 @@ import { useGetWordWrongQuery } from "../../Store/api"
 import React, { useState } from "react";
 import classNames from "classnames";
 import WrongDetail from "./WrongDetail";
+import { useNavigate } from "react-router-dom";
 
 function WrongNote(): JSX.Element {
   const userId = localStorage.getItem("userId")
@@ -37,6 +38,7 @@ export default WrongNote
 
 // 오답노트 헤더
 function NoteHeader({select,setSelect,num}:any): JSX.Element {
+  const navigate = useNavigate()
 
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -102,7 +104,7 @@ function NoteHeader({select,setSelect,num}:any): JSX.Element {
               <div className="md:px-6 px-4 py-1 bg-[#F7CCB7] mr-2 flex flex-col justify-center rounded-t-lg md:text-[1.2rem] text-[0.9rem]">
                 {num}개
               </div>
-              <div className="md:px-6 px-4 py-1 bg-[#F7CCB7] mr-1 flex flex-col justify-center rounded-t-lg md:text-[1.2rem] text-[0.9rem] cursor-pointer hover:bg-[#B18978]">
+              <div className="md:px-6 px-4 py-1 bg-[#F7CCB7] mr-1 flex flex-col justify-center rounded-t-lg md:text-[1.2rem] text-[0.9rem] cursor-pointer hover:bg-[#B18978]" onClick={() => navigate('/wrongStudy')}>
                 복습하기
               </div>
           </div>
