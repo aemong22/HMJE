@@ -1,5 +1,7 @@
 import Navbar from "../Common/Navbar"
 import {useGetDogamUserIdQuery ,useGetDogamQuery} from "../../Store/api"
+import { useState } from "react";
+import DogamDetail from "./DogamDetail";
 
 
 function Dogam(): JSX.Element {
@@ -52,15 +54,53 @@ function DogamHeader({num}:any): JSX.Element {
 
 function DogamList({get, total}:any): JSX.Element {
   const numbers = Array.from({ length: 100 }, (_, i) => i + 1);
+  const [open, setOpen] = useState<Boolean>(false);
+  const [select, setSelect] = useState<number>();
+
+  console.log(total)
   
     return (
       <>
       <div className="w-full py-4">
-        <div className="container max-w-screen-xl md:w-[90%] w-full mx-auto justify-start flex flex-wrap px-3">
-            <div className={`md:relative static  sm:h-[15rem] sm:w-[15rem] h-[9rem] w-[9rem] rounded-lg border-2`}>
-                <div className="text-[0.9rem] text-[#000000] rounded-full bg-[#AEAEAE]"></div>
-                <div className="text-[#A87E6E] font-bold md:text-[1.8rem] sm:text-[1.4rem] text-[1.1rem] py-0.5"></div>
-            </div>
+        {open && select && <DogamDetail select={select} detail={total[select]} setOpen={setOpen}/>}
+        <div className="container max-w-screen-xl md:w-[90%] w-full mx-auto justify-evenly flex flex-wrap px-3">
+        {numbers.map((num) => (
+          
+          <>
+              {get.includes(num) ? (
+                  <>
+                    <div className="relative h-0 lg:pb-[21%] lg:w-[22%] lg:p-[1%] md:pb-[27%] md:w-[30%] md:p-[3%] sm:pb-[42%] sm:w-[45%] sm:p-[3%] pb-[75%] w-[78%] p-[3%] rounded-lg border-2 m-[1%]" onClick={()=>{
+                      setSelect(num)
+                      setOpen(true)
+                      }}>
+                        <div className="text-[0.9rem] text-[#000000] w-fit rounded-full border-2 border-[#AEAEAE] flex"> 
+                          <div className="bg-[#AEAEAE] rounded-full px-3 font-bold text-[#fff]">
+                            {num.toString().padStart(3,"0")}
+                          </div>
+                          <div className="px-3">{total[num].dogamName}</div>
+                        </div>
+
+                        <div className="pb-[80%] w-[80%] mx-auto mt-3 bg-no-repeat bg-center bg-cover" style={{backgroundImage:`url('/Assets/Dogam/메타몽.jpg')`}}></div>
+                        <div className="text-[#A87E6E] font-bold md:text-[1.8rem] sm:text-[1.4rem] text-[1.1rem] py-0.5"></div>
+                    </div> 
+                  </>
+                ) : (
+                  <>
+                    <div className="relative h-0 lg:pb-[21%] lg:w-[22%] lg:p-[1%] md:pb-[27%] md:w-[30%] md:p-[3%] sm:pb-[42%] sm:w-[45%] sm:p-[3%] pb-[75%] w-[78%] p-[3%] rounded-lg border-2 m-[1%]">
+                        <div className="text-[0.9rem] text-[#000000] w-fit rounded-full border-2 border-[#AEAEAE] flex"> 
+                          <div className="bg-[#AEAEAE] rounded-full px-3 font-bold text-[#fff]">
+                            {num.toString().padStart(3,"0")}
+                          </div>
+                          <div className="pl-3 pr-4">미획득</div>
+                        </div>
+                        <div className="pb-[80%] w-[80%] mx-auto mt-3 bg-no-repeat bg-center bg-cover" style={{backgroundImage:`url('/Assets/Dogam/도감.jpg')`}}></div>
+                        <div className="text-[#A87E6E] font-bold md:text-[1.8rem] sm:text-[1.4rem] text-[1.1rem] py-0.5"></div>
+                    </div>  
+                  </>
+                )}
+            </>
+            ))}
+
 
           </div>
         </div>
