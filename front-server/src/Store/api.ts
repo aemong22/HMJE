@@ -524,6 +524,7 @@ export const {
 
   // USER
   useGetUserMyinfoQuery,
+  useLazyGetUserMyinfoQuery,
   usePutUserdataMutation,
   useGetUserMystudyQuery,
   usePutUserLogoutMutation,
