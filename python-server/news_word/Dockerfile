@@ -5,8 +5,9 @@ COPY requirements.txt ./
 ENV TZ=Asia/Seoul
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+RUN add-apt-repository ppa:webupd8team/java
 RUN apt-get update
-RUN apt-get install g++ openjdk-8-jdk python-dev python-pip curl
+RUN apt-get install g++ openjdk-8-jdk python3-dev python3-pip curl
 RUN python -m pip install --upgrade pip
 RUN python -m pip install konlpy
 RUN pip install -r requirements.txt
