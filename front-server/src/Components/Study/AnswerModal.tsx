@@ -7,8 +7,6 @@ function AnswerModal({
   question,
   num,
   setNum,
-  num2,
-  setNum2,
   setRight,
   studyType,
   setResultModal,
@@ -23,7 +21,7 @@ function AnswerModal({
   const motion = () => {
     setRight(false);
     closeModal();
-    if (studyType === "wordStudy") {
+    if (studyType !== "contextStudy") {
       if (num < (question.length-1)) {
         setNum(num + 1);
       } else {
@@ -37,12 +35,6 @@ function AnswerModal({
         // 결과 모달창 뜨기
         setResultModal(true);
       }
-    } else if( studyType === "wrongStudy" ) {
-        setNum2(num2+1);
-        let max = question.length
-        let random = Math.floor(Math.random() * max);
-        setNum(random)
-        console.log("문제낼 번호",random)
     }
     else {
       console.log("에러");
@@ -185,8 +177,7 @@ function AnswerModal({
                   motion();
                 }}
               >
-                {(studyType === "wordStudy" && num >= 9) ||
-                (studyType === "contextStudy" && num >= 4) ? (
+                { num < question.length-1 ? (
                   <>결과 보기</>
                 ) : (
                   <>다음 문제</>

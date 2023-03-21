@@ -22,9 +22,6 @@ function WordStudy(): JSX.Element {
 
   // 현재 문제 번호 
   const [num, setNum] = useState<number>(0)
-
-  // 푼 문제 (복습하기에서만 적용)
-  const [num2, setNum2] = useState<number>(0);
   
   // RTK QUERY 불러오기
   const [ getStudyWord,{ isLoading:LoadingWords, error:ErrorWords } ] = useLazyGetStudyWordQuery();
@@ -52,12 +49,11 @@ function WordStudy(): JSX.Element {
     }
     else if(studyType === "wrongStudy"){
       getWordWrong(userId).then((r) => {
-        setQuestion(r.data.data)
-        let max = Object.keys(r.data.data).length
-        console.log(max);
-        console.log(r.data.data) 
-        let random = Math.floor(Math.random() * max);
-        setNum(random);
+        const myArray = [...r.data.data];
+        myArray.sort(() => Math.random() - 0.5);
+        setQuestion(myArray)
+        console.log(myArray);
+        
       })
     }
 
@@ -115,7 +111,6 @@ function WordStudy(): JSX.Element {
          question={question}
          studyType={studyType} 
          num={num}
-         num2={num2}
          correct={correct} setCorrect={setCorrect} 
          wrong={wrong} setWrong={setWrong}
          semo={semo}
@@ -133,8 +128,6 @@ function WordStudy(): JSX.Element {
            num={num}
            modalOpen={modalOpen}
            setNum={setNum}
-           num2={num2}
-           setNum2={setNum2}
            setResultModal={setResultModal} 
            question={question
          }/> : null }
