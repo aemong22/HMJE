@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,6 +24,9 @@ public class AdminPastServiceImpl implements AdminPastService {
     private final PastQuestionRepository pastQuestionRepository;
     @Override
     public List<PastTestResponseDto> adminAllPastTestList() {
+
+
+
         return pastTestRepository.findAll().stream().map(o -> PastTestResponseDto.builder()
                 .pastTestId(o.getPastTestId())
                 .startTime(o.getStartTime())
@@ -34,26 +36,13 @@ public class AdminPastServiceImpl implements AdminPastService {
 
     @Override
     public List<PastQuestionResponseDto> adminPastQuestionList(Long testId) {
-        Optional<PastTest> optional = pastTestRepository.findById(testId);
+        PastTest test = pastTestRepository.findById(testId).orElseThrow(
+            () -> new IllegalArgumentException("테스트가 존재하지 않습니다.")
+        );
+        List<PastQuestion> pastQuestionList = pastQuestionRepository.findAllByPastTest(test);
+        List<PastQuestionResponseDto> result = PastQuestionResponseDto.fromEntityList(pastQuestionList);
 
-        if(optional.isPresent()){
-            PastTest pastTest = optional.get();
-            List<PastQuestion> pastQuestionList = pastTest.getPastQuestionList();
-            System.out.println("길이 확인용!!!-----------"+pastQuestionList.size());
-            return pastQuestionList.stream().map(o -> PastQuestionResponseDto.builder()
-                    .pastQuestionId(o.getPastQuestionId())
-                    .pastQuestion(o.getPastQuestion())
-                    .pastChoice1(o.getPastChoice1())
-                    .pastChoice2(o.getPastChoice2())
-                    .pastChoice3(o.getPastChoice3())
-                    .pastChoice4(o.getPastChoice4())
-                    .pastChoice5(o.getPastChoice5())
-                    .pastAnswer(o.getPastAnswer())
-                    .build()
-            ).collect(Collectors.toList());
-        }
-
-        return null;
+        return result;
     }
 
     @Override
@@ -77,6 +66,7 @@ public class AdminPastServiceImpl implements AdminPastService {
                         .pastChoice4(request.getPastChoice4())
                         .pastChoice5(request.getPastChoice5())
                         .pastAnswer(request.getPastAnswer())
+                        .pastText(request.getPastText())
                         .pastTest(entity)
                         .build();
 
