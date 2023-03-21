@@ -7,6 +7,8 @@ import com.server.back.domain.message.dto.FindRequestDto;
 import com.server.back.domain.message.service.SmsService;
 import com.server.back.domain.user.dto.*;
 
+import com.server.back.domain.user.repository.BadgeRepository;
+import com.server.back.domain.user.service.BadgeService;
 import com.server.back.domain.user.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,8 @@ public class UserController {
     private final JwtService jwtService;
     private final UserService userService;
     private final SmsService smsService;
+    private final BadgeService badgeService;
+
     @ApiOperation(value = "회원 가입")
     @PostMapping("/join")
     public ResponseEntity<Map<String, Object>> join(@RequestBody UserRequestDto requestDto){
@@ -81,6 +85,33 @@ public class UserController {
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    @ApiOperation(value = "사용자 확인 (수정페이지)")
+    @PostMapping("/change/{userId}")
+    public ResponseEntity<Map<String, Object>> changeInfo(@PathVariable(value = "userId") Long userId , @RequestBody UserRequestDto requestDto){
+        Map<String, Object> response = new HashMap<>();
+        Boolean changeInfo =  userService.changeInfo(userId, requestDto);
+        response.put("data", changeInfo);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @ApiOperation(value = "비밀번호 수정")
+    @PutMapping("/change/password/{userId}")
+    public ResponseEntity<Map<String, Object>> changePassword(@PathVariable(value = "userId") Long userId , @RequestBody ChangeRequestDto requestDto){
+        Map<String, Object> response = new HashMap<>();
+        Boolean changepassword =  userService.changePassword(userId, requestDto);
+        response.put("data", changepassword);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @ApiOperation(value = "휴대폰 번호 수정")
+    @PutMapping("/change/phonenumber/{userId}")
+    public ResponseEntity<Map<String, Object>> changePhonenumber(@PathVariable(value = "userId") Long userId , @RequestBody ChangeRequestDto requestDto){
+        Map<String, Object> response = new HashMap<>();
+        Boolean changePhonenumber = userService.changePhonenumber(userId, requestDto);
+        response.put("data", changePhonenumber);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
     @ApiOperation(value = "내 정보 조회")
     @GetMapping("/myinfo/{userId}")
     public ResponseEntity<Map<String, Object>> userMyInfo(@PathVariable(value = "userId") Long userId){
@@ -133,7 +164,7 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @ApiOperation(value = "학습시간,단어,문맥,통계")
-    @GetMapping("/mystudy/{userId}")
+    @GetMapping("/stats/mystudy/{userId}")
     public ResponseEntity<Map<String, Object>> mystudy(@PathVariable(value = "userId") Long userId){
         Map<String, Object> response = new HashMap<>();
         StudyResponseDto responseDto = userService.mystudy(userId);
@@ -142,10 +173,28 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @ApiOperation(value = "학습시간,단어,문맥,통계 한달치")
-    @PostMapping("/monthstudy/{userId}")
+    @PostMapping("/stats/monthstudy/{userId}")
     public ResponseEntity<Map<String, Object>> monthstudy(@PathVariable(value = "userId") Long userId, @RequestBody MonthStudyRequestDto requestDto){
         Map<String, Object> response = new HashMap<>();
         List<MonthStudyResponseDto> responseDto = userService.monthstudy(userId,requestDto);
+        response.put("data", responseDto);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @ApiOperation(value = "다른 유저와 통계 비교")
+    @GetMapping("/stats/compare/{userId}")
+    public ResponseEntity<Map<String, Object>> compare(@PathVariable(value = "userId") Long userId){
+        Map<String, Object> response = new HashMap<>();
+        CompareResponseDto responseDto = userService.compare(userId);
+        response.put("data", responseDto);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @ApiOperation(value = "뱃지 획득 확인")
+    @GetMapping("/sms/check/{userId}")
+    public ResponseEntity<Map<String, Object>> badgeCheck(@PathVariable(value = "userId") Long userId){
+        Map<String, Object> response = new HashMap<>();
+        List<Long> responseDto = badgeService.badgecheck(userId);
         response.put("data", responseDto);
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);

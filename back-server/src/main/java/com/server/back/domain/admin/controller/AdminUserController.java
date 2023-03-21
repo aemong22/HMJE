@@ -1,5 +1,6 @@
 package com.server.back.domain.admin.controller;
 
+import com.server.back.domain.admin.dto.AdminUserResponseDto;
 import com.server.back.domain.admin.service.AdminUserService;
 import com.server.back.domain.user.dto.UserRequestDto;
 import com.server.back.domain.user.dto.UserResponseDto;
@@ -24,7 +25,7 @@ public class AdminUserController {
     public ResponseEntity<Map<String, Object>> adminAllUserList(){
         Map<String, Object> response = new HashMap<>();
 
-        List<UserResponseDto> userList = adminUserService.adminAllUser();
+        List<AdminUserResponseDto> userList = adminUserService.adminAllUser();
 
         response.put("message", "success");
         response.put("data", userList);
@@ -37,7 +38,7 @@ public class AdminUserController {
     public ResponseEntity<Map<String, Object>> adminUserList(@PathVariable(name="nickname") String nickname){
         Map<String, Object> response = new HashMap<>();
 
-        List<UserResponseDto> userList = adminUserService.adminUserList(nickname);
+        List<AdminUserResponseDto> userList = adminUserService.adminUserList(nickname);
 
         response.put("message", "success");
         response.put("data", userList);
