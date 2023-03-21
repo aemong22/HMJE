@@ -29,6 +29,7 @@ public class PastQuestionResponseDto {
 
     public static PastQuestionResponseDto fromEntity(PastQuestion pastQuestion) {
         PastQuestionResponseDto pastQuestionResponseDto = PastQuestionResponseDto.builder()
+                                                                                 .pastQuestionId(pastQuestion.getPastQuestionId())
                                                                                  .pastQuestion(pastQuestion.getPastQuestion())
                                                                                  .pastChoice1(pastQuestion.getPastChoice1())
                                                                                  .pastChoice2(pastQuestion.getPastChoice2())
