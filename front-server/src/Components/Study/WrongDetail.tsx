@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
+import { Toast } from "../Common/Toast";
 
-function WrongDetail({index, data , setOpen , open }:any ):JSX.Element {
-    console.log("index값", index)
+function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
     
 
 
@@ -9,19 +10,20 @@ function WrongDetail({index, data , setOpen , open }:any ):JSX.Element {
     
     return(
         <>
+          <Toast />
           <div
             className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50"
           >
-            <div className="relative w-auto my-6 mx-auto max-w-xl">
+            <div className="relative my-6 mx-auto w-[30rem]">
               {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full py-3 px-1 bg-white outline-none focus:outline-none">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full py-3 md:px-1 px-0 bg-white outline-none focus:outline-none">
             
                 {/*body header*/}
-                <div className="flex items-end px-4 pt-3">
+                <div className="flex items-end md:px-4 px-3 pt-3">
                     <div className="md:text-[2rem] text-[1.5rem] font-bold mr-1 text-[#000000]">{data[index].wordName}</div>
                     <div className="flex items-end md:text-[1.2rem] text-[1rem] text-[#A2A2A2] mr-1">({data[index].wordIso})</div>
                 </div>
-                <div className="relative px-4 flex pt-1 justify-between items-end sm:min-w-[25rem] min-w-[19rem] flex-wrap">
+                <div className="relative md:px-4 px-3 flex pt-1 justify-between items-end sm:min-w-[25rem] min-w-[19rem] flex-wrap">
                     <div className="flex items-end md:text-[1.2rem] text-[1rem] text-[#A2A2A2] mr-1">
                         {data[index].wordOrigin &&<div>[{data[index].wordOrigin}]</div>}
                         <div>{data[index].wordType}</div>
@@ -32,7 +34,7 @@ function WrongDetail({index, data , setOpen , open }:any ):JSX.Element {
                     </div>
                 </div>
                 {/* body content */}
-                <div className="relative px-4 py-3 max-h-[50vh] overflow-y-auto">
+                <div className="relative md:px-4 px-3 py-3 h-[45vh] max-h-[20rem] overflow-y-auto">
                     {data[index].wordDetailResponseList.map((detail:any , idx:any) => {
                         let temp =  detail.wordExampleResponseList.filter((ex:any) => ex.exampleType === "문장")[0]?.exampleDetail
                         let example = temp ? temp : detail.wordExampleResponseList[0]?.exampleDetail
@@ -48,18 +50,25 @@ function WrongDetail({index, data , setOpen , open }:any ):JSX.Element {
                 </div>
 
                 {/*footer*/}
-                
-                <div className="flex items-center justify-between p-4 font-bold">
-                  <div className="cursor-pointer text-[1.2rem] rounded-lg h-7 w-15" onClick={()=>{}}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 hover:w-7 hover:h-7">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                <div className="flex items-center justify-between md:px-4 px-3 py-2 font-bold">
+                  <div className="cursor-pointer text-[1.2rem] rounded-lg h-7 w-10" onClick={()=>{
+                    if(index == 0 ) { toast.error("시작 단어 입니다.")}
+                    else {
+                        setIdx(index-1)
+                    }}}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 hover:w-7 hover:h-7 mx-auto">
+                        <path strokeLinecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                     </svg>
                   </div>
 
-                  <div className="text-[1.2rem] text-red-700 cursor-pointer h-7 w-15 hover:text-[1.3rem]" onClick={()=>{}}>닫기</div>
-                  <div className="cursor-pointer text-[1.2rem] hover:shadow-xl rounded-lg h-7 w-15" onClick={()=>{}}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6 hover:w-7 hover:h-7">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                  <div className="text-[1.2rem] text-red-700 cursor-pointer h-7 w-15 hover:text-[1.3rem]" onClick={()=>{setOpen(false)}}>닫기</div>
+                  <div className="cursor-pointer text-[1.2rem] rounded-lg h-7 w-10" onClick={()=>{
+                    if(index == Object.keys(data).length -1) { toast.error("마지막 단어 입니다.")}
+                    else {
+                        setIdx(index+1)
+                    }}}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 hover:w-7 hover:h-7 mx-auto">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                     </svg>
                   </div>
                 </div>
@@ -67,7 +76,7 @@ function WrongDetail({index, data , setOpen , open }:any ):JSX.Element {
               </div>
             </div>
           </div>
-          <div className="opacity-10 fixed inset-0 z-40 bg-black"></div>
+          <div className=" fixed inset-0 z-40 bg-black/10"></div>
         </>
     )
 }

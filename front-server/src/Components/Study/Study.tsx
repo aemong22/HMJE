@@ -5,6 +5,8 @@ import { Toast } from "../Common/Toast";
 import ReactDOMServer from 'react-dom/server';
 
 function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,setSemo,right, setRight, openModal, setResultModal}:any): JSX.Element {
+
+  // console.log("섞기", question?.sort(() => Math.random() - 0.5))
   // 초성 뽑아내기
   const cho = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
   let result = ""
@@ -60,6 +62,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     // 그만두기
     else if(stop){
       setResultModal(true)
+      clearInterval(id);
     }
      return () => clearInterval(id);
    }, [count]);
@@ -155,7 +158,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
           {/* 왼쪽 상단 */}
           <div className="absolute z-10 lg:w-[82%] w-full flex justify-between pr-5">
             <div className="bg-[#F7CCB7] min-h-[5rem] rounded-md py-1 px-4 font-bold text-[#ffffff]">문제 {num +1}</div>
-            <div className="font-bold"> {num+1} / {Object.keys(question).length}</div>
+            <div className="font-bold">{num+1} / {Object.keys(question).length}</div>
           </div>
           {/* 왼쪽 학습 영역 */}
           <div className="mt-8 z-20 bg-[#F4EFEC] lg:w-[82%] w-full min-h-[25rem] py-6 lg:px-6 px-4 flex flex-col justify-between rounded-lg">
