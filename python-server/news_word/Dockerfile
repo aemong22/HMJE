@@ -18,7 +18,7 @@ RUN apt-get install python3.10 -y
 RUN apt-get install g++ openjdk-8-jdk python3-dev python3-pip curl -y
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install konlpy
-RUN pip install -r requirements.txt
+RUN python3 -m pip install -r requirements.txt
 
 # Add the script to the Docker Image
 ADD news_word.sh /root/news_word.sh
