@@ -78,6 +78,9 @@ public class User extends CommonEntity {
     public void update(UserRequestDto requestDto){
         this.nickname = requestDto.getNickname();
     }
+    public void changePhonenumber(String newPhonenumber){
+        this.phoneNumber = newPhonenumber;
+    }
     public void logout(){
         this.jwtRefreshToken = null;
     }
@@ -99,5 +102,9 @@ public class User extends CommonEntity {
     public void changePassord(String newPassword){
         this.password = newPassword;
         this.jwtRefreshToken = null;
+    }
+    public void levelup(Integer newExp, Integer newlevel){
+        this.exp = newExp;
+        this.level = newlevel;
     }
 }
