@@ -96,7 +96,7 @@ function DogamList({ get, total }: any): JSX.Element {
                           </div>
                           <div className="pl-3 pr-4">미획득</div>
                         </div>
-                        <div className="pb-[80%] w-[80%] mx-auto mt-3 bg-no-repeat bg-center bg-cover" style={{backgroundImage:`url('/Assets/Dogam/도감.jpg')`}}></div>
+                        <div className="pb-[80%] w-[80%] mx-auto mt-3 bg-no-repeat bg-center bg-cover" style={{backgroundImage:`url('/Assets/Dogam/고라파덕.jpg')`}}></div>
                         <div className="text-[#A87E6E] font-bold md:text-[1.8rem] sm:text-[1.4rem] text-[1.1rem] py-0.5"></div>
                     </div>  
                   </>
