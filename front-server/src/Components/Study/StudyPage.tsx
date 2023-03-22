@@ -114,8 +114,10 @@ function WordStudy(): JSX.Element {
          semo={semo}
          setSemo={setSemo}
          right={right} setRight={setRight}
+         resultModal={resultModal}
          setResultModal={setResultModal}
-         openModal={openModal}/>
+         openModal={openModal}
+         modalOpen={modalOpen}/>
  
        { modalOpen ? 
          <AnswerModal 
