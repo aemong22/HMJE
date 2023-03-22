@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
 import ReactDOMServer from 'react-dom/server';
 
-function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,setSemo,right, setRight, openModal, setResultModal}:any): JSX.Element {
+function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,setSemo,right, setRight, openModal, setResultModal, modalOpen, resultModal}:any): JSX.Element {
 
   // 초성 뽑아내기
   const cho = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
@@ -69,7 +69,12 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
   // 입력
   const [input, setInput] = useState("");
   const onChange = (e:any)  => {
-    setInput(e.target.value)
+    if(modalOpen || resultModal) {
+      console.log("이미 결과가 뜬 단어입니다.")
+    }
+    else{
+      setInput(e.target.value)
+    }
   }
 
   // 음성 입력
@@ -105,21 +110,31 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     setInput("")
     console.log("제출")
 
-    //정답
-    if(input === question[num]?.wordName) {
-      if(hint) {
-        setSemo(semo+1)
-        setHint(false)
-      }
-      else {
-        setCorrect([...correct,question[num]?.wordId])
-      }
-      setRight(true)
-      openModal()
+    if(modalOpen || resultModal) {
+      console.log("이미 결과가 뜬 단어입니다.")
     }
-    // 오답 -> toast 띄우기
-    else{
-      toast.error("틀렸습니다")
+    else {
+      //정답
+      if(input === question[num]?.wordName) {
+        if(hint) {
+          setSemo(semo+1)
+          setHint(false)
+        }
+        else {
+          if(!correct.includes(question[num]?.wordId)) {
+            setCorrect([...correct,question[num]?.wordId])
+          }
+          else {
+            console.log("이미 결과 list에 포함된 단어입니다.")
+          }
+        }
+        setRight(true)
+        openModal()
+      }
+      // 오답 -> toast 띄우기
+      else{
+        toast.error("틀렸습니다")
+      }
     }
   }
 
@@ -127,22 +142,32 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
   const submit2 = () => {
     resetTranscript()
     setInput("")
-    //정답
-    if(input === question[num].dogamName) {
-      if(hint) {
-        setSemo(semo+1)
-        setHint(false)
-      }
-      else {
-        setCorrect([...correct,question[num]?.dogamId])
-      }
-      setRight(true)
-      openModal()
+    if(modalOpen || resultModal) {
+      console.log("이미 결과가 뜬 단어입니다.")
     }
+    else {
+      //정답
+      if(input === question[num].dogamName) {
+        if(hint) {
+          setSemo(semo+1)
+          setHint(false)
+        }
+        else {
+          if(!correct.includes(question[num]?.dogamId)){
+            setCorrect([...correct,question[num]?.dogamId])
+          }
+          else{
+            console.log("이미 결과 list에 포함된 단어입니다.")
+          }
+        }
+        setRight(true)
+        openModal()
+      }
 
-    // 오답 -> toast 띄우기
-    else{
-      toast.error("틀렸습니다")
+      // 오답 -> toast 띄우기
+      else{
+        toast.error("틀렸습니다")
+      }
     }
   }
 
@@ -198,7 +223,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
                   if ((e.key === 'Enter') && input.length > 0) {
                     if(studyType !== "contextStudy") {
                       submit();
-                  }
+                    }
                   else {
                     submit2();
                     }
