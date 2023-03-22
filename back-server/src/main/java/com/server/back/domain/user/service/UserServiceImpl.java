@@ -306,7 +306,11 @@ public class UserServiceImpl implements UserService {
         Integer nowlevel = user.getLevel();
         Integer newlevel = user.getLevel();
         while ((user.getExp() >= (100*Math.pow(2,nowlevel-1)))) {
-            if(nowlevel.equals(9)){
+            if(nowlevel >=9) {
+                if ( nowlevel.equals(9) && user.getExp() >= 25600) {
+                    newlevel = nowlevel + 1;
+                    user.levelup(user.getExp(), newlevel);
+                }
                 break;
             }
             Integer newexp = (int) (user.getExp() - (100 * Math.pow(2, nowlevel - 1)));
