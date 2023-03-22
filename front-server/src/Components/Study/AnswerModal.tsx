@@ -99,7 +99,7 @@ function AnswerModal({
                             <>{question[num].wordName}</> : right ? <>{question[num].dogamName}</> : <><span className="px-3">?</span></>
                         }
                     </div>
-                    {studyType !== "contextStudy" && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">({question[num].wordIso})</div>}
+                    {studyType !== "contextStudy" && question[num].wordIso > 0 && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{question[num].wordIso}</div>}
                     {studyType !== "contextStudy" && question[num].wordOrigin && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">[{question[num].wordOrigin}]</div>}
                     {studyType === "contextStudy" && question[num].dogamOrigin && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">[{question[num].dogamOrigin}]</div>}
                     <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{studyType !== "contextStudy" ? <>{question[num].wordType}</>:<>{question[num].dogamClass}</>}</div>

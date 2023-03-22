@@ -339,20 +339,21 @@ function News({example,setSelectKeyWord,selectKeyWord}:any): JSX.Element {
 
 // 장원급제 리스트
 function PassUsers({users}:any): JSX.Element {
+  
   return (
     <>
       <div className="bg-[#F4EFEC] w-full">
-        <div className="container max-w-screen-xl mx-auto text-center py-24">
+        <div className="container max-w-screen-xl mx-auto text-center py-16">
           
-          <div className="md:text-[1.7rem] text-[1.2rem]">제 32회 과거시험 결과</div>
-          <div className="md:text-[2.7rem] text-[2rem] font-bold text-[#A87E6E]">장원급제</div>
-          <div className="md:text-[1.5rem] text-[1rem] text-[#525252] mb-[2rem]">축하드립니다!</div>
+          <div className={`${style.passFont} md:text-[2.1rem] text-[1.5rem] `}>제 32회 과거시험 결과</div>
+          <div className= {`${style.passFont} md:text-[3.2rem] text-[2.2rem] font-bold text-[#A87E6E]`}>장원급제</div>
+          <div className={`${style.passFont} md:text-[2.1rem] text-[1.5rem] text-[#525252] mb-[2rem]`}>축하드립니다!</div>
 
           <div className="overflow-hidden h-[15rem] lg:w-[70%] md:w-[80%] sm:w-[90%] w-full mx-auto">
             <div className={`${style.move} px-1`} style={{animationDuration:`${Object.keys(users).length*2}s`}}>
               {
                 users.map((user:any , index:number)=> (
-                  <div key={index} className={`flex justify-between rounded-lg bg-[#ffffff] my-3 md:px-5 sm:px-4 px-3 py-3 md:text-[1.5rem] sm:text-[1.2rem] text-[0.9rem] text-start}`}>
+                  <div key={index} className={`flex justify-between rounded-lg bg-[#ffffff] my-3 md:px-5 sm:px-4 px-3 py-3 md:text-[1.5rem] sm:text-[1.2rem] text-[0.9rem] text-start`}>
                     <div className="flex">
                     <div className={`${style.badgeImg2}`} style={{backgroundImage:`url('/Assets/Icon/${user.뱃지이미지}.png')`}}></div>
                       <div className="px-1">
@@ -367,7 +368,7 @@ function PassUsers({users}:any): JSX.Element {
                 ))
               }
             </div>
-            <div className={`${style.move} px-1`} style={{animationDuration:`${Object.keys(users).length*2}s`}}>
+            <div className={`${style.move} px-1`} style={{animationDuration:`${Object.keys(users).length*2}`}}>
               {
                 users.map((user:any , index : number)=> (
                   <div key={index} className={`flex justify-between rounded-lg bg-[#ffffff] my-3 md:px-5 sm:px-4 px-3  py-3 md:text-[1.5rem] sm:text-[1.2rem] text-[0.9rem] text-start}`}>
