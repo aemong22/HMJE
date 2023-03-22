@@ -136,7 +136,7 @@ public class StudyServiceImpl implements StudyService{
             }
         }
         List<Word> wordQuestionList = new ArrayList<>(wordQuestion);
-        List<WordResponseDto> wordResponseDtoList = WordResponseDto.fromEntityList(wordQuestionList);
+        List<WordResponseDto> wordResponseDtoList = WordResponseDto.fromEntityListToEncode(wordQuestionList);
         return wordResponseDtoList;
     }
 
@@ -182,12 +182,12 @@ public class StudyServiceImpl implements StudyService{
                 }
             }
             List<Word> wordQuestionList = new ArrayList<>(wordQuestion);
-            List<WordResponseDto> wordResponseDtoList = WordResponseDto.fromEntityList(wordQuestionList);
+            List<WordResponseDto> wordResponseDtoList = WordResponseDto.fromEntityListToEncode(wordQuestionList);
             return wordResponseDtoList;
             }
         else{
             // 이 경우, 그냥 가진 문제를 다 주는 게 맞음. 틀린 문제를 합해도 10개가 안되는 경우이기 때문
-            List<WordResponseDto> wordResponseDtoList = WordResponseDto.fromEntityList(wordList);
+            List<WordResponseDto> wordResponseDtoList = WordResponseDto.fromEntityListToEncode(wordList);
             return wordResponseDtoList;
         }
 
