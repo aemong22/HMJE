@@ -131,7 +131,12 @@ function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
     levelName: "정구품",
     levelName2: "正九品",
     totalExp: 25600
-  },
+  },,
+  {
+    levelName: "장인",
+    levelName2: "丈人",
+    totalExp: 99999
+  }
 
 ]
   // 경험치 비율 width
