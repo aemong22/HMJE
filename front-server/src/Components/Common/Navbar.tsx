@@ -1,4 +1,4 @@
-import { MouseEventHandler, useState } from "react"
+import { MouseEventHandler, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAppSelector } from "../../Store/hooks"
 import classNames from "classnames";
@@ -6,11 +6,18 @@ import { usePutUserLogoutMutation } from "../../Store/api";
 
 function Navbar():JSX.Element {
   const navigate = useNavigate()
+  const [nickname, setNickname] = useState<any>()
   // const nickname:any = useAppSelector((state:any) => state.userNickname)
-  const nickname = localStorage.getItem('nickname')
   const [menuToggle, setMenuToggle] = useState(false);
-
   const [putUserLogout,loading]=usePutUserLogoutMutation()
+
+  useEffect(()=> {
+    const nick = localStorage.getItem('nickname')
+    if (nick) {
+      setNickname(nick)
+    }
+  },[])
+
 
   const onClick:MouseEventHandler<HTMLDivElement> = (e) => {
     const target = e.target as HTMLElement
