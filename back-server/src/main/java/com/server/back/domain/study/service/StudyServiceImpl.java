@@ -122,18 +122,56 @@ public class StudyServiceImpl implements StudyService{
         }else{
             while (set.size() < 2) {
                 Double d = Math.random() * myWrong.size() + 1;
-                Word word = wordRepository.findByWordId(d.longValue());
-                set.add(d.longValue());
+                int index = d.intValue();
+                Word word = myWrong.get(index).getWord();
+                set.add(word.getWordId());
                 wordQuestion.add(word);
             }
         }
         while (set.size() < 10) {
-            Double d = Math.random() * 46697 + 1;                                           //단어학습 단어 갯수//////////
+            Double d = Math.random() * wordRepository.count() + 1;
             Word word = wordRepository.findByWordId(d.longValue());
             WrongWord wrong = wrongWordRepository.findByWordAndUser(word, user);
             RightWord right = rightWordRepository.findByWordAndUser(word, user);
             if (wrong == null && right == null){
                 set.add(d.longValue());
+                wordQuestion.add(word);
+            }
+        }
+        List<Word> wordQuestionList = new ArrayList<>(wordQuestion);
+        List<WordResponseDto> wordResponseDtoList = WordResponseDto.fromEntityList(wordQuestionList);
+        return wordResponseDtoList;
+    }
+
+    @Override
+    public List<WordResponseDto> wordQuestionWithFilter(Long userId, String filter){
+        User user = userRepository.findByUserId(userId);
+        Set<Word> wordQuestion = new HashSet<>(); //문제 리스트 준비
+        Set<Long> set = new HashSet<>(); //랜덤 10문제 (숫자) 뽑기
+        List<WrongWord> myWrong = wrongWordRepository.findAllByFilterAndUser(user, filter);
+        if (myWrong.size() < 3){
+            for (WrongWord m : myWrong){
+                set.add(m.getWord().getWordId());
+                wordQuestion.add(m.getWord());
+            }
+        }else{
+            while (set.size() < 2) {
+                Double d = Math.random() * myWrong.size() + 1;
+                int index = d.intValue();
+                Word word = myWrong.get(index).getWord();
+                set.add(word.getWordId());
+                wordQuestion.add(word);
+            }
+        }
+        while (set.size() < 10) {
+            List<Word> wordList = wordRepository.findAllByWordRating(filter);
+            Double d = Math.random() * wordList.size() + 1;
+            int index = d.intValue();
+            Word word = wordList.get(index);
+            WrongWord wrong = wrongWordRepository.findByWordAndUser(word, user);
+            RightWord right = rightWordRepository.findByWordAndUser(word, user);
+            if (wrong == null && right == null){
+                set.add(word.getWordId());
                 wordQuestion.add(word);
             }
         }

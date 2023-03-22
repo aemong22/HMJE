@@ -12,6 +12,7 @@ public interface StudyService {
     List<Long> contextResult(StudyRequestDto requestDto);
     List<Dogam> contextQuestion();
     List<WordResponseDto> wordQuestion(Long userId);
+	List<WordResponseDto> wordQuestionWithFilter(Long userId, String filter);
 	PastTestResponseDto getPastInfo();
 
 	List<PastQuestionResponseDto> getPastTest();
