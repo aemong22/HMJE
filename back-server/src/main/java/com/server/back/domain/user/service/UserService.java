@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface UserService {
     void join(UserRequestDto requestDto);
+    void loginHistory(Long userId);
     boolean userNicknameCheck(UserRequestDto requestDto);
     boolean userUsernameCheck(UserRequestDto requestDto);
     UserResponseDto userInfo(Long userId);
