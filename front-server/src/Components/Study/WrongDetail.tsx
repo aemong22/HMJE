@@ -87,7 +87,7 @@ function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
               </div>
             </div>
           </div>
-          <div className="fixed inset-0 z-40 bg-black/5"></div>
+          <div className="fixed inset-0 z-40 bg-black/20"></div>
         </>
     )
 }

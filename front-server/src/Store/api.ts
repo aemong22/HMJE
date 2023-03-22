@@ -3,6 +3,7 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
+
 interface decodedInfo {
   sub: string;
   exp: number; //유효시간
@@ -35,9 +36,10 @@ type dictresponse = {
   wordDetailResponseList: []
 }
 
-
 const fetchAccessToken = async () => {
+
   // const userName: string = localStorage.getItem("userName")
+
   let accessToken: string | null = localStorage.getItem("accessToken");
 
   if (accessToken != null) {

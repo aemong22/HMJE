@@ -5,12 +5,20 @@ import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
 import Pangguin from "../Threejs/Pangguin";
 import style from "./Main.module.css";
-import { useAppDispatch } from "../../Store/hooks";
+
 
 
 
 function Main(): JSX.Element {
-  const dispatch = useAppDispatch()
+  const navigate = useNavigate();
+  
+  // 로그인 안했을 시 intro페이지로 이동
+  useEffect(() => {
+    if(localStorage.getItem("accessToken")){
+      navigate('/')
+    }
+  },[])
+
   const userId = localStorage.getItem("userId");
   const {data:userMyInfo, error:error1, isLoading:isLoading1 } = useGetUserMyinfoQuery(userId);
   const {data:userMyStudy, error:error2, isLoading:isLoading2 } = useGetUserMystudyQuery(userId);
@@ -203,6 +211,8 @@ function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
   );
 }
 
+
+
 // 학습 (3가지)
 function StudyContent(): JSX.Element {
   const navigate = useNavigate()
@@ -266,6 +276,8 @@ function StudyContent(): JSX.Element {
   );
 }
 
+
+
 // 뉴스 ( 신문 핵심 단어 )
 function News({example,setSelectKeyWord,selectKeyWord}:any): JSX.Element {
   return (
@@ -293,7 +305,7 @@ function News({example,setSelectKeyWord,selectKeyWord}:any): JSX.Element {
                         </>
                       ) : (
                         <>
-                        <div className="cursor-pointer rounded-full py-1 px-4 mr-3 mt-1 md:text-[1.4rem] sm:text-[1.2rem] text-[1.1rem] border-2 border-[#BF9F91] text-[#BF9F91] font-bold" onClick={() => {
+                        <div key={index} className="cursor-pointer rounded-full py-1 px-4 mr-3 mt-1 md:text-[1.4rem] sm:text-[1.2rem] text-[1.1rem] border-2 border-[#BF9F91] text-[#BF9F91] font-bold" onClick={() => {
                           setSelectKeyWord(index);
                         }}>
                           {ex.name}
@@ -323,6 +335,8 @@ function News({example,setSelectKeyWord,selectKeyWord}:any): JSX.Element {
   );
 }
 
+
+
 // 장원급제 리스트
 function PassUsers({users}:any): JSX.Element {
   return (
@@ -337,8 +351,8 @@ function PassUsers({users}:any): JSX.Element {
           <div className="overflow-hidden h-[15rem] lg:w-[70%] md:w-[80%] sm:w-[90%] w-full mx-auto">
             <div className={`${style.move} px-1`} style={{animationDuration:`${Object.keys(users).length*2}s`}}>
               {
-                users.map((user:any)=> (
-                  <div className={`flex justify-between rounded-lg bg-[#ffffff] my-3 md:px-5 sm:px-4 px-3 py-3 md:text-[1.5rem] sm:text-[1.2rem] text-[0.9rem] text-start}`}>
+                users.map((user:any , index:number)=> (
+                  <div key={index} className={`flex justify-between rounded-lg bg-[#ffffff] my-3 md:px-5 sm:px-4 px-3 py-3 md:text-[1.5rem] sm:text-[1.2rem] text-[0.9rem] text-start}`}>
                     <div className="flex">
                     <div className={`${style.badgeImg2}`} style={{backgroundImage:`url('/Assets/Icon/${user.뱃지이미지}.png')`}}></div>
                       <div className="px-1">
@@ -355,8 +369,8 @@ function PassUsers({users}:any): JSX.Element {
             </div>
             <div className={`${style.move} px-1`} style={{animationDuration:`${Object.keys(users).length*2}s`}}>
               {
-                users.map((user:any)=> (
-                  <div className={`flex justify-between rounded-lg bg-[#ffffff] my-3 md:px-5 sm:px-4 px-3  py-3 md:text-[1.5rem] sm:text-[1.2rem] text-[0.9rem] text-start}`}>
+                users.map((user:any , index : number)=> (
+                  <div key={index} className={`flex justify-between rounded-lg bg-[#ffffff] my-3 md:px-5 sm:px-4 px-3  py-3 md:text-[1.5rem] sm:text-[1.2rem] text-[0.9rem] text-start}`}>
                     <div className="flex">
                     <div className={`${style.badgeImg2}`} style={{backgroundImage:`url('/Assets/Icon/${user.뱃지이미지}.png')`}}></div>
                       <div className="px-1">
