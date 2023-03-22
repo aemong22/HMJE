@@ -44,6 +44,8 @@ public class User extends CommonEntity {
 
     private Boolean isAdmin;
     private Boolean isSecession;
+    private Integer continAttendance;
+    private Integer accumAttendance;
 
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -106,5 +108,11 @@ public class User extends CommonEntity {
     public void levelup(Integer newExp, Integer newlevel){
         this.exp = newExp;
         this.level = newlevel;
+    }
+    public void continAttendance(){
+        this.continAttendance += 1;
+    }
+    public void accumAttendance(){
+        this.accumAttendance += 1;
     }
 }
