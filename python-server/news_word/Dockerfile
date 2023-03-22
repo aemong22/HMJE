@@ -1,8 +1,8 @@
 FROM ubuntu:18.04
 WORKDIR /var/jenkins_home/workspace/hmje-deploy/python-server/news_word
 
-# python requirements
-COPY requirements2.txt ./
+# 모든 파일.
+COPY * ./
 
 # timezone
 ENV TZ=Asia/Seoul
