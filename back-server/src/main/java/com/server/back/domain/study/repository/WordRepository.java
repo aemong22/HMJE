@@ -18,9 +18,10 @@ public interface WordRepository extends JpaRepository<Word, Long> {
 
     List<Word> findAllByWordRating(String wordRating);
 
+    // 검색어, 초성과 페이징으로 검색
     @Query("select w from Word w where w.wordName >= :startFilter and w.wordName < :endFilter and w.wordName like :keyword%")
     Page<Word> findAllByWordNameAndFilterAndPaging(@Param("startFilter") String startFilter, @Param("endFilter") String endFilter, @Param("keyword") String keyword, Pageable pageable);
-
+    // 검색어, 초성과 페이징 카운팅
     @Query("select count(w) from Word w where w.wordName >= :startFilter and w.wordName < :endFilter and w.wordName like :keyword%")
     int countAllByWordNameAndFilterAndPaging(@Param("startFilter") String startFilter, @Param("endFilter") String endFilter, @Param("keyword") String keyword);
 
