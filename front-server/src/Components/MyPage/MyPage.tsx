@@ -35,7 +35,8 @@ interface Type {
   sentence: React.ReactNode,
   level: string,
   nowbadgeImage: string,
-  userId: (string | null)
+  userId: (string | null),
+  dataLevel : number,
 }
 
 interface LevelType {
@@ -76,29 +77,28 @@ function MyPage():JSX.Element {
 
   // 레벨 경험치
   const levelInfo: LevelType[] = [
-  {
-    levelName: "0",
-    levelName2: "0",
-    totalExp: -100
-  },
-  {
-    levelName: "정일품",
-    levelName2: "正一品",
+    {
+      levelName: "0",
+      levelName2: "0",
+      totalExp: -100
+    },{
+    levelName: "정구품",
+    levelName2: "正九品",
     totalExp: 100
   },
   {
-    levelName: "정이품",
-    levelName2: "正二品",
+    levelName: "정팔품",
+    levelName2: "正八品",
     totalExp: 200
   },
   {
-    levelName: "정삼품",
-    levelName2: "正三品",
+    levelName: "정칠품",
+    levelName2: "正七品",
     totalExp: 400
   },
   {
-    levelName: "정사품",
-    levelName2: "正四品",
+    levelName: "정육품",
+    levelName2: "正六品",
     totalExp: 800
   },
   {
@@ -107,25 +107,31 @@ function MyPage():JSX.Element {
     totalExp: 1600
   },
   {
-    levelName: "정육품",
-    levelName2: "正六品",
+    levelName: "정사품",
+    levelName2: "正四品",
     totalExp: 3200
   },
   {
-    levelName: "정칠품",
-    levelName2: "正七品",
+    levelName: "정삼품",
+    levelName2: "正三品",
     totalExp: 6400
   },
   {
-    levelName: "정팔품",
-    levelName2: "正八品",
+    levelName: "정이품",
+    levelName2: "正二品",
     totalExp: 12800
   },
   {
-    levelName: "정구품",
-    levelName2: "正九品",
+    levelName: "정일품",
+    levelName2: "正一品",
     totalExp: 25600
   },
+  {
+    levelName: "정일품",
+    levelName2: "正一品",
+    totalExp: 25600
+  }
+
   ]
   // 경험치 비율 width
   const expWidth = (userMyInfo?.data.exp / levelInfo[userMyInfo?.data.level].totalExp) * 100 + "%"
@@ -148,7 +154,8 @@ function MyPage():JSX.Element {
   const todayTotal = studyData?.data.todayContext + studyData?.data.todayTime + studyData?.data.todayWord
   const statsDate:number = studyData?.data.statsRight - studyData?.data.statsWrong
   const  {statsRight, statsSemo, statsWrong} = studyData?.data
-  const level = levelInfo[userMyInfo?.data.level].levelName2  
+  const level = levelInfo[userMyInfo?.data.level].levelName2
+  const dataLevel = userMyInfo?.data.level
 
   if (todayTotal === 0) {
     sentence = sentenceList[0]
@@ -163,9 +170,9 @@ function MyPage():JSX.Element {
   return (
     <>
       <Navbar/>
-      <MyPageSection1V1 nickname={userMyInfo?.data.nickname} nowbadgeName={userMyInfo?.data.nowbadgeName} expWidth={expWidth} exp={userMyInfo?.data.exp} totalExp={totalExp} sentence={sentence} level={level} nowbadgeImage={userMyInfo?.data.nowbadgeImage} userId={userId}/>
+      <MyPageSection1V1 nickname={userMyInfo?.data.nickname} nowbadgeName={userMyInfo?.data.nowbadgeName} expWidth={expWidth} exp={userMyInfo?.data.exp} totalExp={totalExp} dataLevel={dataLevel} sentence={sentence} level={level} nowbadgeImage={userMyInfo?.data.nowbadgeImage} userId={userId}/>
       <MyPageSection2V1 todayWord={todayWord} totalWord={totalWord} todayContext={todayContext} totalContext={totalContext} todayTime={todayTime} totalTime={totalTime} statsRight={statsRight} statsSemo={statsSemo} statsWrong={statsWrong}/>
-      <MyPageSection1V2 nickname={userMyInfo?.data.nickname} nowbadgeName={userMyInfo?.data.nowbadgeName} expWidth={expWidth} exp={userMyInfo?.data.exp} totalExp={totalExp} sentence={sentence} level={level} nowbadgeImage={userMyInfo?.data.nowbadgeImage} userId={userId}/>
+      <MyPageSection1V2 nickname={userMyInfo?.data.nickname} nowbadgeName={userMyInfo?.data.nowbadgeName} expWidth={expWidth} exp={userMyInfo?.data.exp} totalExp={totalExp} dataLevel={dataLevel} sentence={sentence} level={level} nowbadgeImage={userMyInfo?.data.nowbadgeImage} userId={userId}/>
       <MyPageSection2V2 todayWord={todayWord} totalWord={totalWord} todayContext={todayContext} totalContext={totalContext} todayTime={todayTime} totalTime={totalTime} statsRight={statsRight} statsSemo={statsSemo} statsWrong={statsWrong}/>
       <MyPageSection3 userId={userId}/>
       <Footer/>
@@ -176,7 +183,7 @@ export default MyPage
 
 
 // 데스크탑 & 태블릿
-function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sentence, level, nowbadgeImage, userId}:Type):JSX.Element {
+function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sentence, level, nowbadgeImage, userId, dataLevel}:Type):JSX.Element {
   // const dispatch = useAppDispatch()
   // const [isClick,setIsClick] = useState<boolean>(false)
   // const [nameCheckMutation] = usePostUserchecknicknameMutation()
@@ -279,10 +286,10 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
                   </div>
                   <div className="text-[1rem] pb-2 text-[#8E8E8E]">
                     {/* 등급 */}
-                    {exp} / {totalExp}
+                    {exp} / {dataLevel > 9 ? <>∞</> : <>{totalExp}</>}
                   </div>
                 </div>
-                <div className="w-full rounded-xl h-4 bg-[#F0ECE9]">
+                <div className="w-full rounded-xl h-4 bg-[#F0ECE9] overflow-hidden">
                   {/* 경험치 바: 위에서 퍼센트 계산해서 넣으면 될듯?*/}
                   <div className="rounded-xl h-full bg-[#F7CCB7]" style={{width: `${expWidth}`, maxWidth: '100%'}}>
                     &nbsp;
@@ -370,7 +377,7 @@ function MyPageSection2V1({todayWord, totalWord, todayContext, totalContext, tod
 
 
 // 모바일
-function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sentence, level, nowbadgeImage, userId}:Type):JSX.Element {
+function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sentence, level, nowbadgeImage, userId, dataLevel}:Type):JSX.Element {
   // const dispatch = useAppDispatch()
   // const [isClick,setIsClick] = useState<boolean>(false)
   // const [nameCheckMutation] = usePostUserchecknicknameMutation()
@@ -486,7 +493,7 @@ function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sent
                 </div>
                 <div className="text-[0.9rem] text-[#525252]">
                   {/* 등급 */}
-                  {exp} / {totalExp}
+                  {exp} / {dataLevel > 9 ? <>∞</> : <>{totalExp}</>}
                 </div>
               </div>
               <div className="flex justify-start items-center w-full rounded-xl h-4 bg-[#F0ECE9]">
