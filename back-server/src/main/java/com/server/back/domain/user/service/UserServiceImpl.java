@@ -55,6 +55,8 @@ public class UserServiceImpl implements UserService {
                 .todayWrong(0)
                 .isAdmin(requestDto.getIsAdmin())
                 .isSecession(requestDto.getIsSecession())
+                .continAttendance(1)
+                .accumAttendance(1)
                 .build();
 
         userRepository.save(user);
@@ -63,10 +65,24 @@ public class UserServiceImpl implements UserService {
     public void loginHistory(Long userId) {
         System.out.println("userId = " + userId);
         User user = userRepository.findByUserId(userId);
+        //이전 로그인 기록과 비교해서 누적/연속 체크
+        List<LoginHistory> mylogin = loginHistoryRepository.findByUser(user);
+        LocalDate history = mylogin.get(mylogin.size()-1).getCreatedAt().toLocalDate();
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+        System.out.println("history = " + history);
+        System.out.println("yesterday = " + yesterday);
+        if (!history.isEqual(LocalDate.now())){
+            user.accumAttendance();  // 누적 출석 +
+            if (history.isEqual(yesterday)){
+                user.continAttendance(); // 연속 출석 +
+            }
+        }
+        //현재 로그인 기록
         LoginHistory loginHistory = LoginHistory.builder()
                 .user(user)
                 .build();
         loginHistoryRepository.save(loginHistory);
+
     }
 
     @Override
