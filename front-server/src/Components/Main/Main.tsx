@@ -1,10 +1,11 @@
-import { useGetUserMyinfoQuery, useGetUserMystudyQuery } from "../../Store/api";
+import { useGetUserMyinfoQuery, useGetUserMystudyQuery,useGetWordDailyQuery } from "../../Store/api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
 import Pangguin from "../Threejs/Pangguin";
 import style from "./Main.module.css";
+import classNames from "classnames";
 
 
 
@@ -17,15 +18,14 @@ function Main(): JSX.Element {
     if(localStorage.getItem("accessToken") === "undefined"){
       navigate('/')
     }
-  },[])
+  }, [])
 
   const userId = localStorage.getItem("userId");
   const {data:userMyInfo, error:error1, isLoading:isLoading1 } = useGetUserMyinfoQuery(userId);
   const {data:userMyStudy, error:error2, isLoading:isLoading2 } = useGetUserMystudyQuery(userId);
+  const {data:newsKeyword, error:error3, isLoading:isLoading3} = useGetWordDailyQuery('');
   
   
-  console.log("유저데이터" , userMyInfo)
-  console.log("유저학습시간", userMyStudy)
 
 
   const [selectKeyWord, setSelectKeyWord] = useState<number>(0);
@@ -61,11 +61,11 @@ function Main(): JSX.Element {
     뱃지이미지:"carrot"
   }]
 
-  if (isLoading1 || isLoading2) {
+  if (isLoading1 || isLoading2 || isLoading3 ) {
     return <div>Loading...</div>;
   }
 
-  if (error1 || error2) {
+  if (error1 || error2 || error3) {
     return <>Error: {error1} {error2}</>;
   }
 
@@ -74,7 +74,7 @@ function Main(): JSX.Element {
       <Navbar />
       <MyInfo userMyInfo={userMyInfo?.data} userMyStudy={userMyStudy?.data}/>
       <StudyContent />
-      <News example={example} setSelectKeyWord={setSelectKeyWord} selectKeyWord={selectKeyWord}/>
+      <News newsKeyword={newsKeyword?.data} example={example} setSelectKeyWord={setSelectKeyWord} selectKeyWord={selectKeyWord}/>
       <PassUsers users={users}/>
       <Footer />
     </>
@@ -279,40 +279,101 @@ function StudyContent(): JSX.Element {
 
 
 // 뉴스 ( 신문 핵심 단어 )
-function News({example,setSelectKeyWord,selectKeyWord}:any): JSX.Element {
+function News({example,setSelectKeyWord,selectKeyWord, newsKeyword}:any): JSX.Element {
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleMenu = () => setIsOpen(!isOpen);
+  const [select, setSelect] = useState<String>("경제");
+  const [idx,setIdx] = useState<number>(0);
+
+  // 주제바꿨을 때 첫번째 키워드 선택하도록
+  const firstSelect = (subject : string) => {
+    var index1 = newsKeyword?.findIndex((obj:any) => obj?.category === subject)
+    setIdx(index1)
+    setSelect(subject)
+  }
+
+  useEffect(() => {
+    firstSelect("경제");
+  },[])
+
+  console.log(newsKeyword)
   return (
     <>
       <div className="container max-w-screen-lg w-full mx-auto px-[5%] md:my-[7rem] my-[5rem] md:px-10 lg:border-l-4 lg:border-[#F7CCB7]">
         <div className="md:text-[1.2rem] text-[1rem] text-[#5F5F5F]">
             신문으로 단어 공부하기
         </div>
+        
+        <div className="flex justify-between">
+          <div className="md:text-[2.2rem] text-[1.9rem] font-bold ">
+              <span className="md:text-[1.9rem] text-[1.5rem]">오늘의 </span><span className="text-[#BE8D65]">신문</span> 핵심단어
+          </div>
+          <div className="ml-2 pt-2">
+          <button
+              onClick={toggleMenu}
+              className="flex items-center justify-between w-[8rem] px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 focus:border-[#666666] rounded-md shadow-sm ">
+              {select}
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-3 h-3 ml-2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
 
-        <div className="md:text-[2.2rem] text-[1.9rem] font-bold ">
-            <span className="md:text-[1.9rem] text-[1.5rem]">오늘의 </span><span className="text-[#BE8D65]">신문</span> 핵심단어
+          </button>
+              {isOpen && (
+                <div className="absolute z-10 w-[8rem] mt-1 bg-white rounded-md shadow-lg font-medium text-center">
+                  <ul>
+                    <li
+                      key={0}
+                      className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                      onClick={() => {
+                        firstSelect("경제")
+                        toggleMenu()}}>
+                      경제
+                    </li>
+                  <li
+                      key={1}
+                      className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                      onClick={() => {
+                        firstSelect("사회")
+                        toggleMenu()}}>
+                    사회
+                  </li>
+                  <li
+                      key={2}
+                      className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                      onClick={() => {
+                        firstSelect("문화")
+                        toggleMenu()}}>
+                    문화
+                  </li>
+                  <li
+                      key={3}
+                      className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                      onClick={() => {
+                        firstSelect("과학")
+                        toggleMenu()}}>
+                    과학
+                  </li>
+                  </ul>
+                </div>
+              )}
+          </div>
         </div>
 
         <div className="flex py-5 flex-wrap">
             {
-                example.map((ex:any, index:any)=>(
+                newsKeyword.map((word:any, index:any)=>(
                     <>
-                      {selectKeyWord == index ?(
+                      {word?.category === select && 
                         <>
-                          <div key={index} className="cursor-pointer rounded-full py-1 px-4 mr-3 mt-1 md:text-[1.4rem] sm:text-[1.2rem] text-[1.1rem] text-[#ffffff] border-2 border-[#BF9F91] bg-[#BF9F91] font-bold" onClick={() => {
-                            setSelectKeyWord(index);
-                          }}>
-                            {ex.name}
+                          <div key={index} className={classNames("cursor-pointer rounded-full py-1 px-4 mr-3 mt-1 md:text-[1.4rem] sm:text-[1.2rem] text-[1.1rem] border-2 border-[#BF9F91]", index === idx ? "bg-[#BF9F91] text-[#ffffff] font-bold" : "text-[#BF9F91] font-bold")}
+                            onClick={() => {
+                              setIdx(index);
+                            }}
+                          >
+                            {word?.wordResponseDto.wordName}
                           </div>
                         </>
-                      ) : (
-                        <>
-                        <div key={index} className="cursor-pointer rounded-full py-1 px-4 mr-3 mt-1 md:text-[1.4rem] sm:text-[1.2rem] text-[1.1rem] border-2 border-[#BF9F91] text-[#BF9F91] font-bold" onClick={() => {
-                          setSelectKeyWord(index);
-                        }}>
-                          {ex.name}
-                        </div>
-                      </>
-
-                      )}
+                      }
                     </>
                 )
                 )
@@ -320,7 +381,12 @@ function News({example,setSelectKeyWord,selectKeyWord}:any): JSX.Element {
         </div>
 
         <div className="md:text-[1.8rem] sm:text-[1.4rem] text-[1.2rem] font-bold">
-          {example[selectKeyWord]?.name}<span className="md:text-[1rem] sm:text-[0.9rem] text-[0.8rem] font-medium text-[#A2A2A2]"> [한자] 명사</span>
+          {newsKeyword[idx]?.wordResponseDto.wordName}
+          <span className="md:text-[1rem] sm:text-[0.9rem] text-[0.8rem] font-medium text-[#A2A2A2]">
+            {newsKeyword[idx]?.wordResponseDto.Iso > 0 && newsKeyword[idx]?.wordResponseDto.Iso} {" "}
+            {newsKeyword[idx]?.wordResponseDto.wordOrigin && <>[{newsKeyword[idx]?.wordResponseDto.wordOrigin}]</>} {" "}
+            {newsKeyword[idx]?.wordResponseDto.wordType}
+          </span>
         </div>
 
         <div className="h-[11rem] rounded-lg bg-[#F4EFEC] p-5 mt-2 md:text-[1.2rem] sm:text-[1.1rem] text-[1rem] overflow-auto">
@@ -330,6 +396,7 @@ function News({example,setSelectKeyWord,selectKeyWord}:any): JSX.Element {
             <div className="bg-[#F7CCB7] rounded-full px-4 py-1 text-[#ffffff] font-bold md:text-[1rem] sm:text-[0.9rem] text-[0.8rem] mr-2">예제</div> 경제가 안좋다.
           </div>
         </div>
+        
       </div>
     </>
   );
@@ -368,7 +435,7 @@ function PassUsers({users}:any): JSX.Element {
                 ))
               }
             </div>
-            <div className={`${style.move} px-1`} style={{animationDuration:`${Object.keys(users).length*2}`}}>
+            <div className={`${style.move} px-1`} style={{animationDuration:`${Object.keys(users).length*2}s`}}>
               {
                 users.map((user:any , index : number)=> (
                   <div key={index} className={`flex justify-between rounded-lg bg-[#ffffff] my-3 md:px-5 sm:px-4 px-3  py-3 md:text-[1.5rem] sm:text-[1.2rem] text-[0.9rem] text-start}`}>
