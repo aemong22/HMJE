@@ -37,18 +37,21 @@ public class StudyServiceImpl implements StudyService{
         for (Long i : requestDto.getRightIdList()) {
             Word word = wordRepository.findByWordId(i);
             WrongWord wrong = wrongWordRepository.findByWordAndUser(word, user);
+            RightWord right = rightWordRepository.findByWordAndUser(word, user);
             //틀렸던 문제인지 확인
             if (wrong != null){
                 //틀렸던 문제이면 틀린문제에서는 삭제
                 wrongWordRepository.delete(wrong);
             }
-            RightWord rightWord = RightWord.builder()
-                    .user(user)
-                    .word(word)
-                    .build();
-            rightWordRepository.save(rightWord);
-            //경험치
-            rightCount += 1;
+            if (right == null){
+                RightWord rightWord = RightWord.builder()
+                        .user(user)
+                        .word(word)
+                        .build();
+                rightWordRepository.save(rightWord);
+                //경험치
+                rightCount += 1;
+            }
         }
         for (Long j : requestDto.getWrongIdList()) {
             Word word = wordRepository.findByWordId(j);
