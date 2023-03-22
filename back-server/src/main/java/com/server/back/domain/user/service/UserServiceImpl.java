@@ -35,6 +35,7 @@ public class UserServiceImpl implements UserService {
     private final RightWordRepository rightWordRepository;
     private final DogamResultRepository dogamResultRepository;
     private final MyCharacterRepository myCharacterRepository;
+    private final LoginHistoryRepository loginHistoryRepository;
 
     @Override
     public void join(UserRequestDto requestDto) {
@@ -57,6 +58,15 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         userRepository.save(user);
+    }
+    @Override
+    public void loginHistory(Long userId) {
+        System.out.println("userId = " + userId);
+        User user = userRepository.findByUserId(userId);
+        LoginHistory loginHistory = LoginHistory.builder()
+                .user(user)
+                .build();
+        loginHistoryRepository.save(loginHistory);
     }
 
     @Override

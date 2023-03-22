@@ -9,6 +9,7 @@ import com.server.back.common.entity.JwtProperties;
 import com.server.back.common.entity.RefreshToken;
 import com.server.back.domain.user.entity.User;
 import com.server.back.domain.user.repository.UserRepository;
+import com.server.back.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,7 @@ public class JwtService {
 
     private final JwtProviderService jwtProviderService;
     private final UserRepository userRepository;
+    private final UserService userService;
 
     /**
      * access, refresh 토큰 생성
@@ -136,8 +138,10 @@ public class JwtService {
      * json response 부분 따로 분리
      */
     //로그인시 응답 json response
+    @Transactional(readOnly = false)
     public Map<String, String> successLoginResponse(TokenRequestDto tokenRequestDto, Long userId) {
         Map<String, String> map = new LinkedHashMap<>();
+        userService.loginHistory(userId);
         map.put("status", "200");
         map.put("message", "accessToken, refreshToken이 생성되었습니다.");
         map.put("userId", userId.toString());
