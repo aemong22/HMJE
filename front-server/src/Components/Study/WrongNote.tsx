@@ -139,6 +139,7 @@ function WrongList({select, data}:any):JSX.Element {
   const [idx, setIdx] = useState(0)
   return (
     <>
+    {open && <WrongDetail index={idx} data={data} setOpen={setOpen} open={open} setIdx={setIdx}/> }
       <div className="w-full">
         <div className="container max-w-screen-xl md:w-[90%] w-full mx-auto flex flex-wrap justify-between py-4">
           {data.map((word:any , index:number) => {
@@ -162,10 +163,12 @@ function WrongList({select, data}:any):JSX.Element {
                       {word?.wordDetailResponseList[0].details}
                   </div>
                 </div>
-                {open && <WrongDetail index={idx} data={data} setOpen={setOpen} open={open} setIdx={setIdx}/> }
+                
               </>
             )
           })}
+
+          
         </div>
       </div>
     </>
