@@ -305,14 +305,13 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUserId(userId);
         Integer nowlevel = user.getLevel();
         Integer newlevel = user.getLevel();
-//        System.out.println("nowlevel = " + nowlevel);
-//        System.out.println("100*Math.pow(2,user.getLevel()-1)) = " + 100*Math.pow(2,user.getLevel()-1));
-        while (user.getExp() >= (100*Math.pow(2,user.getLevel()-1))) {
-            Integer newexp = (int) (user.getExp() - (100 * Math.pow(2, user.getLevel() - 1)));
-            newlevel = user.getLevel() + 1;
+        while ((user.getExp() >= (100*Math.pow(2,nowlevel-1)))) {
+            if(nowlevel.equals(9)){
+                break;
+            }
+            Integer newexp = (int) (user.getExp() - (100 * Math.pow(2, nowlevel - 1)));
+            newlevel = nowlevel + 1;
             user.levelup(newexp, newlevel);
-//            System.out.println("newexp = " + newexp);
-//            System.out.println("newlevel = " + newlevel);
         }
         if (!nowlevel.equals(newlevel)){
             return newlevel;
