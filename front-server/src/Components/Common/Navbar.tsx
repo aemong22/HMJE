@@ -42,8 +42,7 @@ function Navbar():JSX.Element {
        userId:localStorage.getItem("userId")
       }
       putUserLogout(data).unwrap().then((r)=>{
-        console.log(r.message=="success");
-        
+        console.log(r.message=="success");        
         if(r.message=="success"){
           console.log("로그아웃성공");          
           window.localStorage.clear();
@@ -124,7 +123,7 @@ function Navbar():JSX.Element {
         <div aria-label="mypage" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>관리</div>
         <div aria-label="dictionary" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>사전</div>
         <div aria-label="notice" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>알림공간</div>
-        <div aria-label="" className = "p-2 cursor-pointer hover:bg-gray-100">나가기</div>
+        <div aria-label="logout" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>나가기</div>
     </div>
   </div>
   )
