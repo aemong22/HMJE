@@ -103,8 +103,8 @@ function WordStudy(): JSX.Element {
     <>
 
        {question.length > 0 && 
-       <>
-       <Navbar/>
+       <div className="bg-[#F9F9F9] w-full h-screen">
+       <Navbar />
        <Study 
          question={question}
          studyType={studyType} 
@@ -117,6 +117,7 @@ function WordStudy(): JSX.Element {
          resultModal={resultModal}
          setResultModal={setResultModal}
          openModal={openModal}
+         closeModal={closeModal}
          modalOpen={modalOpen}/>
  
        { modalOpen ? 
@@ -141,7 +142,7 @@ function WordStudy(): JSX.Element {
              wrong={wrong}
              startTime={startTime}
              /> : null}
-     </>
+     </div>
       }
     </>
    

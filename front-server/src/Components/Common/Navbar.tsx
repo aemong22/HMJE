@@ -74,7 +74,7 @@ function Navbar():JSX.Element {
           {/* <div aria-label="admin" className='cursor-pointer mr-4' onClick={onClick}>관리자</div> */}
           <div  className="flex justify-center px-3">
             <div aria-label="mypage" className='cursor-pointer mr-2 font-bold' onClick={onClick}>{nickname}<span className="font-normal">님</span></div>
-              <div className='cursor-pointer'>어서오세요</div>
+              <div className=''>어서오세요</div>
             </div>
           <div aria-label="logout" className="lg:block hidden px-3 border-l border-[#A87E6E] cursor-pointer" onClick={onClick}>나가기</div>
           <div className="lg:hidden flex items-center">
