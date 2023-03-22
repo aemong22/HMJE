@@ -42,8 +42,7 @@ function Navbar():JSX.Element {
        userId:localStorage.getItem("userId")
       }
       putUserLogout(data).unwrap().then((r)=>{
-        console.log(r.message=="success");
-        
+        console.log(r.message=="success");        
         if(r.message=="success"){
           console.log("로그아웃성공");          
           window.localStorage.clear();
@@ -74,7 +73,7 @@ function Navbar():JSX.Element {
           {/* <div aria-label="admin" className='cursor-pointer mr-4' onClick={onClick}>관리자</div> */}
           <div  className="flex justify-center px-3">
             <div aria-label="mypage" className='cursor-pointer mr-2 font-bold' onClick={onClick}>{nickname}<span className="font-normal">님</span></div>
-              <div className='cursor-pointer'>어서오세요</div>
+              <div className=''>어서오세요</div>
             </div>
           <div aria-label="logout" className="lg:block hidden px-3 border-l border-[#A87E6E] cursor-pointer" onClick={onClick}>나가기</div>
           <div className="lg:hidden flex items-center">
@@ -117,14 +116,14 @@ function Navbar():JSX.Element {
         </div>
       </div>
     </div>
-    <div className={classNames("lg:hidden z-10 absolute bg-[#ffffff] w-full text-[0.9rem] text-[#A87E6E] px-2", { hidden: !menuToggle})}>
+    <div className={classNames("lg:hidden z-30 absolute bg-[#ffffff] w-full text-[0.9rem] text-[#A87E6E] px-2", { hidden: !menuToggle})}>
         <div aria-label="main" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>학습</div>
         <div aria-label="note" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>오답공책</div>
         <div aria-label="dogam" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>문맥도감</div>
         <div aria-label="mypage" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>관리</div>
         <div aria-label="dictionary" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>사전</div>
         <div aria-label="notice" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>알림공간</div>
-        <div aria-label="" className = "p-2 cursor-pointer hover:bg-gray-100">나가기</div>
+        <div aria-label="logout" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>나가기</div>
     </div>
   </div>
   )
