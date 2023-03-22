@@ -117,7 +117,7 @@ function Navbar():JSX.Element {
         </div>
       </div>
     </div>
-    <div className={classNames("lg:hidden z-10 absolute bg-[#ffffff] w-full text-[0.9rem] text-[#A87E6E] px-2", { hidden: !menuToggle})}>
+    <div className={classNames("lg:hidden z-30 absolute bg-[#ffffff] w-full text-[0.9rem] text-[#A87E6E] px-2", { hidden: !menuToggle})}>
         <div aria-label="main" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>학습</div>
         <div aria-label="note" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>오답공책</div>
         <div aria-label="dogam" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>문맥도감</div>

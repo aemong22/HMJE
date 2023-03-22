@@ -210,9 +210,9 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
             <div className="font-bold">{num+1} / {Object.keys(question).length}</div>
           </div>
           {/* 왼쪽 학습 영역 */}
-          <div className="mt-8 z-20 bg-[#F4EFEC] lg:w-[82%] w-full min-h-[25rem] py-6 lg:px-6 px-4 flex flex-col justify-between rounded-lg md:text-[1.1rem] text-[1rem]">
+          <div className="mt-8 z-20 bg-[#F4EFEC] lg:w-[82%] w-full min-h-[25rem] py-6 lg:px-6 px-4 flex flex-col justify-between rounded-lg md:text-[1.3rem] text-[1.2rem] font-normal">
             <div>
-              <div className="font-bold md:text-[1.2rem] text-[1.1rem] mb-6">
+              <div className="font-semibold md:text-[1.2rem] text-[1.1rem] mb-6">
                 {studyType !== "contextStudy" ? 
                   <>
                     해당 뜻을 가진 단어를 적으시오.
@@ -224,7 +224,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
               <div>
                 { studyType !== "contextStudy" ? 
                 <>
-                  {question[num]?.wordDetailResponseList[0]?.details}
+                  <span className="">{question[num]?.wordDetailResponseList[0]?.details}</span>
                 </> :  
                 <>
                   <div className= "leading-10" dangerouslySetInnerHTML={{__html: question[num]?.dogamExam1.replace(
