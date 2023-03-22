@@ -5,12 +5,20 @@ import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
 import Pangguin from "../Threejs/Pangguin";
 import style from "./Main.module.css";
-import { useAppDispatch } from "../../Store/hooks";
+
 
 
 
 function Main(): JSX.Element {
-  const dispatch = useAppDispatch()
+  const navigate = useNavigate();
+  
+  // 로그인 안했을 시 intro페이지로 이동
+  useEffect(() => {
+    if(localStorage.getItem("accessToken") === "undefined"){
+      navigate('/')
+    }
+  },[])
+
   const userId = localStorage.getItem("userId");
   const {data:userMyInfo, error:error1, isLoading:isLoading1 } = useGetUserMyinfoQuery(userId);
   const {data:userMyStudy, error:error2, isLoading:isLoading2 } = useGetUserMystudyQuery(userId);
@@ -88,23 +96,23 @@ function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
       levelName2: "0",
       totalExp: -100
     },{
-    levelName: "정일품",
-    levelName2: "正一品",
+    levelName: "정구품",
+    levelName2: "正九品",
     totalExp: 100
   },
   {
-    levelName: "정이품",
-    levelName2: "正二品",
+    levelName: "정팔품",
+    levelName2: "正八品",
     totalExp: 200
   },
   {
-    levelName: "정삼품",
-    levelName2: "正三品",
+    levelName: "정칠품",
+    levelName2: "正七品",
     totalExp: 400
   },
   {
-    levelName: "정사품",
-    levelName2: "正四品",
+    levelName: "정육품",
+    levelName2: "正六品",
     totalExp: 800
   },
   {
@@ -113,25 +121,30 @@ function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
     totalExp: 1600
   },
   {
-    levelName: "정육품",
-    levelName2: "正六品",
+    levelName: "정사품",
+    levelName2: "正四品",
     totalExp: 3200
   },
   {
-    levelName: "정칠품",
-    levelName2: "正七品",
+    levelName: "정삼품",
+    levelName2: "正三品",
     totalExp: 6400
   },
   {
-    levelName: "정팔품",
-    levelName2: "正八品",
+    levelName: "정이품",
+    levelName2: "正二品",
     totalExp: 12800
   },
   {
-    levelName: "정구품",
-    levelName2: "正九品",
+    levelName: "정일품",
+    levelName2: "正一品",
     totalExp: 25600
   },
+  {
+    levelName: "정일품",
+    levelName2: "正一品",
+    totalExp: 25600
+  }
 
 ]
   // 경험치 비율 width
@@ -160,10 +173,10 @@ function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
             <div className="md:text-[0.9rem] sm:text-[0.7rem] text-[0.5rem] px-2 border-2 border-[#A87E6E] w-fit mx-auto rounded-full bg-[#F0ECE9] font-bold text-[#A87E6E]">
               {levelInfo[userMyInfo?.level].levelName2}
             </div>
-            <div className="bg-[#F0ECE9] rounded-lg my-2">
+            <div className="bg-[#F0ECE9] rounded-lg my-2 overflow-hidden">
               <div className="bg-[#F7CCB7] rounded-lg py-[0.5rem]" style={{width:`${expWidth}` , maxWidth:"100%"}}></div>
             </div>
-            <div className="text-[1rem] text-zinc-400"> {userMyInfo.exp} / {levelInfo[userMyInfo.level].totalExp}</div>
+            <div className="text-[1rem] text-zinc-400"> {userMyInfo.exp} / {userMyInfo.level > 9 ? <> ∞ </> : <>{levelInfo[userMyInfo.level].totalExp} </> }</div>
           </div>
           <div className="md:w-[43%] w-[90%] pt-[2rem] pb-[0.5rem]">
             <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold">오늘</div>
@@ -197,6 +210,8 @@ function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
       </div>
   );
 }
+
+
 
 // 학습 (3가지)
 function StudyContent(): JSX.Element {
@@ -261,6 +276,8 @@ function StudyContent(): JSX.Element {
   );
 }
 
+
+
 // 뉴스 ( 신문 핵심 단어 )
 function News({example,setSelectKeyWord,selectKeyWord}:any): JSX.Element {
   return (
@@ -288,7 +305,7 @@ function News({example,setSelectKeyWord,selectKeyWord}:any): JSX.Element {
                         </>
                       ) : (
                         <>
-                        <div className="cursor-pointer rounded-full py-1 px-4 mr-3 mt-1 md:text-[1.4rem] sm:text-[1.2rem] text-[1.1rem] border-2 border-[#BF9F91] text-[#BF9F91] font-bold" onClick={() => {
+                        <div key={index} className="cursor-pointer rounded-full py-1 px-4 mr-3 mt-1 md:text-[1.4rem] sm:text-[1.2rem] text-[1.1rem] border-2 border-[#BF9F91] text-[#BF9F91] font-bold" onClick={() => {
                           setSelectKeyWord(index);
                         }}>
                           {ex.name}
@@ -318,22 +335,25 @@ function News({example,setSelectKeyWord,selectKeyWord}:any): JSX.Element {
   );
 }
 
+
+
 // 장원급제 리스트
 function PassUsers({users}:any): JSX.Element {
+  
   return (
     <>
       <div className="bg-[#F4EFEC] w-full">
-        <div className="container max-w-screen-xl mx-auto text-center py-24">
+        <div className="container max-w-screen-xl mx-auto text-center py-16">
           
-          <div className="md:text-[1.7rem] text-[1.2rem]">제 32회 과거시험 결과</div>
-          <div className="md:text-[2.7rem] text-[2rem] font-bold text-[#A87E6E]">장원급제</div>
-          <div className="md:text-[1.5rem] text-[1rem] text-[#525252] mb-[2rem]">축하드립니다!</div>
+          <div className={`${style.passFont} md:text-[2.1rem] text-[1.5rem] `}>제 32회 과거시험 결과</div>
+          <div className= {`${style.passFont} md:text-[3.2rem] text-[2.2rem] font-bold text-[#A87E6E]`}>장원급제</div>
+          <div className={`${style.passFont} md:text-[2.1rem] text-[1.5rem] text-[#525252] mb-[2rem]`}>축하드립니다!</div>
 
           <div className="overflow-hidden h-[15rem] lg:w-[70%] md:w-[80%] sm:w-[90%] w-full mx-auto">
             <div className={`${style.move} px-1`} style={{animationDuration:`${Object.keys(users).length*2}s`}}>
               {
-                users.map((user:any)=> (
-                  <div className={`flex justify-between rounded-lg bg-[#ffffff] my-3 md:px-5 sm:px-4 px-3 py-3 md:text-[1.5rem] sm:text-[1.2rem] text-[0.9rem] text-start}`}>
+                users.map((user:any , index:number)=> (
+                  <div key={index} className={`flex justify-between rounded-lg bg-[#ffffff] my-3 md:px-5 sm:px-4 px-3 py-3 md:text-[1.5rem] sm:text-[1.2rem] text-[0.9rem] text-start`}>
                     <div className="flex">
                     <div className={`${style.badgeImg2}`} style={{backgroundImage:`url('/Assets/Icon/${user.뱃지이미지}.png')`}}></div>
                       <div className="px-1">
@@ -348,10 +368,10 @@ function PassUsers({users}:any): JSX.Element {
                 ))
               }
             </div>
-            <div className={`${style.move} px-1`} style={{animationDuration:`${Object.keys(users).length*2}s`}}>
+            <div className={`${style.move} px-1`} style={{animationDuration:`${Object.keys(users).length*2}`}}>
               {
-                users.map((user:any)=> (
-                  <div className={`flex justify-between rounded-lg bg-[#ffffff] my-3 md:px-5 sm:px-4 px-3  py-3 md:text-[1.5rem] sm:text-[1.2rem] text-[0.9rem] text-start}`}>
+                users.map((user:any , index : number)=> (
+                  <div key={index} className={`flex justify-between rounded-lg bg-[#ffffff] my-3 md:px-5 sm:px-4 px-3  py-3 md:text-[1.5rem] sm:text-[1.2rem] text-[0.9rem] text-start}`}>
                     <div className="flex">
                     <div className={`${style.badgeImg2}`} style={{backgroundImage:`url('/Assets/Icon/${user.뱃지이미지}.png')`}}></div>
                       <div className="px-1">

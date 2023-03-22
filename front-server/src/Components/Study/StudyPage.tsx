@@ -34,9 +34,9 @@ function WordStudy(): JSX.Element {
   useEffect(() => {
     if(studyType === "wordStudy") {
       getStudyWord(userId).then((r) => { 
-        return(r)
-      }).then((r) => { 
-        setQuestion(r.data.data)
+        const myArray = [...r.data.data];
+        myArray.sort(() => Math.random() - 0.5);
+        setQuestion(myArray)
       })
     }
     else if(studyType === "contextStudy"){
@@ -51,7 +51,6 @@ function WordStudy(): JSX.Element {
         const myArray = [...r.data.data];
         myArray.sort(() => Math.random() - 0.5);
         setQuestion(myArray)
-        
       })
     }
 
@@ -103,8 +102,8 @@ function WordStudy(): JSX.Element {
     <>
 
        {question.length > 0 && 
-       <>
-       <Navbar/>
+       <div className="bg-[#F9F9F9] w-full h-screen">
+       <Navbar />
        <Study 
          question={question}
          studyType={studyType} 
@@ -114,8 +113,11 @@ function WordStudy(): JSX.Element {
          semo={semo}
          setSemo={setSemo}
          right={right} setRight={setRight}
+         resultModal={resultModal}
          setResultModal={setResultModal}
-         openModal={openModal}/>
+         openModal={openModal}
+         closeModal={closeModal}
+         modalOpen={modalOpen}/>
  
        { modalOpen ? 
          <AnswerModal 
@@ -139,7 +141,7 @@ function WordStudy(): JSX.Element {
              wrong={wrong}
              startTime={startTime}
              /> : null}
-     </>
+     </div>
       }
     </>
    

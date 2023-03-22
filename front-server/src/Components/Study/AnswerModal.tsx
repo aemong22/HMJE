@@ -96,11 +96,10 @@ function AnswerModal({
                 <div className="flex items-end">
                     <div className="md:text-[1.5rem] text-[1.2rem] font-bold mr-1">
                         { studyType !== "contextStudy" ? 
-                            <>{question[num].wordName}</> :
-                            <>{question[num].dogamName}</>
+                            <>{question[num].wordName}</> : right ? <>{question[num].dogamName}</> : <><span className="px-3">?</span></>
                         }
                     </div>
-                    {studyType !== "contextStudy" && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">({question[num].wordIso})</div>}
+                    {studyType !== "contextStudy" && question[num].wordIso > 0 && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{question[num].wordIso}</div>}
                     {studyType !== "contextStudy" && question[num].wordOrigin && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">[{question[num].wordOrigin}]</div>}
                     {studyType === "contextStudy" && question[num].dogamOrigin && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">[{question[num].dogamOrigin}]</div>}
                     <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{studyType !== "contextStudy" ? <>{question[num].wordType}</>:<>{question[num].dogamClass}</>}</div>
@@ -140,30 +139,39 @@ function AnswerModal({
               <div className="relative px-4 py-3 max-h-[50vh] overflow-y-auto">
                 <div className="bg-[#F4EFEC] rounded-lg p-4 md:text-[1.1rem] text-[1rem] font-medium my-2">
                   {question[num].dogamMean1}
-                  <div className="mt-2 md:text-[1rem] text-[0.9rem] text-[#666666] leading-7">
-                    <span className="mr-1 font-bold text-[#ffffff] rounded-full px-3 py-1 bg-[#F7CCB7] md:text-[0.9rem] text-[0.8rem]">
+                  {right && 
+                  <>
+                    <div className="mt-2 md:text-[1rem] text-[0.9rem] text-[#666666] leading-7">
+                      <span className="mr-1 font-bold text-[#ffffff] rounded-full px-3 py-1 bg-[#F7CCB7] md:text-[0.9rem] text-[0.8rem]">
                       예제
-                    </span>
-                    {question[num].dogamExam1}
-                  </div>
+                      </span>
+                      {question[num].dogamExam1}
+                    </div>
+                  </>}
                 </div>
                 <div className="bg-[#F4EFEC] rounded-lg p-4 md:text-[1.1rem] text-[1rem] font-medium my-2">
                   {question[num].dogamMean2}
-                  <div className="mt-2 md:text-[1rem] text-[0.9rem] text-[#666666] leading-7">
-                    <span className="mr-1 font-bold text-[#ffffff] rounded-full px-3 py-1 bg-[#F7CCB7] md:text-[0.9rem] text-[0.8rem]">
+                  {right && 
+                  <>
+                    <div className="mt-2 md:text-[1rem] text-[0.9rem] text-[#666666] leading-7">
+                      <span className="mr-1 font-bold text-[#ffffff] rounded-full px-3 py-1 bg-[#F7CCB7] md:text-[0.9rem] text-[0.8rem]">
                       예제
-                    </span>
-                    {question[num].dogamExam2}
-                  </div>
+                      </span>
+                      {question[num].dogamExam2}
+                    </div>
+                  </>}
                 </div>
                 <div className="bg-[#F4EFEC] rounded-lg p-4 md:text-[1.1rem] text-[1rem] font-medium my-2">
-                  {question[num].dogamMean2}
-                  <div className="mt-2 md:text-[1rem] text-[0.9rem] text-[#666666] leading-7">
-                    <span className="mr-1 font-bold text-[#ffffff] rounded-full px-3 py-1 bg-[#F7CCB7] md:text-[0.9rem] text-[0.8rem]">
+                  {question[num].dogamMean3}
+                  {right && 
+                  <>
+                    <div className="mt-2 md:text-[1rem] text-[0.9rem] text-[#666666] leading-7">
+                      <span className="mr-1 font-bold text-[#ffffff] rounded-full px-3 py-1 bg-[#F7CCB7] md:text-[0.9rem] text-[0.8rem]">
                       예제
-                    </span>
-                    {question[num].dogamExam2}
-                  </div>
+                      </span>
+                      {question[num].dogamExam3}
+                    </div>
+                  </>}
                 </div>
               </div>
             )}
