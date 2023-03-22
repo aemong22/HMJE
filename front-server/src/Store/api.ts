@@ -38,7 +38,6 @@ type dictresponse = {
 }
 
 const fetchAccessToken = async () => {
-
   // const userName: string = localStorage.getItem("userName")
 
   let accessToken: string | null = localStorage.getItem("accessToken");

@@ -23,6 +23,7 @@ import Notice from "./Components/Notice/Notice";
 import PastTestIntroModal from "./Components/Study/PastTestIntroModal";
 import PastTest from "./Components/Study/PastTest";
 import AdminExam from "./Components/Admin/AdminExam";
+import Cat from "./Components/Threejs/Cat";
 
 function App() {
   const notify = () => toast("Wow so easy!");
@@ -47,6 +48,7 @@ function App() {
         <Route path="/note" element={<WrongNote />} />
         <Route path="/dogam" element={<Dogam />} />
         <Route path="/pasttest" element={<PastTest />} />
+        
 
         <Route path="/admin" element={<AdminPage />}>
           <Route path="" element={<AdminMain />} />
@@ -55,6 +57,9 @@ function App() {
           <Route path="context" element={<AdminContext />} />
           <Route path="exam" element={<AdminExam />} />
         </Route>
+
+        <Route path="/cat" element={<Cat />} />
+
       </Routes>
     </>
   );
