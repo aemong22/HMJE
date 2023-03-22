@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
 import ReactDOMServer from 'react-dom/server';
 
-function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,setSemo,right, setRight, openModal, setResultModal, modalOpen, resultModal}:any): JSX.Element {
+function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,setSemo,right, setRight, openModal, setResultModal, modalOpen, resultModal, closeModal}:any): JSX.Element {
 
   // 초성 뽑아내기
   const cho = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
@@ -24,12 +24,16 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
   // 그만두기
   const [stop, setStop] = useState<Boolean>(false);
 
+  // 건너뛰기
+  const [skip, setSkip] = useState<Boolean>(false);
+  
   // 타이머
   const [count, setCount] = useState(30);
 
    useEffect(() => {
     setCount(30);
     SpeechRecognition.stopListening();
+    setSkip(false);
    },[num])
 
    
@@ -46,10 +50,14 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
       clearInterval(id);
       setInput("");
       if(studyType !== "contextStudy") {
-        setWrong([...wrong,question[num]?.wordId])
+        if(!wrong.includes(question[num]?.wordId)){
+          setWrong([...wrong,question[num]?.wordId])
+        }
       }
       else {
-        setWrong([...wrong,question[num]?.dogamId])
+        if(!wrong.includes(question[num]?.dogamId)){
+          setWrong([...wrong,question[num]?.dogamId])
+        }
       }
       openModal()
       setHint(false)
@@ -60,8 +68,26 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     }
     // 그만두기
     else if(stop){
+      closeModal();
       setResultModal(true)
       clearInterval(id);
+    }
+    // 건너뛰기
+    else if(skip){
+      clearInterval(id);
+      
+      if(studyType !== "contextStudy") {
+        if(!wrong.includes(question[num]?.wordId)){
+          setWrong([...wrong,question[num]?.wordId])
+        }
+      }
+      else {
+        if(!wrong.includes(question[num]?.dogamId)){
+          setWrong([...wrong,question[num]?.dogamId])
+        }
+      }
+      openModal()
+      setHint(false)
     }
      return () => clearInterval(id);
    }, [count]);
@@ -108,12 +134,12 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
   const submit = () => {
     resetTranscript()
     setInput("")
-    console.log("제출")
 
-    if(modalOpen || resultModal) {
+    if( modalOpen || resultModal ) {
       console.log("이미 결과가 뜬 단어입니다.")
     }
     else {
+      console.log("제출")
       //정답
       if(input === question[num]?.wordName) {
         if(hint) {
@@ -142,10 +168,11 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
   const submit2 = () => {
     resetTranscript()
     setInput("")
-    if(modalOpen || resultModal) {
+    if( modalOpen || resultModal ) {
       console.log("이미 결과가 뜬 단어입니다.")
     }
     else {
+      
       //정답
       if(input === question[num].dogamName) {
         if(hint) {
@@ -178,14 +205,14 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
       <div className="bg-[#F9F9F9] lg:py-16 py-10">
         <div className="relative container max-w-screen-xl w-full p-2 mx-auto flex lg:flex-row flex-col lg:justify-between overflow-x-hidden">
           {/* 왼쪽 상단 */}
-          <div className="absolute z-10 lg:w-[82%] w-full flex justify-between pr-5">
+          <div className="absolute z-10 lg:w-[82%] w-full flex justify-between pr-5 text-[1.1rem]">
             <div className="bg-[#F7CCB7] min-h-[5rem] rounded-md py-1 px-4 font-bold text-[#ffffff]">문제 {num +1}</div>
             <div className="font-bold">{num+1} / {Object.keys(question).length}</div>
           </div>
           {/* 왼쪽 학습 영역 */}
-          <div className="mt-8 z-20 bg-[#F4EFEC] lg:w-[82%] w-full min-h-[25rem] py-6 lg:px-6 px-4 flex flex-col justify-between rounded-lg">
+          <div className="mt-8 z-20 bg-[#F4EFEC] lg:w-[82%] w-full min-h-[25rem] py-6 lg:px-6 px-4 flex flex-col justify-between rounded-lg md:text-[1.3rem] text-[1.2rem] font-normal">
             <div>
-              <div className="font-bold md:text-[1.1rem] text-[1rem] mb-6">
+              <div className="font-semibold md:text-[1.2rem] text-[1.1rem] mb-6">
                 {studyType !== "contextStudy" ? 
                   <>
                     해당 뜻을 가진 단어를 적으시오.
@@ -197,7 +224,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
               <div>
                 { studyType !== "contextStudy" ? 
                 <>
-                  {question[num]?.wordDetailResponseList[0]?.details}
+                  <span className="">{question[num]?.wordDetailResponseList[0]?.details}</span>
                 </> :  
                 <>
                   <div className= "leading-10" dangerouslySetInnerHTML={{__html: question[num]?.dogamExam1.replace(
@@ -245,26 +272,26 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
           </div>
 
           {/* 오른쪽 학습 상세정보 영역  */}
-          <div className="lg:w-[17%] w-full flex lg:block flex-row flex-wrap text-center">
-            <div className="px-2 m-2 lg:py-8 rounded-lg md:text-[1.8rem] sm:text-[1.3rem] text-[1rem] text-[#A87C6E] font-bold flex flex-col justify-center">
+          <div className="lg:w-[17%] w-full flex lg:block flex-wrap text-center justify-between">
+            <div className="px-4 m-2 lg:pt-6 lg:pb-4 rounded-lg md:text-[1.8rem] sm:text-[1.3rem] text-[1rem] text-[#A87C6E] font-bold flex flex-col justify-center">
               {studyType === "wordStudy"  ? <>단어학습</>
               : studyType === "contextStudy" ? <>문맥학습</>
               : <><span className="px-4">복습</span></>
               }
 
               </div>
-            <div className="border-4 lg:py-4 md:py-2 m-2 px-8 rounded-lg md:text-[1.6rem] sm:text-[1.3rem] text-[1rem] flex flex-col justify-center font-bold border-[#F4EFEC] text-[#A87C6E]">
+            <div className="border-4 lg:py-3 md:py-2 m-2 px-8 rounded-lg md:text-[1.6rem] sm:text-[1.3rem] text-[1rem] flex flex-col justify-center font-bold border-[#F4EFEC] text-[#A87C6E]">
               <span className="md:text-[1.2rem] sm:text-[1rem] text-[0.9rem] font-medium text-[#8E8E8E]">시간</span>
               {count}
             </div>
             
             {studyType !== "contextStudy" ? 
             <>
-              <div className="border-4 m-2 lg:py-4 md:py-2 px-8 rounded-lg md:text-[1.6rem] sm:text-[1.3rem] text-[1rem] flex flex-col justify-center font-bold border-[#F4EFEC] text-[#A87C6E]">
+              <div className="border-4 m-2 lg:py-3 md:py-2 px-8 rounded-lg md:text-[1.6rem] sm:text-[1.3rem] text-[1rem] flex flex-col justify-center font-bold border-[#F4EFEC] text-[#A87C6E]">
                 <span className="md:text-[1.2rem] sm:text-[1rem] text-[0.9rem] font-medium text-[#8E8E8E]">품사</span>
                 {question[num]?.wordType}
               </div>
-              <div className="border-4 m-2 lg:py-4 md:py-2 px-8 rounded-lg md:text-[1.6rem] sm:text-[1.3rem] text-[#A87C6E] text-[1rem] flex flex-col justify-center font-bold border-[#F4EFEC]">
+              <div className="border-4 m-2 lg:py-3 md:py-2 px-8 rounded-lg md:text-[1.6rem] sm:text-[1.3rem] text-[#A87C6E] text-[1rem] flex flex-col justify-center font-bold border-[#F4EFEC]">
                 <span className="md:text-[1.2rem] sm:text-[1rem] text-[0.9rem] font-medium text-[#8E8E8E]">귀띔</span>
                 {hint ? <>{result}</> : <><div className="hover:text-[#F7CCB7] cursor-pointer" onClick={()=> setHint(true)}>도움받기</div></>}
               </div>
@@ -272,8 +299,8 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
               :
               null
             }
-
-            <div className="border-4 m-2 py-4 md:py-2 px-8 rounded-lg md:text-[1.2rem] sm:text-[1.1rem] text-[1rem] flex flex-col justify-center border-[#F4EFEC] text-[#5F5F5F] font-bold cursor-pointer hover:text-[#D30000]" onClick={()=> setStop(true)}>그만두기</div>
+            <div className="border-4 m-2 py-2 px-8 rounded-lg md:text-[1.2rem] sm:text-[1.1rem] text-[1rem] flex flex-col justify-center border-[#F4EFEC] text-[#5F5F5F] font-bold cursor-pointer hover:text-[#D30000]" onClick={()=> setSkip(true)}>건너뛰기</div>
+            <div className="border-4 m-2 py-2 px-8 rounded-lg md:text-[1.2rem] sm:text-[1.1rem] text-[1rem] flex flex-col justify-center border-[#F4EFEC] text-[#5F5F5F] font-bold cursor-pointer hover:text-[#D30000]" onClick={()=> setStop(true)}>그만두기</div>
           </div>
         </div>
       </div>
