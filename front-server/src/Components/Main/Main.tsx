@@ -88,23 +88,23 @@ function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
       levelName2: "0",
       totalExp: -100
     },{
-    levelName: "정일품",
-    levelName2: "正一品",
+    levelName: "정구품",
+    levelName2: "正九品",
     totalExp: 100
   },
   {
-    levelName: "정이품",
-    levelName2: "正二品",
+    levelName: "정팔품",
+    levelName2: "正八品",
     totalExp: 200
   },
   {
-    levelName: "정삼품",
-    levelName2: "正三品",
+    levelName: "정칠품",
+    levelName2: "正七品",
     totalExp: 400
   },
   {
-    levelName: "정사품",
-    levelName2: "正四品",
+    levelName: "정육품",
+    levelName2: "正六品",
     totalExp: 800
   },
   {
@@ -113,29 +113,29 @@ function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
     totalExp: 1600
   },
   {
-    levelName: "정육품",
-    levelName2: "正六品",
+    levelName: "정사품",
+    levelName2: "正四品",
     totalExp: 3200
   },
   {
-    levelName: "정칠품",
-    levelName2: "正七品",
+    levelName: "정삼품",
+    levelName2: "正三品",
     totalExp: 6400
   },
   {
-    levelName: "정팔품",
-    levelName2: "正八品",
+    levelName: "정이품",
+    levelName2: "正二品",
     totalExp: 12800
   },
   {
-    levelName: "정구품",
-    levelName2: "正九品",
+    levelName: "정일품",
+    levelName2: "正一品",
     totalExp: 25600
   },
   {
-    levelName: "장인",
-    levelName2: "丈人",
-    totalExp: 99999
+    levelName: "정일품",
+    levelName2: "正一品",
+    totalExp: 25600
   }
 
 ]
@@ -165,10 +165,10 @@ function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
             <div className="md:text-[0.9rem] sm:text-[0.7rem] text-[0.5rem] px-2 border-2 border-[#A87E6E] w-fit mx-auto rounded-full bg-[#F0ECE9] font-bold text-[#A87E6E]">
               {levelInfo[userMyInfo?.level].levelName2}
             </div>
-            <div className="bg-[#F0ECE9] rounded-lg my-2">
+            <div className="bg-[#F0ECE9] rounded-lg my-2 overflow-hidden">
               <div className="bg-[#F7CCB7] rounded-lg py-[0.5rem]" style={{width:`${expWidth}` , maxWidth:"100%"}}></div>
             </div>
-            <div className="text-[1rem] text-zinc-400"> {userMyInfo.exp} / {levelInfo[userMyInfo.level].totalExp}</div>
+            <div className="text-[1rem] text-zinc-400"> {userMyInfo.exp} / {userMyInfo.level > 9 ? <> ∞ </> : <>{levelInfo[userMyInfo.level].totalExp} </> }</div>
           </div>
           <div className="md:w-[43%] w-[90%] pt-[2rem] pb-[0.5rem]">
             <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold">오늘</div>
