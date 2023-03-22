@@ -14,7 +14,7 @@ function Main(): JSX.Element {
   
   // 로그인 안했을 시 intro페이지로 이동
   useEffect(() => {
-    if(localStorage.getItem("accessToken")){
+    if(localStorage.getItem("accessToken") === "undefined"){
       navigate('/')
     }
   },[])
