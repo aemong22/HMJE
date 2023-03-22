@@ -3,7 +3,6 @@ package com.server.back.domain.study.controller;
 import com.server.back.domain.study.dto.*;
 import com.server.back.domain.study.entity.Dogam;
 import com.server.back.domain.study.service.StudyService;
-import com.server.back.domain.user.repository.StudyTimeRepository;
 import com.server.back.domain.user.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -21,15 +20,23 @@ import java.util.Map;
 public class StudyController {
     private final StudyService studyService;
     private final UserService userService;
-    private final StudyTimeRepository studyTimeRepository;
+
 
     @ApiOperation(value = "단어학습 문제")
     @GetMapping("/word/{userId}")
-    public ResponseEntity<Map<String, Object>> wordQuestion(@PathVariable(value = "userId") Long userId){
+    public ResponseEntity<Map<String, Object>> wordQuestion(@PathVariable(value = "userId") Long userId,
+                                                             @RequestParam(name = "filter", defaultValue = "") String filter){
         Map<String, Object> response = new HashMap<>();
-        List<WordResponseDto> wordQuestion = studyService.wordQuestion(userId);
-        response.put("data", wordQuestion);
-        response.put("message", "success");
+        if(filter.isBlank()){
+            List<WordResponseDto> wordQuestion = studyService.wordQuestion(userId);
+            response.put("data", wordQuestion);
+            response.put("message", "success");
+        }else{
+            List<WordResponseDto> wordQuestion = studyService.wordQuestionWithFilter(userId, filter);
+            response.put("data", wordQuestion);
+            response.put("message", "success");
+        }
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
