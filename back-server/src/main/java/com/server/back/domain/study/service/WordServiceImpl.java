@@ -134,13 +134,12 @@ public class WordServiceImpl implements WordService {
 	@Override
 	public List<DailyWordResponseDto> getDailyWordList() {
 		// 최신 20개 반환하는걸로 로직 수정.
-		LocalDateTime startDatetime = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.of(0,0,0)); //어제 00:00:00
+		LocalDateTime startDatetime = LocalDateTime.of(LocalDate.now().minusDays(2), LocalTime.of(0,0,0)); //이틀전 00:00:00
 		LocalDateTime endDatetime = LocalDateTime.of(LocalDate.now(), LocalTime.of(23,59,59)); //오늘 23:59:59
 		List<DailyWord> dailyWordList = dailyWordRepository.findByCreatedAtBetweenOrderByCreatedAtDesc(startDatetime, endDatetime);
-		List<DailyWordResponseDto> dailyWordResponseDtoList = DailyWordResponseDto.fromEntityList(dailyWordList);
-		List<DailyWordResponseDto> result = new ArrayList<>(dailyWordResponseDtoList.subList(0,19));
+		List<DailyWordResponseDto> dailyWordResponseDtoList = DailyWordResponseDto.fromEntityList(dailyWordList.subList(0,20));
 
-		return result;
+		return dailyWordResponseDtoList;
 	}
 
 	//	@Override
