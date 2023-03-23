@@ -26,23 +26,6 @@ function Main(): JSX.Element {
   const {data:userMyStudy, error:error2, isLoading:isLoading2 } = useGetUserMystudyQuery(userId);
   const {data:newsKeyword, error:error3, isLoading:isLoading3} = useGetWordDailyQuery('');
   
-  
-
-
-  const [selectKeyWord, setSelectKeyWord] = useState<number>(0);
-
-  // 뉴스 핵심 단어 List
-  const example: object = [{
-      name: "경제",
-      mean: "인간의 생활에 필요한 재화나 용역을 생산ㆍ분배ㆍ소비하는 모든 활동. 또는 그것을 통하여 이루어지는 사회적 관계",
-  }, {
-      name: "시정명령",
-      mean: "시정명령~"
-  }, {
-      name: "둔화",
-      mean:"둔화~" 
-  
-  }]
 
   // 장원급제 user List
   const users: object = [{
@@ -75,7 +58,7 @@ function Main(): JSX.Element {
       <Navbar />
       <MyInfo userMyInfo={userMyInfo?.data} userMyStudy={userMyStudy?.data}/>
       <StudyContent />
-      <News newsKeyword={newsKeyword?.data} example={example} setSelectKeyWord={setSelectKeyWord} selectKeyWord={selectKeyWord}/>
+      <News newsKeyword={newsKeyword?.data} />
       <PassUsers users={users}/>
       <Footer />
     </>
@@ -283,7 +266,7 @@ function StudyContent(): JSX.Element {
 
 
 // 뉴스 ( 신문 핵심 단어 )
-function News({example,setSelectKeyWord,selectKeyWord, newsKeyword}:any): JSX.Element {
+function News({newsKeyword}:any): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
   const [select, setSelect] = useState<String>("경제");
@@ -393,12 +376,41 @@ function News({example,setSelectKeyWord,selectKeyWord, newsKeyword}:any): JSX.El
           </span>
         </div>
 
-        <div className="h-[11rem] rounded-lg bg-[#F4EFEC] p-5 mt-2 md:text-[1.2rem] sm:text-[1.1rem] text-[1rem] overflow-auto">
-          <div>{example[selectKeyWord]?.mean}</div>
+        <div className="h-[11rem] rounded-lg bg-[#F4EFEC] p-2 mt-2 md:text-[1.2rem] sm:text-[1.1rem] text-[1rem] overflow-auto">
+
+        <div className="relative max-h-[50vh] overflow-y-auto">
+                {newsKeyword[idx].wordResponseDto.wordDetailResponseList.map(
+                  (detail: any, DetailIdx: any) => {
+                    let temp = detail.wordExampleResponseList.filter(
+                      (ex: any) => ex.exampleType === "문장",
+                    )[0]?.exampleDetail;
+                    let example = temp
+                      ? temp
+                      : detail.wordExampleResponseList[0]?.exampleDetail;
+                    return (
+                      <div
+                        key={DetailIdx}
+                        className="bg-[#F4EFEC] rounded-lg p-2 md:text-[1.2rem] text-[1rem] font-medium my-2"
+                      >
+                        {detail.details}{" "}
+                        <div className="mt-2 md:text-[1.2rem] text-[1rem] text-[#666666] leading-7">
+                          <span className="mr-1 font-bold text-[#ffffff] rounded-full px-3 py-1 bg-[#F7CCB7] md:text-[1rem] text-[0.9rem]">
+                            예제
+                          </span>
+                          {example}
+                        </div>
+                      </div>
+                    );
+                  },
+                )}
+              </div>
+
+
+          {/* <div>{example[selectKeyWord]?.mean}</div>
 
           <div className="flex w-full md:text-[1.2rem] sm:text-[1.1rem] text-[1rem] mt-2 text-[#606060]">
             <div className="bg-[#F7CCB7] rounded-full px-4 py-1 text-[#ffffff] font-bold md:text-[1rem] sm:text-[0.9rem] text-[0.8rem] mr-2">예제</div> 경제가 안좋다.
-          </div>
+          </div> */}
         </div>
         
       </div>
