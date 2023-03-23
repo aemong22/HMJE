@@ -56,6 +56,7 @@ function Main(): JSX.Element {
   return (
     <>
       <Navbar />
+      {/* <Example /> */}
       <MyInfo userMyInfo={userMyInfo?.data} userMyStudy={userMyStudy?.data}/>
       <StudyContent />
       <News newsKeyword={newsKeyword?.data} />
@@ -68,6 +69,44 @@ export default Main;
 
 // main 페이지는 container, max-w-screen-lg, lg:w-[70%] 설정
 
+
+function Example():JSX.Element {
+  return(
+    <>
+      <div className="w-full bg-[#F0ECE9]">
+        <div className="container max-w-screen-xl mx-auto flex justify-between">
+          <div className="w-[47%] h-[30rem]">
+
+          </div>
+          <div className="w-[30%] h-[30rem] pt-[5%]">
+            <div className="bg-[#fff] rounded-t-full w-full h-full">
+            <Pangguin position={-2} />
+            </div>
+
+          </div>
+          <div className="w-[23%] h-[30rem] ">
+
+          </div>
+        </div>
+      </div>
+      {/* <div className="w-full bg-[#F0ECE9]">
+        <div className="container max-w-screen-xl mx-auto flex justify-between">
+          <div className={`${style.bottomRight} w-[47%] h-[10rem]`}>
+
+          </div>
+          <div className="w-[30%] h-[10rem]">
+            <div className="bg-[#fff] w-full h-full">
+            </div>
+
+          </div>
+          <div className={`${style.bottomLeft} w-[23%] h-[10rem]`}>
+
+          </div>
+        </div>
+      </div> */}
+    </>
+  )
+}
 // 맨위 : 유저 정보 , 오늘의 정보
 function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
   localStorage.setItem("nickname", userMyInfo.nickname);
@@ -145,6 +184,74 @@ function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
 
 
   return (
+    // <div className="w-full bg-[#F0ECE9]">
+    //   <div className="container max-w-screen-xl mx-auto flex lg: justify-between">
+    //     <div className="w-[47%] pt-16 lg:px-10 md:px-5 px-2">
+    //       <div className="text-[3rem] font-bold">
+    //         오늘
+    //       </div>
+
+    //       {/* 오늘의 학습 */}
+    //       <div className="flex justify-between text-[#A87C6E]">
+    //         <div className=" text-center">
+    //           <div className="text-[2.2rem] md:text-[3rem] font-bold"> 
+    //             {h > 0 && <>{h} <span className="md:text-[1.5rem] text-[1rem]">시간 </span></>}
+    //             {m} <span className="md:text-[1.5rem] text-[1rem]">분 </span>
+    //             {s} <span className="md:text-[1.5rem] text-[1rem]">초 </span>
+    //           </div>
+    //           <div className="p-2 lg:text-[1.4rem] md:text-[1.2rem] text-[1rem]  text-zinc-500">학습 시간</div>
+    //         </div>
+    //         <div className=" text-center">
+    //           <div className="text-[2.2rem] md:text-[3rem] font-bold"> 
+    //             {userMyStudy.todayWord}<span className="md:text-[1.5rem] text-[1rem]">개</span>
+    //           </div>
+    //           <div className="p-2 lg:text-[1.4rem] md:text-[1.2rem] text-[1rem]  text-zinc-500">단어 학습</div>
+    //         </div>
+    //         <div className=" text-center">
+    //           <div className="text-[2.2rem] md:text-[3rem] font-bold"> 
+    //             {userMyStudy.todayContext}<span className="md:text-[1.5rem] text-[1rem]">개</span>
+    //           </div>
+    //           <div className="p-2 lg:text-[1.4rem] md:text-[1.2rem] text-[1rem]  text-zinc-500">문맥 학습</div>
+    //         </div>
+    //       </div>
+
+    //     {/* 유저 데이터 */}
+
+    //     <div className="my-2 bg-[#ffffff] rounded-md p-2 px-4">
+    //       <div className="flex justify-start md:text-[1.2rem] sm:text-[1.1rem] text-[1rem] py-1">
+    //         <div className={`${style.badgeImg}`} style={{backgroundImage:`url('/Assets/Badge/${userMyInfo?.nowbadgeImage}.png')`}}></div>
+    //         {userMyInfo?.nowbadgeName}
+    //       </div>
+    //       <div className="flex items-end">
+    //         <div className="md:text-[2rem] sm:text-[1.8rem] text-[1.5rem] font-bold">{userMyInfo?.nickname}{" "}</div>
+    //         <div className="md:text-[1.2rem] text[1rem] py-1 font-bold text-[#8E8E8E] mr-1">{levelInfo[userMyInfo.level].levelName}</div>
+    //         <div className="md:text-[0.9rem] sm:text-[0.7rem] my-1 text-[0.5rem] px-2 border-2 border-[#A87E6E] w-fit h-fit rounded-full bg-[#F0ECE9] font-bold text-[#A87E6E]">
+    //           {levelInfo[userMyInfo?.level].levelName2}
+    //         </div>
+    //       </div>
+    //           <div className="bg-[#F0ECE9] rounded-lg my-2 overflow-hidden">
+    //             <div className="bg-[#F7CCB7] rounded-lg py-[0.5rem]" style={{width:`${expWidth}` , maxWidth:"100%"}}></div>
+    //           </div>
+    //           <div className="text-[1rem] text-zinc-400"> {userMyInfo.exp} / {userMyInfo.level > 9 ? <> ∞ </> : <>{levelInfo[userMyInfo.level].totalExp} </> }</div>
+    //         </div>
+    //       </div>
+    //       <div>
+
+    //     </div>
+
+
+    //     <div className="w-[30%] pt-[5%]">
+    //       <div className="bg-[#fff] rounded-t-full w-full h-full">
+    //         <Pangguin position={-2} />
+    //       </div>
+
+    //     </div>
+    //     <div className="w-[23%] ">
+
+    //     </div>
+    //   </div>
+    // </div>
+
     <div className="bg-[#F0ECE9]">
       <div className="container max-w-screen-xl mx-auto">
       <div className="lg:w-[80%] w-full  mx-auto flex flex-col md:flex-row md:justify-between items-center text-center py-[2rem]">
