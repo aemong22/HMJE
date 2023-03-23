@@ -15,7 +15,7 @@ now = datetime.datetime.now()
 # MySQL Connection 연결
 sql_host = os.getenv("SQL_HOST")
 sql_user = os.getenv("SQL_USER")
-sql_password = os.getenv("SQL_PASSWORd")
+sql_password = os.getenv("SQL_PASSWORD")
 sql_db = os.getenv("SQL_DB")
 sql_port = int(os.getenv("SQL_PORT"))
 
