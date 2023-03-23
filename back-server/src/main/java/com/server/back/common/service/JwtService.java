@@ -142,9 +142,12 @@ public class JwtService {
     public Map<String, String> successLoginResponse(TokenRequestDto tokenRequestDto, Long userId) {
         Map<String, String> map = new LinkedHashMap<>();
         userService.loginHistory(userId);
+        User user = userRepository.findByUserId(userId);
         map.put("status", "200");
         map.put("message", "accessToken, refreshToken이 생성되었습니다.");
         map.put("userId", userId.toString());
+        map.put("isAdmin", user.getIsAdmin().toString());
+        map.put("isSecession", user.getIsSecession().toString());
         map.put("accessToken", tokenRequestDto.getAccessToken());
         map.put("refreshToken", tokenRequestDto.getRefreshToken());
         return map;
