@@ -23,9 +23,11 @@ RUN python3.10 -m pip install -r requirements.txt
 
 # Add the script to the Docker Image
 ADD news_word.sh /root/news_word.sh
+ADD 2016-10-20.txt /root/2016-10-20.txt
 
 # Give execution rights on the cron scripts
 RUN chmod 0644 /root/news_word.sh
+RUN chmod 0644 /root/2016-10-20.txt
 
 # cron
 RUN apt-get update
