@@ -30,6 +30,8 @@ const ForgetPassword = () => {
   const [Phonenum, setPhonenum] = useState<string>("");
   const [Authnum, setAuthnum] = useState<string>();
 
+  const [newAuthnum, setnewAuthnum] = useState<string>();
+
   // 안보이게
   const [AmIHidden, setAmIHidden] = useState("hidden");
 
@@ -70,16 +72,13 @@ const ForgetPassword = () => {
     }
   }
 
-  const CheckAuthnum = (
-    authnum: string | undefined,
-    phonenum: string,
-  ): void => {
+  const CheckAuthnum = (): void => {
     const data: smsmodify = {
-      modifyNumber: authnum!,
-      phoneNumber: phonenum,
+      modifyNumber: Authnum!,
+      phoneNumber: Phonenum,
       purpose: "findPassword",
     };
-    console.log("인증번호 보내기!", data);
+    // console.log("인증번호 보내기!", data);
 
     postSmsmodify(data)
       .unwrap()
@@ -90,7 +89,7 @@ const ForgetPassword = () => {
           setDisalbe(true);
         } else {
           alert(`인증되었습니다`);
-          setAuthnum(r.data);
+          setnewAuthnum(r.data);
           setDisalbe(false);
         }
       });
@@ -142,27 +141,21 @@ const ForgetPassword = () => {
   };
 
   const FindButton = () => {
-    console.log("디스에이블", Disalbe);
-
     const data: find = {
-      modifyNum: Authnum!,
+      modifyNum: newAuthnum!,
       newPassword: "",
       phoneNum: Phonenum,
       username: Id,
     };
     console.log("프론트에서 보내는거", data);
-    postUserfindpassword(data)
-      .unwrap()
-      .then((r: any) => {
-        console.log(r);
-        if (r.data === true) {
-          // Authnum 유지?
-          //
-        } else {
-          alert("없는 계정입니다");
-          navigate("/login");
-        }
-      });
+    navigate("/resetpassword", {
+      state: {
+        modifyNum: newAuthnum!,
+        newPassword: "",
+        phoneNum: Phonenum,
+        username: Id,
+      },
+    });
   };
   return (
     <div className="flex flex-col justify-between h-[100vh] ">
@@ -221,7 +214,7 @@ const ForgetPassword = () => {
                 <button
                   className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
                   onClick={() => {
-                    CheckAuthnum(Authnum, Phonenum);
+                    CheckAuthnum();
                   }}
                   disabled={IsAuthnum}
                 >
