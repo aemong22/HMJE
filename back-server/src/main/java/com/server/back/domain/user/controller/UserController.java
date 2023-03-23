@@ -199,4 +199,13 @@ public class UserController {
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    @ApiOperation(value = "오늘의 단어 랭킹")
+    @GetMapping("/rank/word/{userId}")
+    public ResponseEntity<Map<String, Object>> rankWord(@PathVariable(value = "userId") Long userId){
+        Map<String, Object> response = new HashMap<>();
+        List<RankWordResponseDto> responseDto = userService.rankWord(userId);
+        response.put("data", responseDto);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

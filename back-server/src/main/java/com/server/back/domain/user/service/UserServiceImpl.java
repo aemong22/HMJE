@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.server.back.domain.user.dto.BadgeResultResponseDto.MyBadgeResultList;
@@ -395,6 +396,24 @@ public class UserServiceImpl implements UserService {
             Integer monthUsersStatsTime = monthUsersStatsTimes/(studyusers.size()) ;
             responseDto.setMonthUsersStatsTime(monthUsersStatsTime);
         }
+
+        return responseDto;
+    }
+    @Override
+    public List<RankWordResponseDto> rankWord(Long userId){
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime today = LocalDateTime.of(now.getYear(),
+                now.getMonth(), now.getDayOfMonth(), 0, 0, 0); //오늘 0:00:00
+        List<User> users = rightWordRepository.findByDate(today);
+        for (User user : users) {
+            List<RightWord> rightWords = rightWordRepository.findByUserAndCreatedAtAfter(user,today);//정렬해서 한개 ?뽑아서 createdat 하고 카운트하고 ㄱ고염
+            System.out.println("rightWords = " + rightWords);
+        }
+//        System.out.println("users = " + users);
+
+        List<RankWordResponseDto> responseDto = new ArrayList<>();
+
+
 
         return responseDto;
     }
