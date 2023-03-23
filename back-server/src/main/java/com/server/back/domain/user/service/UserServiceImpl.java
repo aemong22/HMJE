@@ -67,14 +67,18 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUserId(userId);
         //이전 로그인 기록과 비교해서 누적/연속 체크
         List<LoginHistory> mylogin = loginHistoryRepository.findByUser(user);
-        LocalDate history = mylogin.get(mylogin.size()-1).getCreatedAt().toLocalDate();
-        LocalDate yesterday = LocalDate.now().minusDays(1);
-        System.out.println("history = " + history);
-        System.out.println("yesterday = " + yesterday);
-        if (!history.isEqual(LocalDate.now())){
-            user.accumAttendance();  // 누적 출석 +
-            if (history.isEqual(yesterday)){
-                user.continAttendance(); // 연속 출석 +
+        System.out.println("mylogin = " + mylogin);
+        if (mylogin.size() != 0){
+            System.out.println("mylogin_now = " + mylogin);
+            LocalDate history = mylogin.get(mylogin.size()-1).getCreatedAt().toLocalDate();
+            LocalDate yesterday = LocalDate.now().minusDays(1);
+            System.out.println("history = " + history);
+            System.out.println("yesterday = " + yesterday);
+            if (!history.isEqual(LocalDate.now())){
+                user.accumAttendance();  // 누적 출석 +
+                if (history.isEqual(yesterday)){
+                    user.continAttendance(); // 연속 출석 +
+                }
             }
         }
         //현재 로그인 기록
