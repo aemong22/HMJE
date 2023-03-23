@@ -1,5 +1,6 @@
 package com.server.back.domain.user.dto;
 
+import com.server.back.domain.user.entity.Badge;
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,4 +17,16 @@ public class BadgeResponseDto {
     String badgeImage;
     String badgeName;
     String badgeDetail;
+
+    public static BadgeResponseDto fromEntity(Badge badge) {
+        BadgeResponseDto badgeResponseDto = BadgeResponseDto.builder()
+            .badgeId(badge.getBadgeId())
+            .badgeImage(builder().badgeImage)
+            .badgeName(badge.getBadgeName())
+            .badgeDetail(badge.getBadgeDetail())
+            .build();
+
+        return badgeResponseDto;
+    }
+
 }
