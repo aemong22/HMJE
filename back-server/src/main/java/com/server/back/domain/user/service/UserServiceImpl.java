@@ -106,16 +106,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean userUsernameCheck(UserRequestDto requestDto) {
         System.out.println("requestDto-username///////////////"+requestDto);
-        int count = 0;
-        for (User r : userRepository.findAll()) {
-            if (r.getUsername().equals(requestDto.getUsername())){
-                count += 1;
-            }
-        }
-        if (count == 0) {
+        User user = userRepository.findByUsername(requestDto.getUsername());
+        if(user.equals(null)){
             return true;
         }
-        return false;
+        else{
+            return false;
+        }
+
+
     }
 
     @Override
@@ -125,9 +124,9 @@ public class UserServiceImpl implements UserService {
         return responseDto;
     }
     @Override
-    public void userUpdate(Long userId, UserRequestDto requestDto){
+    public void userNicknameUpdate(Long userId, UserRequestDto requestDto){
         User entity = userRepository.findByUserId(userId);
-        entity.update(requestDto);
+        entity.updateNickname(requestDto);
     }
     @Override
     public boolean changeInfo(Long userId, UserRequestDto requestDto){

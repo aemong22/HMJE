@@ -7,7 +7,6 @@ import com.server.back.domain.message.dto.FindRequestDto;
 import com.server.back.domain.message.service.SmsService;
 import com.server.back.domain.user.dto.*;
 
-import com.server.back.domain.user.repository.BadgeRepository;
 import com.server.back.domain.user.service.BadgeService;
 import com.server.back.domain.user.service.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -42,7 +41,7 @@ public class UserController {
     @ApiOperation(value = "토큰 갱신", notes = "accessToken, refreshToken을 갱신하여 전달.")
     @GetMapping("/auth/refresh/{username}")
     public Map<String,String> refreshToken(@PathVariable("username") String username, @RequestHeader("refreshToken") String refreshToken,
-                                           HttpServletResponse response) throws JsonProcessingException {
+                                           HttpServletResponse response){
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
         TokenRequestDto tokenRequestDto = jwtService.validRefreshToken(username, refreshToken);
@@ -133,7 +132,7 @@ public class UserController {
     @PutMapping("/{userId}")
     public ResponseEntity<Map<String, Object>> userUpdate(@PathVariable(value = "userId") Long userId , @RequestBody UserRequestDto requestDto){
         Map<String, Object> response = new HashMap<>();
-        userService.userUpdate(userId, requestDto);
+        userService.userNicknameUpdate(userId, requestDto);
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

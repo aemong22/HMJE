@@ -116,6 +116,20 @@ public class StudyController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @ApiOperation(value="장원급제 명단 반환")
+    @GetMapping("/past/list/{userId}")
+    public ResponseEntity<Map<String, Object>> getJangwonList(@PathVariable(value = "userId") Long userId){
+        Map<String, Object> response = new HashMap<>();
+        Long pastTestId = studyService.getPastInfo().getPastTestId();
+        List<PastTestResultResponseDto> result = studyService.getJangwonList(pastTestId);
+
+        Integer userScore = studyService.getPastScore(userId, pastTestId);
+        response.put("data", result);
+        response.put("user_score", userScore);
+        response.put("message", "success");
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
 
     @ApiOperation(value = "학습 시간 관리")
