@@ -19,4 +19,9 @@ public interface StudyService {
 
 	Boolean createPastTestResult(PastTestResultRequestDto pastTestResultRequestDto);
 
+
+	List<PastTestResultResponseDto> getJangwonList(Long pastTestId);
+
+	Integer getPastScore(Long userId, Long pastTestId);
+
 }

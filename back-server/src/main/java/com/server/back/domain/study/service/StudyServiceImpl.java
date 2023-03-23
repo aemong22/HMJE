@@ -235,4 +235,27 @@ public class StudyServiceImpl implements StudyService{
         return true;
     }
 
+    @Override
+    public List<PastTestResultResponseDto> getJangwonList(Long pastTestId) {
+        System.out.println("pastTestId = " + pastTestId);
+        PastTest pastTest = pastTestRepository.findByPastTestId(pastTestId);
+        List<PastTestResult> pastTestResultList = pastTestResultRepository.findAllByPastTestAndScore(pastTest, 100);
+        System.out.println("pastTestResultList = " + pastTestResultList);
+        List<PastTestResultResponseDto> result = PastTestResultResponseDto.fromEntityList(pastTestResultList);
+        System.out.println("result = " + result);
+        return result;
+    }
+
+
+    @Override
+    public Integer getPastScore(Long userId, Long pastTestId) {
+        User user = userRepository.findByUserId(userId);
+        PastTest pastTest = pastTestRepository.findByPastTestId(pastTestId);
+        PastTestResult pastTestResult = pastTestResultRepository.findByUserAndPastTest(user, pastTest);
+        if(pastTestResult.equals(null)){
+            return null;
+        }
+        return pastTestResult.getScore();
+    }
+
 }
