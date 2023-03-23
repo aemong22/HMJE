@@ -108,7 +108,19 @@ public class StudyController {
         Map<String, Object> response = new HashMap<>();
         Boolean result = studyService.createPastTestResult(pastTestResultRequestDto);
         if(result){
+            if(pastTestResultRequestDto.getScore().equals(100)){
+                System.out.println("장 원 급 제 !!");
+                // 여기에 뱃지 추가하는 로직 추가 예정
+                userService.updateStudyExp(pastTestResultRequestDto.getUserId(), 1000);
+                Integer userLevel = userService.levelup(pastTestResultRequestDto.getUserId());
+                response.put("level",userLevel);
+            }else{
+                userService.updateStudyExp(pastTestResultRequestDto.getUserId(), 300);
+                Integer userLevel = userService.levelup(pastTestResultRequestDto.getUserId());
+                response.put("level",userLevel);
+            }
             response.put("message", "success");
+
         }else{
             response.put("message", "fail");
         }
