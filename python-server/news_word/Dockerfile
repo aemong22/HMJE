@@ -1,8 +1,8 @@
 FROM ubuntu:18.04
 WORKDIR /var/jenkins_home/workspace/hmje-deploy/python-server/news_word
 
-# python requirements
-COPY requirements2.txt ./
+# 모든 파일.
+COPY * ./
 
 # timezone
 ENV TZ=Asia/Seoul
@@ -15,10 +15,11 @@ RUN add-apt-repository ppa:webupd8team/java
 RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get update
 RUN apt-get install python3.10 -y
-RUN apt-get install g++ openjdk-8-jdk python3-dev python3-pip curl -y
-RUN python3 -m pip install --upgrade pip --user
-RUN python3 -m pip install konlpy
-RUN python3 -m pip install -r requirements2.txt
+RUN apt-get install g++ openjdk-8-jdk curl -y
+RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10
+RUN python3.10 -m pip install --upgrade pip --user
+RUN python3.10 -m pip install konlpy
+RUN python3.10 -m pip install -r requirements.txt
 
 # Add the script to the Docker Image
 ADD news_word.sh /root/news_word.sh
