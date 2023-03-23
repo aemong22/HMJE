@@ -184,82 +184,6 @@ export default MyPage
 
 // 데스크탑 & 태블릿
 function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sentence, level, nowbadgeImage, userId, dataLevel}:Type):JSX.Element {
-  // const dispatch = useAppDispatch()
-  // const [isClick,setIsClick] = useState<boolean>(false)
-  // const [nameCheckMutation] = usePostUserchecknicknameMutation()
-  // const [mutation] = usePutUserdataMutation()
-  // const [changeNickname,setChangeNickname] = useState<string>()
-  // const ref = useRef<HTMLDivElement>(null)
-
-  // const change= (e:React.ChangeEvent<HTMLInputElement>) => {    
-  //   setChangeNickname(e.target.value);
-  // }
-
-  // const click:MouseEventHandler<HTMLDivElement> = (e) => {
-  //   // const target = e.target as HTMLElement
-  //   if (e.currentTarget.ariaLabel === '정보수정') {
-  //     setIsClick(!isClick)
-  //   } else if (e.currentTarget.ariaLabel === '변경') {
-  //     e.preventDefault()
-  //     const data:any = {
-  //       nickname: changeNickname,
-  //       username: userId
-  //     }
-  //     nameCheckMutation(data).unwrap().then((r:any)=> {
-  //       console.log(changeNickname);
-  //       if (r.data === false) {
-  //         toast.error("닉네임을 사용할 수 없습니다")
-  //       } else {
-  //         mutation([userId, changeNickname]).unwrap().then((r)=> {
-  //           dispatch(changeUserNickname(changeNickname))
-  //           toast.success('닉네임 변경!')
-  //           setIsClick(false)
-  //         })
-  //       }
-  //     })
-  //   }
-  //   else if (e.target === ref.current) {
-  //     console.log('hi');
-  //     setIsClick(false)
-  //   }
-  // }
-  // const enter = (e:KeyboardEvent) => {
-  //   // const target = e.target as HTMLElement
-  //   if (e.key === 'Enter') {
-  //     e.preventDefault()
-  //     const data:any = {
-  //       nickname: changeNickname,
-  //       username: userId
-  //     }
-  //     nameCheckMutation(data).unwrap().then((r:any)=> {
-  //       console.log(changeNickname);
-  //       if (r.data === false) {
-  //         toast.error("닉네임을 사용할 수 없습니다")
-  //       } else {
-  //         mutation([userId, changeNickname]).unwrap().then((r)=> {
-  //           dispatch(changeUserNickname(changeNickname))
-  //           toast.success('닉네임 변경!')
-  //           setIsClick(false)
-  //         })
-  //       }
-  //     })
-  //   }
-  // }
-
-  // const updateModal = (
-  //   <div ref={ref} className="w-full rounded-lg" onClick={click}>
-  //     <div className="rounded-lg py-5 w-full">
-  //       <div className="flex flex-col font-semibold text-[1.3rem] w-full">
-  //         <div><span>변경할 닉네임을 작성해주세요</span></div>
-  //         <div className="flex md:flex-col lg:flex-row lg:justify-center md:justify-end lg:items-end w-full ">
-  //           <div className="mt-2 mx-2"><input className="border-[#F7CCB7] border-2 text-center rounded-lg w-full focus:outline-[#f0c78a]" type="text" maxLength={6} placeholder="닉네임" autoFocus onChange={change} onKeyPress={enter}/></div>
-  //           <div aria-label="변경" className="bg-[#e7baa4] lg:px-3 md:mx-2 md:mt-2 lg:mx-0 border-2 rounded-lg text-white hover:bg-[#e7a585]" onClick={click}>변경</div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </div>
-  // )
-
   return (
     <>
     {/* <Toast /> */}
@@ -363,7 +287,7 @@ function MyPageSection2V1({todayWord, totalWord, todayContext, totalContext, tod
               <span className="text-right w-[40%] text-[#A2A2A2]">문맥학습</span><span className="w-full font-bold md:text-[2.7rem]">{todayContext}<span className="md:text-[1rem]">개</span></span><span className="w-full font-bold md:text-[2.7rem] text-[#FFA800]">{totalContext}<span className="md:text-[1rem]">개</span></span>
             </div>
             <div className="flex justify-center items-center w-full text-[#B18978]">
-              <span className="text-right w-[40%] text-[#A2A2A2]">학습시간</span><span className="w-full font-bold md:text-[2.7rem]">{m1}<span className="md:text-[1rem]">분</span></span><span className="w-full font-bold md:text-[2.7rem]"><span className="text-[#FFA800]">{h2}<span  className="md:text-[1rem]">시간</span></span><span className="text-[#FFA800]">{m2}<span className="md:text-[1rem]">분</span></span></span>
+              <span className="text-right w-[40%] text-[#A2A2A2]">학습시간</span><span className="w-full font-bold md:text-[2.7rem]">{m1}<span className="md:text-[1rem]">분</span></span><span className="w-full font-bold md:text-[2.7rem]"><span className="text-[#FFA800]">{h2}<span  className="md:text-[1rem]">시간</span></span><span className="text-[#FFA800]"> {m2}<span className="md:text-[1rem]">분</span></span></span>
             </div>
           </div>  
         </div>
@@ -378,82 +302,6 @@ function MyPageSection2V1({todayWord, totalWord, todayContext, totalContext, tod
 
 // 모바일
 function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sentence, level, nowbadgeImage, userId, dataLevel}:Type):JSX.Element {
-  // const dispatch = useAppDispatch()
-  // const [isClick,setIsClick] = useState<boolean>(false)
-  // const [nameCheckMutation] = usePostUserchecknicknameMutation()
-  // const [mutation] = usePutUserdataMutation()
-  // const [changeNickname,setChangeNickname] = useState<string>()
-  // const ref = useRef<HTMLDivElement>(null)
-
-  // const change= (e:React.ChangeEvent<HTMLInputElement>) => {    
-  //   setChangeNickname(e.target.value);
-  // }
-  // const click:MouseEventHandler<HTMLDivElement> = (e) => {
-  //   // const target = e.target as HTMLElement
-  //   if (e.currentTarget.ariaLabel === '정보수정') {
-  //     setIsClick(!isClick)
-  //   } else if (e.currentTarget.ariaLabel === '변경') {
-  //     e.preventDefault()
-  //     const data:any = {
-  //       nickname: changeNickname,
-  //       username: userId
-  //     }
-  //     nameCheckMutation(data).unwrap().then((r:any)=> {
-  //       console.log(changeNickname);
-  //       if (r.data === false) {
-  //         toast.error("닉네임을 사용할 수 없습니다")
-  //       } else {
-  //         mutation([userId, changeNickname]).unwrap().then((r)=> {
-  //           dispatch(changeUserNickname(changeNickname))
-  //           toast.success('닉네임 변경!')
-  //           setIsClick(false)
-  //         })
-  //       }
-  //     })
-  //   }
-  //   else if (e.target === ref.current) {
-  //     console.log('hi');
-  //     setIsClick(false)
-  //   }
-  // }
-
-  // const enter = (e:KeyboardEvent) => {
-  //   // const target = e.target as HTMLElement
-  //   if (e.key === 'Enter') {
-  //     e.preventDefault()
-  //     const data:any = {
-  //       nickname: changeNickname,
-  //       username: userId
-  //     }
-  //     nameCheckMutation(data).unwrap().then((r:any)=> {
-  //       console.log(changeNickname);
-  //       if (r.data === false) {
-  //         toast.error("닉네임을 사용할 수 없습니다")
-  //       } else {
-  //         mutation([userId, changeNickname]).unwrap().then((r)=> {
-  //           dispatch(changeUserNickname(changeNickname))
-  //           toast.success('닉네임 변경!')
-  //           setIsClick(false)
-  //         })
-  //       }
-  //     })
-  //   }
-  // }
-
-  // const updateModal = (
-  //   <div ref={ref} className="w-full flex justify-center items-center rounded-lg" onClick={click}>
-  //     <div className=" py-10 w-full">
-  //       <div className="flex flex-col justify-center items-center font-semibold text-[1.3rem] w-full">
-  //         <div><span>변경할 닉네임을 작성해주세요</span></div>
-  //         <div className="flex flex-col justify-center w-full ">
-  //           <div className="mt-2 mx-2 my-1"><input className="border-[#F7CCB7] border-2 text-center rounded-lg w-full focus:outline-[#f0c78a]" type="text" maxLength={6} placeholder="닉네임" autoFocus onChange={change} onKeyPress={enter}/></div>
-  //           <div aria-label="변경" className="bg-[#e7baa4] text-center mx-auto w-[50%] border-[#B18978] border-2 rounded-lg text-white hover:bg-[#e7a585]" onClick={click}>변경</div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </div>
-  // )
-
   return (
     <>
       {/* <Toast /> */}
@@ -585,7 +433,7 @@ function MyPageSection2V2({todayWord, totalWord, todayContext, totalContext, tod
             </div>
             <div className="flex flex-col justify-center items-center w-[40%]">
               {/* 총 학습시간 */}
-              <div className="text-[#FFA800]"><span className="font-bold text-[2rem]">{h2}</span><span className="text-[1rem]">시간</span><span className="font-bold text-[2rem]">{m2}</span><span className="text-[1rem]">분</span></div>
+              <div className="text-[#FFA800]"><span className="font-bold text-[2rem]">{h2}</span><span className="text-[1rem]">시간</span><span className="font-bold text-[2rem]"> {m2}</span><span className="text-[1rem]">분</span></div>
               <div className="text-[#A2A2A2] text-[0.7rem]"><span>총 학습시간</span></div>
             </div>
           </div>
@@ -682,8 +530,8 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
           {
             label: '단어학습 시간',
             data: wordTm, 
-            borderColor: 'rgb(54, 162, 235)',
-            // fill: false,
+            borderColor: 'rgba(75, 192, 192, 0.7)',
+            backgroundColor: 'rgb(75, 192, 192)',
             tension: 0.1,
             hoverBorderColor: ['#d5cdcf'],
             hoverOffset: 4,
@@ -691,18 +539,16 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
           {
             label: '문맥학습 시간',
             data: conTextTm, 
-            backgroundColor: [
-              'rgb(255, 205, 86)',
-          ], 
+            borderColor: 'rgba(255, 205, 86, 0.7)',
+            backgroundColor: 'rgba(255, 205, 86)',
             hoverBorderColor: ['#d5cdcf'],
             hoverOffset: 4,
           },
           {
             label: '복습시간',
             data: wrongTm, 
-            backgroundColor: [
-              'rgb(255, 99, 132)',
-          ], 
+            borderColor: 'rgba(255, 99, 132, 0.7)',
+            backgroundColor: 'rgb(255, 99, 132)',
             hoverBorderColor: ['#d5cdcf'],
             hoverOffset: 4,
           },
@@ -724,8 +570,8 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
           {
             label: '단어학습 개수',
             data: wordCnt, 
-            borderColor: 'rgb(54, 162, 235)',
-            // fill: false,
+            borderColor: 'rgba(75, 192, 192, 0.7)',
+            backgroundColor: 'rgb(75, 192, 192)',
             tension: 0.1,
             hoverBorderColor: ['#d5cdcf'],
             hoverOffset: 4,
@@ -733,9 +579,8 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
           {
             label: '문맥학습 개수',
             data: conTextCnt, 
-            backgroundColor: [
-              'rgb(255, 205, 86)',
-          ], 
+            borderColor: 'rgba(255, 205, 86, 0.7)',
+            backgroundColor: 'rgba(255, 205, 86)',
             hoverBorderColor: ['#d5cdcf'],
             hoverOffset: 4,
           },
@@ -781,8 +626,8 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
       const studyCompareData = {
         datasets: [
           {
-            label: '전체 유저 학습 시간 비교(분) ',
-            data: [Math.floor(r.data.monthMyStatsTime/60), Math.floor(r.data.monthUsersStatsTime/60)], 
+            label: '전체 평균 학습 시간(분) ',
+            data: [Math.floor(r.data.monthUsersStatsTime/60), Math.floor(r.data.monthMyStatsTime/60)], 
             backgroundColor: [
               'rgba(75, 192, 192, 0.2)',
               'rgba(54, 162, 235, 0.2)',
@@ -797,7 +642,7 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
           },
         ],
         borderWidth: 4,
-        labels: ["나의 평균", "전체 사용자 평균"],
+        labels: ["전체 사용자 평균", "나의 평균"],
       };
   
       const Chart3 = 
@@ -811,8 +656,8 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
       const studyCompareData2 = {
         datasets: [
           {
-            label: "평균 학습 시간(분) ",
-            data: [Math.floor(r.data.todayMyTime/60), Math.floor(r.data.monthMyStatsTime/60)], 
+            label: "나의 평균 학습 시간(분) ",
+            data: [Math.floor(r.data.monthMyStatsTime/60), Math.floor(r.data.todayMyTime/60)], 
             backgroundColor: [
               'rgba(255, 205, 86, 0.2)',
               'rgba(75, 192, 192, 0.2)',
@@ -828,7 +673,7 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
           },
         ],
         borderWidth: 4,
-        labels: ["오늘", "한달"],
+        labels: ["나의 한달", "나의 오늘"],
       };
   
       const Chart4 = 
@@ -895,8 +740,8 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
           {
             label: '단어학습 시간',
             data: wordTm, 
-            borderColor: 'rgb(54, 162, 235)',
-            // fill: false,
+            borderColor: 'rgba(75, 192, 192, 0.7)',
+            backgroundColor: 'rgb(75, 192, 192)',
             tension: 0.1,
             hoverBorderColor: ['#d5cdcf'],
             hoverOffset: 4,
@@ -904,29 +749,26 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
           {
             label: '문맥학습 시간',
             data: conTextTm, 
-            backgroundColor: [
-              'rgb(255, 205, 86)',
-          ], 
+            borderColor: 'rgba(255, 205, 86, 0.7)',
+            backgroundColor: 'rgba(255, 205, 86)',
             hoverBorderColor: ['#d5cdcf'],
             hoverOffset: 4,
           },
           {
             label: '복습시간',
             data: wrongTm, 
-            backgroundColor: [
-              'rgb(255, 99, 132)',
-          ], 
+            borderColor: 'rgba(255, 99, 132, 0.7)',
+            backgroundColor: 'rgb(255, 99, 132)',
             hoverBorderColor: ['#d5cdcf'],
             hoverOffset: 4,
           },
         ],
-        
         labels: labels
       };
 
       const Chart = 
         (
-          <div className="h-full w-full ">
+          <div className="h-full w-full bg-white">
             <Line options={options} typeof='line' data={studyTimeData} />
           </div>
         )
@@ -938,8 +780,8 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
           {
             label: '단어학습 개수',
             data: wordCnt, 
-            borderColor: 'rgb(54, 162, 235)',
-            // fill: false,
+            borderColor: 'rgba(75, 192, 192, 0.7)',
+            backgroundColor: 'rgb(75, 192, 192)',
             tension: 0.1,
             hoverBorderColor: ['#d5cdcf'],
             hoverOffset: 4,
@@ -947,19 +789,18 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
           {
             label: '문맥학습 개수',
             data: conTextCnt, 
-            backgroundColor: [
-              'rgb(255, 205, 86)',
-          ], 
+            borderColor: 'rgba(255, 205, 86, 0.7)',
+            backgroundColor: 'rgba(255, 205, 86)',
             hoverBorderColor: ['#d5cdcf'],
             hoverOffset: 4,
           },
         ],
-        labels: labels
+        labels: labels,
       };
 
       const Chart2 = 
         (
-          <div className="h-full w-full ">
+          <div className="h-full w-full bg-white">
             <Line options={options} typeof='line' data={studyCntData}/>
           </div>
         )
@@ -1025,7 +866,7 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
             <div className="flex justify-center items-center w-full h-[80%]">
               <div className="h-[90%] w-full bg-[#D9D9D9] rounded-md">
                 {/* 한달 간격으로 학습시간 & 학습 단어 갯수를 꺽은선 or 막대 그래프로 보여주기 */}
-                {monthStudyLoading && loading}
+                {/* {monthStudyLoading && loading} */}
                 {studyTimeChart? studyTimeChart: null}
                 
               </div>
@@ -1040,7 +881,7 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
             <div className="flex justify-center items-center w-full h-[80%]">
               <div className="h-[90%] w-full bg-[#D9D9D9] rounded-md">
                 {/* 한달 간격으로 날짜별 맞힌 개수, 틀린 개수를 꺽은선 or 막대 그래프로 보여주기 */}
-                {monthStudyLoading && loading}
+                {/* {monthStudyLoading && loading} */}
                 {
                   studyCntChart? studyCntChart:null
                 }
@@ -1053,7 +894,7 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
             <div className="flex flex-col items-start w-[48%] h-full mr-[4%]">
               <div className="flex justify-center items-center w-[70%] lg:w-[38%] h-[16%] lg:h-[20%] ">
                 <div className="flex justify-center items-center text-center w-full h-full lg:h-[84%] bg-[#F7CCB7] rounded-lg sm:rounded-xl text-white font-semibold lg:text-[1.1rem]">
-                  <span>학습 시간 비교</span>
+                  <span>전체 학습 시간</span>
                 </div>
               </div>
               <div className="w-full h-full">
@@ -1067,7 +908,7 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
             <div className="flex flex-col items-start w-[48%] h-full">
               <div className="flex justify-center items-center w-[70%] lg:w-[38%] h-[16%] lg:h-[20%] ">
                 <div className="flex justify-center items-center text-center w-full h-full lg:h-[84%] bg-[#F7CCB7] rounded-lg sm:rounded-xl text-white font-semibold lg:text-[1.1rem]">
-                  <span>전체 유저 비교</span>
+                  <span>나의 학습 시간</span>
                 </div>
               </div>
               <div className="w-full h-full">
@@ -1083,7 +924,7 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
             {/* 다른 유저와 통계 비교 */}
             <div className="w-full h-[48%] my-[2%]">
               <div className="flex justify-between items-center w-full h-[17%]">
-                <div className="flex justify-center items-center h-[70%] w-[35%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.9rem] md:text-[1rem] lg:text-[1.1rem]"><span>평균 학습 시간</span></div>
+                <div className="flex justify-center items-center h-[70%] w-[35%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.9rem] md:text-[1rem] lg:text-[1.1rem]"><span>전체 학습 시간</span></div>
               </div>
               {/* 학습 시간 데이터 */}
               <div className="flex justify-center items-center w-full h-[83%]">
@@ -1099,7 +940,7 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
             {/* 다른 유저와 통계 비교 */}
             <div className="w-full h-[48%] my-[2%]">
               <div className="flex justify-between items-center w-full h-[17%]">
-                <div className="flex justify-center items-center h-[70%] w-[35%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.9rem] md:text-[1rem] lg:text-[1.1rem]"><span>학습 시간</span></div>
+                <div className="flex justify-center items-center h-[70%] w-[35%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.9rem] md:text-[1rem] lg:text-[1.1rem]"><span>나의 학습 시간</span></div>
               </div>
               {/* 학습 시간 데이터 */}
               <div className="flex justify-center items-center w-full h-[83%]">
