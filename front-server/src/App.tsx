@@ -24,6 +24,7 @@ import PastTestIntroModal from "./Components/Study/PastTestIntroModal";
 import PastTest from "./Components/Study/PastTest";
 import AdminExam from "./Components/Admin/AdminExam";
 import Cat from "./Components/Threejs/Cat";
+import ResetPassword from "./Components/Login/ResetPassword";
 
 function App() {
   const notify = () => toast("Wow so easy!");
@@ -34,6 +35,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/forgetid" element={<ForgetId />} />
         <Route path="/forgetpassword" element={<ForgetPassword />} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/join" element={<Join />} />
         <Route path="/main" element={<Main />} />
@@ -42,13 +44,12 @@ function App() {
         <Route path="/wordStudy" element={<StudyPage />} />
         <Route path="/contextStudy" element={<StudyPage />} />
         <Route path="/wrongStudy" element={<StudyPage />} />
-        <Route path="/note" element={<WrongNote/>} />
-        <Route path="/dogam" element ={<Dogam/>} />
+        <Route path="/note" element={<WrongNote />} />
+        <Route path="/dogam" element={<Dogam />} />
         <Route path="/notice" element={<Notice />} />
         <Route path="/note" element={<WrongNote />} />
         <Route path="/dogam" element={<Dogam />} />
         <Route path="/pasttest" element={<PastTest />} />
-        
 
         <Route path="/admin" element={<AdminPage />}>
           <Route path="" element={<AdminMain />} />
@@ -59,7 +60,6 @@ function App() {
         </Route>
 
         <Route path="/cat" element={<Cat />} />
-
       </Routes>
     </>
   );
