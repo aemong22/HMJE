@@ -102,46 +102,46 @@ function WordStudy(): JSX.Element {
     <>
 
        {question.length > 0 && 
-       <div className="bg-[#F9F9F9] w-full h-screen">
-       <Navbar />
-       <Study 
-         question={question}
-         studyType={studyType} 
-         num={num}
-         correct={correct} setCorrect={setCorrect} 
-         wrong={wrong} setWrong={setWrong}
-         semo={semo}
-         setSemo={setSemo}
-         right={right} setRight={setRight}
-         resultModal={resultModal}
-         setResultModal={setResultModal}
-         openModal={openModal}
-         closeModal={closeModal}
-         modalOpen={modalOpen}/>
- 
-       { modalOpen ? 
-         <AnswerModal 
-           closeModal={closeModal} 
-           studyType={studyType} 
-           setRight={setRight}
-           right={right} 
-           num={num}
-           modalOpen={modalOpen}
-           setNum={setNum}
-           setResultModal={setResultModal} 
-           question={question
-         }/> : null }
- 
-         {resultModal ? 
-           <ResultModal 
-             studyType={studyType} 
-             setResultModal={setResultModal}
-             correct={correct}
-             semo={semo}
-             wrong={wrong}
-             startTime={startTime}
-             /> : null}
-     </div>
+        <div className="bg-[#F9F9F9] w-full h-screen">
+          <Navbar />
+          <Study 
+            question={question}
+            studyType={studyType} 
+            num={num}
+            correct={correct} setCorrect={setCorrect} 
+            wrong={wrong} setWrong={setWrong}
+            semo={semo}
+            setSemo={setSemo}
+            right={right} setRight={setRight}
+            resultModal={resultModal}
+            setResultModal={setResultModal}
+            openModal={openModal}
+            closeModal={closeModal}
+            modalOpen={modalOpen}/>
+    
+          { modalOpen ? 
+            <AnswerModal 
+              closeModal={closeModal} 
+              studyType={studyType} 
+              setRight={setRight}
+              right={right} 
+              num={num}
+              modalOpen={modalOpen}
+              setNum={setNum}
+              setResultModal={setResultModal} 
+              question={question
+            }/> : null }
+    
+            {resultModal ? 
+              <ResultModal 
+                studyType={studyType} 
+                setResultModal={setResultModal}
+                correct={correct}
+                semo={semo}
+                wrong={wrong}
+                startTime={startTime}
+                /> : null}
+          </div>
       }
     </>
    

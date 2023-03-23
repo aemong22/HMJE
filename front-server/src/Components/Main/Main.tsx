@@ -166,7 +166,9 @@ function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
             <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold">오늘</div>
             <div className="w-full flex flex-wrap justify-center items-end">
                 <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold text-[#BE8D65]">
-                  {h}<span className="md:text-[1.5rem] text-[1rem]">시간 </span>{m}<span className="md:text-[1.5rem] text-[1rem]">분 </span>{s}<span className="md:text-[1.5rem] text-[1rem]">초 </span>
+                  {h > 0 && <>{h} <span className="md:text-[1.5rem] text-[1rem]">시간 </span></>}
+                  {m} <span className="md:text-[1.5rem] text-[1rem]">분 </span>
+                  {" "}{s} <span className="md:text-[1.5rem] text-[1rem]">초 </span>
                 </div>
                 <div className="md:text-[1.5rem] sm:text-[1rem] text-[0.8rem] pt-1 pb-2 text-zinc-500"> &nbsp; 학습 시간</div>
             </div>
@@ -175,18 +177,18 @@ function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
                 <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold text-[#BE8D65]">
                   {userMyStudy.todayWord}<span className="md:text-[1.5rem] text-[1rem]">개</span>
                 </div>
-                <div className="md:text-[1.5rem] sm:text-[1rem] pt-1 text-[0.8rem] text-zinc-500">학습 단어</div>
+                <div className="md:text-[1.5rem] sm:text-[1rem] pt-1 text-[0.8rem] text-zinc-500">단어 학습</div>
               </div>
               <div className="w-[40%]">
                 <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold text-[#BE8D65]">
                   {userMyStudy.todayContext}<span className="md:text-[1.5rem] text-[1rem]">개</span>
                 </div>
-                <div className="md:text-[1.5rem] sm:text-[1rem] pt-1 text-[0.8rem] text-zinc-500">학습 문맥</div>
+                <div className="md:text-[1.5rem] sm:text-[1rem] pt-1 text-[0.8rem] text-zinc-500">문맥 학습</div>
               </div>
             </div>
             <div className="cursor-pointer flex justify-center rounded-full bg-[#A87E6E] p-[0.7rem] mt-3z md:text-[2.5rem] sm:text-[2rem] text-[1.5rem] font-bold text-[#ffffff] hover:text-[#F0ECE9]"  onClick={()=> navigate('/wordStudy')}>
               <div className={`${style.iconBook}`}></div>
-              <div>오늘의 단어</div>
+              <div>학습 시작하기</div>
             </div>
           </div>
         </div>
@@ -352,7 +354,7 @@ function News({newsKeyword}:any): JSX.Element {
                     <>
                       {word?.category === select && 
                         <>
-                          <div key={index} className={classNames("cursor-pointer rounded-full py-1 px-4 mr-3 mt-1 md:text-[1.4rem] sm:text-[1.2rem] text-[1.1rem] border-2 border-[#BF9F91]", index === idx ? "bg-[#BF9F91] text-[#ffffff] font-bold" : "text-[#BF9F91] font-bold")}
+                          <div key={index} className={classNames("cursor-pointer rounded-full px-4 mr-3 mt-1 md:text-[1.3rem] sm:text-[1.2rem] text-[1.1rem] border-2 border-[#BF9F91]", index === idx ? "bg-[#BF9F91] text-[#ffffff] font-bold" : "text-[#BF9F91] font-bold")}
                             onClick={() => {
                               setIdx(index);
                             }}

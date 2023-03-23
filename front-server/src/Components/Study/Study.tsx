@@ -202,7 +202,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
   return(
     <>
       <Toast />
-      <div className="bg-[#F9F9F9] lg:py-16 py-10">
+      <div className="bg-[#F9F9F9] py-8">
         <div className="relative container max-w-screen-xl w-full p-2 mx-auto flex lg:flex-row flex-col lg:justify-between overflow-x-hidden">
           {/* 왼쪽 상단 */}
           <div className="absolute z-10 lg:w-[82%] w-full flex justify-between pr-5 text-[1.1rem]">
