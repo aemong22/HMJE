@@ -255,17 +255,26 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
                     submit2();
                     }
                   }
+                  else {
+                    toast.error("정답을 입력해주세요.")
+                  }
                 }}/>
                 <button onClick={() => {!listening ? SpeechRecognition.startListening() : SpeechRecognition.stopListening()}} className="sm:absolute sm:bottom-2.5 right-2.5 m-1 text-white bg-[#F7CCB7] hover:bg-[#BF9F91] focus:outline-none font-bold rounded-lg text-sm px-4 py-2 ">
                   { listening ? <> 입력 중... </>: <>음성 입력</>}
                 </button>
                 <button type="submit" onClick={()=> {
-                  if(studyType !== "contextStudy") {
+                  if(input.length > 0 ) {
+                    if(studyType !== "contextStudy") {
                       submit();
+                    }
+                    else {
+                      submit2();
+                    }
                   }
                   else {
-                    submit2();
-                  }}
+                    toast.error("정답을 입력해주세요.")
+                  }
+}
                   } className="sm:absolute sm:bottom-2.5 right-[7rem] m-1 text-white bg-[#F7CCB7] hover:bg-[#BF9F91] focus:outline-none font-bold rounded-lg text-sm px-4 py-2 ">제출</button>
               </div>
             </div>
