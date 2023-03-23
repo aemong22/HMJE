@@ -50,27 +50,39 @@ function Login(): JSX.Element {
   };
 
   const Enter = () => {
-    // axios 입장하기
-    // console.log(Id);
-    // console.log(Password);
-
     const data: login = { username: Id, password: Password };
-
     PostUserlogin(data)
       .unwrap()
       .then((r: any) => {
+        // console.log(r);
+
         if (r.status === "200") {
+          if (r.isSecession === "true") {
+            alert("탈퇴한 회원입니다.");
+            navigate("/main");
+          } else if (r.isAdmin === "true") {
+            const accessToken = r.accessToken;
+            const refreshToken = r.refreshToken;
+            const userId = r.userId;
+            localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem("userName", Id!);
+            localStorage.setItem("userId", userId);
+            localStorage.setItem("refreshToken", refreshToken);
+            navigate("/admin");
+          }
           // console.log("받는 데이터", r);
-          const accessToken = r.accessToken;
-          const refreshToken = r.refreshToken;
-          const userId = r.userId;
-          // console.log("accessToken", accessToken);
-          // console.log("refreshToken", refreshToken);
-          localStorage.setItem("accessToken", accessToken);
-          localStorage.setItem("userName", Id!);
-          localStorage.setItem("userId", userId);
-          localStorage.setItem("refreshToken", refreshToken);
-          navigate("/main");
+          else if (r.isAdmin === "false") {
+            const accessToken = r.accessToken;
+            const refreshToken = r.refreshToken;
+            const userId = r.userId;
+            // console.log("accessToken", accessToken);
+            // console.log("refreshToken", refreshToken);
+            localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem("userName", Id!);
+            localStorage.setItem("userId", userId);
+            localStorage.setItem("refreshToken", refreshToken);
+            navigate("/main");
+          }
         }
       })
       .catch((e) => {

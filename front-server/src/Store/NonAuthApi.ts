@@ -48,7 +48,7 @@ export const NonAuthApi = createApi({
     // 1. 인증번호 체크
     postSmsmodify: builder.mutation<smsmodify, smsmodify>({
       query: (data) => {
-        //console.log("인증번호 체크 rtk에서 받은 데이터 : ", data);
+        console.log("인증번호 체크 rtk에서 받은 데이터 : ", data);
         return {
           url: `sms/modify`,
           method: "POST",
@@ -60,13 +60,15 @@ export const NonAuthApi = createApi({
     // 2. 인증번호 보내기
     postSmssend: builder.mutation<smssend, smssend>({
       query: (data) => {
-        //console.log("인증번호 보내기 rtk에서 받은 데이터 : ", data);
+        console.log("인증번호 보내기 rtk에서 받은 데이터 : ", data);
+        console.log("data.role",data.role);
+        console.log("data.to",data.to);        
         return {
           url: `sms/send/${data.role}`,
           method: "POST",
           body: {
             to: data.to
-          }
+          },
         }
       },
       invalidatesTags: (result, error, arg) => [{ type: "NonAuthApi" }]
@@ -144,7 +146,7 @@ export const NonAuthApi = createApi({
     // 6. 비밀번호 찾기
     postUserfindpassword: builder.mutation<find, find>({
       query: (data) => {
-        //console.log("비밀번호 찾기 rtk에서 받은 데이터 : ", data);
+        console.log("비밀번호 찾기 rtk에서 받은 데이터 : ", data);
         return {
           url: `/user/find/password`,
           method: "POST",

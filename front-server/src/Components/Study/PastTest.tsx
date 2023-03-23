@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { useNavigate } from "react-router-dom";
 import {
-  useGetAdminPastDetailListQuery,
-  useGetAdminPastListQuery,
   useGetStudyPastQuery,
   useGetStudyPastTestQuery,
   usePostStudyPastResultMutation,
@@ -26,6 +24,20 @@ type ScoreBoard = {
 
 const PastTest = (): JSX.Element => {
   const [inputStatus, setInputStatus] = useState<ScoreBoard | undefined>();
+  const [answer, setanswer] = useState([
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+  ]);
+
   const { data: na }: any = useGetStudyPastQuery("");
   const {
     data: PastDetail,
@@ -61,7 +73,14 @@ const PastTest = (): JSX.Element => {
       )}
       <div className="flex justify-center">
         {PastDetail
-          ? Question(PastDetail, na, inputStatus, setInputStatus)
+          ? Question(
+              PastDetail,
+              na,
+              inputStatus,
+              answer,
+              setanswer,
+              setInputStatus,
+            )
           : null}
       </div>
       <Footer />
@@ -103,27 +122,79 @@ const Question = (
   PastDetail: any,
   na: any,
   inputStatus: ScoreBoard | undefined,
+  answer: any,
+  setanswer: Function,
   setInputStatus: Function,
 ) => {
   let a = 0;
-  // const [postStudyPastResult, loading] = usePostStudyPastResultMutation();
 
+  const [postStudyPastResult, loading] = usePostStudyPastResultMutation();
+
+  // var list = new Array(11);
   const handleClickRadioButton = (e: any) => {
-    console.log(e);
-
-    console.log(`${e.target.id}의 값은?`, e.target.value);
+    var copy = answer;
+    switch (e.target.name) {
+      case "1":
+        copy[1] = e.target.value;
+        break;
+      case "2":
+        copy[2] = e.target.value;
+        break;
+      case "3":
+        copy[3] = e.target.value;
+        break;
+      case "4":
+        copy[4] = e.target.value;
+        break;
+      case "5":
+        copy[5] = e.target.value;
+        break;
+      case "6":
+        copy[6] = e.target.value;
+        break;
+      case "7":
+        copy[7] = e.target.value;
+        break;
+      case "8":
+        copy[8] = e.target.value;
+        break;
+      case "9":
+        copy[9] = e.target.value;
+        break;
+      case "10":
+        copy[10] = e.target.value;
+        break;
+    }
+    setanswer(copy);
   };
-  const submit = () => {
-    console.log(inputStatus);
-  };
 
-  console.log(PastDetail);
+  const radioClick = () => {
+    var result = 0;
+    PastDetail.data.map((it: any) => {
+      // console.log(it.pastAnswer);
+
+      if (answer[it.pastQuestionId] == it.pastAnswer) {
+        result += 10;
+      } else {
+      }
+    });
+    // console.log(result);
+    // console.log(na.data);
+
+    const data = {
+      pastTestId: na.data.pastTestId,
+      score: result,
+      userId: localStorage.getItem("userId"),
+    };
+
+    postStudyPastResult(data).then((r: any) => {
+      if (r.data.message === "success") alert(`결과는 ${result} 입니다`);
+    });
+  };
 
   return (
     <div className="flex flex-col justify-center max-w-screen-xl px-5 lg:px-0">
       {PastDetail.data.map((it: any) => {
-        console.log("map 돌자", it);
-
         return (
           <div className="flex flex-col justify-center w-full">
             <br />
@@ -150,9 +221,10 @@ const Question = (
                         id={`${it.pastQuestionId}-1`}
                         type="radio"
                         value="1"
-                        name="default-radio"
+                        name={`${it.pastQuestionId}`}
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         onClick={handleClickRadioButton}
+                        // onChange={.handleChange}
                       />
                       <div>&nbsp;&nbsp;&nbsp;1.</div>
                       <ReactMarkdown children={it.pastChoice1} />
@@ -167,9 +239,10 @@ const Question = (
                         id={`${it.pastQuestionId}-2`}
                         type="radio"
                         value="2"
-                        name="default-radio"
+                        name={`${it.pastQuestionId}`}
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         onClick={handleClickRadioButton}
+                        // onChange={}
                       />
                       <div>&nbsp;&nbsp;&nbsp;2.</div>
                       <ReactMarkdown children={it.pastChoice2} />
@@ -184,12 +257,12 @@ const Question = (
                         id={`${it.pastQuestionId}-3`}
                         type="radio"
                         value="3"
-                        name="default-radio"
+                        name={`${it.pastQuestionId}`}
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         onClick={handleClickRadioButton}
                       />
                       <div>&nbsp;&nbsp;&nbsp;3.</div>
-                      <ReactMarkdown children={it.pastChoice3} />
+                      <ReactMarkdown children={`${it.pastChoice3}`} />
                     </label>
                   </div>
                   <div className={item}>
@@ -201,7 +274,7 @@ const Question = (
                         id={`${it.pastQuestionId}-4`}
                         type="radio"
                         value="4"
-                        name="default-radio"
+                        name={`${it.pastQuestionId}`}
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         onClick={handleClickRadioButton}
                       />
@@ -218,7 +291,7 @@ const Question = (
                         id={`${it.pastQuestionId}-5`}
                         type="radio"
                         value="5"
-                        name="default-radio"
+                        name={`${it.pastQuestionId}`}
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         onClick={handleClickRadioButton}
                       />
@@ -246,7 +319,7 @@ const Question = (
                         id={`${it.pastQuestionId}-1`}
                         type="radio"
                         value="1"
-                        name="default-radio"
+                        name={`${it.pastQuestionId}`}
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         onClick={handleClickRadioButton}
                       />
@@ -264,7 +337,7 @@ const Question = (
                         id={`${it.pastQuestionId}-2`}
                         type="radio"
                         value="2"
-                        name="default-radio"
+                        name={`${it.pastQuestionId}`}
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         onClick={handleClickRadioButton}
                       />
@@ -282,7 +355,7 @@ const Question = (
                         id={`${it.pastQuestionId}-3`}
                         type="radio"
                         value="3"
-                        name="default-radio"
+                        name={`${it.pastQuestionId}`}
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         onClick={handleClickRadioButton}
                       />
@@ -300,7 +373,7 @@ const Question = (
                         id={`${it.pastQuestionId}-4`}
                         type="radio"
                         value="4"
-                        name="default-radio"
+                        name={`${it.pastQuestionId}`}
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         onClick={handleClickRadioButton}
                       />
@@ -318,7 +391,7 @@ const Question = (
                         id={`${it.pastQuestionId}-5`}
                         type="radio"
                         value="5"
-                        name="default-radio"
+                        name={`${it.pastQuestionId}`}
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         onClick={handleClickRadioButton}
                       />
@@ -336,7 +409,7 @@ const Question = (
       <div className="relative w-full h-[5rem] mt-6">
         <button
           className="absolute right-0 border-2 border-[#A87E6E] bg-[#F0ECE9] text-[#A87E6E] rounded-lg w-[30%] py-3"
-          onClick={submit}
+          onClick={radioClick}
         >
           제출
         </button>
@@ -349,7 +422,7 @@ const intToString = (num: any) => {
   return String(num).padStart(2, "0");
 };
 const Timer = ({ mm, ss }: { mm: any; ss: any }): JSX.Element => {
-  const MM = mm ? mm : 30;
+  const MM = mm ? mm : 15;
   const SS = ss ? ss : 0;
 
   const count = useRef<number>(MM * 60 + SS);
