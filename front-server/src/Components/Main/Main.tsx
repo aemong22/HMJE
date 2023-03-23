@@ -6,6 +6,7 @@ import Navbar from "../Common/Navbar";
 import Pangguin from "../Threejs/Pangguin";
 import style from "./Main.module.css";
 import classNames from "classnames";
+import PastTestIntroModal from "../Study/PastTestIntroModal";
 
 
 
@@ -215,6 +216,7 @@ function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
 
 // 학습 (3가지)
 function StudyContent(): JSX.Element {
+  const [openModal , setOpenModal] = useState<Boolean>(false);
   const navigate = useNavigate()
   const nav = (e:any) => {
     if(e.target.id === 'word'){
@@ -226,6 +228,7 @@ function StudyContent(): JSX.Element {
   }
   return (
     <>
+      {openModal && <PastTestIntroModal setOpenModal={setOpenModal} />}
       <div className="container max-w-screen-lg w-full  mx-auto text-center md:pt-[7rem] pt-[5rem]">
         <div className="md:text-[1.5rem] text-[1rem]">홍민정음</div>
         <div className="md:text-[2.2rem] text-[1.9rem] font-bold ">
@@ -266,7 +269,8 @@ function StudyContent(): JSX.Element {
               과거시험을 통해 향상된 실력을 확인해보세요!{" "}
             </div>
             <br/>
-            <div className={`${style.studyBtn} md:text-[1.3rem] md:absolute static md:bottom-[5%]  md:w-[80%] text-center border-2 border-[#A87E6E] rounded-lg py-1 mt-1`}>
+            <div className={`${style.studyBtn} md:text-[1.3rem] md:absolute static md:bottom-[5%]  md:w-[80%] text-center border-2 border-[#A87E6E] rounded-lg py-1 mt-1`}
+              onClick={() => setOpenModal(true)}>
               시작하기
             </div>
           </div>
