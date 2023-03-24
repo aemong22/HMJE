@@ -5,9 +5,9 @@ import {
   useGetStudyPastQuery,
   useGetStudyPastTestQuery,
   usePostStudyPastResultMutation,
-} from "../../Store/api";
-import Footer from "../Common/Footer";
-import Navbar from "../Common/Navbar";
+} from "../../../Store/api";
+import Footer from "../../Common/Footer";
+import Navbar from "../../Common/Navbar";
 
 const PastTest = (): JSX.Element => {
   const [answer, setanswer] = useState([
@@ -25,7 +25,7 @@ const PastTest = (): JSX.Element => {
   ]);
 
   const {
-    data: na,
+    data: test,
     isLoading: isLoading2,
     error: error2,
   } = useGetStudyPastQuery("");
@@ -41,26 +41,40 @@ const PastTest = (): JSX.Element => {
   const today_temp = year + "-" + "0" + month + "-" + date;
   const [postStudyPastResult, loading] = usePostStudyPastResultMutation();
 
-  if (isLoading1 && isLoading2) {
+  if (isLoading1) {
     return <>로딩중</>;
-  } else if (error1 && error2) {
+  } else if (isLoading2) {
+    return <>로딩중</>;
+  } else if (error2 || error1) {
     return <>error</>;
   } else {
+    console.log(test);
     return (
       <>
         <Navbar />
-        {today_temp >= na.data.startTime && today_temp <= na.data.endTime ? (
+        {test.data.startTime && test.data.endTime ? (
           <>
-            <div className="flex justify-center">
-              <Title data={na.data} />
-            </div>
-            <div className="flex justify-center">
-              {Question(PastDetail, na, answer, setanswer, postStudyPastResult)}
-            </div>
+            {today_temp >= test.data.startTime &&
+            today_temp <= test.data.endTime ? (
+              <>
+                <div className="flex justify-center">
+                  <Title data={test.data} />
+                </div>
+                <div className="flex justify-center">
+                  {Question(
+                    PastDetail,
+                    test,
+                    answer,
+                    setanswer,
+                    postStudyPastResult,
+                  )}
+                </div>
+              </>
+            ) : (
+              <div>접속할 수 없는 기간입니다</div>
+            )}
           </>
-        ) : (
-          <div>접속할 수 없는 기간입니다</div>
-        )}
+        ) : null}
         <Footer />
       </>
     );
@@ -104,40 +118,40 @@ const Question = (
   const labletage =
     " text-sm font-medium text-gray-900 dark:text-gray-300 flex flex-row";
   const handleClickRadioButton = (e: any) => {
-    // var copy = answer;
-    // switch (e.target.name) {
-    //   case "1":
-    //     copy[1] = e.target.value;
-    //     break;
-    //   case "2":
-    //     copy[2] = e.target.value;
-    //     break;
-    //   case "3":
-    //     copy[3] = e.target.value;
-    //     break;
-    //   case "4":
-    //     copy[4] = e.target.value;
-    //     break;
-    //   case "5":
-    //     copy[5] = e.target.value;
-    //     break;
-    //   case "6":
-    //     copy[6] = e.target.value;
-    //     break;
-    //   case "7":
-    //     copy[7] = e.target.value;
-    //     break;
-    //   case "8":
-    //     copy[8] = e.target.value;
-    //     break;
-    //   case "9":
-    //     copy[9] = e.target.value;
-    //     break;
-    //   case "10":
-    //     copy[10] = e.target.value;
-    //     break;
-    // }
-    // setanswer(copy);
+    var copy = answer;
+    switch (e.target.name) {
+      case "1":
+        copy[1] = e.target.value;
+        break;
+      case "2":
+        copy[2] = e.target.value;
+        break;
+      case "3":
+        copy[3] = e.target.value;
+        break;
+      case "4":
+        copy[4] = e.target.value;
+        break;
+      case "5":
+        copy[5] = e.target.value;
+        break;
+      case "6":
+        copy[6] = e.target.value;
+        break;
+      case "7":
+        copy[7] = e.target.value;
+        break;
+      case "8":
+        copy[8] = e.target.value;
+        break;
+      case "9":
+        copy[9] = e.target.value;
+        break;
+      case "10":
+        copy[10] = e.target.value;
+        break;
+    }
+    setanswer(copy);
   };
 
   const radioClick = () => {
@@ -394,8 +408,8 @@ const intToString = (num: any) => {
 };
 const Timer = ({ mm, ss }: { mm: any; ss: any }): JSX.Element => {
   const navigate = useNavigate();
-  const MM = mm ? mm : 0;
-  const SS = ss ? ss : 30;
+  const MM = mm ? mm : 15;
+  const SS = ss ? ss : 0;
 
   const count = useRef<number>(MM * 60 + SS);
   const interval = useRef<any>(null);
@@ -414,6 +428,8 @@ const Timer = ({ mm, ss }: { mm: any; ss: any }): JSX.Element => {
   useEffect(() => {
     if (count.current <= 0) {
       clearInterval(interval.current);
+
+      // 시간 초과시 결과 저장해서 내보냄
       alert("시간초과");
       navigate("/main");
     }
