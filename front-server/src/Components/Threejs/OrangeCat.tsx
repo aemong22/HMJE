@@ -3,54 +3,29 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF, useAnimations, Sky, useTexture } from '@react-three/drei';
 import * as THREE from 'three'
 
-interface GamingProps {
-  abdx: number | string;
-}
-
-function OrangeCat() {
-  const [emo, setEmo] = useState<any>(<Default/>)
-  const click:MouseEventHandler<HTMLDivElement> = (e) => {
-    const target = e.target as HTMLElement
-    console.log(target);
-    console.log(target.innerText);
-    
-    switch (target.innerText) {
-      case 'Default':
-        setEmo(<Default/>)
-        break;
-      case 'Dazed':
-        setEmo(<Dazed/>)
-        break;
-      case 'Sad':
-        setEmo(<Sad/>)
-        break;
-      case 'Smile':
-        setEmo(<Smile/>)
-        break;
+function OrangeCat({sendEmo}:any) {
+  const [emo, setEmo] = useState<any>()
+  useEffect(()=> {
+    if (sendEmo === 0) {
+      setEmo(<Default/>)
+    } else if (sendEmo === 1) {
+      setEmo(<Smile/>)
+    } else if (sendEmo === 2) {
+      setEmo(<Sad/>)
+    } else {
+      setEmo(<Dazed/>)
     }
-  }
+  },[])
   return (
-    <div>
-      <div className='border-4 border-black px-4' onClick={click}>
-        Default
-      </div>
-      <div className='border-4 border-black px-4' onClick={click}>
-        Dazed
-      </div>
-      <div className='border-4 border-black px-4' onClick={click}>
-        Sad
-      </div>
-      <div className='border-4 border-black px-4' onClick={click}>
-        Smile
-      </div>
-      <Canvas style={{border: 'solid 4px black', width: '100vw', height: '100vh'}}>
+    <div className='w-full h-full'>
+      <Canvas style={{width: '100%', height: '100%', borderRadius: '1rem'}}>
         <mesh scale={1} position={[0,-2.4,2.5]}>
           <Suspense fallback={null}>
             <ambientLight />
             <Sky azimuth={0.7}/>
             <spotLight intensity={0.9} angle={0.1} penumbra={1} position={[10,15,10]} castShadow/>
             {emo}
-            <OrbitControls enablePan={true} enableZoom={false} enableRotate={true}/>
+            {/* <OrbitControls enablePan={true} enableZoom={false} enableRotate={true}/> */}
           </Suspense>
         </mesh>
       </Canvas>
@@ -68,6 +43,8 @@ function Default() {
 
   
   useEffect(()=> {
+    console.log(actions);
+    
     actions.Angry.play()
     actions.Tree.play()
     actions.Fly.play()
@@ -81,8 +58,19 @@ function Default() {
     actions.Angry.reset()
   }, [mixer])
 
+  const click = () => {
+    console.log('hi');
+    
+    actions.Bow.play()
+
+    // 애니메이션 종료 후에 actions 객체를 리셋합니다.
+    actions.Bow.clampWhenFinished = true
+    actions.Bow.loop = THREE.LoopOnce as any
+    actions.Bow.reset()
+  }
+
   return (
-    <group ref={group} dispose={null}>
+    <group ref={group} dispose={null} onClick={click}>
       <group name="Scene">
         <group name="Tree" position={[-0.63, 1.05, -0.34]} rotation={[1.58, 0.08, 0.22]} scale={0.01}>
           <primitive object={nodes.Tree_root} />
@@ -137,8 +125,18 @@ function Smile() {
     actions.Angry.reset()
   }, [mixer])
 
+  const click = () => {
+    console.log('hi');
+    
+    actions.Bow.play()
+
+    // 애니메이션 종료 후에 actions 객체를 리셋합니다.
+    actions.Bow.clampWhenFinished = true
+    actions.Bow.loop = THREE.LoopOnce as any
+    actions.Bow.reset()
+  }
   return (
-    <group ref={group} dispose={null}>
+    <group ref={group} dispose={null} onClick={click}>
       <group name="Scene">
         <group name="Tree" position={[-0.63, 1.05, -0.34]} rotation={[1.58, 0.08, 0.22]} scale={0.01}>
           <primitive object={nodes.Tree_root} />
@@ -193,8 +191,19 @@ function Dazed() {
     actions.Angry.reset()
   }, [mixer])
 
+  const click = () => {
+    console.log('hi');
+    
+    actions.Bow.play()
+
+    // 애니메이션 종료 후에 actions 객체를 리셋합니다.
+    actions.Bow.clampWhenFinished = true
+    actions.Bow.loop = THREE.LoopOnce as any
+    actions.Bow.reset()
+  }
+
   return (
-    <group ref={group} dispose={null}>
+    <group ref={group} dispose={null} onClick={click}>
       <group name="Scene">
         <group name="Tree" position={[-0.63, 1.05, -0.34]} rotation={[1.58, 0.08, 0.22]} scale={0.01}>
           <primitive object={nodes.Tree_root} />
@@ -249,8 +258,18 @@ function Sad() {
     actions.Angry.reset()
   }, [mixer])
 
+  const click = () => {
+    console.log('hi');
+    
+    actions.Bow.play()
+
+    // 애니메이션 종료 후에 actions 객체를 리셋합니다.
+    actions.Bow.clampWhenFinished = true
+    actions.Bow.loop = THREE.LoopOnce as any
+    actions.Bow.reset()
+  }
   return (
-    <group ref={group} dispose={null}>
+    <group ref={group} dispose={null} onClick={click}>
       <group name="Scene">
         <group name="Tree" position={[-0.63, 1.05, -0.34]} rotation={[1.58, 0.08, 0.22]} scale={0.01}>
           <primitive object={nodes.Tree_root} />

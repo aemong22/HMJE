@@ -12,6 +12,9 @@ import { Toast } from "../Common/Toast";
 // import { changeUserNickname } from "../../Store/store";
 import Chart from 'chart.js/auto';
 import TestCat from "../Threejs/TestCat"
+import GreyCat from "../Threejs/GreyCat"
+import OrangeCat from "../Threejs/OrangeCat"
+import MixCat from "../Threejs/MixCat"
 
 interface UserDataType {
   exp: number,
@@ -66,7 +69,7 @@ function MyPage():JSX.Element {
   const {data:userMyInfo, isError:isError1, isLoading:isLoading1} = useGetUserMyinfoQuery(userId)
   const {data:studyData, isError:isError2, isLoading:isLoading2} = useGetUserMystudyQuery(userId)
   
-  // console.log('userMyInfo: ', userMyInfo);
+  // console.log('studyData: ', studyData);
   
 
   if (isLoading1 || isLoading2 ) {
@@ -160,6 +163,7 @@ function MyPage():JSX.Element {
   const dataLevel = userMyInfo?.data.level
   let checkEmoState:number
 
+  
   if (todayTotal === 0) {
     sentence = sentenceList[0]
     checkEmoState = 0
@@ -191,13 +195,21 @@ export default MyPage
 
 // 데스크탑 & 태블릿
 function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sentence, level, nowbadgeImage, userId, dataLevel, checkEmoState}:Type):JSX.Element {
+  const [character, setCharacter] = useState(<GreyCat sendEmo={checkEmoState}/>)
+  useEffect(()=> {
+    if (dataLevel === 9) {
+      setCharacter(<OrangeCat sendEmo={checkEmoState}/>)
+    } else if ((3 <= dataLevel)&&(dataLevel <= 8)) {
+      setCharacter(<MixCat sendEmo={checkEmoState}/>)
+    }
+  },[])
   return (
     <>
     {/* <Toast /> */}
       <div className="container max-w-screen-xl h-[30rem] md:w-[90%] mx-auto hidden md:flex flex-col md:flex-row md:justify-around items-center text-center mb-2">
         <div className="flex flex-col md:w-[55%] h-full bg-[#ffffff] rounded-md ">
           {/* <Pangguin position={-2} /> */}
-          <TestCat sendEmo={checkEmoState}/>
+          {character}
           <div className="bg-[#D9D9D9] rounded-xl font-semibold md:text-[1rem] w-full py-1">{sentence}</div>
         </div>
         <div className="md:w-[45%] pt-[1rem] pb-[0.5rem] px-4">
@@ -228,13 +240,13 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
                   </div>
                 </div>
               </div>
-              <div className="flex justify-start items-center w-full pt-4">
+              {/* <div className="flex justify-start items-center w-full pt-4">
                 <div className="md:w-[1.5rem] lg:w-[2rem] md:h-[1.5rem] lg:h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="버튼1" /></div>
                 <div className="md:w-[1.5rem] lg:w-[2rem] md:h-[1.5rem] lg:h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="버튼2" /></div>
                 <div className="md:w-[1.5rem] lg:w-[2rem] md:h-[1.5rem] lg:h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="버튼3" /></div>
                 <div className="md:w-[1.5rem] lg:w-[2rem] md:h-[1.5rem] lg:h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="버튼4" /></div>
                 <div className="md:w-[1.5rem] lg:w-[2rem] md:h-[1.5rem] lg:h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="버튼5" /></div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -270,9 +282,9 @@ function MyPageSection2V1({todayWord, totalWord, todayContext, totalContext, tod
     
     labels: ['정답', '세모', '오답' ]
   };
-
+  
   const showDataChart = (
-    statsRight+statsRight+statsRight !== 0 ? (
+    statsRight+statsSemo+statsWrong !== 0 ? (
       <div className="flex justify-center items-center w-[45%] h-[110%] -translate-y-11 relative">
         <div className="absolute -bottom-[2.3rem] font-semibold text-[1.2rem] text-[#FFA800]">오늘의 학습</div>
         <Doughnut typeof='doughnut' data={data}/>
@@ -309,7 +321,15 @@ function MyPageSection2V1({todayWord, totalWord, todayContext, totalContext, tod
 
 
 // 모바일
-function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sentence, level, nowbadgeImage, userId, dataLevel}:Type):JSX.Element {
+function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sentence, level, nowbadgeImage, userId, dataLevel, checkEmoState}:Type):JSX.Element {
+  const [character, setCharacter] = useState(<GreyCat sendEmo={checkEmoState}/>)
+  useEffect(()=> {
+    if (dataLevel === 9) {
+      setCharacter(<OrangeCat sendEmo={checkEmoState}/>)
+    } else if ((3 <= dataLevel)&&(dataLevel <= 8)) {
+      setCharacter(<MixCat sendEmo={checkEmoState}/>)
+    }
+  },[])
   return (
     <>
       {/* <Toast /> */}
@@ -325,19 +345,20 @@ function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sent
               </div>
               <span className="text-left w-full mr-1 text-[1.5rem] font-semibold">{nickname}</span>
               {/* <Gaming/> */}
-              <Pangguin position={-2}/>
+              {/* <Pangguin position={-2}/> */}
+              {character}
             </div>
           </div>
         </div>
-        <div className="flex justify-center items-center w-[90%] h-[8%] ">
           {/* 캐릭터 행동 버튼 */}
+        {/* <div className="flex justify-center items-center w-[90%] h-[8%] ">
           <div className="w-[2rem] h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="버튼1" /></div>
           <div className="w-[2rem] h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="버튼2" /></div>
           <div className="w-[2rem] h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="버튼3" /></div>
           <div className="w-[2rem] h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="버튼4" /></div>
           <div className="w-[2rem] h-[2rem] rounded-full border-2 border-[#c2bfbf] mx-2"><img src="/Assets/Icon/catSit.png" alt="버튼5" /></div>
-        </div>
-        <div className="flex justify-center items-center w-[90%] h-[25%]">
+        </div> */}
+        <div className="flex justify-center items-center w-[90%] h-[25%] mt-[2%]">
           {/* 메인 데이터 */}
           <div className="flex flex-col justify-center items-center h-3/5 w-full">
             <div className="flex flex-col justify-center items-center w-full">
@@ -396,7 +417,7 @@ function MyPageSection2V2({todayWord, totalWord, todayContext, totalContext, tod
     };
   
     const showDataChart = (
-      statsRight+statsRight+statsRight !== 0 ? (
+      statsRight+statsSemo+statsWrong !== 0 ? (
         <div className="flex justify-center items-center w-full h-full -translate-y-8 relative">
           <div className="absolute -bottom-[2.3rem] font-semibold text-[1.2rem] text-[#FFA800]">오늘의 학습</div>
           <Doughnut typeof='doughnut' data={data}/>

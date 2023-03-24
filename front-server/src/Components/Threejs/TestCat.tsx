@@ -125,8 +125,18 @@ function Smile() {
     actions.Angry.reset()
   }, [mixer])
 
+  const click = () => {
+    console.log('hi');
+    
+    actions.Bow.play()
+
+    // 애니메이션 종료 후에 actions 객체를 리셋합니다.
+    actions.Bow.clampWhenFinished = true
+    actions.Bow.loop = THREE.LoopOnce as any
+    actions.Bow.reset()
+  }
   return (
-    <group ref={group} dispose={null}>
+    <group ref={group} dispose={null} onClick={click}>
       <group name="Scene">
         <group name="Tree" position={[-0.63, 1.05, -0.34]} rotation={[1.58, 0.08, 0.22]} scale={0.01}>
           <primitive object={nodes.Tree_root} />
@@ -248,8 +258,18 @@ function Sad() {
     actions.Angry.reset()
   }, [mixer])
 
+  const click = () => {
+    console.log('hi');
+    
+    actions.Bow.play()
+
+    // 애니메이션 종료 후에 actions 객체를 리셋합니다.
+    actions.Bow.clampWhenFinished = true
+    actions.Bow.loop = THREE.LoopOnce as any
+    actions.Bow.reset()
+  }
   return (
-    <group ref={group} dispose={null}>
+    <group ref={group} dispose={null} onClick={click}>
       <group name="Scene">
         <group name="Tree" position={[-0.63, 1.05, -0.34]} rotation={[1.58, 0.08, 0.22]} scale={0.01}>
           <primitive object={nodes.Tree_root} />
