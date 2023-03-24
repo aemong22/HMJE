@@ -72,7 +72,7 @@
       transform: translateY(0%);
     }
     to {
-      transform: translateY(-100%);
+      transform: translateY(-102.5%);
     }
   }
 
@@ -81,6 +81,11 @@
     animation-iteration-count: infinite;
     animation-timing-function: linear;
   }
+
+  /* .move.active {
+    z-index: 1;
+    animation-play-state: running;
+  } */
 
 
   /* 장원급제 컨포넌트 폰트  */
