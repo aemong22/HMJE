@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import style from "./PastTestIntroModal.module.css";
 
-const PastTestIntroModal = ({ openModal }: any): JSX.Element => {
+const PastTestIntroModal = ({ setOpenModal }: any): JSX.Element => {
   const navigate = useNavigate();
   const Nav = (e: any) => {
     if (e.target.id === "OUT") {
-      openModal(false);
+      setOpenModal(false);
     } else if (e.target.id === "START") {
-      openModal(false);
+      setOpenModal(false);
       navigate("/PastTest");
     }
   };
@@ -41,14 +41,14 @@ const PastTestIntroModal = ({ openModal }: any): JSX.Element => {
               <button
                 id="OUT"
                 className="w-[40%] h-[40%] py-2 bg-[#B7B7B7] rounded-[10px] text-white font-extrabold"
-                onClick={openModal(false)}
+                onClick={() => setOpenModal(false)}
               >
                 그만두기
               </button>
               <button
                 id="START"
                 className="w-[40%] h-[40%] py-2 bg-[#F5BEA4] rounded-[10px] text-white font-extrabold"
-                onClick={openModal(false)}
+                onClick={() => setOpenModal(false)}
               >
                 시작하기
               </button>
@@ -56,6 +56,7 @@ const PastTestIntroModal = ({ openModal }: any): JSX.Element => {
           </div>
         </div>
       </div>
+      <div className="fixed inset-0 z-40 bg-black/20"></div>
     </>
   );
 };

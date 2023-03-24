@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import style from "./Study.module.css";
 
 function AnswerModal({
@@ -17,6 +17,21 @@ function AnswerModal({
       motion();
     }
   };
+
+  const [decoding, setDecoding] = useState<String>();
+
+  // 단어 디코딩
+  useEffect(()=> {
+    if(studyType === "wordStudy"){
+      let temp = decodeURIComponent(escape(atob(question[num].wordName)))
+      setDecoding(temp)
+    }
+    else {
+      setDecoding(question[num].wordName)
+    }
+
+  },[])
+
 
   const motion = () => {
     setRight(false);
@@ -96,13 +111,15 @@ function AnswerModal({
                 <div className="flex items-end">
                     <div className="md:text-[1.5rem] text-[1.2rem] font-bold mr-1">
                         { studyType !== "contextStudy" ? 
-                            <>{question[num].wordName}</> : right ? <>{question[num].dogamName}</> : <><span className="px-3">?</span></>
+                            <>{decoding}</> : right ? <>{question[num].dogamName}</> : <><span className="px-3">?</span></>
                         }
                     </div>
                     {studyType !== "contextStudy" && question[num].wordIso > 0 && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{question[num].wordIso}</div>}
                     {studyType !== "contextStudy" && question[num].wordOrigin && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">[{question[num].wordOrigin}]</div>}
-                    {studyType === "contextStudy" && question[num].dogamOrigin && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">[{question[num].dogamOrigin}]</div>}
-                    <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{studyType !== "contextStudy" ? <>{question[num].wordType}</>:<>{question[num].dogamClass}</>}</div>
+
+                    {studyType === "contextStudy" && right && question[num].dogamOrigin && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">[{question[num].dogamOrigin}]</div>}
+                    <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{studyType !== "contextStudy" ? <>{question[num].wordType}</>:<>{right && <>{question[num].dogamClass}</>}</>}</div>
+
                 </div>        
                 {studyType !== "contextStudy" && question[num].wordRating != "없음" && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{question[num].wordRating}</div>}
             </div>
