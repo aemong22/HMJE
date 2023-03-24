@@ -11,6 +11,7 @@ import { Toast } from "../Common/Toast";
 // import { useAppDispatch } from "../../Store/hooks";
 // import { changeUserNickname } from "../../Store/store";
 import Chart from 'chart.js/auto';
+import TestCat from "../Threejs/TestCat"
 
 interface UserDataType {
   exp: number,
@@ -37,6 +38,7 @@ interface Type {
   nowbadgeImage: string,
   userId: (string | null),
   dataLevel : number,
+  checkEmoState: number
 }
 
 interface LevelType {
@@ -156,23 +158,28 @@ function MyPage():JSX.Element {
   const  {statsRight, statsSemo, statsWrong} = studyData?.data
   const level = levelInfo[userMyInfo?.data.level].levelName2
   const dataLevel = userMyInfo?.data.level
+  let checkEmoState:number
 
   if (todayTotal === 0) {
     sentence = sentenceList[0]
+    checkEmoState = 0
   } else if (statsDate > 0) {
     sentence = sentenceList[1]
+    checkEmoState = 1
   } else if (statsDate < 0) {
     sentence = sentenceList[2]
+    checkEmoState = 2
   } else {
     sentence = sentenceList[3]
+    checkEmoState = 3
   }
 
   return (
     <>
       <Navbar/>
-      <MyPageSection1V1 nickname={userMyInfo?.data.nickname} nowbadgeName={userMyInfo?.data.nowbadgeName} expWidth={expWidth} exp={userMyInfo?.data.exp} totalExp={totalExp} dataLevel={dataLevel} sentence={sentence} level={level} nowbadgeImage={userMyInfo?.data.nowbadgeImage} userId={userId}/>
+      <MyPageSection1V1 nickname={userMyInfo?.data.nickname} nowbadgeName={userMyInfo?.data.nowbadgeName} expWidth={expWidth} exp={userMyInfo?.data.exp} totalExp={totalExp} dataLevel={dataLevel} sentence={sentence} level={level} nowbadgeImage={userMyInfo?.data.nowbadgeImage} userId={userId} checkEmoState={checkEmoState}/>
       <MyPageSection2V1 todayWord={todayWord} totalWord={totalWord} todayContext={todayContext} totalContext={totalContext} todayTime={todayTime} totalTime={totalTime} statsRight={statsRight} statsSemo={statsSemo} statsWrong={statsWrong}/>
-      <MyPageSection1V2 nickname={userMyInfo?.data.nickname} nowbadgeName={userMyInfo?.data.nowbadgeName} expWidth={expWidth} exp={userMyInfo?.data.exp} totalExp={totalExp} dataLevel={dataLevel} sentence={sentence} level={level} nowbadgeImage={userMyInfo?.data.nowbadgeImage} userId={userId}/>
+      <MyPageSection1V2 nickname={userMyInfo?.data.nickname} nowbadgeName={userMyInfo?.data.nowbadgeName} expWidth={expWidth} exp={userMyInfo?.data.exp} totalExp={totalExp} dataLevel={dataLevel} sentence={sentence} level={level} nowbadgeImage={userMyInfo?.data.nowbadgeImage} userId={userId} checkEmoState={checkEmoState}/>
       <MyPageSection2V2 todayWord={todayWord} totalWord={totalWord} todayContext={todayContext} totalContext={totalContext} todayTime={todayTime} totalTime={totalTime} statsRight={statsRight} statsSemo={statsSemo} statsWrong={statsWrong}/>
       <MyPageSection3 userId={userId}/>
       <Footer/>
@@ -183,13 +190,14 @@ export default MyPage
 
 
 // 데스크탑 & 태블릿
-function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sentence, level, nowbadgeImage, userId, dataLevel}:Type):JSX.Element {
+function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sentence, level, nowbadgeImage, userId, dataLevel, checkEmoState}:Type):JSX.Element {
   return (
     <>
     {/* <Toast /> */}
       <div className="container max-w-screen-xl h-[30rem] md:w-[90%] mx-auto hidden md:flex flex-col md:flex-row md:justify-around items-center text-center mb-2">
         <div className="flex flex-col md:w-[55%] h-full bg-[#ffffff] rounded-md ">
-          <Pangguin position={-2} />
+          {/* <Pangguin position={-2} /> */}
+          <TestCat sendEmo={checkEmoState}/>
           <div className="bg-[#D9D9D9] rounded-xl font-semibold md:text-[1rem] w-full py-1">{sentence}</div>
         </div>
         <div className="md:w-[45%] pt-[1rem] pb-[0.5rem] px-4">
@@ -811,7 +819,7 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
 
 
   const yearSelectElement = (
-    <select ref={yearRef} className="w-full h-full text-center font-semibold text-[0.7rem] md:text-[0.8rem] lg:text-[0.9rem] text-[#A2A2A2]" onClick={selectDateChart}>
+    <select ref={yearRef} className="w-full h-full text-center font-semibold text-[0.8rem] md:text-[0.9rem] lg:text-[1rem] text-[#A2A2A2] border-2 border-[#F7CCB7] rounded-md" onClick={selectDateChart}>
       {
         yearList.map((year:number,key:number)=> {         
           const isSelected = key === nowYear          
@@ -822,7 +830,7 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
   )
 
   const monthSelectElement = (
-    <select ref={monthRef} className='w-full text-center font-semibold text-[0.8rem] md:text-[0.9rem] lg:text-[1rem] text-[#A2A2A2]' onClick={selectDateChart}>
+    <select ref={monthRef} className='w-full text-center font-semibold text-[0.8rem] md:text-[0.9rem] lg:text-[1rem] text-[#A2A2A2] border-2 border-[#F7CCB7] rounded-md' onClick={selectDateChart}>
       {
         monthList.map((month:number, key:number)=> {
           const isSelected = key === nowMonth-1
@@ -842,12 +850,12 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
       <div className="flex justify-center items-center h-[80%] max-w-screen-xl w-full">
         {/* 학습 관리 */}
         <div className="flex flex-col justify-center items-start w-full h-[90%]">
-          <div className="flex justify-between items-center w-full h-[10%] lg:h-[8%] my-[2%]">
+          <div className="flex justify-between items-end w-full h-[10%] lg:h-[8%] my-[2%]">
             <div className="flex flex-col w-1/2">
               <div className="block text-[1.1rem] md:text-[1.35rem] lg:text-[1.4rem] font-semibold pb-2">학습 관리</div>
               <div className="block font-semibold text-[0.8rem] md:text-[0.9rem] lg:text-[1rem] text-[#A2A2A2]">나의 학습 정보를 확인해보세요!</div>
             </div>
-            <div className="flex justify-between items-center  w-1/2 h-full ">
+            <div className="flex justify-between items-end  w-1/2 lg:w-1/3 h-full ">
               {/* <div className="w-full"><span className="flex justify-center items-center border-2 ">2023</span></div> */}
               <div className=" w-full">
                 {yearSelectElement}

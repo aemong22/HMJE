@@ -23,7 +23,10 @@ import Notice from "./Components/Notice/Notice";
 import PastTestIntroModal from "./Components/Study/PastTestIntroModal";
 import PastTest from "./Components/Study/PastTest";
 import AdminExam from "./Components/Admin/AdminExam";
-import Cat from "./Components/Threejs/Cat";
+import OrangeCat from "./Components/Threejs/OrangeCat";
+import GreyCat from "./Components/Threejs/GreyCat";
+import MixCat from "./Components/Threejs/MixCat";
+import TestCat from "./Components/Threejs/TestCat";
 
 function App() {
   const notify = () => toast("Wow so easy!");
@@ -58,7 +61,10 @@ function App() {
           <Route path="exam" element={<AdminExam />} />
         </Route>
 
-        <Route path="/cat" element={<Cat />} />
+        <Route path="/orangecat" element={<OrangeCat />} />
+        <Route path="/greycat" element={<GreyCat />} />
+        <Route path="/mixcat" element={<MixCat />} />
+        <Route path="/cat" element={<TestCat />} />
 
       </Routes>
     </>
