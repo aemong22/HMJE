@@ -15,7 +15,7 @@ import java.util.Set;
 public interface RightWordRepository extends JpaRepository<RightWord, Long> {
     RightWord findByWordAndUser(Word word, User user);
     List<RightWord> findAllByUser(User user);
-    List<RightWord> findByUserAndCreatedAtAfter(User user, LocalDateTime today);
+    List<RightWord> findByUserAndCreatedAtAfterOrderByCreatedAtDesc(User user, LocalDateTime today);
     @Query("select distinct r.user from RightWord r where r.createdAt > :date")
     List<User> findByDate(@Param("date") LocalDateTime date);
 }

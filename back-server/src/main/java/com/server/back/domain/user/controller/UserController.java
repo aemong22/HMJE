@@ -200,10 +200,19 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @ApiOperation(value = "오늘의 단어 랭킹")
-    @GetMapping("/rank/word/{userId}")
-    public ResponseEntity<Map<String, Object>> rankWord(@PathVariable(value = "userId") Long userId){
+    @GetMapping("/rank/word")
+    public ResponseEntity<Map<String, Object>> rankWord(){
         Map<String, Object> response = new HashMap<>();
-        List<RankWordResponseDto> responseDto = userService.rankWord(userId);
+        List<RankWordResponseDto> responseDto = userService.rankWord();
+        response.put("data", responseDto);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @ApiOperation(value = "레벨 랭킹")
+    @GetMapping("/rank/level")
+    public ResponseEntity<Map<String, Object>> rankLevel(){
+        Map<String, Object> response = new HashMap<>();
+        List<RankLevelResponseDto> responseDto = userService.rankLevel();
         response.put("data", responseDto);
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
