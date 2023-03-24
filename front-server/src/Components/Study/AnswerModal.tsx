@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import style from "./Study.module.css";
 
 function AnswerModal({
@@ -10,18 +10,34 @@ function AnswerModal({
   setRight,
   studyType,
   setResultModal,
+  modalOpen
 }: any): JSX.Element {
   window.onkeyup = (e) => {
-    if (e.key === "Shift") {
+    if (e.key === "Shift" && modalOpen) {
       motion();
     }
   };
 
+  const [decoding, setDecoding] = useState<String>();
+
+  // 단어 디코딩
+  useEffect(()=> {
+    if(studyType === "wordStudy"){
+      let temp = decodeURIComponent(escape(atob(question[num].wordName)))
+      setDecoding(temp)
+    }
+    else {
+      setDecoding(question[num].wordName)
+    }
+
+  },[])
+
+
   const motion = () => {
     setRight(false);
     closeModal();
-    if (studyType === "wordStudy") {
-      if (num < 9) {
+    if (studyType !== "contextStudy") {
+      if (num < (question.length-1)) {
         setNum(num + 1);
       } else {
         // 결과 모달창 뜨기
@@ -34,7 +50,9 @@ function AnswerModal({
         // 결과 모달창 뜨기
         setResultModal(true);
       }
-    } else {
+    }
+    else {
+      console.log("에러");
     }
   };
 
@@ -90,39 +108,20 @@ function AnswerModal({
 
             {/*body header*/}
             <div className="relative px-4 pt-3 flex justify-between items-end sm:min-w-[25rem] min-w-[19rem]">
-              <div className="flex items-end">
-                <div className="md:text-[1.5rem] text-[1.2rem] font-bold mr-1">
-                  {studyType !== "contextStudy" ? (
-                    <>{question[num].wordName}</>
-                  ) : (
-                    <>{question[num].dogamName}</>
-                  )}
-                </div>
-                {studyType !== "contextStudy" && question[num].wordOrigin && (
-                  <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">
-                    [{question[num].wordOrigin}]
-                  </div>
-                )}
-                {studyType === "contextStudy" && question[num].dogamOrigin && (
-                  <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">
-                    [{question[num].dogamOrigin}]
-                  </div>
-                )}
-                <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">
-                  {studyType !== "contextStudy" ? (
-                    <>{question[num].wordType}</>
-                  ) : (
-                    <>{question[num].dogamClass}</>
-                  )}
-                </div>
-              </div>
+                <div className="flex items-end">
+                    <div className="md:text-[1.5rem] text-[1.2rem] font-bold mr-1">
+                        { studyType !== "contextStudy" ? 
+                            <>{decoding}</> : right ? <>{question[num].dogamName}</> : <><span className="px-3">?</span></>
+                        }
+                    </div>
+                    {studyType !== "contextStudy" && question[num].wordIso > 0 && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{question[num].wordIso}</div>}
+                    {studyType !== "contextStudy" && question[num].wordOrigin && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">[{question[num].wordOrigin}]</div>}
 
-              {studyType !== "contextStudy" &&
-                question[num].wordRating != "없음" && (
-                  <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">
-                    {question[num].wordRating}
-                  </div>
-                )}
+                    {studyType === "contextStudy" && right && question[num].dogamOrigin && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">[{question[num].dogamOrigin}]</div>}
+                    <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{studyType !== "contextStudy" ? <>{question[num].wordType}</>:<>{right && <>{question[num].dogamClass}</>}</>}</div>
+
+                </div>        
+                {studyType !== "contextStudy" && question[num].wordRating != "없음" && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{question[num].wordRating}</div>}
             </div>
             {/* body content */}
             {studyType !== "contextStudy" && (
@@ -157,30 +156,39 @@ function AnswerModal({
               <div className="relative px-4 py-3 max-h-[50vh] overflow-y-auto">
                 <div className="bg-[#F4EFEC] rounded-lg p-4 md:text-[1.1rem] text-[1rem] font-medium my-2">
                   {question[num].dogamMean1}
-                  <div className="mt-2 md:text-[1rem] text-[0.9rem] text-[#666666] leading-7">
-                    <span className="mr-1 font-bold text-[#ffffff] rounded-full px-3 py-1 bg-[#F7CCB7] md:text-[0.9rem] text-[0.8rem]">
+                  {right && 
+                  <>
+                    <div className="mt-2 md:text-[1rem] text-[0.9rem] text-[#666666] leading-7">
+                      <span className="mr-1 font-bold text-[#ffffff] rounded-full px-3 py-1 bg-[#F7CCB7] md:text-[0.9rem] text-[0.8rem]">
                       예제
-                    </span>
-                    {question[num].dogamExam1}
-                  </div>
+                      </span>
+                      {question[num].dogamExam1}
+                    </div>
+                  </>}
                 </div>
                 <div className="bg-[#F4EFEC] rounded-lg p-4 md:text-[1.1rem] text-[1rem] font-medium my-2">
                   {question[num].dogamMean2}
-                  <div className="mt-2 md:text-[1rem] text-[0.9rem] text-[#666666] leading-7">
-                    <span className="mr-1 font-bold text-[#ffffff] rounded-full px-3 py-1 bg-[#F7CCB7] md:text-[0.9rem] text-[0.8rem]">
+                  {right && 
+                  <>
+                    <div className="mt-2 md:text-[1rem] text-[0.9rem] text-[#666666] leading-7">
+                      <span className="mr-1 font-bold text-[#ffffff] rounded-full px-3 py-1 bg-[#F7CCB7] md:text-[0.9rem] text-[0.8rem]">
                       예제
-                    </span>
-                    {question[num].dogamExam2}
-                  </div>
+                      </span>
+                      {question[num].dogamExam2}
+                    </div>
+                  </>}
                 </div>
                 <div className="bg-[#F4EFEC] rounded-lg p-4 md:text-[1.1rem] text-[1rem] font-medium my-2">
-                  {question[num].dogamMean2}
-                  <div className="mt-2 md:text-[1rem] text-[0.9rem] text-[#666666] leading-7">
-                    <span className="mr-1 font-bold text-[#ffffff] rounded-full px-3 py-1 bg-[#F7CCB7] md:text-[0.9rem] text-[0.8rem]">
+                  {question[num].dogamMean3}
+                  {right && 
+                  <>
+                    <div className="mt-2 md:text-[1rem] text-[0.9rem] text-[#666666] leading-7">
+                      <span className="mr-1 font-bold text-[#ffffff] rounded-full px-3 py-1 bg-[#F7CCB7] md:text-[0.9rem] text-[0.8rem]">
                       예제
-                    </span>
-                    {question[num].dogamExam2}
-                  </div>
+                      </span>
+                      {question[num].dogamExam3}
+                    </div>
+                  </>}
                 </div>
               </div>
             )}
@@ -194,18 +202,17 @@ function AnswerModal({
                   motion();
                 }}
               >
-                {(studyType === "wordStudy" && num >= 9) ||
-                (studyType === "contextStudy" && num >= 4) ? (
-                  <>결과 보기</>
-                ) : (
+                { num < question.length-1 ? (
                   <>다음 문제</>
+                ) : (
+                  <>결과 보기</>
                 )}
               </button>
             </div>
           </div>
         </div>
       </div>
-      <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+      <div className="fixed inset-0 z-40 bg-black/20"></div>
     </>
   );
 }

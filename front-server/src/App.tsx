@@ -13,15 +13,17 @@ import StudyPage from "./Components/Study/StudyPage";
 import AdminUser from "./Components/Admin/AdminUser";
 import AdminPage from "./Components/Admin/AdminPage";
 import AdminMain from "./Components/Admin/AdminMain";
-import AdminExam from "./Components/Admin/AdminExam";
 import AdminContext from "./Components/Admin/AdminContext";
 import AdminBadge from "./Components/Admin/AdminBadge";
-import CheckTest from "./Components/Admin/CheckTest";
 import ForgetId from "./Components/Login/ForgetId";
 import ForgetPassword from "./Components/Login/ForgetPassword";
 import WrongNote from "./Components/Study/WrongNote";
 import Dogam from "./Components/Study/Dogam";
-import PastTestIntroModal from "./Components/Study/PastTestIntroModal";
+import Notice from "./Components/Notice/Notice";
+import PastTest from "./Components/Study/PastTest/PastTest";
+import AdminExam from "./Components/Admin/AdminExam";
+import Cat from "./Components/Threejs/Cat";
+import ResetPassword from "./Components/Login/ResetPassword";
 
 function App() {
   const notify = () => toast("Wow so easy!");
@@ -32,6 +34,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/forgetid" element={<ForgetId />} />
         <Route path="/forgetpassword" element={<ForgetPassword />} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/join" element={<Join />} />
         <Route path="/main" element={<Main />} />
@@ -39,10 +42,13 @@ function App() {
 
         <Route path="/wordStudy" element={<StudyPage />} />
         <Route path="/contextStudy" element={<StudyPage />} />
-        <Route path="/reviewStudy" element={<StudyPage />} />
+        <Route path="/wrongStudy" element={<StudyPage />} />
         <Route path="/note" element={<WrongNote />} />
         <Route path="/dogam" element={<Dogam />} />
-        <Route path="/pasttestintromodal" element={<PastTestIntroModal />} />
+        <Route path="/notice" element={<Notice />} />
+        <Route path="/note" element={<WrongNote />} />
+        <Route path="/dogam" element={<Dogam />} />
+        <Route path="/pasttest" element={<PastTest />} />
 
         <Route path="/admin" element={<AdminPage />}>
           <Route path="" element={<AdminMain />} />
@@ -50,8 +56,9 @@ function App() {
           <Route path="badge" element={<AdminBadge />} />
           <Route path="context" element={<AdminContext />} />
           <Route path="exam" element={<AdminExam />} />
-          <Route path="check" element={<CheckTest />} />
         </Route>
+
+        <Route path="/cat" element={<Cat />} />
       </Routes>
     </>
   );

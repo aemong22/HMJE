@@ -1,4 +1,4 @@
-import { useLazyGetStudyWordQuery, useLazyGetStudyContextQuery } from "../../Store/api";
+import { useLazyGetStudyWordQuery, useLazyGetStudyContextQuery,useLazyGetWordWrongQuery } from "../../Store/api";
 import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
 import Navbar from "../Common/Navbar"
@@ -13,32 +13,47 @@ function WordStudy(): JSX.Element {
   // 학습 종류
   const location = useLocation();
   const [studyType, setStudyType] = useState<String>();
+  
   useEffect(()=> {
     setStudyType((location.pathname).replace("/",""));
   },[])
 
 
   const [question, setQuestion] = useState<any>([]);
+
+  // 현재 문제 번호 
+  const [num, setNum] = useState<number>(0)
   
   // RTK QUERY 불러오기
   const [ getStudyWord,{ isLoading:LoadingWords, error:ErrorWords } ] = useLazyGetStudyWordQuery();
   const [ getStudyContext, { isLoading:LoadingContexts, error:ErrorContext } ] = useLazyGetStudyContextQuery();
+  const [ getWordWrong, { isLoading:LoadingWrong, error:ErrorWrong } ] = useLazyGetWordWrongQuery();
+
+
 
   useEffect(() => {
+
+    
     if(studyType === "wordStudy") {
+      console.log("여기 실행이다");
       getStudyWord(userId).then((r) => { 
-        return(r)
-      }).then((r) => { 
-        console.log(r.data.data) 
-        setQuestion(r.data.data)
+        const myArray = [...r.data.data];
+        myArray.sort(() => Math.random() - 0.5);
+        setQuestion(myArray)
       })
     }
     else if(studyType === "contextStudy"){
       getStudyContext(userId).then((r) => { 
         return(r)
       }).then((r) => { 
-        console.log(r.data.data) 
         setQuestion(r.data.data)
+      })
+    }
+    else if(studyType === "wrongStudy"){
+      getWordWrong(userId).then((r) => {
+        const myArray = [...r.data.data];
+        myArray.sort(() => Math.random() - 0.5);
+        setQuestion(myArray)
       })
     }
 
@@ -52,9 +67,7 @@ function WordStudy(): JSX.Element {
     setstartTime(Date.now())
   },[])
 
-  // 현재 문제 번호
-  const [num, setNum] = useState<number>(0)
-
+  console.log(question)
   // 세모 개수
   const [semo, setSemo] = useState<number>(0)
 
@@ -81,57 +94,62 @@ function WordStudy(): JSX.Element {
   // 맞힘 틀림
   const [right, setRight] = useState<Boolean>(false);
 
-  if(LoadingContexts || LoadingWords) {
+  if(LoadingContexts || LoadingWords || LoadingWrong) {
     return <div>Loading...</div>
   }
-  if(ErrorWords || ErrorContext) {
+  else if(ErrorWords || ErrorContext || ErrorWrong) {
     return <div>error</div>
   }
-
   return (
     <>
 
-       {question.length > 0 && 
-       <>
-       <Navbar/>
-       <Study 
-         question={question}
-         studyType={studyType} 
-         num={num}
-         correct={correct} setCorrect={setCorrect} 
-         wrong={wrong} setWrong={setWrong}
-         semo={semo}
-         setSemo={setSemo}
-         right={right} setRight={setRight}
-         setResultModal={setResultModal}
-         openModal={openModal}/>
- 
-       { modalOpen ? 
-         <AnswerModal 
-           closeModal={closeModal} 
-           studyType={studyType} 
-           setRight={setRight}
-           right={right} 
-           num={num} 
-           setNum={setNum}
-           setResultModal={setResultModal} 
-           question={question
-         }/> : null }
- 
-         {resultModal ? 
-           <ResultModal 
-             studyType={studyType} 
-             setResultModal={setResultModal}
-             correct={correct}
-             semo={semo}
-             wrong={wrong}
-             startTime={startTime}
-             /> : null}
-     </>
+       {question?.length > 0 &&
+        <div className="bg-[#F9F9F9] w-full h-screen">
+          <Navbar />
+          <Study 
+            question={question}
+            studyType={studyType} 
+            num={num}
+            correct={correct} setCorrect={setCorrect} 
+            wrong={wrong} setWrong={setWrong}
+            semo={semo}
+            setSemo={setSemo}
+            right={right} setRight={setRight}
+            resultModal={resultModal}
+            setResultModal={setResultModal}
+            openModal={openModal}
+            closeModal={closeModal}
+            modalOpen={modalOpen}/>
+    
+          { modalOpen ? 
+            <AnswerModal 
+              closeModal={closeModal} 
+              studyType={studyType} 
+              setRight={setRight}
+              right={right} 
+              num={num}
+              modalOpen={modalOpen}
+              setNum={setNum}
+              setResultModal={setResultModal} 
+              question={question
+            }/> : null }
+    
+            {resultModal ? 
+              <ResultModal 
+                studyType={studyType} 
+                setResultModal={setResultModal}
+                correct={correct}
+                semo={semo}
+                wrong={wrong}
+                startTime={startTime}
+                /> : null}
+          </div>
+      
       }
     </>
    
   )
 }
+
 
 export default WordStudy

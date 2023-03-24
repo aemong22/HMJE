@@ -61,12 +61,14 @@ export const NonAuthApi = createApi({
     postSmssend: builder.mutation<smssend, smssend>({
       query: (data) => {
         console.log("인증번호 보내기 rtk에서 받은 데이터 : ", data);
+        console.log("data.role",data.role);
+        console.log("data.to",data.to);        
         return {
           url: `sms/send/${data.role}`,
           method: "POST",
           body: {
             to: data.to
-          }
+          },
         }
       },
       invalidatesTags: (result, error, arg) => [{ type: "NonAuthApi" }]
@@ -77,7 +79,7 @@ export const NonAuthApi = createApi({
     // 1. 닉네임 중복 체크
     postUserchecknickname: builder.mutation<PostData, PostData>({
       query: (data) => {
-        console.log("닉네임 중복 체크 rtk에서 받은 데이터 : ", data);
+        //console.log("닉네임 중복 체크 rtk에서 받은 데이터 : ", data);
         return {
           url: `user/check/nickname`,
           method: "POST",
@@ -90,7 +92,7 @@ export const NonAuthApi = createApi({
     // 2. 아이디 중복
     postUsercheckusername: builder.mutation<PostData, PostData>({
       query: (data) => {
-        console.log("아이디 중복 rtk에서 받은 데이터 : ", data);
+        //console.log("아이디 중복 rtk에서 받은 데이터 : ", data);
         return {
           url: `user/check/username`,
           method: "POST",
@@ -104,7 +106,7 @@ export const NonAuthApi = createApi({
 
     postUserjoin: builder.mutation<PostData, PostData>({
       query: (data) => {
-        console.log("회원가입 rtk에서 받은 데이터 : ", data);
+        //console.log("회원가입 rtk에서 받은 데이터 : ", data);
         return {
           url: `user/join`,
           method: "POST",
@@ -118,7 +120,7 @@ export const NonAuthApi = createApi({
 
     postUserlogin: builder.mutation<login, login>({
       query: (data) => {
-        console.log("로그인 rtk에서 받은 데이터 : ", data);
+        //console.log("로그인 rtk에서 받은 데이터 : ", data);
         return {
           url: `/login`,
           method: "POST",
@@ -131,7 +133,7 @@ export const NonAuthApi = createApi({
     // 5. 아이디 찾기
     postUserfindid: builder.mutation<find, find>({
       query: (data) => {
-        console.log("아이디 찾기 rtk에서 받은 데이터 : ", data);
+        //console.log("아이디 찾기 rtk에서 받은 데이터 : ", data);
         return {
           url: `/user/find/id`,
           method: "POST",

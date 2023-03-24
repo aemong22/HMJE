@@ -1,12 +1,23 @@
-import { MouseEventHandler, useState } from "react"
+import { MouseEventHandler, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAppSelector } from "../../Store/hooks"
 import classNames from "classnames";
+import { usePutUserLogoutMutation } from "../../Store/api";
 
 function Navbar():JSX.Element {
   const navigate = useNavigate()
-  const nickname:any = useAppSelector((state:any) => state.userNickname)
+  const [nickname, setNickname] = useState<any>()
+  // const nickname:any = useAppSelector((state:any) => state.userNickname)
   const [menuToggle, setMenuToggle] = useState(false);
+  const [putUserLogout,loading]=usePutUserLogoutMutation()
+
+  useEffect(()=> {
+    const nick = localStorage.getItem('nickname')
+    if (nick) {
+      setNickname(nick)
+    }
+  },[])
+
 
   const onClick:MouseEventHandler<HTMLDivElement> = (e) => {
     const target = e.target as HTMLElement
@@ -25,6 +36,20 @@ function Navbar():JSX.Element {
     } else if(target.ariaLabel === 'notice') {
       navigate('/notice')
     }
+    else if(target.ariaLabel==="logout"){
+      console.log("로그아웃 시작");      
+      const data={
+       userId:localStorage.getItem("userId")
+      }
+      putUserLogout(data).unwrap().then((r)=>{
+        console.log(r.message=="success");        
+        if(r.message=="success"){
+          console.log("로그아웃성공");          
+          window.localStorage.clear();
+          navigate("/login");
+        }        
+      })
+    }
 
   }
   
@@ -34,8 +59,8 @@ function Navbar():JSX.Element {
       {/* 헤더 */}
       <div className="flex justify-between items-center w-full bg-white text-[#A87E6E] lg:px-0  py-3 px-3" >
         <div className="flex">
-          <div aria-label="main" className='font-bold text-[1.1rem] sm:text-[1.2rem] cursor-pointer' onClick={onClick}>홍민정음</div>
-          <div className="lg:flex text-[0.9rem] px-4 items-center hidden">
+          <div aria-label="main" className='font-bold text-[1.2rem] md:text-[1.3rem] cursor-pointer' onClick={onClick}>홍민정음</div>
+          <div className="lg:flex text-[1rem] px-4 items-center hidden">
             <div aria-label="main" className = "px-4 cursor-pointer" onClick={onClick}>학습</div>
             <div aria-label="note" className = "px-4 cursor-pointer" onClick={onClick}>오답공책</div>
             <div aria-label="dogam" className = "px-4 cursor-pointer" onClick={onClick}>문맥도감</div>
@@ -44,13 +69,13 @@ function Navbar():JSX.Element {
             <div aria-label="notice" className = "px-4 cursor-pointer" onClick={onClick}>알림공간</div>
           </div>
         </div>
-        <div className='flex justify-around text-[0.9rem]'>
+        <div className='flex justify-around text-[1rem]'>
           {/* <div aria-label="admin" className='cursor-pointer mr-4' onClick={onClick}>관리자</div> */}
           <div  className="flex justify-center px-3">
             <div aria-label="mypage" className='cursor-pointer mr-2 font-bold' onClick={onClick}>{nickname}<span className="font-normal">님</span></div>
-              <div className='cursor-pointer'>어서오세요</div>
+              <div className=''>어서오세요</div>
             </div>
-          <div className="lg:block hidden px-3 border-l border-[#A87E6E] cursor-pointer">나가기</div>
+          <div aria-label="logout" className="lg:block hidden px-3 border-l border-[#A87E6E] cursor-pointer" onClick={onClick}>나가기</div>
           <div className="lg:hidden flex items-center">
             <button
               onClick={() => setMenuToggle(!menuToggle)}
@@ -91,14 +116,14 @@ function Navbar():JSX.Element {
         </div>
       </div>
     </div>
-    <div className={classNames("lg:hidden z-10 absolute bg-[#ffffff] w-full text-[0.9rem] text-[#A87E6E] px-2", { hidden: !menuToggle})}>
+    <div className={classNames("lg:hidden z-30 absolute bg-[#ffffff] w-full text-[0.9rem] text-[#A87E6E] px-2", { hidden: !menuToggle})}>
         <div aria-label="main" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>학습</div>
         <div aria-label="note" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>오답공책</div>
         <div aria-label="dogam" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>문맥도감</div>
         <div aria-label="mypage" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>관리</div>
         <div aria-label="dictionary" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>사전</div>
         <div aria-label="notice" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>알림공간</div>
-        <div aria-label="" className = "p-2 cursor-pointer hover:bg-gray-100">나가기</div>
+        <div aria-label="logout" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>나가기</div>
     </div>
   </div>
   )

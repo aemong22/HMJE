@@ -33,49 +33,47 @@ function Login(): JSX.Element {
       navigate("/join");
     } else if (e.target.id === "enter") {
       // axios 입장하기
-      Api.post("/login", {
-        password: Password,
-        username: Id,
-      }).then((r) => {
-        console.log("받는 데이터", r.data);
-
-        // const accessToken = r.data.accessToken;
-        // const refreshToken = r.data.refreshToken;
-        // console.log("accessToken", accessToken);
-        // console.log("refreshToken", refreshToken);
-        // localStorage.setItem("accessToken", accessToken);
-        // localStorage.setItem("refreshToken", refreshToken);
-        // navigate("/main");
-      });
+      
     }
   };
 
   const Enter = () => {
-    // axios 입장하기
-    console.log(Id);
-    console.log(Password);
-
     const data: login = { username: Id, password: Password };
-
     PostUserlogin(data)
       .unwrap()
       .then((r: any) => {
+        // console.log(r);
         if (r.status === "200") {
-          console.log("받는 데이터", r);
-          const accessToken = r.accessToken;
-          const refreshToken = r.refreshToken;
-          const userId = r.userId;
-          console.log("accessToken", accessToken);
-          console.log("refreshToken", refreshToken);
-          localStorage.setItem("accessToken", accessToken);
-          localStorage.setItem("userName", Id!);
-          localStorage.setItem("userId", userId);
-          localStorage.setItem("refreshToken", refreshToken);
-          navigate("/main");
+          if (r.isSecession === "true") {
+            alert("탈퇴한 회원입니다.");
+            navigate("/intro");
+          } else if (r.isAdmin === "true") {
+            const accessToken = r.accessToken;
+            const refreshToken = r.refreshToken;
+            const userId = r.userId;
+            localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem("userName", Id!);
+            localStorage.setItem("userId", userId);
+            localStorage.setItem("refreshToken", refreshToken);
+            navigate("/admin");
+          }
+          // console.log("받는 데이터", r);
+          else if (r.isAdmin === "false") {
+            const accessToken = r.accessToken;
+            const refreshToken = r.refreshToken;
+            const userId = r.userId;
+            // console.log("accessToken", accessToken);
+            // console.log("refreshToken", refreshToken);
+            localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem("userName", Id!);
+            localStorage.setItem("userId", userId);
+            localStorage.setItem("refreshToken", refreshToken);
+            navigate("/main");
+          }
         }
       })
       .catch((e) => {
-        console.log("error났다", e.data.status===401);
+        console.log("error났다", e.data.status === 401);
         if (e.data.status === 401 || e.data.status === 500) {
           alert("아이디 혹은 패스워드가 틀렸습니다");
         }
@@ -119,7 +117,7 @@ function Login(): JSX.Element {
                   <input
                     type="text"
                     placeholder="계정"
-                    className="flex px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
+                    className="flex px-3 py-2 md:px-4 md:py-3 border-2 focus:outline-none focus:border-[#d2860c] border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
                     onChange={ChangeId}
                   />
                   <div className="text-[#A87C6E] font-extrabold text-[22px] leading-7">
@@ -128,7 +126,7 @@ function Login(): JSX.Element {
                   <input
                     type="password"
                     placeholder="비밀번호"
-                    className="flex px-3 py-2 md:px-4 md:py-3 border-2 border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
+                    className="flex px-3 py-2 md:px-4 md:py-3 border-2 focus:outline-none focus:border-[#d2860c] border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
                     onChange={ChangePassword}
                     onKeyPress={handleOnKeyPress}
                   />

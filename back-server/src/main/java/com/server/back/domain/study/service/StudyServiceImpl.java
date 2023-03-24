@@ -1,7 +1,6 @@
 package com.server.back.domain.study.service;
 
-import com.server.back.domain.study.dto.StudyRequestDto;
-import com.server.back.domain.study.dto.WordResponseDto;
+import com.server.back.domain.study.dto.*;
 import com.server.back.domain.study.entity.*;
 import com.server.back.domain.study.repository.*;
 import com.server.back.domain.user.entity.User;
@@ -10,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -25,6 +25,10 @@ public class StudyServiceImpl implements StudyService{
     private final RightWordRepository rightWordRepository;
     private final WrongWordRepository wrongWordRepository;
     private final DogamResultRepository dogamResultRepository;
+    private final PastTestRepository pastTestRepository;
+    private final PastQuestionRepository pastQuestionRepository;
+    private final PastTestResultRepository pastTestResultRepository;
+
 
     @Override
     public Integer wordResult(StudyRequestDto requestDto) {
@@ -134,4 +138,46 @@ public class StudyServiceImpl implements StudyService{
         List<WordResponseDto> wordResponseDtoList = WordResponseDto.fromEntityList(wordQuestionList);
         return wordResponseDtoList;
     }
+
+
+    @Override
+    public PastTestResponseDto getPastInfo() {
+        PastTest pastTest = pastTestRepository.findFirstByOrderByCreatedAtDesc();
+        PastTestResponseDto result = PastTestResponseDto.fromEntity(pastTest);
+        return result;
+    }
+
+
+    @Override
+    public List<PastQuestionResponseDto> getPastTest() {
+        PastTest pastTest = pastTestRepository.findFirstByOrderByCreatedAtDesc();
+        LocalDate today = LocalDate.now(); // 오늘 날짜 확인
+        if(today.isBefore(pastTest.getStartTime()) || today.isAfter(pastTest.getEndTime())){ // 시작날짜보다 빠르거나 종료날짜보다 늦으면
+            return null;
+        }
+        List<PastQuestion> pastQuestionList = pastQuestionRepository.findAllByPastTest(pastTest);
+        List<PastQuestionResponseDto> result = PastQuestionResponseDto.fromEntityList(pastQuestionList);
+
+        return result;
+
+    }
+
+
+    @Override
+    public Boolean createPastTestResult(PastTestResultRequestDto pastTestResultRequestDto) {
+
+        User user = userRepository.findByUserId(pastTestResultRequestDto.getUserId());
+        PastTest pastTest = pastTestRepository.findByPastTestId(pastTestResultRequestDto.getPastTestId());
+
+        PastTestResult pastTestResult = PastTestResult.builder()
+            .score(pastTestResultRequestDto.getScore())
+            .user(user)
+            .pastTest(pastTest)
+            .build();
+
+        pastTestResultRepository.save(pastTestResult);
+
+        return true;
+    }
+
 }
