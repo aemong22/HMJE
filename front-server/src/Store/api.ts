@@ -539,6 +539,7 @@ export const hmjeApi = createApi({
         return [{ type: "Api" }]
       }
     }),
+    
     // 3. 사전 개별조회
     getWorddictdetail: builder.query({
       query: (data) => {

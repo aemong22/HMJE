@@ -72,14 +72,36 @@
       transform: translateY(0%);
     }
     to {
-      transform: translateY(-100%);
+      transform: translateY(-102.5%);
     }
+    /* 0% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    10% {
+      transform: translateY(90%);
+      opacity: 1;
+    }
+    90% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100%);
+      opacity: 0;
+    } */
+    
   }
 
   .move {
     animation-name: moving;
     animation-iteration-count: infinite;
     animation-timing-function: linear;
+  }
+
+  .move.active {
+    z-index: 1;
+    animation-play-state: running;
   }
 
 

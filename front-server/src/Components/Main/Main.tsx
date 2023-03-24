@@ -531,24 +531,15 @@ function PassUsers({ pastList, pastInfo, levelInfo}:any): JSX.Element {
   
 
 
-  function Banner() {
-    const [currentIndex, setCurrentIndex] = useState(0);
   
-    useEffect(() => {
-      const intervalId = setInterval(() => {
-        setCurrentIndex(currentIndex => (currentIndex + 1) % pastList.length);
-      }, 3000);
+  const [currentItemIndex, setCurrentItemIndex] = useState(0);
   
-      return () => clearInterval(intervalId);
-    }, []);
-    return(
-      <div>
-        {pastList.slice(currentIndex).concat(pastList.slice(0, currentIndex)).map((user:any) => (
-          <div key={user}>{user}</div>
-        ))}
-    </div>
-    )
-  }
+  const handleAnimationEnd = () => {
+    setOrigin((prevItems:any) => [...prevItems.slice(1), prevItems[0]]);
+  };
+  
+
+    
 
 
   console.log("리스트",origin);
@@ -583,6 +574,7 @@ function PassUsers({ pastList, pastInfo, levelInfo}:any): JSX.Element {
                 ))
               }
             </div>
+            
             <div className={`${style.move} px-1`} style={{animationDuration:`${pastList.length*2}s`}}>
               {
                 pastList.map((user:any , index:number)=> (
@@ -601,7 +593,6 @@ function PassUsers({ pastList, pastInfo, levelInfo}:any): JSX.Element {
                 ))
               }
             </div>
-
           </div>
 
 
@@ -611,3 +602,4 @@ function PassUsers({ pastList, pastInfo, levelInfo}:any): JSX.Element {
     </>
   )
 }
+
