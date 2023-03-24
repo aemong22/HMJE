@@ -207,4 +207,13 @@ public class UserController {
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    @ApiOperation(value = "레벨 랭킹")
+    @PutMapping("/badge/{userId}")
+    public ResponseEntity<Map<String, Object>> badge(@PathVariable(value = "userId") Long userId){
+        Map<String, Object> response = new HashMap<>();
+        List<RankLevelResponseDto> responseDto = userService.rankLevel();
+        response.put("data", responseDto);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

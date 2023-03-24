@@ -73,7 +73,7 @@ public class StudyController {
         int badgeExp = newDogamli.size()*30;
         userService.updateStudyExp(requestDto.getUserId(), badgeExp); //경험치 부여
         Integer newlevel = userService.levelup(requestDto.getUserId()); //레벨업
-        List<Long> badgeData = badgeService.badgecheckLogin(requestDto.getUserId()); // 뱃지
+        List<Long> badgeData = badgeService.badgecheckDogam(requestDto.getUserId()); // 뱃지
         response.put("data", newDogamli);
         response.put("level", newlevel);
         response.put("newBadge", badgeData);
@@ -114,11 +114,11 @@ public class StudyController {
             if(pastTestResultRequestDto.getScore().equals(100)){
                 System.out.println("장 원 급 제 !!");
                 // 여기에 뱃지 추가하는 로직 추가 예정
-                List<Long> badgeData = badgeService.badgecheckLogin(pastTestResultRequestDto.getUserId()); // 뱃지
+                List<Long> badgeData = badgeService.badgecheckPast(pastTestResultRequestDto.getUserId()); // 뱃지
                 response.put("newBadge", badgeData);
                 userService.updateStudyExp(pastTestResultRequestDto.getUserId(), 1000);
-                Integer newlevel = userService.levelup(pastTestResultRequestDto.getUserId());
-                response.put("level",newlevel);
+                Integer userLevel = userService.levelup(pastTestResultRequestDto.getUserId());
+                response.put("level",userLevel);
             }else{
                 userService.updateStudyExp(pastTestResultRequestDto.getUserId(), 300);
                 Integer userLevel = userService.levelup(pastTestResultRequestDto.getUserId());
@@ -139,7 +139,6 @@ public class StudyController {
         Map<String, Object> response = new HashMap<>();
         Long pastTestId = studyService.getPastInfo().getPastTestId();
         List<PastTestResultResponseDto> result = studyService.getJangwonList(pastTestId);
-
         Integer userScore = studyService.getPastScore(userId, pastTestId);
         response.put("data", result);
         response.put("user_score", userScore);
@@ -154,7 +153,7 @@ public class StudyController {
     public ResponseEntity<Map<String, Object>> studyTime(@RequestBody StudyTimeRequestDto requestDto){
         Map<String, Object> response = new HashMap<>();
         userService.studyTime(requestDto);
-        List<Long> badgeData = badgeService.badgecheckLogin(requestDto.getUserId());
+        List<Long> badgeData = badgeService.badgecheckStudyTime(requestDto.getUserId());
         response.put("newBadge", badgeData);
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);

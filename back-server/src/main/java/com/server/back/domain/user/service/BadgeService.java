@@ -33,8 +33,6 @@ public class BadgeService {
     private final PastTestResultRepository pastTestResultRepository;
     private final PastTestRepository pastTestRepository;
 
-//    List<Long> badgeData = badgeService.badgecheckLogin(userId);
-//        response.put("newBadge", badgeData);
     public List<Long> badgecheckLogin(Long userId) {
         User user = userRepository.findByUserId(userId);
         List<Long> myBadgeList = badgeResultRepository.badgelistfindByUserId(user);
