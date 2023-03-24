@@ -26,6 +26,17 @@ const dictPage = createSlice({
   },
 });
 
+// 메인페이지에 있는 과거시험 intro 클릭 여부
+const PastTestIntroClickCheck = createSlice({
+  name: "PastTestIntroClickCheck",
+  initialState: false,
+  reducers: {
+    showPastTestIntro(state) {
+      return !state;
+    },
+  },
+});
+
 export const store = configureStore({
   // store에서 만든 state를 전역에서 사용할 수 있도록 등록하기
   reducer: {
@@ -34,6 +45,7 @@ export const store = configureStore({
     // 사전
     dictList: dictList.reducer,
     dictPage: dictPage.reducer,
+    PastTestIntroClickCheck: PastTestIntroClickCheck.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(hmjeApi.middleware).concat(NonAuthApi.middleware),
 
@@ -45,6 +57,10 @@ setupListeners(store.dispatch)
 // 사전
 export const { changeDictList } = dictList.actions;
 export const { changeDictPage } = dictPage.actions;
+
+// 메인페이지 모달
+export const { showPastTestIntro } = PastTestIntroClickCheck.actions;
+
 
 // store의 타입 미리 export 해둔 것.
 export type RootState = ReturnType<typeof store.getState>;
