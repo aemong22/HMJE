@@ -17,17 +17,17 @@ import java.util.List;
 @Data
 @ApiModel(value = "DogamResponseDto")
 public class DogamResponseDto {
-    Long dogamId;
-    String dogamName;
-    String dogamClass;
-    String dogamOrigin;
-    String dogamMean1;
-    String dogamMean2;
-    String dogamMean3;
-    String dogamExam1;
-    String dogamExam2;
-    String dogamExam3;
-    Boolean isRared;
+    private Long dogamId;
+    private String dogamName;
+    private String dogamClass;
+    private String dogamOrigin;
+    private String dogamMean1;
+    private String dogamMean2;
+    private String dogamMean3;
+    private String dogamExam1;
+    private String dogamExam2;
+    private String dogamExam3;
+    private Boolean isRared;
 
     public static DogamResponseDto MakeDogamResponseDto(Dogam d) {
         DogamResponseDto dogamResponseDto = DogamResponseDto.builder()

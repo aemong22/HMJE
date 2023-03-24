@@ -89,13 +89,18 @@ public class StudyServiceImpl implements StudyService{
     }
 
     @Override
-    public List<Dogam> contextQuestion(){
+    public List<DogamResponseDto> contextQuestion(){
         List<Long> rarebadge15 = Arrays.asList(27L, 37L, 53L, 73L, 83L, 97L); // 레어카드
         //랜덤 5문제 (숫자) 뽑기
         Set<Long> set = new HashSet<>();
         while (set.size() < 5) {
-            Double d = Math.random() * 500 + 1; // 문맥학습 문제 갯수~!~!~!
-            long d2 = Long.parseLong(d.toString().substring(1,2));
+            Long d = (long) (Math.random() * 500 + 1); // 문맥학습 문제 갯수~!~!~!
+            Long d2 = d % 100;
+
+            if(d2 == 0L){ // 나머지가 0이 되는 경우 수정
+                d2 = 100L;
+            }
+
             if (rarebadge15.contains(d2)){
                 if (d.equals(d2)){
                     set.add(d2);
@@ -106,12 +111,13 @@ public class StudyServiceImpl implements StudyService{
         }
         List<Long> list = new ArrayList<>(set);
         //도감 리스트로 변신
-        List<Dogam> DogamQuestion = new ArrayList<>();
+        List<Dogam> dogamQuestion = new ArrayList<>();
         for (Long i : list){
             Dogam dogam = dogamRepository.findByDogamId(i);
-            DogamQuestion.add(dogam);
+            dogamQuestion.add(dogam);
         }
-        return DogamQuestion;
+        List<DogamResponseDto> result = DogamResponseDto.MakeDogamResponseListToEncode(dogamQuestion);
+        return result;
     }
     @Override
     public List<WordResponseDto> wordQuestion(Long userId){
