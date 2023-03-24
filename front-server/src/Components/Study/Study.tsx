@@ -283,7 +283,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
                     submit2();
                     }
                   }
-                  else {
+                  else if((e.key === 'Enter')) {
                     toast.error("정답을 입력해주세요.")
                   }
                 }}/>
