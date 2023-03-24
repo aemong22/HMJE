@@ -260,7 +260,7 @@ public class StudyServiceImpl implements StudyService{
         User user = userRepository.findByUserId(userId);
         PastTest pastTest = pastTestRepository.findByPastTestId(pastTestId);
         PastTestResult pastTestResult = pastTestResultRepository.findFirstByUserAndPastTest(user, pastTest);
-        if(pastTestResult.equals(null)){
+        if(null == pastTestResult){
             return null;
         }
         return pastTestResult.getScore();
