@@ -433,12 +433,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<RankLevelResponseDto> rankLevel(){
         List<User> users = userRepository.findAll();
-        users.sort(Comparator.comparing(User::getLevel).reversed().thenComparing(User::getExp).reversed().thenComparing(User::getTodayRight).reversed());
+        users.sort(Comparator.comparing(User::getLevel).thenComparing(User::getExp).thenComparing(User::getTodayRight).reversed());
         System.out.println("users = " + users);
         List<RankLevelResponseDto> responseDto = new ArrayList<>();
         // 레벨, exp, 오늘 총 맞춘 갯수 순으로 정렬
         if (users.size() > 10){
-            users.subList(10, responseDto.size()).clear();
+            users.subList(10, users.size()).clear();
         }
         for (User user: users){
             RankLevelResponseDto userRankLevel = new RankLevelResponseDto().builder()
