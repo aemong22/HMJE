@@ -26,7 +26,7 @@ const PastTestIntroModal = (): JSX.Element => {
       dispatch(showPastTestIntro());
     } else if (e.target.id === "START") {
       dispatch(showPastTestIntro());
-      navigate("/PastTest");
+      navigate("/pasttest");
     }
   };
   return (
