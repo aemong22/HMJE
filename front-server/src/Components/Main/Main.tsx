@@ -90,11 +90,11 @@ function Main(): JSX.Element {
 
 ]
 
-  if (isLoading1 || isLoading2 || isLoading3 || isLoading4 ) {
+  if (isLoading1 || isLoading2 || isLoading3 || isLoading4 || isLoading5) {
     return <div>Loading...</div>;
   }
 
-  if (error1 || error2 || error3 || error4) {
+  if (error1 || error2 || error3 || error4 || error5)  {
     return <>Error: {error1} {error2}</>;
   }
 
@@ -103,9 +103,9 @@ function Main(): JSX.Element {
       <Navbar />
       {/* <Example /> */}
       <MyInfo levelInfo={levelInfo} userMyInfo={userMyInfo?.data} userMyStudy={userMyStudy?.data}/>
-      <StudyContent />
+      <StudyContent userScore={pastList?.user_score}/>
       <News newsKeyword={newsKeyword?.data} />
-      <PassUsers levelInfo={levelInfo} pastList={pastList?.data} pastInfo={pastInfo?.data}/>
+      <PassUsers levelInfo={levelInfo} pastList={pastList?.data} pastInfo={pastInfo?.data} userMyInfo={userMyInfo?.data} userScore={pastList?.user_score}/>
       <Footer />
     </>
   );
@@ -297,7 +297,7 @@ function MyInfo({userMyInfo, userMyStudy,levelInfo}:any): JSX.Element {
 
 
 // 학습 (3가지)
-function StudyContent(): JSX.Element {
+function StudyContent({userScore}:any): JSX.Element {
   const [openModal , setOpenModal] = useState<Boolean>(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -350,7 +350,7 @@ function StudyContent(): JSX.Element {
           </div>
 
           <div className={`${style.studyContents} md:relative static md:h-0 md:p-[3%] p-[4%] md:pb-[27%]  md:w-[30%] w-[90%] rounded-md`}>
-            {PastTestIntroClickCheck?<PastTestIntroModal /> : null}
+            {PastTestIntroClickCheck?<PastTestIntroModal  userScore={userScore}/> : null}
             <div className="md:text-[1.2rem] sm:text-[1rem] text-[0.9rem] text-[#666666]">실력 확인 </div>
             <div className="text-[#A87E6E] font-bold md:text-[1.8rem] sm:text-[1.4rem] text-[1.1rem] py-0.5">과거시험</div>
             <div className="lg:text-[1rem] text-[0.9rem] text-[#666666]">
@@ -526,11 +526,10 @@ function News({newsKeyword}:any): JSX.Element {
 
 
 // 장원급제 리스트
-function PassUsers({ pastList, pastInfo, levelInfo}:any): JSX.Element {
-
-  console.log("리스트",origin);
+function PassUsers({ pastList, pastInfo, levelInfo, userMyInfo, userScore}:any): JSX.Element {
   
   console.log("과거시험", pastList);
+  console.log(userScore)
   
   return (
     <>
@@ -541,7 +540,7 @@ function PassUsers({ pastList, pastInfo, levelInfo}:any): JSX.Element {
           <div className= {`${style.passFont} md:text-[3.2rem] text-[2.2rem] font-bold text-[#A87E6E]`}>장원급제</div>
           <div className={`${style.passFont} md:text-[2.1rem] text-[1.5rem] text-[#525252] mb-[2rem]`}>축하드립니다!</div>
 
-          <div className="overflow-hidden h-[17rem] lg:w-[70%] md:w-[80%] sm:w-[90%] w-full mx-auto">
+          <div className="overflow-hidden lg:w-[70%] md:w-[80%] sm:w-[90%] w-full mx-auto" style={{height: pastList.length <=3 ? 'auto': '17rem'}} >
             <div className={`${pastList.length >= 4 ? style.move : ''} px-1`} style={{animationDuration:`${pastList.length*2}s`}}>
               {
                 pastList.map((user:any , index:number)=> (
@@ -561,7 +560,7 @@ function PassUsers({ pastList, pastInfo, levelInfo}:any): JSX.Element {
               }
             </div>
             
-            <div className={`${pastList.length >= 4 ? style.move : ''} px-1`} style={{animationDuration:`${pastList.length*2}s`}}>
+            <div className={`${pastList.length >= 4 ? style.move : ''} px-1`} style={{animationDuration:`${pastList.length*2}s`,display: pastList.length <= 3 ? 'none' : 'block' }}>
               {
                 pastList.map((user:any , index:number)=> (
                   <div key={index} className={`flex justify-between rounded-lg bg-[#ffffff] my-3 md:px-5 sm:px-4 px-3 py-3 md:text-[1.5rem] sm:text-[1.2rem] text-[0.9rem] text-start`}>
@@ -581,9 +580,17 @@ function PassUsers({ pastList, pastInfo, levelInfo}:any): JSX.Element {
             </div>
           </div>
 
+          <div className="border-t-2 mt-7 border-[#ffffff] lg:w-[70%] md:w-[80%] sm:w-[90%] w-full mx-auto">
+            <div className="flex md:justify-end items-end pt-2 px-2 justify-center flex-wrap">
+              <div className="py-3 px-3">나의 과거시험 점수</div>
+              <div className="text-[3rem] font-bold">
+                {userScore == null ? <><span className="md:text-[2rem] text-[1.5rem]">아직 시험을 치지 않았습니다. </span> </> : <><span className="text-[#A87E6E]">{userScore}점</span></>}
+              </div>
+            </div>
+          </div>
+
 
         </div>
-        
       </div>
     </>
   )
