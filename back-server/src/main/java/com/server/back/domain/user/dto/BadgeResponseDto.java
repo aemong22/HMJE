@@ -20,11 +20,11 @@ public class BadgeResponseDto {
 
     public static BadgeResponseDto fromEntity(Badge badge) {
         BadgeResponseDto badgeResponseDto = BadgeResponseDto.builder()
-            .badgeId(badge.getBadgeId())
-            .badgeImage(builder().badgeImage)
-            .badgeName(badge.getBadgeName())
-            .badgeDetail(badge.getBadgeDetail())
-            .build();
+                                            .badgeId(badge.getBadgeId())
+                                            .badgeImage(badge.getBadgeImage())
+                                            .badgeName(badge.getBadgeName())
+                                            .badgeDetail(badge.getBadgeDetail())
+                                            .build();
 
         return badgeResponseDto;
     }
