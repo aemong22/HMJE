@@ -17,23 +17,33 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
     useEffect(() => {
       if(studyType === "wordStudy") {
         postStudyWordResult({correct,semo, userId,wrong}).then((result) =>  {
+          console.log(result);
+          //만약 레벨업했으면 표시.
+
         })
         const type = 0
         postStudyStudyTime({korEnd,korStart,studyTime,type,userId}).then((result) => {
+          // 스터디 뱃지 얻었냐 
+
         })
 
       }
       else if (studyType === "contextStudy") {
         postStudyContextResult({correct,semo, userId,wrong}).then((result) =>  {
+          // 뱃지, 레벨
+          // 뉴 도감 리스트
+
         })
         const type = 1
         postStudyStudyTime({korEnd,korStart,studyTime,type,userId}).then((result) => {
+          // 스터디 뱃지 얻었냐 
         })
 
       }
       else if(studyType === "wrongStudy") {
         const type = 3
         postStudyStudyTime({korEnd,korStart,studyTime,type,userId}).then((result) => {
+          // 스터디 뱃지 얻었냐 
         })
       }
 
