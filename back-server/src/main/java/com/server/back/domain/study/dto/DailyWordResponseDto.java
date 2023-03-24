@@ -13,13 +13,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DailyWordResponseDto {
-	String category;
-	WordResponseDto wordResponseDto;
+	private String category;
+	private WordResponseDto wordResponseDto;
+	private Integer score;
 
 	public static DailyWordResponseDto fromEntity(DailyWord dailyWord) {
 		DailyWordResponseDto dailyWordResponseDto = DailyWordResponseDto.builder()
 			.category(dailyWord.getCategory())
 			.wordResponseDto(WordResponseDto.fromEntity(dailyWord.getWord()))
+			.score(dailyWord.getScore())
 			.build();
 
 		return dailyWordResponseDto;
