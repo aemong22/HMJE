@@ -6,7 +6,9 @@ import Navbar from "../Common/Navbar";
 import Pangguin from "../Threejs/Pangguin";
 import style from "./Main.module.css";
 import classNames from "classnames";
-import PastTestIntroModal from "../Study/PastTestIntroModal";
+import { useAppDispatch, useAppSelector } from "../../Store/hooks";
+import PastTestIntroModal from "../Study/PastTest/PastTestIntroModal";
+import { showPastTestIntro } from "../../Store/store";
 
 
 
@@ -309,7 +311,13 @@ function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
 // 학습 (3가지)
 function StudyContent(): JSX.Element {
   const [openModal , setOpenModal] = useState<Boolean>(false);
-  const navigate = useNavigate()
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  // 과거시험-인트로 외부클릭 state
+  const PastTestIntroClickCheck:any=useAppSelector((state:any)=>{
+    return state.PastTestIntroClickCheck;
+  })
+  
   const nav = (e:any) => {
     if(e.target.id === 'word'){
       navigate('/wordStudy')
@@ -320,7 +328,7 @@ function StudyContent(): JSX.Element {
   }
   return (
     <>
-      {openModal && <PastTestIntroModal setOpenModal={setOpenModal} />}
+      {/* {openModal && <PastTestIntroModal setOpenModal={setOpenModal} />} */}
       <div className="container max-w-screen-lg w-full  mx-auto text-center md:pt-[7rem] pt-[5rem]">
         <div className="md:text-[1.5rem] text-[1rem]">홍민정음</div>
         <div className="md:text-[2.2rem] text-[1.9rem] font-bold ">
@@ -354,6 +362,7 @@ function StudyContent(): JSX.Element {
           </div>
 
           <div className={`${style.studyContents} md:relative static md:h-0 md:p-[3%] p-[4%] md:pb-[27%]  md:w-[30%] w-[90%] rounded-md`}>
+            {PastTestIntroClickCheck?<PastTestIntroModal /> : null}
             <div className="md:text-[1.2rem] sm:text-[1rem] text-[0.9rem] text-[#666666]">실력 확인 </div>
             <div className="text-[#A87E6E] font-bold md:text-[1.8rem] sm:text-[1.4rem] text-[1.1rem] py-0.5">과거시험</div>
             <div className="lg:text-[1rem] text-[0.9rem] text-[#666666]">
@@ -361,8 +370,7 @@ function StudyContent(): JSX.Element {
               과거시험을 통해 향상된 실력을 확인해보세요!{" "}
             </div>
             <br/>
-            <div className={`${style.studyBtn} md:text-[1.3rem] md:absolute static md:bottom-[5%]  md:w-[80%] text-center border-2 border-[#A87E6E] rounded-lg py-1 mt-1`}
-              onClick={() => setOpenModal(true)}>
+            <div className={`${style.studyBtn} md:text-[1.3rem] md:absolute static md:bottom-[5%]  md:w-[80%] text-center border-2 border-[#A87E6E] rounded-lg py-1 mt-1`} onClick={()=>{dispatch(showPastTestIntro())}}>
               시작하기
             </div>
           </div>

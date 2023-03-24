@@ -33,19 +33,7 @@ function Login(): JSX.Element {
       navigate("/join");
     } else if (e.target.id === "enter") {
       // axios 입장하기
-      Api.post("/login", {
-        password: Password,
-        username: Id,
-      }).then((r) => {
-        // console.log("받는 데이터", r.data);
-        // const accessToken = r.data.accessToken;
-        // const refreshToken = r.data.refreshToken;
-        // console.log("accessToken", accessToken);
-        // console.log("refreshToken", refreshToken);
-        // localStorage.setItem("accessToken", accessToken);
-        // localStorage.setItem("refreshToken", refreshToken);
-        // navigate("/main");
-      });
+      
     }
   };
 
@@ -55,11 +43,10 @@ function Login(): JSX.Element {
       .unwrap()
       .then((r: any) => {
         // console.log(r);
-
         if (r.status === "200") {
           if (r.isSecession === "true") {
             alert("탈퇴한 회원입니다.");
-            navigate("/main");
+            navigate("/intro");
           } else if (r.isAdmin === "true") {
             const accessToken = r.accessToken;
             const refreshToken = r.refreshToken;

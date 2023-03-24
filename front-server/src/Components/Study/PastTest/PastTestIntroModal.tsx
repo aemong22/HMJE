@@ -1,27 +1,51 @@
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../../Store/hooks";
+import { showPastTestIntro } from "../../../Store/store";
 import style from "./PastTestIntroModal.module.css";
 
-const PastTestIntroModal = ({ setOpenModal }: any): JSX.Element => {
+const PastTestIntroModal = (): JSX.Element => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  //백그라운드 div
+  const bgDiv = useRef<any>();
+
+  // 프로필선택 모달 끄는 함수
+  function ClosePastTestIntro(event: React.MouseEvent<HTMLDivElement>) {
+    console.log("클릭인것같음", event.target);
+    console.log("뭔가용", bgDiv.current);
+
+    if (event.target === bgDiv.current) {
+      console.log("인트로창꺼짐!");
+      dispatch(showPastTestIntro());
+    }
+  }
+
   const Nav = (e: any) => {
     if (e.target.id === "OUT") {
-      setOpenModal(false);
+      dispatch(showPastTestIntro());
     } else if (e.target.id === "START") {
-      setOpenModal(false);
-      navigate("/PastTest");
+      dispatch(showPastTestIntro());
+      navigate("/pasttest");
     }
   };
   return (
-    <>
-      <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-        <div className="relative w-auto my-6 mx-auto max-w-xl">
+    <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+      <div
+        ref={bgDiv}
+        onMouseDown={ClosePastTestIntro}
+        className={
+          "z-10 bg-slate-800 bg-opacity-80 fixed top-0 right-0 bottom-0 left-0"
+        }
+      >
+        <div className="relative top-[10rem] m-6 mx-auto max-w-xl">
           {/*content*/}
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             {/*header*/}
             <div className="mx-4 my-1 border-b border-solid border-slate-200 md:pt-2 pt-1">
               <>
                 <div className={`${style.oicon} md:h-[3rem] h-[2rem]`}></div>
-                <div className="text-[1.5rem] font-bold mx-auto text-center">
+                <div className="text-[1.5rem] font-bold mx-auto text-center ">
                   <>과거시험은 한번만 응시 가능합니다.</>
                 </div>
               </>
@@ -37,18 +61,18 @@ const PastTestIntroModal = ({ setOpenModal }: any): JSX.Element => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-row justify-between p-2 ">
+            <div className="flex flex-row justify-between px-5 py-6 ">
               <button
                 id="OUT"
                 className="w-[40%] h-[40%] py-2 bg-[#B7B7B7] rounded-[10px] text-white font-extrabold"
-                onClick={() => setOpenModal(false)}
+                onClick={Nav}
               >
                 그만두기
               </button>
               <button
                 id="START"
                 className="w-[40%] h-[40%] py-2 bg-[#F5BEA4] rounded-[10px] text-white font-extrabold"
-                onClick={() => setOpenModal(false)}
+                onClick={Nav}
               >
                 시작하기
               </button>
@@ -56,8 +80,7 @@ const PastTestIntroModal = ({ setOpenModal }: any): JSX.Element => {
           </div>
         </div>
       </div>
-      <div className="fixed inset-0 z-40 bg-black/20"></div>
-    </>
+    </div>
   );
 };
 
