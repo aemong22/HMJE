@@ -1,17 +1,23 @@
 package com.server.back.domain.user.service;
 
 
+import com.server.back.domain.study.entity.PastTest;
+import com.server.back.domain.study.entity.PastTestResult;
 import com.server.back.domain.study.repository.DogamRepository;
 import com.server.back.domain.study.repository.DogamResultRepository;
+import com.server.back.domain.study.repository.PastTestRepository;
+import com.server.back.domain.study.repository.PastTestResultRepository;
 import com.server.back.domain.user.entity.*;
 import com.server.back.domain.user.repository.*;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 
@@ -24,16 +30,17 @@ public class BadgeService {
     private final DogamResultRepository dogamResultRepository;
     private final BadgeResultRepository badgeResultRepository;
     private final StudyTimeRepository studyTimeRepository;
+    private final PastTestResultRepository pastTestResultRepository;
+    private final PastTestRepository pastTestRepository;
 
-
-    public List<Long> badgecheck(Long userId) {
+    public List<Long> badgecheckLogin(Long userId) {
         User user = userRepository.findByUserId(userId);
         List<Long> myBadgeList = badgeResultRepository.badgelistfindByUserId(user);
         List<Long> response = new ArrayList<>();
 
-        // 첫로그인 : 회원가입시 획득
+        // 첫로그인 : 회원가입시 획득 ( 1 )
 
-        // 출석 누적
+        // 출석 누적 ( 2-5 )
         Integer accumAttendance = user.getAccumAttendance();
         if (accumAttendance.equals(10) && (!myBadgeList.contains(2L))){
             response.add(badgeadd(2L, user)); // 뱃지 추가
@@ -48,7 +55,7 @@ public class BadgeService {
             response.add(badgeadd(5L, user)); // 뱃지 추가
         }
 
-        // 출석 연속
+        // 출석 연속 ( 6-9 )
         Integer continAttendance = user.getContinAttendance();
         if (continAttendance.equals(10) && (!myBadgeList.contains(6L))){
             response.add(badgeadd(6L, user)); // 뱃지 추가
@@ -63,13 +70,42 @@ public class BadgeService {
             response.add(badgeadd(9L, user)); // 뱃지 추가
         }
 
-        // 학습 시간
+        // 이스터에그 16 한글날
+        SimpleDateFormat monthday = new SimpleDateFormat("MM/dd");
+        Date now = new Date();
+        String today = monthday.format(now);
+        if (today.equals("10/09") && !myBadgeList.contains(16L)) {
+            response.add(badgeadd(16L, user)); // 뱃지 추가
+        }
+        // 이스터에그 17 세종대왕생신
+        if (today.equals("05/15") && !myBadgeList.contains(17L)) {
+            response.add(badgeadd(17L, user)); // 뱃지 추가
+        }
+
+        // 이스터에그 19 첫일주일 이벤트
+        LocalDate thisday = LocalDate.now();
+        LocalDate startday = LocalDate.of(2023,03,26); // 기간 하루 전
+        LocalDate endday = LocalDate.of(2023,04,01); // 기간 하루 뒤
+        if (thisday.isAfter(startday) && thisday.isBefore(endday)){
+            if (!myBadgeList.contains(19L)) {
+                response.add(badgeadd(19L, user)); // 뱃지 추가
+            }
+        }
+
+        return response;
+    }
+
+    public List<Long> badgecheckStudyTime(Long userId) {
+        User user = userRepository.findByUserId(userId);
+        List<Long> myBadgeList = badgeResultRepository.badgelistfindByUserId(user);
+        List<Long> response = new ArrayList<>();
+
+        // 학습 시간 ( 10-13 )
         List<StudyTime> totalstudytimelist = studyTimeRepository.findAllByUser(user);
         int mytotalstudytime = 0;
         for (StudyTime s : totalstudytimelist){
             mytotalstudytime += s.getStudyTime();
         }
-        System.out.println("mytotalstudytime = " + mytotalstudytime);
         if ((!myBadgeList.contains(10L)) && (mytotalstudytime >= 3600)){
             response.add(badgeadd(10L, user)); // 뱃지 추가
             if ((!myBadgeList.contains(11L)) && (mytotalstudytime >= 86400)){
@@ -82,6 +118,14 @@ public class BadgeService {
                 }
             }
         }
+        return response;
+    }
+
+
+    public List<Long> badgecheckDogam(Long userId) {
+        User user = userRepository.findByUserId(userId);
+        List<Long> myBadgeList = badgeResultRepository.badgelistfindByUserId(user);
+        List<Long> response = new ArrayList<>();
 
         // 14 도감 확인
         if (!myBadgeList.contains(14L)) {
@@ -108,6 +152,38 @@ public class BadgeService {
         }
         return response;
     }
+
+    public List<Long> badgecheckPast(Long userId) {
+        User user = userRepository.findByUserId(userId);
+        List<Long> myBadgeList = badgeResultRepository.badgelistfindByUserId(user);
+        List<Long> response = new ArrayList<>();
+
+        // 과거시험 장원급제 ( 20 )
+        PastTest pastTest = pastTestRepository.findFirstByOrderByCreatedAtDesc();
+        PastTestResult mypast = pastTestResultRepository.findFirstByUserAndPastTest(user, pastTest);
+        if (null != mypast){
+            if (mypast.getScore() == 100){
+                if (!myBadgeList.contains(20L)) {
+                    response.add(badgeadd(20L, user)); // 뱃지 추가
+                }
+            }
+        }
+        return response;
+    }
+
+    public List<Long> badgecheckMalrang(Long userId) {
+        User user = userRepository.findByUserId(userId);
+        List<Long> myBadgeList = badgeResultRepository.badgelistfindByUserId(user);
+        List<Long> response = new ArrayList<>();
+
+        if (!myBadgeList.contains(18L)) {
+            response.add(badgeadd(18L, user)); // 뱃지 추가
+        }
+
+        return response;
+    }
+
+
 
     public Long badgeadd (Long badgeId, User user){
         Badge badge = badgeRepository.findByBadgeId(badgeId);

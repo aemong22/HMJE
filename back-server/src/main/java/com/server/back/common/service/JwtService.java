@@ -9,6 +9,7 @@ import com.server.back.common.entity.JwtProperties;
 import com.server.back.common.entity.RefreshToken;
 import com.server.back.domain.user.entity.User;
 import com.server.back.domain.user.repository.UserRepository;
+import com.server.back.domain.user.service.BadgeService;
 import com.server.back.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,6 +31,7 @@ public class JwtService {
     private final JwtProviderService jwtProviderService;
     private final UserRepository userRepository;
     private final UserService userService;
+    private final BadgeService badgeService;
 
     /**
      * access, refresh 토큰 생성
@@ -139,13 +142,14 @@ public class JwtService {
      */
     //로그인시 응답 json response
     @Transactional(readOnly = false)
-    public Map<String, String> successLoginResponse(TokenRequestDto tokenRequestDto, Long userId) {
-        Map<String, String> map = new LinkedHashMap<>();
+    public Map<String, Object> successLoginResponse(TokenRequestDto tokenRequestDto, Long userId) {
+        Map<String, Object> map = new LinkedHashMap<>();
         userService.loginHistory(userId);
         User user = userRepository.findByUserId(userId);
+        List<Long> badgedata = badgeService.badgecheckLogin(userId);
         map.put("status", "200");
-        map.put("message", "accessToken, refreshToken이 생성되었습니다.");
         map.put("userId", userId.toString());
+        map.put("newBadge", badgedata);
         map.put("isAdmin", user.getIsAdmin().toString());
         map.put("isSecession", user.getIsSecession().toString());
         map.put("accessToken", tokenRequestDto.getAccessToken());
