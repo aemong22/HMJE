@@ -189,15 +189,6 @@ public class UserController {
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    @ApiOperation(value = "뱃지 획득 확인")
-    @GetMapping("/sms/check/{userId}")
-    public ResponseEntity<Map<String, Object>> badgeCheck(@PathVariable(value = "userId") Long userId){
-        Map<String, Object> response = new HashMap<>();
-        List<Long> responseDto = badgeService.badgecheck(userId);
-        response.put("data", responseDto);
-        response.put("message", "success");
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
     @ApiOperation(value = "오늘의 단어 랭킹")
     @GetMapping("/rank/word")
     public ResponseEntity<Map<String, Object>> rankWord(){
@@ -213,6 +204,15 @@ public class UserController {
         Map<String, Object> response = new HashMap<>();
         List<RankLevelResponseDto> responseDto = userService.rankLevel();
         response.put("data", responseDto);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @ApiOperation(value = "말랑 이스터에그 뱃지")
+    @PutMapping("/badge/malrang/{userId}")
+    public ResponseEntity<Map<String, Object>> badgecheckMalrang(@PathVariable(value = "userId") Long userId){
+        Map<String, Object> response = new HashMap<>();
+        List<Long> newbadge = badgeService.badgecheckMalrang(userId);
+        response.put("newbadge", newbadge);
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
