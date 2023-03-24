@@ -32,7 +32,10 @@ function WordStudy(): JSX.Element {
 
 
   useEffect(() => {
+
+    
     if(studyType === "wordStudy") {
+      console.log("여기 실행이다");
       getStudyWord(userId).then((r) => { 
         const myArray = [...r.data.data];
         myArray.sort(() => Math.random() - 0.5);
@@ -64,7 +67,7 @@ function WordStudy(): JSX.Element {
     setstartTime(Date.now())
   },[])
 
-
+  console.log(question)
   // 세모 개수
   const [semo, setSemo] = useState<number>(0)
 
@@ -94,58 +97,59 @@ function WordStudy(): JSX.Element {
   if(LoadingContexts || LoadingWords || LoadingWrong) {
     return <div>Loading...</div>
   }
-  if(ErrorWords || ErrorContext || ErrorWrong) {
+  else if(ErrorWords || ErrorContext || ErrorWrong) {
     return <div>error</div>
   }
-
   return (
     <>
 
-       {question.length > 0 && 
-       <div className="bg-[#F9F9F9] w-full h-screen">
-       <Navbar />
-       <Study 
-         question={question}
-         studyType={studyType} 
-         num={num}
-         correct={correct} setCorrect={setCorrect} 
-         wrong={wrong} setWrong={setWrong}
-         semo={semo}
-         setSemo={setSemo}
-         right={right} setRight={setRight}
-         resultModal={resultModal}
-         setResultModal={setResultModal}
-         openModal={openModal}
-         closeModal={closeModal}
-         modalOpen={modalOpen}/>
- 
-       { modalOpen ? 
-         <AnswerModal 
-           closeModal={closeModal} 
-           studyType={studyType} 
-           setRight={setRight}
-           right={right} 
-           num={num}
-           modalOpen={modalOpen}
-           setNum={setNum}
-           setResultModal={setResultModal} 
-           question={question
-         }/> : null }
- 
-         {resultModal ? 
-           <ResultModal 
-             studyType={studyType} 
-             setResultModal={setResultModal}
-             correct={correct}
-             semo={semo}
-             wrong={wrong}
-             startTime={startTime}
-             /> : null}
-     </div>
+       {question?.length > 0 &&
+        <div className="bg-[#F9F9F9] w-full h-screen">
+          <Navbar />
+          <Study 
+            question={question}
+            studyType={studyType} 
+            num={num}
+            correct={correct} setCorrect={setCorrect} 
+            wrong={wrong} setWrong={setWrong}
+            semo={semo}
+            setSemo={setSemo}
+            right={right} setRight={setRight}
+            resultModal={resultModal}
+            setResultModal={setResultModal}
+            openModal={openModal}
+            closeModal={closeModal}
+            modalOpen={modalOpen}/>
+    
+          { modalOpen ? 
+            <AnswerModal 
+              closeModal={closeModal} 
+              studyType={studyType} 
+              setRight={setRight}
+              right={right} 
+              num={num}
+              modalOpen={modalOpen}
+              setNum={setNum}
+              setResultModal={setResultModal} 
+              question={question
+            }/> : null }
+    
+            {resultModal ? 
+              <ResultModal 
+                studyType={studyType} 
+                setResultModal={setResultModal}
+                correct={correct}
+                semo={semo}
+                wrong={wrong}
+                startTime={startTime}
+                /> : null}
+          </div>
+      
       }
     </>
    
   )
 }
+
 
 export default WordStudy
