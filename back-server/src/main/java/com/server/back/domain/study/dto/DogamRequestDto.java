@@ -12,15 +12,16 @@ import lombok.NoArgsConstructor;
 @Data
 @ApiModel(value = "DogamRequestDto")
 public class DogamRequestDto {
-    String dogamName;
-    String dogamClass;
-    String dogamOrigin;
-    String dogamImage;
-    String dogamMean1;
-    String dogamMean2;
-    String dogamMean3;
-    String dogamExam1;
-    String dogamExam2;
-    String dogamExam3;
-    Boolean isRared;
+
+    private String dogamName;
+    private String dogamClass;
+    private String dogamOrigin;
+    private String dogamImage;
+    private String dogamMean1;
+    private String dogamMean2;
+    private String dogamMean3;
+    private String dogamExam1;
+    private String dogamExam2;
+    private String dogamExam3;
+    private Boolean isRared;
 }

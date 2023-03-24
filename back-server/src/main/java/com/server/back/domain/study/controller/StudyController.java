@@ -1,7 +1,6 @@
 package com.server.back.domain.study.controller;
 
 import com.server.back.domain.study.dto.*;
-import com.server.back.domain.study.entity.Dogam;
 import com.server.back.domain.study.service.StudyService;
 import com.server.back.domain.user.service.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -57,7 +56,7 @@ public class StudyController {
     @GetMapping("/context")
     public ResponseEntity<Map<String, Object>> contextQuestion(){
         Map<String, Object> response = new HashMap<>();
-        List<Dogam> contextQuestion = studyService.contextQuestion();
+        List<DogamResponseDto> contextQuestion = studyService.contextQuestion();
         response.put("data", contextQuestion);
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
