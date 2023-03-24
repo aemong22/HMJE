@@ -527,20 +527,6 @@ function News({newsKeyword}:any): JSX.Element {
 
 // 장원급제 리스트
 function PassUsers({ pastList, pastInfo, levelInfo}:any): JSX.Element {
-  const [origin, setOrigin] = useState(pastList);
-  
-
-
-  
-  const [currentItemIndex, setCurrentItemIndex] = useState(0);
-  
-  const handleAnimationEnd = () => {
-    setOrigin((prevItems:any) => [...prevItems.slice(1), prevItems[0]]);
-  };
-  
-
-    
-
 
   console.log("리스트",origin);
   
@@ -555,8 +541,8 @@ function PassUsers({ pastList, pastInfo, levelInfo}:any): JSX.Element {
           <div className= {`${style.passFont} md:text-[3.2rem] text-[2.2rem] font-bold text-[#A87E6E]`}>장원급제</div>
           <div className={`${style.passFont} md:text-[2.1rem] text-[1.5rem] text-[#525252] mb-[2rem]`}>축하드립니다!</div>
 
-          <div className="overflow-hidden h-[15rem] lg:w-[70%] md:w-[80%] sm:w-[90%] w-full mx-auto">
-            <div className={`${style.move} px-1`} style={{animationDuration:`${pastList.length*2}s`}}>
+          <div className="overflow-hidden h-[17rem] lg:w-[70%] md:w-[80%] sm:w-[90%] w-full mx-auto">
+            <div className={`${pastList.length >= 4 ? style.move : ''} px-1`} style={{animationDuration:`${pastList.length*2}s`}}>
               {
                 pastList.map((user:any , index:number)=> (
                   <div key={index} className={`flex justify-between rounded-lg bg-[#ffffff] my-3 md:px-5 sm:px-4 px-3 py-3 md:text-[1.5rem] sm:text-[1.2rem] text-[0.9rem] text-start`}>
@@ -575,7 +561,7 @@ function PassUsers({ pastList, pastInfo, levelInfo}:any): JSX.Element {
               }
             </div>
             
-            <div className={`${style.move} px-1`} style={{animationDuration:`${pastList.length*2}s`}}>
+            <div className={`${pastList.length >= 4 ? style.move : ''} px-1`} style={{animationDuration:`${pastList.length*2}s`}}>
               {
                 pastList.map((user:any , index:number)=> (
                   <div key={index} className={`flex justify-between rounded-lg bg-[#ffffff] my-3 md:px-5 sm:px-4 px-3 py-3 md:text-[1.5rem] sm:text-[1.2rem] text-[0.9rem] text-start`}>
