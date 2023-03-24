@@ -6,18 +6,31 @@ import ReactDOMServer from 'react-dom/server';
 
 function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,setSemo,right, setRight, openModal, setResultModal, modalOpen, resultModal, closeModal}:any): JSX.Element {
 
+  // 단어 디코딩
+  const [decoding, setDecoding] = useState<String>();
+  // 초성
+  const [result, setResult] = useState<String>();
+
   // 초성 뽑아내기
   const cho = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
-  let result = ""
+  
   
   // 문맥 도감일 경우 제외
-  if(studyType !== "contextStudy"){
-    for(let i=0; i<question[num].wordName.length;i++){
-      let code = question[num].wordName.charCodeAt(i)-44032;
-      if(code>-1 && code<11172) result += cho[Math.floor(code/588)];
-      else result += question[num].wordName.charCodeAt(i);
+  const chosung = (temp:String) => {
+    let make = ""
+
+    for(let i=0; i<temp.length;i++){
+      let code = temp.charCodeAt(i)-44032;
+      if(code>-1 && code<11172) make += cho[Math.floor(code/588)];
+      else make += temp.charCodeAt(i);
     }
+    setResult(make);
   }
+  if(studyType === "wordStudy"){
+
+  }
+  
+
 
   const [hint, setHint] = useState<Boolean>(false);
 
@@ -34,6 +47,21 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     setCount(30);
     SpeechRecognition.stopListening();
     setSkip(false);
+
+    if(studyType === "wordStudy") {
+      console.log("here")
+      let temp = decodeURIComponent(escape(atob(question[num].wordName)))
+      setDecoding(temp)
+      chosung(temp)
+    }
+    else {
+      setDecoding(question[num].wordName)
+      if(studyType==="wrongStudy"){
+        chosung(question[num].wordName)
+      }
+    }
+    
+
    },[num])
 
    
@@ -68,9 +96,9 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     }
     // 그만두기
     else if(stop){
+      clearInterval(id);
       closeModal();
       setResultModal(true)
-      clearInterval(id);
     }
     // 건너뛰기
     else if(skip){
@@ -141,7 +169,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     else {
       console.log("제출")
       //정답
-      if(input === question[num]?.wordName) {
+      if(input === decoding) {
         if(hint) {
           setSemo(semo+1)
           setHint(false)
