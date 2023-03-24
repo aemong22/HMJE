@@ -171,6 +171,18 @@ public class BadgeService {
         return response;
     }
 
+    public List<Long> badgecheckMalrang(Long userId) {
+        User user = userRepository.findByUserId(userId);
+        List<Long> myBadgeList = badgeResultRepository.badgelistfindByUserId(user);
+        List<Long> response = new ArrayList<>();
+
+        if (!myBadgeList.contains(18L)) {
+            response.add(badgeadd(18L, user)); // 뱃지 추가
+        }
+
+        return response;
+    }
+
 
 
     public Long badgeadd (Long badgeId, User user){
