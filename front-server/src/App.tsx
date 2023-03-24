@@ -20,7 +20,6 @@ import ForgetPassword from "./Components/Login/ForgetPassword";
 import WrongNote from "./Components/Study/WrongNote";
 import Dogam from "./Components/Study/Dogam";
 import Notice from "./Components/Notice/Notice";
-import PastTestIntroModal from "./Components/Study/PastTestIntroModal";
 import PastTest from "./Components/Study/PastTest/PastTest";
 import AdminExam from "./Components/Admin/AdminExam";
 import Cat from "./Components/Threejs/Cat";

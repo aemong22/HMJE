@@ -493,6 +493,17 @@ export const hmjeApi = createApi({
     // --------------word---------------
 
     // 1. 오늘의 단어 전체 조회
+    getWordDaily: builder.query({
+      query:(data) => {
+        return {
+          url: `/word/daily`,
+
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
 
     // 2.사전 조회하기
 
@@ -595,5 +606,7 @@ export const {
 
   useGetWordWrongQuery,
   useLazyGetWordWrongQuery,
+
+  useGetWordDailyQuery,
 
 } = hmjeApi 

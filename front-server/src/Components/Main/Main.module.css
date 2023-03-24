@@ -7,6 +7,22 @@
     margin-right: 0.2rem;    
   }
 
+  /* .mainbg {
+    background-image: url('/public/Assets/Intro/Group7.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: top;
+  } */
+
+  .bottomRight {
+    background: linear-gradient(to bottom right, #F0ECE9 50%, #ffffff 50% );
+  }
+
+  
+  .bottomLeft {
+    background: linear-gradient(to bottom left, #F0ECE9 50%, #ffffff 50% );
+  }
+
   .cursor {
     cursor:pointer;
   }
