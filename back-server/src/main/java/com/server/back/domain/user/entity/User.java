@@ -77,7 +77,7 @@ public class User extends CommonEntity {
         this.nickname = requestDto.getNickname();
     }
 
-    public void update(UserRequestDto requestDto){
+    public void updateNickname(UserRequestDto requestDto){
         this.nickname = requestDto.getNickname();
     }
     public void changePhonenumber(String newPhonenumber){

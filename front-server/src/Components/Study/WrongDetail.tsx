@@ -1,11 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
 
 function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
     
-
-
+    // 스크롤 방지 효과 주는 코드
+    useEffect(() => {
+      document.body.style.cssText = `
+        position: fixed; 
+        top: -${window.scrollY}px;
+        overflow-y: scroll;
+        width: 100%;`;
+      return () => {
+        const scrollY = document.body.style.top;
+        document.body.style.cssText = "";
+        window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
+      };
+    }, []);
 
     
     return(
@@ -16,12 +27,12 @@ function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
           >
             <div className="relative my-6 mx-auto w-[30rem]">
               {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full py-3 md:px-1 px-0 bg-white outline-none focus:outline-none">
+              <div className="border-0 rounded-lg relative flex flex-col w-full py-3 md:px-1 px-0 bg-white ">
             
                 {/*body header*/}
                 <div className="flex items-end md:px-4 px-3 pt-3">
                     <div className="md:text-[2rem] text-[1.5rem] font-bold mr-1 text-[#000000]">{data[index].wordName}</div>
-                    <div className="flex items-end md:text-[1.2rem] text-[1rem] text-[#A2A2A2] mr-1">({data[index].wordIso})</div>
+                    <div className="flex items-end md:text-[1.2rem] text-[1rem] text-[#A2A2A2] mr-1">{data[index].wordIso}</div>
                 </div>
                 <div className="relative md:px-4 px-3 flex pt-1 justify-between items-end sm:min-w-[25rem] min-w-[19rem] flex-wrap">
                     <div className="flex items-end md:text-[1.2rem] text-[1rem] text-[#A2A2A2] mr-1">
@@ -76,7 +87,7 @@ function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
               </div>
             </div>
           </div>
-          <div className=" fixed inset-0 z-40 bg-black/10"></div>
+          <div className="fixed inset-0 z-40 bg-black/20"></div>
         </>
     )
 }
