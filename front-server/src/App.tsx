@@ -22,10 +22,6 @@ import Dogam from "./Components/Study/Dogam";
 import Notice from "./Components/Notice/Notice";
 import PastTest from "./Components/Study/PastTest/PastTest";
 import AdminExam from "./Components/Admin/AdminExam";
-import OrangeCat from "./Components/Threejs/OrangeCat";
-import GreyCat from "./Components/Threejs/GreyCat";
-import MixCat from "./Components/Threejs/MixCat";
-import TestCat from "./Components/Threejs/TestCat";
 import ResetPassword from "./Components/Login/ResetPassword";
 
 function App() {
@@ -60,11 +56,6 @@ function App() {
           <Route path="context" element={<AdminContext />} />
           <Route path="exam" element={<AdminExam />} />
         </Route>
-
-        <Route path="/orangecat" element={<OrangeCat />} />
-        <Route path="/greycat" element={<GreyCat />} />
-        <Route path="/mixcat" element={<MixCat />} />
-        <Route path="/cat" element={<TestCat />} />
         
       </Routes>
     </>
