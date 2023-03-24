@@ -146,10 +146,10 @@ function WrongList({select, data}:any):JSX.Element {
             return(
               <>
                 <div key={index} className="bg-[#ffffff] md:w-[46%] w-full rounded-lg py-3 sm:px-6 px-4 m-2 overflow-hidden" onClick={() => {setOpen(true); setIdx(index)}}>
-                  <div className="flex justify-between items-end">
-                    <div className="flex items-end font-medium text-[#8E8E8E]">
+                  <div className="flex justify-between items-end flex-wrap">
+                    <div className={classNames("flex flex-wrap items-end font-medium", {'text-[#8E8E8E]': select !== 1},{'text-[#ffffff]': select === 1})}>
                       <div className={classNames("md:text-[1.5rem] text-[1.25rem] px-[0.1rem] font-bold ", {'text-[#ffffff]': select === 1} ,{'text-[#000000]': select !== 1})}> {word?.wordName} </div>
-                      <div className="md:text-[1.1rem] text-[1rem] px-[0.1rem]"> ({word?.wordIso}) </div>
+                      {word?.wordIso > 0 && <div className="pb-2 md:text-[1.1rem] text-[1rem] px-[0.2rem]"> {word?.wordIso} </div>}
                       {word?.wordOrigin && <div className="md:text-[1.1rem] text-[1rem] px-[0.1rem]">[{word?.wordOrigin}]</div> }
                       <div className="md:text-[1.1rem] text-[1rem] px-[0.1rem]">{word?.wordType}</div>
                     </div>

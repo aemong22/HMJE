@@ -234,6 +234,8 @@ export const hmjeApi = createApi({
       }
     }),
 
+
+
     // --------------user---------------
 
     // 1. 내 정보 조회
@@ -478,7 +480,7 @@ export const hmjeApi = createApi({
       invalidatesTags: (result, error, arg) => [{ type: "Api" }]
     }),
 
-    // 10. 과거시험 회차 정보
+    // 10. 과거시험 문제
     getStudyPastTest: builder.query({
       query: () => {
         return {
@@ -490,9 +492,33 @@ export const hmjeApi = createApi({
       }
     }),
 
+    // 11. 장원급제 명단 반환
+    getStudyPastList : builder.query ({
+      query: (userId: any) => {
+        return {
+          url: `/study/past/list/${userId}`,
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
+
+
     // --------------word---------------
 
     // 1. 오늘의 단어 전체 조회
+    getWordDaily: builder.query({
+      query:() => {
+        return {
+          url: `/word/daily`,
+
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
 
     // 2.사전 조회하기
 
@@ -513,6 +539,7 @@ export const hmjeApi = createApi({
         return [{ type: "Api" }]
       }
     }),
+    
     // 3. 사전 개별조회
     getWorddictdetail: builder.query({
       query: (data) => {
@@ -585,6 +612,7 @@ export const {
   useGetStudyPastQuery,
   usePostStudyPastResultMutation,
   useGetStudyPastTestQuery,
+  useGetStudyPastListQuery,
 
   // WORD
   useGetWorddictQuery,
@@ -595,5 +623,7 @@ export const {
 
   useGetWordWrongQuery,
   useLazyGetWordWrongQuery,
+
+  useGetWordDailyQuery,
 
 } = hmjeApi 

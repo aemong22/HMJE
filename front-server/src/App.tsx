@@ -20,13 +20,13 @@ import ForgetPassword from "./Components/Login/ForgetPassword";
 import WrongNote from "./Components/Study/WrongNote";
 import Dogam from "./Components/Study/Dogam";
 import Notice from "./Components/Notice/Notice";
-import PastTestIntroModal from "./Components/Study/PastTestIntroModal";
-import PastTest from "./Components/Study/PastTest";
+import PastTest from "./Components/Study/PastTest/PastTest";
 import AdminExam from "./Components/Admin/AdminExam";
 import OrangeCat from "./Components/Threejs/OrangeCat";
 import GreyCat from "./Components/Threejs/GreyCat";
 import MixCat from "./Components/Threejs/MixCat";
 import TestCat from "./Components/Threejs/TestCat";
+import ResetPassword from "./Components/Login/ResetPassword";
 
 function App() {
   const notify = () => toast("Wow so easy!");
@@ -37,6 +37,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/forgetid" element={<ForgetId />} />
         <Route path="/forgetpassword" element={<ForgetPassword />} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/join" element={<Join />} />
         <Route path="/main" element={<Main />} />
@@ -45,13 +46,12 @@ function App() {
         <Route path="/wordStudy" element={<StudyPage />} />
         <Route path="/contextStudy" element={<StudyPage />} />
         <Route path="/wrongStudy" element={<StudyPage />} />
-        <Route path="/note" element={<WrongNote/>} />
-        <Route path="/dogam" element ={<Dogam/>} />
+        <Route path="/note" element={<WrongNote />} />
+        <Route path="/dogam" element={<Dogam />} />
         <Route path="/notice" element={<Notice />} />
         <Route path="/note" element={<WrongNote />} />
         <Route path="/dogam" element={<Dogam />} />
         <Route path="/pasttest" element={<PastTest />} />
-        
 
         <Route path="/admin" element={<AdminPage />}>
           <Route path="" element={<AdminMain />} />
@@ -65,7 +65,7 @@ function App() {
         <Route path="/greycat" element={<GreyCat />} />
         <Route path="/mixcat" element={<MixCat />} />
         <Route path="/cat" element={<TestCat />} />
-
+        
       </Routes>
     </>
   );

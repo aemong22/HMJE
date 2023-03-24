@@ -30,9 +30,9 @@ function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
               <div className="border-0 rounded-lg relative flex flex-col w-full py-3 md:px-1 px-0 bg-white ">
             
                 {/*body header*/}
-                <div className="flex items-end md:px-4 px-3 pt-3">
+                <div className="flex md:px-4 px-3 pt-3">
                     <div className="md:text-[2rem] text-[1.5rem] font-bold mr-1 text-[#000000]">{data[index].wordName}</div>
-                    <div className="flex items-end md:text-[1.2rem] text-[1rem] text-[#A2A2A2] mr-1">{data[index].wordIso}</div>
+                    {data[index].wordIso > 0 && <div className="flex md:text-[1.2rem] text-[1rem] text-[#A2A2A2] ml-1">{data[index].wordIso}</div>}
                 </div>
                 <div className="relative md:px-4 px-3 flex pt-1 justify-between items-end sm:min-w-[25rem] min-w-[19rem] flex-wrap">
                     <div className="flex items-end md:text-[1.2rem] text-[1rem] text-[#A2A2A2] mr-1">
