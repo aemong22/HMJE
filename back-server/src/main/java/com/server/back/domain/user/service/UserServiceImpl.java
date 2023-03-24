@@ -422,9 +422,11 @@ public class UserServiceImpl implements UserService {
             responseDto.add(userRankWord);
         }
         // 카운트 뒤집어서 정렬 + updatedAt 정렬 (먼저 많은 단어 맞춘사람이 위로)
-        responseDto.sort(Comparator.comparing(RankWordResponseDto::getCount).reversed().thenComparing(RankWordResponseDto::getUpdatedAt));
-        if (responseDto.size() > 10){
-            responseDto.subList(10, responseDto.size()).clear();
+        if (responseDto.size()!=0) {
+            responseDto.sort(Comparator.comparing(RankWordResponseDto::getCount).reversed().thenComparing(RankWordResponseDto::getUpdatedAt));
+            if (responseDto.size() > 10){
+                responseDto.subList(10, responseDto.size()).clear();
+            }
         }
         return responseDto;
     }
