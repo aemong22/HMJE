@@ -114,6 +114,8 @@ const Question = (
   setanswer: Function,
   postStudyPastResult: any,
 ) => {
+  const navigate = useNavigate();
+
   const item = "flex flex-row items-center py-2";
   const labletage =
     " text-sm font-medium text-gray-900 dark:text-gray-300 flex flex-row";
@@ -172,7 +174,13 @@ const Question = (
 
     postStudyPastResult(data).then((r: any) => {
       // console.log(r);
-      if (r.data.message === "success") alert(`결과는 ${result} 입니다`);
+      if (r.data.message === "success") {
+        alert(`결과는 ${result} 입니다`);
+        navigate("/main");
+      }
+      else{
+        alert(`과거시험이 저장되지 않았습니다`);
+      }
     });
   };
   if (PastDetail) {
