@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.server.back.domain.user.dto.BadgeResultResponseDto.MyBadgeResultList;
@@ -398,6 +399,56 @@ public class UserServiceImpl implements UserService {
             responseDto.setMonthUsersStatsTime(monthUsersStatsTime);
         }
 
+        return responseDto;
+    }
+    @Override
+    public List<RankWordResponseDto> rankWord(){
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime today = LocalDateTime.of(now.getYear(),
+                now.getMonth(), now.getDayOfMonth(), 0, 0, 0); //오늘 0:00:00
+        List<User> users = rightWordRepository.findByDate(today);
+        List<RankWordResponseDto> responseDto = new ArrayList<>();
+        for (User user : users) {
+            // 맞은 단어 가져오기 > 맨 앞부분 데이터에서 createdAt 저장
+            List<RightWord> rightWords = rightWordRepository.findByUserAndCreatedAtAfterOrderByCreatedAtDesc(user,today);
+            RankWordResponseDto userRankWord = new RankWordResponseDto().builder()
+                    .userId(user.getUserId())
+                    .nickname(user.getNickname())
+                    .count(rightWords.size())
+                    .badgeName(user.getNowBadge().getBadgeName())
+                    .badgeImage(user.getNowBadge().getBadgeImage())
+                    .updatedAt(rightWords.get(0).getCreatedAt())
+                    .build();
+            responseDto.add(userRankWord);
+        }
+        // 카운트 뒤집어서 정렬 + updatedAt 정렬 (먼저 많은 단어 맞춘사람이 위로)
+        responseDto.sort(Comparator.comparing(RankWordResponseDto::getCount).reversed().thenComparing(RankWordResponseDto::getUpdatedAt));
+        if (responseDto.size() > 10){
+            responseDto.subList(10, responseDto.size()).clear();
+        }
+        return responseDto;
+    }
+    @Override
+    public List<RankLevelResponseDto> rankLevel(){
+        List<User> users = userRepository.findAll();
+        users.sort(Comparator.comparing(User::getLevel).reversed().thenComparing(User::getExp).reversed().thenComparing(User::getTodayRight).reversed());
+        System.out.println("users = " + users);
+        List<RankLevelResponseDto> responseDto = new ArrayList<>();
+        // 레벨, exp, 오늘 총 맞춘 갯수 순으로 정렬
+        if (users.size() > 10){
+            users.subList(10, responseDto.size()).clear();
+        }
+        for (User user: users){
+            RankLevelResponseDto userRankLevel = new RankLevelResponseDto().builder()
+                    .userId(user.getUserId())
+                    .nickname(user.getNickname())
+                    .level(user.getLevel())
+                    .exp(user.getExp())
+                    .badgeName(user.getNowBadge().getBadgeName())
+                    .badgeImage(user.getNowBadge().getBadgeImage())
+                    .build();
+            responseDto.add(userRankLevel);
+        }
         return responseDto;
     }
 }

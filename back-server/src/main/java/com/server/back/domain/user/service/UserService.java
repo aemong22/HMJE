@@ -29,4 +29,6 @@ public interface UserService {
     List<MonthStudyResponseDto> monthstudy(Long userId, MonthStudyRequestDto requestDto);
     Integer levelup(Long userId);
     CompareResponseDto compare(Long userId);
+    List<RankWordResponseDto> rankWord();
+    List<RankLevelResponseDto> rankLevel();
 }
