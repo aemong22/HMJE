@@ -107,16 +107,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean userUsernameCheck(UserRequestDto requestDto) {
         System.out.println("requestDto-username///////////////"+requestDto);
-        int count = 0;
-        for (User r : userRepository.findAll()) {
-            if (r.getUsername().equals(requestDto.getUsername())){
-                count += 1;
-            }
-        }
-        if (count == 0) {
+        User user = userRepository.findByUsername(requestDto.getUsername());
+        if(user.equals(null)){
             return true;
         }
-        return false;
+        else{
+            return false;
+        }
+
+
     }
 
     @Override
@@ -126,9 +125,9 @@ public class UserServiceImpl implements UserService {
         return responseDto;
     }
     @Override
-    public void userUpdate(Long userId, UserRequestDto requestDto){
+    public void userNicknameUpdate(Long userId, UserRequestDto requestDto){
         User entity = userRepository.findByUserId(userId);
-        entity.update(requestDto);
+        entity.updateNickname(requestDto);
     }
     @Override
     public boolean changeInfo(Long userId, UserRequestDto requestDto){
@@ -336,14 +335,17 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUserId(userId);
         Integer nowlevel = user.getLevel();
         Integer newlevel = user.getLevel();
-//        System.out.println("nowlevel = " + nowlevel);
-//        System.out.println("100*Math.pow(2,user.getLevel()-1)) = " + 100*Math.pow(2,user.getLevel()-1));
-        while (user.getExp() >= (100*Math.pow(2,user.getLevel()-1))) {
-            Integer newexp = (int) (user.getExp() - (100 * Math.pow(2, user.getLevel() - 1)));
-            newlevel = user.getLevel() + 1;
+        while ((user.getExp() >= (100*Math.pow(2,nowlevel-1)))) {
+            if(nowlevel >=9) {
+                if ( nowlevel.equals(9) && user.getExp() >= 25600) {
+                    newlevel = nowlevel + 1;
+                    user.levelup(user.getExp(), newlevel);
+                }
+                break;
+            }
+            Integer newexp = (int) (user.getExp() - (100 * Math.pow(2, nowlevel - 1)));
+            newlevel = nowlevel + 1;
             user.levelup(newexp, newlevel);
-//            System.out.println("newexp = " + newexp);
-//            System.out.println("newlevel = " + newlevel);
         }
         if (!nowlevel.equals(newlevel)){
             return newlevel;

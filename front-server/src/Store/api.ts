@@ -3,6 +3,8 @@ import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
+
+
 interface decodedInfo {
   sub: string;
   exp: number; //유효시간
@@ -35,9 +37,9 @@ type dictresponse = {
   wordDetailResponseList: []
 }
 
-
 const fetchAccessToken = async () => {
   // const userName: string = localStorage.getItem("userName")
+
   let accessToken: string | null = localStorage.getItem("accessToken");
 
   if (accessToken != null) {
@@ -115,7 +117,7 @@ export const hmjeApi = createApi({
     putAdminUserDelete: builder.mutation({
       query: (data) => {
         let [delete_id, my_id] = data
-        my_id = parseInt(my_id)        
+        my_id = parseInt(my_id)
         return {
           url: `/admin/user/${my_id}/${delete_id}`,
           method: 'put'
@@ -141,9 +143,9 @@ export const hmjeApi = createApi({
 
     // 5. 검색 회원 목록 
     getAdminUserSearchList: builder.query({
-      query: (nickname:string) => {
+      query: (nickname: string) => {
         console.log(nickname);
-        
+
         return {
           url: `/admin/user/${nickname}`
         }
@@ -152,10 +154,10 @@ export const hmjeApi = createApi({
         return [{ type: "Api" }]
       }
     }),
-    
+
     // 6. 뱃지 삭제
     deleteAdminBadge: builder.mutation({
-      query: (badge_id:(number|undefined)) => {        
+      query: (badge_id: (number | undefined)) => {
         return {
           url: `/admin/badge/${badge_id}`,
           method: 'delete'
@@ -166,9 +168,9 @@ export const hmjeApi = createApi({
 
     // 7. 뱃지 추가
     postAdminBadge: builder.mutation({
-      query: (body) => {       
+      query: (body) => {
         console.log(body);
-        
+
         return {
           url: `/admin/badge/`,
           method: 'post',
@@ -180,7 +182,7 @@ export const hmjeApi = createApi({
 
     // 8. 뱃지 수정
     putAdminBadge: builder.mutation({
-      query: (data) => {   
+      query: (data) => {
         const [badge_id, body] = data
         console.log(badge_id, body);
         return {
@@ -192,9 +194,7 @@ export const hmjeApi = createApi({
       invalidatesTags: (result, error, arg) => [{ type: "Api" }]
     }),
 
-
-    // --------------admin | past ---------------
-    // 전체 과거시험 회차 목록
+    // 9. 전체 과거시험 회차 목록
     getAdminPastList: builder.query<any, any>({
       query: () => "admin/past",
       providesTags: (result, error, arg) => {
@@ -202,6 +202,37 @@ export const hmjeApi = createApi({
       }
     }),
 
+    // 10. 과거시험 문제 목록
+    getAdminPastDetailList: builder.query<any, any>({
+      query: (test_id: number) => {
+        return {
+          url: `admin/past/${test_id}`
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
+
+    // 11. 과거시험 회차 추가
+    postAdminPostTest: builder.mutation({
+      query: (body) => {
+        return {
+          url: "/admin/past/test",
+          method: 'post',
+          body: body
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+    // 12. 전체 도감 목록 조회 리스트
+    getAdminDogam: builder.query<any, any>({
+      query: () => '/admin/dogam',
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
 
     // --------------user---------------
 
@@ -294,6 +325,22 @@ export const hmjeApi = createApi({
         }
       },
       invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+    // 11. 다른 유저와 통계 비교
+    getUserStatsCompare: builder.query({
+      query: (userId: any) => {
+        console.log("userId", userId);
+        return {
+          url: `/user/stats/compare/${userId}`,
+          params: {
+            userId: userId
+          }
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
     }),
 
     // ---------------STUDY---------------
@@ -402,6 +449,46 @@ export const hmjeApi = createApi({
       }
     }),
 
+    // 8. 과거시험 회차 정보
+    getStudyPast: builder.query({
+      query: () => {
+        return {
+          url: `/study/past`,
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
+
+    // 9. 과거시험 점수 저장
+    postStudyPastResult: builder.mutation({
+      query: (data) => {
+        //console.log("아이디 중복 rtk에서 받은 데이터 : ", data);
+        return {
+          url: `study/past/result`,
+          method: "POST",
+          body: {
+            pastTestId: data.pastTestId,
+            score: data.score,
+            userId: data.userId
+          }
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+    // 10. 과거시험 회차 정보
+    getStudyPastTest: builder.query({
+      query: () => {
+        return {
+          url: `/study/past/test`,
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
 
     // --------------word---------------
 
@@ -469,16 +556,22 @@ export const {
   useDeleteAdminBadgeMutation,
   usePostAdminBadgeMutation,
   usePutAdminBadgeMutation,
+  useLazyGetAdminDogamQuery,
 
   // ADMIN PAST
   useGetAdminPastListQuery,
   useLazyGetAdminPastListQuery,
+  useLazyGetAdminPastDetailListQuery,
+  useGetAdminPastDetailListQuery,
+  usePostAdminPostTestMutation,
 
   // USER
   useGetUserMyinfoQuery,
+  useLazyGetUserMyinfoQuery,
   usePutUserdataMutation,
   useGetUserMystudyQuery,
   usePutUserLogoutMutation,
+  useLazyGetUserStatsCompareQuery,
 
   // STUDY
   useLazyGetStudyWordQuery,
@@ -489,7 +582,9 @@ export const {
   useGetDogamUserIdQuery,
   useGetDogamQuery,
   usePostUserMonthstudyMutation,
-
+  useGetStudyPastQuery,
+  usePostStudyPastResultMutation,
+  useGetStudyPastTestQuery,
 
   // WORD
   useGetWorddictQuery,
