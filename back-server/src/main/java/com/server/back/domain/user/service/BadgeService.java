@@ -33,12 +33,20 @@ public class BadgeService {
     private final PastTestResultRepository pastTestResultRepository;
     private final PastTestRepository pastTestRepository;
 
+    public List<Long> badgecheckNewbie(String username) {
+        User user = userRepository.findByUsername(username);
+        List<Long> myBadgeList = badgeResultRepository.badgelistfindByUserId(user);
+        List<Long> response = new ArrayList<>();
+        if (!myBadgeList.contains(1L)) {
+            response.add(badgeadd(1L, user)); // 뱃지 추가
+        }
+        return response;
+    }
+
     public List<Long> badgecheckLogin(Long userId) {
         User user = userRepository.findByUserId(userId);
         List<Long> myBadgeList = badgeResultRepository.badgelistfindByUserId(user);
         List<Long> response = new ArrayList<>();
-
-        // 첫로그인 : 회원가입시 획득 ( 1 )
 
         // 출석 누적 ( 2-5 )
         Integer accumAttendance = user.getAccumAttendance();
@@ -179,7 +187,6 @@ public class BadgeService {
         if (!myBadgeList.contains(18L)) {
             response.add(badgeadd(18L, user)); // 뱃지 추가
         }
-
         return response;
     }
 
