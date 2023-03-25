@@ -35,6 +35,8 @@ public class UserController {
         Map<String, Object> response = new HashMap<>();
         System.out.println(requestDto);
         userService.join(requestDto);
+        List<Long> newbadge = badgeService.badgecheckNewbie(requestDto.getUsername());
+        response.put("newbadge", newbadge);
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
