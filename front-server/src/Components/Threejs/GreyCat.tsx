@@ -18,7 +18,7 @@ function GreyCat({sendEmo}:any) {
   },[])
   return (
     <div className='w-full h-full'>
-      <Canvas style={{width: '100%', height: '100%', borderRadius: '1rem'}}>
+      <Canvas style={{width: '100%', height: '100%', borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem'}}>
         <mesh scale={1} position={[0,-2.4,2.5]}>
           <Suspense fallback={null}>
             <ambientLight />
@@ -58,9 +58,7 @@ function Default() {
     actions.Angry.reset()
   }, [mixer])
 
-  const click = () => {
-    console.log('hi');
-    
+  const click = () => {    
     actions.Bow.play()
 
     // 애니메이션 종료 후에 actions 객체를 리셋합니다.

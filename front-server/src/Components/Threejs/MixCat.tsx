@@ -18,7 +18,7 @@ function MixCat({sendEmo}:any) {
   },[])
   return (
     <div className='w-full h-full'>
-      <Canvas style={{width: '100%', height: '100%', borderRadius: '1rem'}}>
+      <Canvas style={{width: '100%', height: '100%', borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem'}}>
         <mesh scale={1} position={[0,-2.4,2.5]}>
           <Suspense fallback={null}>
             <ambientLight />
