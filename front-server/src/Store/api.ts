@@ -345,6 +345,44 @@ export const hmjeApi = createApi({
       }
     }),
 
+    // 12. 내 뱃지 조회
+    getUserBadge: builder.query({
+      query: (userId: any) => {
+        return {
+          url: `/user/badge/${userId}`,
+          params: {
+            userId: userId
+          }
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
+
+    // 13. 뱃지 수정
+    putUserBadge: builder.mutation({
+      query: ([bagdeId, userId]) => {
+        return {
+          url: `/user/badge/${userId}/${bagdeId}`,
+          method: 'PUT',
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+    // 14. 말랑 이스터에그 뱃지
+    putUserBadgeMalrang: builder.mutation({
+      query: (userId) => {
+        return {
+          url: `/user/badge/malrang/${userId}`,
+          method: 'PUT',
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+
     // ---------------STUDY---------------
 
     // 1. 단어학습 문제 
@@ -599,6 +637,9 @@ export const {
   useGetUserMystudyQuery,
   usePutUserLogoutMutation,
   useLazyGetUserStatsCompareQuery,
+  useLazyGetUserBadgeQuery,
+  usePutUserBadgeMutation,
+  usePutUserBadgeMalrangMutation,
 
   // STUDY
   useLazyGetStudyWordQuery,

@@ -22,7 +22,6 @@ import Dogam from "./Components/Study/Dogam";
 import Notice from "./Components/Notice/Notice";
 import PastTest from "./Components/Study/PastTest/PastTest";
 import AdminExam from "./Components/Admin/AdminExam";
-import Cat from "./Components/Threejs/Cat";
 import ResetPassword from "./Components/Login/ResetPassword";
 
 function App() {
@@ -57,8 +56,7 @@ function App() {
           <Route path="context" element={<AdminContext />} />
           <Route path="exam" element={<AdminExam />} />
         </Route>
-
-        <Route path="/cat" element={<Cat />} />
+        
       </Routes>
     </>
   );
