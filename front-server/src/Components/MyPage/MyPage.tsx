@@ -11,7 +11,6 @@ import { Toast } from "../Common/Toast";
 // import { useAppDispatch } from "../../Store/hooks";
 // import { changeUserNickname } from "../../Store/store";
 import Chart from 'chart.js/auto';
-import TestCat from "../Threejs/TestCat"
 import GreyCat from "../Threejs/GreyCat"
 import OrangeCat from "../Threejs/OrangeCat"
 import MixCat from "../Threejs/MixCat"
