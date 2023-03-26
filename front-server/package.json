@@ -24,7 +24,9 @@
         "jwt-decode": "^3.1.2",
         "react": "^18.2.0",
         "react-chartjs-2": "^5.2.0",
+        "react-custom-pagination": "^1.6.8",
         "react-dom": "^18.2.0",
+        "react-js-pagination": "^3.0.3",
         "react-markdown": "^8.0.6",
         "react-paginate": "^8.1.4",
         "react-redux": "^8.0.5",
@@ -63,6 +65,7 @@
         ]
     },
     "devDependencies": {
+        "@types/react-js-pagination": "^3.0.4",
         "@types/react-speech-recognition": "^3.9.1"
     }
 }
