@@ -547,7 +547,7 @@ export const hmjeApi = createApi({
 
     // 1. 오늘의 단어 전체 조회
     getWordDaily: builder.query({
-      query:() => {
+      query: (data) => {
         return {
           url: `/word/daily`,
 
@@ -560,7 +560,7 @@ export const hmjeApi = createApi({
 
     // 2.사전 조회하기
 
-    getWorddict: builder.query<dict, dict>({
+    getWorddict: builder.query<any, any>({
       query: (data) => {
         console.log("사전 조회하기 rtk에서 받은 데이터 : ", data);
         // console.log(`url : word/?filter=${data.filter}/?keyword=${data.keyword}/?p=${data.p}`);
