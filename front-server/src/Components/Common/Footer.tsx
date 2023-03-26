@@ -1,7 +1,7 @@
 function Footer():JSX.Element {
   return (
     <div className="w-full bg-[#BF9F91] text-white">
-      <div className="container max-w-screen-xl w-full lg:px-0 px-2 py-4 mx-auto">
+      <div className="container max-w-screen-xl w-full lg:px-1 px-2 py-4 mx-auto">
         <div className="justify-start items-end w-full py-1 border-b-2 border-b-white mb-3 sm:text-[0.9rem] text-[0.8rem]">
         ㅎ ㅗ ㅇ ㅁ ㅣ ㄴ ㅈ ㅓ ㅇ ㅇ ㅡ ㅁ
         </div>

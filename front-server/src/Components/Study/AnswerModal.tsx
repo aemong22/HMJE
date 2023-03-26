@@ -26,6 +26,10 @@ function AnswerModal({
       let temp = decodeURIComponent(escape(atob(question[num].wordName)))
       setDecoding(temp)
     }
+    else if(studyType === "contextStudy"){
+      let temp = decodeURIComponent(escape(atob(question[num].dogamName)))
+      setDecoding(temp)
+    }
     else {
       setDecoding(question[num].wordName)
     }
@@ -111,7 +115,7 @@ function AnswerModal({
                 <div className="flex items-end">
                     <div className="md:text-[1.5rem] text-[1.2rem] font-bold mr-1">
                         { studyType !== "contextStudy" ? 
-                            <>{decoding}</> : right ? <>{question[num].dogamName}</> : <><span className="px-3">?</span></>
+                            <>{decoding}</> : right ? <>{decoding}</> : <><span className="px-3">?</span></>
                         }
                     </div>
                     {studyType !== "contextStudy" && question[num].wordIso > 0 && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{question[num].wordIso}</div>}
