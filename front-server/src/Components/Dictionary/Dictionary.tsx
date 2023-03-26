@@ -3,8 +3,6 @@ import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
 // import ReactPaginate from "react-paginate";
 import Pagination from "react-js-pagination";
-import CustomPagination from "react-custom-pagination";
-
 import style from "../Dictionary/Dictionary.module.css";
 import { useGetWorddictQuery, useLazyGetWorddictQuery } from "../../Store/api";
 import { type } from "@testing-library/user-event/dist/type";

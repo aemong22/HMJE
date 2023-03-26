@@ -1,4 +1,4 @@
-import { useGetUserMyinfoQuery, useGetUserMystudyQuery,useGetWordDailyQuery } from "../../Store/api";
+import { useGetUserMyinfoQuery, useGetUserMystudyQuery,useGetWordDailyQuery,useGetStudyPastListQuery,useGetStudyPastQuery } from "../../Store/api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../Common/Footer";
@@ -23,97 +23,14 @@ function Main(): JSX.Element {
     }
   }, [])
 
+  // RTK
   const userId = localStorage.getItem("userId");
   const {data:userMyInfo, error:error1, isLoading:isLoading1 } = useGetUserMyinfoQuery(userId);
   const {data:userMyStudy, error:error2, isLoading:isLoading2 } = useGetUserMystudyQuery(userId);
   const {data:newsKeyword, error:error3, isLoading:isLoading3} = useGetWordDailyQuery('');
-  
+  const {data:pastList, error:error4, isLoading:isLoading4} = useGetStudyPastListQuery(userId);
+  const {data:pastInfo, error:error5, isLoading:isLoading5} = useGetStudyPastQuery('');
 
-  // 장원급제 user List
-  const users: object = [{
-    이름:"오리",
-    칭호:"오리꽥꽥",
-    레벨:"정이품",
-    뱃지이미지:"carrot"
-  },{
-    이름:"세종대왕",
-    칭호:"이리오너라",
-    레벨:"정일품",
-    뱃지이미지:"carrot"
-  },{
-    이름:"춘식이",
-    칭호:"노랑노랑노랑색",
-    레벨:"정이품",
-    뱃지이미지:"carrot"
-  }]
-
-  if (isLoading1 || isLoading2 || isLoading3 ) {
-    return <div>Loading...</div>;
-  }
-
-  if (error1 || error2 || error3) {
-    return <>Error: {error1} {error2}</>;
-  }
-
-  return (
-    <>
-      <Navbar />
-      {/* <Example /> */}
-      <MyInfo userMyInfo={userMyInfo?.data} userMyStudy={userMyStudy?.data}/>
-      <StudyContent />
-      <News newsKeyword={newsKeyword?.data} />
-      <PassUsers users={users}/>
-      <Footer />
-    </>
-  );
-}
-export default Main;
-
-// main 페이지는 container, max-w-screen-lg, lg:w-[70%] 설정
-
-
-function Example():JSX.Element {
-  return(
-    <>
-      <div className="w-full bg-[#F0ECE9]">
-        <div className="container max-w-screen-xl mx-auto flex justify-between">
-          <div className="w-[47%] h-[30rem]">
-
-          </div>
-          <div className="w-[30%] h-[30rem] pt-[5%]">
-            <div className="bg-[#fff] rounded-t-full w-full h-full">
-            <Pangguin position={-2} />
-            </div>
-
-          </div>
-          <div className="w-[23%] h-[30rem] ">
-
-          </div>
-        </div>
-      </div>
-      {/* <div className="w-full bg-[#F0ECE9]">
-        <div className="container max-w-screen-xl mx-auto flex justify-between">
-          <div className={`${style.bottomRight} w-[47%] h-[10rem]`}>
-
-          </div>
-          <div className="w-[30%] h-[10rem]">
-            <div className="bg-[#fff] w-full h-full">
-            </div>
-
-          </div>
-          <div className={`${style.bottomLeft} w-[23%] h-[10rem]`}>
-
-          </div>
-        </div>
-      </div> */}
-    </>
-  )
-}
-// 맨위 : 유저 정보 , 오늘의 정보
-function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
-  localStorage.setItem("nickname", userMyInfo.nickname);
-  const navigate = useNavigate()
-  
   // 레벨 경험치
   const levelInfo: any = [
     {
@@ -172,6 +89,77 @@ function MyInfo({userMyInfo, userMyStudy}:any): JSX.Element {
   }
 
 ]
+
+  if (isLoading1 || isLoading2 || isLoading3 || isLoading4 ) {
+    return <div>Loading...</div>;
+  }
+
+  if (error1 || error2 || error3 || error4) {
+    return <>Error: {error1} {error2}</>;
+  }
+
+  return (
+    <>
+      <Navbar />
+      {/* <Example /> */}
+      <MyInfo levelInfo={levelInfo} userMyInfo={userMyInfo?.data} userMyStudy={userMyStudy?.data}/>
+      <StudyContent />
+      <News newsKeyword={newsKeyword?.data} />
+      <PassUsers levelInfo={levelInfo} pastList={pastList?.data} pastInfo={pastInfo?.data}/>
+      <Footer />
+    </>
+  );
+}
+export default Main;
+
+// main 페이지는 container, max-w-screen-lg, lg:w-[70%] 설정
+
+
+function Example():JSX.Element {
+  return(
+    <>
+      <div className="w-full bg-[#F0ECE9]">
+        <div className="container max-w-screen-xl mx-auto flex justify-between">
+          <div className="w-[47%] h-[30rem]">
+
+          </div>
+          <div className="w-[30%] h-[30rem] pt-[5%]">
+            <div className="bg-[#fff] rounded-t-full w-full h-full">
+            <Pangguin position={-2} />
+            </div>
+
+          </div>
+          <div className="w-[23%] h-[30rem] ">
+
+          </div>
+        </div>
+      </div>
+      {/* <div className="w-full bg-[#F0ECE9]">
+        <div className="container max-w-screen-xl mx-auto flex justify-between">
+          <div className={`${style.bottomRight} w-[47%] h-[10rem]`}>
+
+          </div>
+          <div className="w-[30%] h-[10rem]">
+            <div className="bg-[#fff] w-full h-full">
+            </div>
+
+          </div>
+          <div className={`${style.bottomLeft} w-[23%] h-[10rem]`}>
+
+          </div>
+        </div>
+      </div> */}
+    </>
+  )
+}
+
+
+// 맨위 : 유저 정보 , 오늘의 정보
+function MyInfo({userMyInfo, userMyStudy,levelInfo}:any): JSX.Element {
+  localStorage.setItem("nickname", userMyInfo.nickname);
+  const navigate = useNavigate()
+  
+
   // 경험치 비율 width
   const expWidth = (userMyInfo.exp / levelInfo[userMyInfo.level].totalExp) * 100 + "%"
 
@@ -538,49 +526,54 @@ function News({newsKeyword}:any): JSX.Element {
 
 
 // 장원급제 리스트
-function PassUsers({users}:any): JSX.Element {
+function PassUsers({ pastList, pastInfo, levelInfo}:any): JSX.Element {
+
+  console.log("리스트",origin);
+  
+  console.log("과거시험", pastList);
   
   return (
     <>
       <div className="bg-[#F4EFEC] w-full">
         <div className="container max-w-screen-xl mx-auto text-center py-16">
           
-          <div className={`${style.passFont} md:text-[2.1rem] text-[1.5rem] `}>제 32회 과거시험 결과</div>
+          <div className={`${style.passFont} md:text-[2.1rem] text-[1.5rem] `}>제 {pastInfo.pastTestId}회 과거시험 결과</div>
           <div className= {`${style.passFont} md:text-[3.2rem] text-[2.2rem] font-bold text-[#A87E6E]`}>장원급제</div>
           <div className={`${style.passFont} md:text-[2.1rem] text-[1.5rem] text-[#525252] mb-[2rem]`}>축하드립니다!</div>
 
-          <div className="overflow-hidden h-[15rem] lg:w-[70%] md:w-[80%] sm:w-[90%] w-full mx-auto">
-            <div className={`${style.move} px-1`} style={{animationDuration:`${Object.keys(users).length*2}s`}}>
+          <div className="overflow-hidden h-[17rem] lg:w-[70%] md:w-[80%] sm:w-[90%] w-full mx-auto">
+            <div className={`${pastList.length >= 4 ? style.move : ''} px-1`} style={{animationDuration:`${pastList.length*2}s`}}>
               {
-                users.map((user:any , index:number)=> (
+                pastList.map((user:any , index:number)=> (
                   <div key={index} className={`flex justify-between rounded-lg bg-[#ffffff] my-3 md:px-5 sm:px-4 px-3 py-3 md:text-[1.5rem] sm:text-[1.2rem] text-[0.9rem] text-start`}>
                     <div className="flex">
-                    <div className={`${style.badgeImg2}`} style={{backgroundImage:`url('/Assets/Icon/${user.뱃지이미지}.png')`}}></div>
+                    <div className={`${style.badgeImg2}`} style={{backgroundImage:`url('/Assets/Badge/${user.nowBadge.badgeImage}.png')`}}></div>
                       <div className="px-1">
-                        <div className="md:text-[1.1rem] sm:text-[1rem] text-[0.8rem]">{user.칭호}</div>
-                        <div className="md:text-[1.5rem] sm:text-[1.2rem] text-[1rem] font-bold text-start" >{user.이름}</div>
+                        <div className="md:text-[1.1rem] sm:text-[1rem] text-[0.8rem]">{user.nowBadge.badgeName}</div>
+                        <div className="md:text-[1.5rem] sm:text-[1.2rem] text-[1rem] font-bold text-start" >{user.nickname}</div>
                       </div>
                     </div>
                     <div className="flex flex-col justify-end text-[#525252] md:text-[1.3rem] sm:text-[1rem] text-[0.8rem] ">
-                      {user.레벨}
+                      {levelInfo[user.level].levelName}
                     </div>
                   </div>
                 ))
               }
             </div>
-            <div className={`${style.move} px-1`} style={{animationDuration:`${Object.keys(users).length*2}s`}}>
+            
+            <div className={`${pastList.length >= 4 ? style.move : ''} px-1`} style={{animationDuration:`${pastList.length*2}s`}}>
               {
-                users.map((user:any , index : number)=> (
-                  <div key={index} className={`flex justify-between rounded-lg bg-[#ffffff] my-3 md:px-5 sm:px-4 px-3  py-3 md:text-[1.5rem] sm:text-[1.2rem] text-[0.9rem] text-start}`}>
+                pastList.map((user:any , index:number)=> (
+                  <div key={index} className={`flex justify-between rounded-lg bg-[#ffffff] my-3 md:px-5 sm:px-4 px-3 py-3 md:text-[1.5rem] sm:text-[1.2rem] text-[0.9rem] text-start`}>
                     <div className="flex">
-                    <div className={`${style.badgeImg2}`} style={{backgroundImage:`url('/Assets/Icon/${user.뱃지이미지}.png')`}}></div>
+                    <div className={`${style.badgeImg2}`} style={{backgroundImage:`url('/Assets/Badge/${user.nowBadge.badgeImage}.png')`}}></div>
                       <div className="px-1">
-                        <div className="md:text-[1.1rem] sm:text-[1rem] text-[0.8rem]">{user.칭호}</div>
-                        <div className="md:text-[1.5rem] sm:text-[1.2rem] text-[1rem] font-bold text-start" >{user.이름}</div>
+                        <div className="md:text-[1.1rem] sm:text-[1rem] text-[0.8rem]">{user.nowBadge.badgeName}</div>
+                        <div className="md:text-[1.5rem] sm:text-[1.2rem] text-[1rem] font-bold text-start" >{user.nickname}</div>
                       </div>
                     </div>
                     <div className="flex flex-col justify-end text-[#525252] md:text-[1.3rem] sm:text-[1rem] text-[0.8rem] ">
-                      {user.레벨}
+                      {levelInfo[user.level].levelName}
                     </div>
                   </div>
                 ))
@@ -595,3 +588,4 @@ function PassUsers({users}:any): JSX.Element {
     </>
   )
 }
+

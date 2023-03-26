@@ -234,6 +234,8 @@ export const hmjeApi = createApi({
       }
     }),
 
+
+
     // --------------user---------------
 
     // 1. 내 정보 조회
@@ -342,6 +344,44 @@ export const hmjeApi = createApi({
         return [{ type: "Api" }]
       }
     }),
+
+    // 12. 내 뱃지 조회
+    getUserBadge: builder.query({
+      query: (userId: any) => {
+        return {
+          url: `/user/badge/${userId}`,
+          params: {
+            userId: userId
+          }
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
+
+    // 13. 뱃지 수정
+    putUserBadge: builder.mutation({
+      query: ([bagdeId, userId]) => {
+        return {
+          url: `/user/badge/${userId}/${bagdeId}`,
+          method: 'PUT',
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+    // 14. 말랑 이스터에그 뱃지
+    putUserBadgeMalrang: builder.mutation({
+      query: (userId) => {
+        return {
+          url: `/user/badge/malrang/${userId}`,
+          method: 'PUT',
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
 
     // ---------------STUDY---------------
 
@@ -478,7 +518,7 @@ export const hmjeApi = createApi({
       invalidatesTags: (result, error, arg) => [{ type: "Api" }]
     }),
 
-    // 10. 과거시험 회차 정보
+    // 10. 과거시험 문제
     getStudyPastTest: builder.query({
       query: () => {
         return {
@@ -490,11 +530,24 @@ export const hmjeApi = createApi({
       }
     }),
 
+    // 11. 장원급제 명단 반환
+    getStudyPastList : builder.query ({
+      query: (userId: any) => {
+        return {
+          url: `/study/past/list/${userId}`,
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
+
+
     // --------------word---------------
 
     // 1. 오늘의 단어 전체 조회
     getWordDaily: builder.query({
-      query: (data) => {
+      query:() => {
         return {
           url: `/word/daily`,
 
@@ -524,6 +577,7 @@ export const hmjeApi = createApi({
         return [{ type: "Api" }]
       }
     }),
+    
     // 3. 사전 개별조회
     getWorddictdetail: builder.query({
       query: (data) => {
@@ -583,6 +637,9 @@ export const {
   useGetUserMystudyQuery,
   usePutUserLogoutMutation,
   useLazyGetUserStatsCompareQuery,
+  useLazyGetUserBadgeQuery,
+  usePutUserBadgeMutation,
+  usePutUserBadgeMalrangMutation,
 
   // STUDY
   useLazyGetStudyWordQuery,
@@ -596,6 +653,7 @@ export const {
   useGetStudyPastQuery,
   usePostStudyPastResultMutation,
   useGetStudyPastTestQuery,
+  useGetStudyPastListQuery,
 
   // WORD
   useGetWorddictQuery,
