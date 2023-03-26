@@ -34,21 +34,24 @@ const PastTest = (): JSX.Element => {
     error: error1,
     isLoading: isLoading1,
   } = useGetStudyPastTestQuery("");
+  const [postStudyPastResult] = usePostStudyPastResultMutation();
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1; // 0부터 시작하므로 +1을 해줍니다.
   const date = today.getDate();
   const today_temp = year + "-" + "0" + month + "-" + date;
-  const [postStudyPastResult, loading] = usePostStudyPastResultMutation();
 
   if (isLoading1) {
     return <>로딩중</>;
   } else if (isLoading2) {
     return <>로딩중</>;
-  } else if (error2 || error1) {
+  } else if (error1) {
+    return <>error</>;
+  } else if (error2) {
     return <>error</>;
   } else {
-    console.log(test);
+    console.log("test", test);
+    console.log("PastDetail", PastDetail);
     return (
       <>
         <Navbar />
@@ -61,13 +64,7 @@ const PastTest = (): JSX.Element => {
                   <Title data={test.data} />
                 </div>
                 <div className="flex justify-center">
-                  {Question(
-                    PastDetail,
-                    test,
-                    answer,
-                    setanswer,
-                    postStudyPastResult,
-                  )}
+                  {Question(PastDetail, test, answer, setanswer,postStudyPastResult)}
                 </div>
               </>
             ) : (
@@ -82,8 +79,8 @@ const PastTest = (): JSX.Element => {
 };
 
 const Title = (data: any): JSX.Element => {
+  console.log("data", data);
   if (data) {
-    // console.log("데이터", data);
     return (
       <>
         <div className="w-full border-y-2 border-[#BF9F91] flex flex-col">
@@ -112,10 +109,10 @@ const Question = (
   na: any,
   answer: any,
   setanswer: Function,
-  postStudyPastResult: any,
+  postStudyPastResult:any,
 ) => {
-  const navigate = useNavigate();
-
+  // const navigate = useNavigate();
+  
   const item = "flex flex-row items-center py-2";
   const labletage =
     " text-sm font-medium text-gray-900 dark:text-gray-300 flex flex-row";
@@ -171,251 +168,248 @@ const Question = (
       score: result,
       userId: localStorage.getItem("userId"),
     };
-
     postStudyPastResult(data).then((r: any) => {
       // console.log(r);
       if (r.data.message === "success") {
         alert(`결과는 ${result} 입니다`);
-        navigate("/main");
-      }
-      else{
+        // navigate("/main");
+      } else {
         alert(`과거시험이 저장되지 않았습니다`);
       }
     });
   };
-  if (PastDetail) {
-    return (
-      <div className="flex flex-col justify-center max-w-screen-xl px-5 lg:px-0">
-        {PastDetail.data.map((it: any) => {
-          return (
-            <div className="flex flex-col justify-center w-full">
-              <br />
-              <br />
-              <div className="flex flex-col w-full text-[1.1rem]">
-                <div className="absolute w-[30%] lg:w-[10%] pt-2 min-h-[3rem] text-center font-extrabold text-white bg-[#F7CCB7] rounded-t-xl">
-                  문제 {it.pastQuestionId}번
-                </div>
-                <div className="text-justify mt-9 z-10 rounded-xl p-4 bg-[#F4EFEC]">
-                  {it.pastQuestion}
+
+  return (
+    <div className="flex flex-col justify-center max-w-screen-xl px-5 lg:px-0">
+      {PastDetail.data.map((it: any) => {
+        return (
+          <div className="flex flex-col justify-center w-full">
+            <br />
+            <br />
+            <div className="flex flex-col w-full text-[1.1rem]">
+              <div className="absolute w-[30%] lg:w-[10%] pt-2 min-h-[3rem] text-center font-extrabold text-white bg-[#F7CCB7] rounded-t-xl">
+                문제 {it.pastQuestionId}번
+              </div>
+              <div className="text-justify mt-9 z-10 rounded-xl p-4 bg-[#F4EFEC]">
+                {it.pastQuestion}
+              </div>
+            </div>
+            {/* <보기> 없음 */}
+            {it.pastText === "" ? (
+              <div>
+                <br />
+                <div className="flex flex-col">
+                  <div className={item}>
+                    <label
+                      htmlFor={`${it.pastQuestionId}-1`}
+                      className={labletage}
+                    >
+                      <input
+                        id={`${it.pastQuestionId}-1`}
+                        type="radio"
+                        value="1"
+                        name={`${it.pastQuestionId}`}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        onClick={handleClickRadioButton}
+                        // onChange={.handleChange}
+                      />
+                      <div>&nbsp;&nbsp;&nbsp;1.</div>
+                      <ReactMarkdown children={it.pastChoice1} />
+                    </label>
+                  </div>
+                  <div className={item}>
+                    <label
+                      htmlFor={`${it.pastQuestionId}-2`}
+                      className={labletage}
+                    >
+                      <input
+                        id={`${it.pastQuestionId}-2`}
+                        type="radio"
+                        value="2"
+                        name={`${it.pastQuestionId}`}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        onClick={handleClickRadioButton}
+                        // onChange={}
+                      />
+                      <div>&nbsp;&nbsp;&nbsp;2.</div>
+                      <ReactMarkdown children={it.pastChoice2} />
+                    </label>
+                  </div>
+                  <div className={item}>
+                    <label
+                      htmlFor={`${it.pastQuestionId}-3`}
+                      className={labletage}
+                    >
+                      <input
+                        id={`${it.pastQuestionId}-3`}
+                        type="radio"
+                        value="3"
+                        name={`${it.pastQuestionId}`}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        onClick={handleClickRadioButton}
+                      />
+                      <div>&nbsp;&nbsp;&nbsp;3.</div>
+                      <ReactMarkdown children={`${it.pastChoice3}`} />
+                    </label>
+                  </div>
+                  <div className={item}>
+                    <label
+                      htmlFor={`${it.pastQuestionId}-4`}
+                      className={labletage}
+                    >
+                      <input
+                        id={`${it.pastQuestionId}-4`}
+                        type="radio"
+                        value="4"
+                        name={`${it.pastQuestionId}`}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        onClick={handleClickRadioButton}
+                      />
+                      <div>&nbsp;&nbsp;&nbsp;4.</div>
+                      <ReactMarkdown children={it.pastChoice4} />
+                    </label>
+                  </div>
+                  <div className={item}>
+                    <label
+                      htmlFor={`${it.pastQuestionId}-5`}
+                      className={labletage}
+                    >
+                      <input
+                        id={`${it.pastQuestionId}-5`}
+                        type="radio"
+                        value="5"
+                        name={`${it.pastQuestionId}`}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        onClick={handleClickRadioButton}
+                      />
+                      <div>&nbsp;&nbsp;&nbsp;5.</div>
+                      <ReactMarkdown children={it.pastChoice5} />
+                    </label>
+                  </div>
                 </div>
               </div>
-              {/* <보기> 없음 */}
-              {it.pastText === null ? (
-                <div>
-                  <br />
-                  <div className="flex flex-col">
-                    <div className={item}>
-                      <label
-                        htmlFor={`${it.pastQuestionId}-1`}
-                        className={labletage}
-                      >
-                        <input
-                          id={`${it.pastQuestionId}-1`}
-                          type="radio"
-                          value="1"
-                          name={`${it.pastQuestionId}`}
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                          onClick={handleClickRadioButton}
-                          // onChange={.handleChange}
-                        />
-                        <div>&nbsp;&nbsp;&nbsp;1.</div>
-                        <ReactMarkdown children={it.pastChoice1} />
-                      </label>
-                    </div>
-                    <div className={item}>
-                      <label
-                        htmlFor={`${it.pastQuestionId}-2`}
-                        className={labletage}
-                      >
-                        <input
-                          id={`${it.pastQuestionId}-2`}
-                          type="radio"
-                          value="2"
-                          name={`${it.pastQuestionId}`}
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                          onClick={handleClickRadioButton}
-                          // onChange={}
-                        />
-                        <div>&nbsp;&nbsp;&nbsp;2.</div>
-                        <ReactMarkdown children={it.pastChoice2} />
-                      </label>
-                    </div>
-                    <div className={item}>
-                      <label
-                        htmlFor={`${it.pastQuestionId}-3`}
-                        className={labletage}
-                      >
-                        <input
-                          id={`${it.pastQuestionId}-3`}
-                          type="radio"
-                          value="3"
-                          name={`${it.pastQuestionId}`}
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                          onClick={handleClickRadioButton}
-                        />
-                        <div>&nbsp;&nbsp;&nbsp;3.</div>
-                        <ReactMarkdown children={`${it.pastChoice3}`} />
-                      </label>
-                    </div>
-                    <div className={item}>
-                      <label
-                        htmlFor={`${it.pastQuestionId}-4`}
-                        className={labletage}
-                      >
-                        <input
-                          id={`${it.pastQuestionId}-4`}
-                          type="radio"
-                          value="4"
-                          name={`${it.pastQuestionId}`}
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                          onClick={handleClickRadioButton}
-                        />
-                        <div>&nbsp;&nbsp;&nbsp;4.</div>
-                        <ReactMarkdown children={it.pastChoice4} />
-                      </label>
-                    </div>
-                    <div className={item}>
-                      <label
-                        htmlFor={`${it.pastQuestionId}-5`}
-                        className={labletage}
-                      >
-                        <input
-                          id={`${it.pastQuestionId}-5`}
-                          type="radio"
-                          value="5"
-                          name={`${it.pastQuestionId}`}
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                          onClick={handleClickRadioButton}
-                        />
-                        <div>&nbsp;&nbsp;&nbsp;5.</div>
-                        <ReactMarkdown children={it.pastChoice5} />
-                      </label>
-                    </div>
+            ) : (
+              <div>
+                {/* <보기> 있음 */}
+                <br />
+                <div className="border-2 text-center rounded-xl p-4">
+                  <ReactMarkdown children={it.pastText} />
+                </div>
+                <br />
+                <div className="flex flex-col">
+                  <div className={item}>
+                    <label
+                      htmlFor={`${it.pastQuestionId}-1`}
+                      className={labletage}
+                    >
+                      <input
+                        id={`${it.pastQuestionId}-1`}
+                        type="radio"
+                        value="1"
+                        name={`${it.pastQuestionId}`}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        onClick={handleClickRadioButton}
+                      />
+                      <div>&nbsp;&nbsp;&nbsp;1.</div>
+
+                      <ReactMarkdown children={it.pastChoice1} />
+                    </label>
+                  </div>
+                  <div className={item}>
+                    <label
+                      htmlFor={`${it.pastQuestionId}-2`}
+                      className={labletage}
+                    >
+                      <input
+                        id={`${it.pastQuestionId}-2`}
+                        type="radio"
+                        value="2"
+                        name={`${it.pastQuestionId}`}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        onClick={handleClickRadioButton}
+                      />
+                      <div>&nbsp;&nbsp;&nbsp;2.</div>
+
+                      <ReactMarkdown children={it.pastChoice2} />
+                    </label>
+                  </div>
+                  <div className={item}>
+                    <label
+                      htmlFor={`${it.pastQuestionId}-3`}
+                      className={labletage}
+                    >
+                      <input
+                        id={`${it.pastQuestionId}-3`}
+                        type="radio"
+                        value="3"
+                        name={`${it.pastQuestionId}`}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        onClick={handleClickRadioButton}
+                      />
+                      <div>&nbsp;&nbsp;&nbsp;3.</div>
+
+                      <ReactMarkdown children={it.pastChoice3} />
+                    </label>
+                  </div>
+                  <div className={item}>
+                    <label
+                      htmlFor={`${it.pastQuestionId}-4`}
+                      className={labletage}
+                    >
+                      <input
+                        id={`${it.pastQuestionId}-4`}
+                        type="radio"
+                        value="4"
+                        name={`${it.pastQuestionId}`}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        onClick={handleClickRadioButton}
+                      />
+                      <div>&nbsp;&nbsp;&nbsp;4.</div>
+
+                      <ReactMarkdown children={it.pastChoice4} />
+                    </label>
+                  </div>
+                  <div className={item}>
+                    <label
+                      htmlFor={`${it.pastQuestionId}-5`}
+                      className={labletage}
+                    >
+                      <input
+                        id={`${it.pastQuestionId}-5`}
+                        type="radio"
+                        value="5"
+                        name={`${it.pastQuestionId}`}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        onClick={handleClickRadioButton}
+                      />
+                      <div className="">&nbsp;&nbsp;&nbsp;5.</div>
+
+                      <ReactMarkdown children={it.pastChoice5} />
+                    </label>
                   </div>
                 </div>
-              ) : (
-                <div>
-                  {/* <보기> 있음 */}
-                  <br />
-                  <div className="border-2 text-center rounded-xl p-4">
-                    <ReactMarkdown children={it.pastText} />
-                  </div>
-                  <br />
-                  <div className="flex flex-col">
-                    <div className={item}>
-                      <label
-                        htmlFor={`${it.pastQuestionId}-1`}
-                        className={labletage}
-                      >
-                        <input
-                          id={`${it.pastQuestionId}-1`}
-                          type="radio"
-                          value="1"
-                          name={`${it.pastQuestionId}`}
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                          onClick={handleClickRadioButton}
-                        />
-                        <div>&nbsp;&nbsp;&nbsp;1.</div>
-
-                        <ReactMarkdown children={it.pastChoice1} />
-                      </label>
-                    </div>
-                    <div className={item}>
-                      <label
-                        htmlFor={`${it.pastQuestionId}-2`}
-                        className={labletage}
-                      >
-                        <input
-                          id={`${it.pastQuestionId}-2`}
-                          type="radio"
-                          value="2"
-                          name={`${it.pastQuestionId}`}
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                          onClick={handleClickRadioButton}
-                        />
-                        <div>&nbsp;&nbsp;&nbsp;2.</div>
-
-                        <ReactMarkdown children={it.pastChoice2} />
-                      </label>
-                    </div>
-                    <div className={item}>
-                      <label
-                        htmlFor={`${it.pastQuestionId}-3`}
-                        className={labletage}
-                      >
-                        <input
-                          id={`${it.pastQuestionId}-3`}
-                          type="radio"
-                          value="3"
-                          name={`${it.pastQuestionId}`}
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                          onClick={handleClickRadioButton}
-                        />
-                        <div>&nbsp;&nbsp;&nbsp;3.</div>
-
-                        <ReactMarkdown children={it.pastChoice3} />
-                      </label>
-                    </div>
-                    <div className={item}>
-                      <label
-                        htmlFor={`${it.pastQuestionId}-4`}
-                        className={labletage}
-                      >
-                        <input
-                          id={`${it.pastQuestionId}-4`}
-                          type="radio"
-                          value="4"
-                          name={`${it.pastQuestionId}`}
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                          onClick={handleClickRadioButton}
-                        />
-                        <div>&nbsp;&nbsp;&nbsp;4.</div>
-
-                        <ReactMarkdown children={it.pastChoice4} />
-                      </label>
-                    </div>
-                    <div className={item}>
-                      <label
-                        htmlFor={`${it.pastQuestionId}-5`}
-                        className={labletage}
-                      >
-                        <input
-                          id={`${it.pastQuestionId}-5`}
-                          type="radio"
-                          value="5"
-                          name={`${it.pastQuestionId}`}
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                          onClick={handleClickRadioButton}
-                        />
-                        <div className="">&nbsp;&nbsp;&nbsp;5.</div>
-
-                        <ReactMarkdown children={it.pastChoice5} />
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
-        <div className="relative w-full h-[5rem] mt-6">
-          <button
-            className="absolute right-0 border-2 border-[#A87E6E] bg-[#F0ECE9] text-[#A87E6E] rounded-lg w-[30%] py-3"
-            onClick={radioClick}
-          >
-            제출
-          </button>
-        </div>
+              </div>
+            )}
+          </div>
+        );
+      })}
+      <div className="relative w-full h-[5rem] mt-6">
+        <button
+          className="absolute right-0 border-2 border-[#A87E6E] bg-[#F0ECE9] text-[#A87E6E] rounded-lg w-[30%] py-3"
+          onClick={radioClick}
+        >
+          제출
+        </button>
       </div>
-    );
-  }
+    </div>
+  );
 };
 
 const intToString = (num: any) => {
   return String(num).padStart(2, "0");
 };
 const Timer = ({ mm, ss }: { mm: any; ss: any }): JSX.Element => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const MM = mm ? mm : 15;
   const SS = ss ? ss : 0;
 
@@ -439,7 +433,7 @@ const Timer = ({ mm, ss }: { mm: any; ss: any }): JSX.Element => {
 
       // 시간 초과시 결과 저장해서 내보냄
       alert("시간초과");
-      navigate("/main");
+      // navigate("/main");
     }
   }, [second]);
 
