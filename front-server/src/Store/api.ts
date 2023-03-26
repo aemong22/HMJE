@@ -353,6 +353,21 @@ export const hmjeApi = createApi({
       providesTags: (result, error, arg) => {
         return [{ type: "Api" }]
       }
+    }), 
+
+    // 13. 내 뱃지 조회
+    getUserBadge: builder.query({
+      query: (userId: any) => {
+        return {
+          url: `/user/badge/${userId}`,
+          params: {
+            userId: userId
+          }
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
     }),
 
     // 13. 오늘의 단어 랭킹
@@ -368,6 +383,29 @@ export const hmjeApi = createApi({
       }
 
     }),
+
+    // 13. 뱃지 수정
+    putUserBadge: builder.mutation({
+      query: ([bagdeId, userId]) => {
+        return {
+          url: `/user/badge/${userId}/${bagdeId}`,
+          method: 'PUT',
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+    // 14. 말랑 이스터에그 뱃지
+    putUserBadgeMalrang: builder.mutation({
+      query: (userId) => {
+        return {
+          url: `/user/badge/malrang/${userId}`,
+          method: 'PUT',
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
 
     // ---------------STUDY---------------
 
@@ -625,6 +663,9 @@ export const {
   useLazyGetUserStatsCompareQuery,
   useGetUserRankLevelQuery,
   useGetUserRankWordQuery,
+  useLazyGetUserBadgeQuery,
+  usePutUserBadgeMutation,
+  usePutUserBadgeMalrangMutation,
 
   // STUDY
   useLazyGetStudyWordQuery,
