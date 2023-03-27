@@ -25,11 +25,11 @@ export const Toast = styled(ToastContainer).attrs({
     }
 
     .Toastify__toast--info {
-        background: rgba(107, 115, 135, 0.8);
+        background: rgba(255, 255, 255, 0.8);
     }
 
     .Toastify__toast--success {
-        background: rgba(48, 173, 120, 0.8);
+        background: rgba(255, 255, 255, 0.8);
     }
 
     .Toastify__toast--error {

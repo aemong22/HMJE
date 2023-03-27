@@ -35,7 +35,6 @@ function WordStudy(): JSX.Element {
 
     
     if(studyType === "wordStudy") {
-      console.log("여기 실행이다");
       getStudyWord(userId).then((r) => { 
         const myArray = [...r.data.data];
         myArray.sort(() => Math.random() - 0.5);
@@ -67,7 +66,6 @@ function WordStudy(): JSX.Element {
     setstartTime(Date.now())
   },[])
 
-  console.log(question)
   // 세모 개수
   const [semo, setSemo] = useState<number>(0)
 
@@ -106,6 +104,31 @@ function WordStudy(): JSX.Element {
        {question?.length > 0 &&
         <div className="bg-[#F9F9F9] w-full h-screen">
           <Navbar />
+          {resultModal && 
+              <ResultModal 
+                studyType={studyType} 
+                setResultModal={setResultModal}
+                correct={correct}
+                semo={semo}
+                wrong={wrong}
+                startTime={startTime}
+                />}
+                
+
+          { modalOpen && 
+            <AnswerModal 
+              closeModal={closeModal} 
+              studyType={studyType} 
+              setRight={setRight}
+              right={right} 
+              num={num}
+              modalOpen={modalOpen}
+              setNum={setNum}
+              setResultModal={setResultModal} 
+              question={question
+            }/> }
+            
+  
           <Study 
             question={question}
             studyType={studyType} 
@@ -121,28 +144,7 @@ function WordStudy(): JSX.Element {
             closeModal={closeModal}
             modalOpen={modalOpen}/>
     
-          { modalOpen ? 
-            <AnswerModal 
-              closeModal={closeModal} 
-              studyType={studyType} 
-              setRight={setRight}
-              right={right} 
-              num={num}
-              modalOpen={modalOpen}
-              setNum={setNum}
-              setResultModal={setResultModal} 
-              question={question
-            }/> : null }
     
-            {resultModal ? 
-              <ResultModal 
-                studyType={studyType} 
-                setResultModal={setResultModal}
-                correct={correct}
-                semo={semo}
-                wrong={wrong}
-                startTime={startTime}
-                /> : null}
           </div>
       
       }
