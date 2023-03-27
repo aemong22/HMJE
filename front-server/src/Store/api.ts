@@ -327,7 +327,7 @@ export const hmjeApi = createApi({
     postFaq: builder.mutation({
       query: (body) => {
         return {
-          url: "/notice",
+          url: "/faq",
           method: 'post',
           body: body
         }
