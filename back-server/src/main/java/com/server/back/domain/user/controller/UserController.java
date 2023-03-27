@@ -7,7 +7,6 @@ import com.server.back.domain.message.dto.FindRequestDto;
 import com.server.back.domain.message.service.SmsService;
 import com.server.back.domain.user.dto.*;
 
-import com.server.back.domain.user.repository.BadgeRepository;
 import com.server.back.domain.user.service.BadgeService;
 import com.server.back.domain.user.service.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -36,13 +35,15 @@ public class UserController {
         Map<String, Object> response = new HashMap<>();
         System.out.println(requestDto);
         userService.join(requestDto);
+        List<Long> newbadge = badgeService.badgecheckNewbie(requestDto.getUsername());
+        response.put("newbadge", newbadge);
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @ApiOperation(value = "토큰 갱신", notes = "accessToken, refreshToken을 갱신하여 전달.")
     @GetMapping("/auth/refresh/{username}")
     public Map<String,String> refreshToken(@PathVariable("username") String username, @RequestHeader("refreshToken") String refreshToken,
-                                           HttpServletResponse response) throws JsonProcessingException {
+                                           HttpServletResponse response){
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
         TokenRequestDto tokenRequestDto = jwtService.validRefreshToken(username, refreshToken);
@@ -133,7 +134,7 @@ public class UserController {
     @PutMapping("/{userId}")
     public ResponseEntity<Map<String, Object>> userUpdate(@PathVariable(value = "userId") Long userId , @RequestBody UserRequestDto requestDto){
         Map<String, Object> response = new HashMap<>();
-        userService.userUpdate(userId, requestDto);
+        userService.userNicknameUpdate(userId, requestDto);
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -190,12 +191,30 @@ public class UserController {
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    @ApiOperation(value = "뱃지 획득 확인")
-    @GetMapping("/sms/check/{userId}")
-    public ResponseEntity<Map<String, Object>> badgeCheck(@PathVariable(value = "userId") Long userId){
+    @ApiOperation(value = "오늘의 단어 랭킹")
+    @GetMapping("/rank/word")
+    public ResponseEntity<Map<String, Object>> rankWord(){
         Map<String, Object> response = new HashMap<>();
-        List<Long> responseDto = badgeService.badgecheck(userId);
+        List<RankWordResponseDto> responseDto = userService.rankWord();
         response.put("data", responseDto);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @ApiOperation(value = "레벨 랭킹")
+    @GetMapping("/rank/level")
+    public ResponseEntity<Map<String, Object>> rankLevel(){
+        Map<String, Object> response = new HashMap<>();
+        List<RankLevelResponseDto> responseDto = userService.rankLevel();
+        response.put("data", responseDto);
+        response.put("message", "success");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @ApiOperation(value = "말랑 이스터에그 뱃지")
+    @PutMapping("/badge/malrang/{userId}")
+    public ResponseEntity<Map<String, Object>> badgecheckMalrang(@PathVariable(value = "userId") Long userId){
+        Map<String, Object> response = new HashMap<>();
+        List<Long> newbadge = badgeService.badgecheckMalrang(userId);
+        response.put("newbadge", newbadge);
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

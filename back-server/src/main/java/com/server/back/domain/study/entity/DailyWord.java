@@ -19,6 +19,7 @@ public class DailyWord extends CommonEntity {
 	private Long dailyWordId;
 
 	private String category;
+	private Integer score;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "word_id")

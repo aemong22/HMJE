@@ -9,11 +9,12 @@ import java.util.List;
 
 public interface UserService {
     void join(UserRequestDto requestDto);
+    void loginHistory(Long userId);
     boolean userNicknameCheck(UserRequestDto requestDto);
     boolean userUsernameCheck(UserRequestDto requestDto);
     UserResponseDto userInfo(Long userId);
 
-    void userUpdate(Long userId, UserRequestDto requestDto);
+    void userNicknameUpdate(Long userId, UserRequestDto requestDto);
     boolean changeInfo(Long userId, UserRequestDto requestDto);
     boolean changePassword(Long userId, ChangeRequestDto requestDto);
     boolean changePhonenumber(Long userId, ChangeRequestDto requestDto);
@@ -28,4 +29,6 @@ public interface UserService {
     List<MonthStudyResponseDto> monthstudy(Long userId, MonthStudyRequestDto requestDto);
     Integer levelup(Long userId);
     CompareResponseDto compare(Long userId);
+    List<RankWordResponseDto> rankWord();
+    List<RankLevelResponseDto> rankLevel();
 }

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.server.back.domain.user.dto.BadgeResultResponseDto.MyBadgeResultList;
@@ -35,6 +36,7 @@ public class UserServiceImpl implements UserService {
     private final RightWordRepository rightWordRepository;
     private final DogamResultRepository dogamResultRepository;
     private final MyCharacterRepository myCharacterRepository;
+    private final LoginHistoryRepository loginHistoryRepository;
 
     @Override
     public void join(UserRequestDto requestDto) {
@@ -54,9 +56,37 @@ public class UserServiceImpl implements UserService {
                 .todayWrong(0)
                 .isAdmin(requestDto.getIsAdmin())
                 .isSecession(requestDto.getIsSecession())
+                .continAttendance(1)
+                .accumAttendance(1)
                 .build();
-
         userRepository.save(user);
+    }
+    @Override
+    public void loginHistory(Long userId) {
+        System.out.println("userId = " + userId);
+        User user = userRepository.findByUserId(userId);
+        //이전 로그인 기록과 비교해서 누적/연속 체크
+        List<LoginHistory> mylogin = loginHistoryRepository.findByUser(user);
+        System.out.println("mylogin = " + mylogin);
+        if (mylogin.size() != 0){
+            System.out.println("mylogin_now = " + mylogin);
+            LocalDate history = mylogin.get(mylogin.size()-1).getCreatedAt().toLocalDate();
+            LocalDate yesterday = LocalDate.now().minusDays(1);
+            System.out.println("history = " + history);
+            System.out.println("yesterday = " + yesterday);
+            if (!history.isEqual(LocalDate.now())){
+                user.accumAttendance();  // 누적 출석 +
+                if (history.isEqual(yesterday)){
+                    user.continAttendance(); // 연속 출석 +
+                }
+            }
+        }
+        //현재 로그인 기록
+        LoginHistory loginHistory = LoginHistory.builder()
+                .user(user)
+                .build();
+        loginHistoryRepository.save(loginHistory);
+
     }
 
     @Override
@@ -76,16 +106,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean userUsernameCheck(UserRequestDto requestDto) {
         System.out.println("requestDto-username///////////////"+requestDto);
-        int count = 0;
-        for (User r : userRepository.findAll()) {
-            if (r.getUsername().equals(requestDto.getUsername())){
-                count += 1;
-            }
-        }
-        if (count == 0) {
+        User user = userRepository.findByUsername(requestDto.getUsername());
+        if(user.equals(null)){
             return true;
         }
-        return false;
+        else{
+            return false;
+        }
+
+
     }
 
     @Override
@@ -95,9 +124,9 @@ public class UserServiceImpl implements UserService {
         return responseDto;
     }
     @Override
-    public void userUpdate(Long userId, UserRequestDto requestDto){
+    public void userNicknameUpdate(Long userId, UserRequestDto requestDto){
         User entity = userRepository.findByUserId(userId);
-        entity.update(requestDto);
+        entity.updateNickname(requestDto);
     }
     @Override
     public boolean changeInfo(Long userId, UserRequestDto requestDto){
@@ -305,14 +334,17 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUserId(userId);
         Integer nowlevel = user.getLevel();
         Integer newlevel = user.getLevel();
-//        System.out.println("nowlevel = " + nowlevel);
-//        System.out.println("100*Math.pow(2,user.getLevel()-1)) = " + 100*Math.pow(2,user.getLevel()-1));
-        while (user.getExp() >= (100*Math.pow(2,user.getLevel()-1))) {
-            Integer newexp = (int) (user.getExp() - (100 * Math.pow(2, user.getLevel() - 1)));
-            newlevel = user.getLevel() + 1;
+        while ((user.getExp() >= (100*Math.pow(2,nowlevel-1)))) {
+            if(nowlevel >=9) {
+                if ( nowlevel.equals(9) && user.getExp() >= 25600) {
+                    newlevel = nowlevel + 1;
+                    user.levelup(user.getExp(), newlevel);
+                }
+                break;
+            }
+            Integer newexp = (int) (user.getExp() - (100 * Math.pow(2, nowlevel - 1)));
+            newlevel = nowlevel + 1;
             user.levelup(newexp, newlevel);
-//            System.out.println("newexp = " + newexp);
-//            System.out.println("newlevel = " + newlevel);
         }
         if (!nowlevel.equals(newlevel)){
             return newlevel;
@@ -366,6 +398,58 @@ public class UserServiceImpl implements UserService {
             responseDto.setMonthUsersStatsTime(monthUsersStatsTime);
         }
 
+        return responseDto;
+    }
+    @Override
+    public List<RankWordResponseDto> rankWord(){
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime today = LocalDateTime.of(now.getYear(),
+                now.getMonth(), now.getDayOfMonth(), 0, 0, 0); //오늘 0:00:00
+        List<User> users = rightWordRepository.findByDate(today);
+        List<RankWordResponseDto> responseDto = new ArrayList<>();
+        for (User user : users) {
+            // 맞은 단어 가져오기 > 맨 앞부분 데이터에서 createdAt 저장
+            List<RightWord> rightWords = rightWordRepository.findByUserAndCreatedAtAfterOrderByCreatedAtDesc(user,today);
+            RankWordResponseDto userRankWord = new RankWordResponseDto().builder()
+                    .userId(user.getUserId())
+                    .nickname(user.getNickname())
+                    .count(rightWords.size())
+                    .badgeName(user.getNowBadge().getBadgeName())
+                    .badgeImage(user.getNowBadge().getBadgeImage())
+                    .updatedAt(rightWords.get(0).getCreatedAt())
+                    .build();
+            responseDto.add(userRankWord);
+        }
+        // 카운트 뒤집어서 정렬 + updatedAt 정렬 (먼저 많은 단어 맞춘사람이 위로)
+        if (responseDto.size()!=0) {
+            responseDto.sort(Comparator.comparing(RankWordResponseDto::getCount).reversed().thenComparing(RankWordResponseDto::getUpdatedAt));
+            if (responseDto.size() > 10){
+                responseDto.subList(10, responseDto.size()).clear();
+            }
+        }
+        return responseDto;
+    }
+    @Override
+    public List<RankLevelResponseDto> rankLevel(){
+        List<User> users = userRepository.findAll();
+        users.sort(Comparator.comparing(User::getLevel).thenComparing(User::getExp).thenComparing(User::getTodayRight).reversed());
+        System.out.println("users = " + users);
+        List<RankLevelResponseDto> responseDto = new ArrayList<>();
+        // 레벨, exp, 오늘 총 맞춘 갯수 순으로 정렬
+        if (users.size() > 10){
+            users.subList(10, users.size()).clear();
+        }
+        for (User user: users){
+            RankLevelResponseDto userRankLevel = new RankLevelResponseDto().builder()
+                    .userId(user.getUserId())
+                    .nickname(user.getNickname())
+                    .level(user.getLevel())
+                    .exp(user.getExp())
+                    .badgeName(user.getNowBadge().getBadgeName())
+                    .badgeImage(user.getNowBadge().getBadgeImage())
+                    .build();
+            responseDto.add(userRankLevel);
+        }
         return responseDto;
     }
 }
