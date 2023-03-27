@@ -63,7 +63,6 @@ interface StudyType {
 
 
 function MyPage():JSX.Element {
-  const [userData,setUserData] = useState()
   const userId = localStorage.getItem('userId')
   const {data:userMyInfo, isError:isError1, isLoading:isLoading1} = useGetUserMyinfoQuery(userId)
   const {data:studyData, isError:isError2, isLoading:isLoading2} = useGetUserMystudyQuery(userId)
@@ -201,7 +200,7 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
   useEffect(()=> {
     if (dataLevel === 9) {
       setCharacter(<OrangeCat sendEmo={checkEmoState}/>)
-    } else if ((3 <= dataLevel)&&(dataLevel <= 8)) {
+    } else if ((5 <= dataLevel)&&(dataLevel <= 8)) {
       setCharacter(<MixCat sendEmo={checkEmoState}/>)
     }
   },[])
@@ -211,9 +210,9 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
       putUserBadgeMalrang(userId).unwrap().then((r)=> {
         console.log(r);
         if (r.newbadge.length) {
-          toast.success('숨겨진 뱃지를 획득했습니다!')
+          toast.success('숨겨진 칭호를 획득했습니다!')
         } else {
-          toast.error('뱃지를 소유하고 있습니다!')
+          toast.error('칭호를 소유하고 있습니다!')
         }
       })
     }
@@ -345,7 +344,7 @@ function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sent
   useEffect(()=> {
     if (dataLevel === 9) {
       setCharacter(<OrangeCat sendEmo={checkEmoState}/>)
-    } else if ((3 <= dataLevel)&&(dataLevel <= 8)) {
+    } else if ((5 <= dataLevel)&&(dataLevel <= 8)) {
       setCharacter(<MixCat sendEmo={checkEmoState}/>)
     }
   },[])
@@ -355,9 +354,9 @@ function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sent
       putUserBadgeMalrang(userId).unwrap().then((r)=> {
         console.log(r);
         if (r.newbadge.length) {
-          toast.success('숨겨진 뱃지를 획득했습니다!')
+          toast.success('숨겨진 칭호를 획득했습니다!')
         } else {
-          toast.error('뱃지를 소유하고 있습니다!')
+          toast.error('칭호를 소유하고 있습니다!')
         }
       })
     }
@@ -768,7 +767,7 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
     }).then(()=> {
       setBadgeList(userBadge.map((badge:GetBadge, idx:number)=> {        
         return (
-            <img key={idx} className="object-contain w-[8rem] h-[8rem] py-[0.5rem] px-[0.5rem] hover:w-[9rem] hover:h-[9rem] hover:py-0 hover:px-0" style={{transition: 'all .4s'}} src={`/Assets/Badge/${badge.badgeImage}.png`} alt="뱃지" onClick={()=> {
+            <img key={idx} className="object-contain w-[8rem] h-[8rem] my-[0.5rem] mx-[0.5rem] hover:scale-125" style={{transition: 'all .4s'}} src={`/Assets/Badge/${badge.badgeImage}.png`} alt="뱃지" onClick={()=> {
               showBadgeDetail(badge)
             }}/>
         )
