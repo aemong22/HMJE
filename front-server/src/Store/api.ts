@@ -684,6 +684,8 @@ export const hmjeApi = createApi({
       }
     }),
 
+    
+  
 
   }),
 })
@@ -746,4 +748,7 @@ export const {
 
   useGetWordDailyQuery,
 
+
+  // NOTICE
+  useLazyGetNoticeQuery
 } = hmjeApi 
