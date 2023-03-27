@@ -3,6 +3,7 @@ package com.server.back.domain.study.controller;
 
 import com.server.back.domain.study.dto.DailyWordResponseDto;
 import com.server.back.domain.study.dto.DictRequestDto;
+import com.server.back.domain.study.dto.RemainWordResponseDto;
 import com.server.back.domain.study.dto.WordResponseDto;
 
 import com.server.back.domain.study.service.WordService;
@@ -173,6 +174,18 @@ public class WordController {
 		List<DailyWordResponseDto> dailyWord = wordService.getDailyWordList();
 
 		response.put("data", dailyWord);
+		response.put("message", "success");
+
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "난이도 별 남은 단어 수 조회")
+	@GetMapping("/remain/{userId}")
+	public ResponseEntity<Map<String, Object>> getRemainWordCnt(@PathVariable(value = "userId") Long userId){
+		Map<String, Object> response = new HashMap<>();
+		RemainWordResponseDto remainWordResponseDto = wordService.getRemainWordCnt(userId);
+
+		response.put("data", remainWordResponseDto);
 		response.put("message", "success");
 
 		return new ResponseEntity<>(response, HttpStatus.OK);

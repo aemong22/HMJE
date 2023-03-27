@@ -3,11 +3,13 @@ package com.server.back.domain.study.service;
 
 import com.server.back.domain.study.dto.DailyWordResponseDto;
 import com.server.back.domain.study.dto.DictRequestDto;
+import com.server.back.domain.study.dto.RemainWordResponseDto;
 import com.server.back.domain.study.dto.WordResponseDto;
 import com.server.back.domain.study.entity.DailyWord;
 import com.server.back.domain.study.entity.Word;
 import com.server.back.domain.study.entity.WrongWord;
 import com.server.back.domain.study.repository.DailyWordRepository;
+import com.server.back.domain.study.repository.RightWordRepository;
 import com.server.back.domain.study.repository.WordRepository;
 import com.server.back.domain.user.entity.User;
 import com.server.back.domain.user.repository.UserRepository;
@@ -51,6 +53,7 @@ public class WordServiceImpl implements WordService {
 		}
 	};
 	private final UserRepository userRepository;
+	private final RightWordRepository rightWordRepository;
 
 
 	@Override
@@ -140,6 +143,34 @@ public class WordServiceImpl implements WordService {
 		List<DailyWordResponseDto> dailyWordResponseDtoList = DailyWordResponseDto.fromEntityList(dailyWordList.subList(0,80));
 
 		return dailyWordResponseDtoList;
+	}
+
+
+	@Override
+	public RemainWordResponseDto getRemainWordCnt(Long userId) {
+		User user = userRepository.findByUserId(userId);
+
+		int lowWordCnt = wordRepository.countAllByWordRating("초급");
+		System.out.println("lowWordCnt = " + lowWordCnt);
+		int middleWordCnt = wordRepository.countAllByWordRating("중급");
+		System.out.println("middleWordCnt = " + middleWordCnt);
+		int highWordCnt = wordRepository.countAllByWordRating("고급");
+		System.out.println("highWordCnt = " + highWordCnt);
+
+		int myLowWordCnt = rightWordRepository.findAllByFilterAndUser(user, "초급").size();
+		System.out.println("myLowWordCnt = " + myLowWordCnt);
+		int mymiddleWordCnt = rightWordRepository.findAllByFilterAndUser(user, "중급").size();
+		System.out.println("mymiddleWordCnt = " + mymiddleWordCnt);
+		int myhighWordCnt = rightWordRepository.findAllByFilterAndUser(user, "고급").size();
+		System.out.println("myhighWordCnt = " + myhighWordCnt);
+
+		RemainWordResponseDto result = RemainWordResponseDto.builder()
+										.lowWordCnt(lowWordCnt - myLowWordCnt)
+										.middleWordCnt(middleWordCnt - mymiddleWordCnt)
+										.highWordCnt(highWordCnt - myhighWordCnt)
+							            .build();
+
+		return result;
 	}
 
 	//	@Override
