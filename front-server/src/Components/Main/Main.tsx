@@ -17,12 +17,15 @@ import classNames from "classnames";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import PastTestIntroModal from "../Study/PastTest/PastTestIntroModal";
 import { showPastTestIntro } from "../../Store/store";
-import ReactWordCloud from "react-wordcloud";
+import  ReactWordCloud from 'react-wordcloud'
+import StudyStartModal from "./StudyStartModal";
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
 
 function Main(): JSX.Element {
   const navigate = useNavigate();
+  localStorage.removeItem("difficulty")
+  
   const location = useLocation();
   // 로그인 안했을 시 intro페이지로 이동
   var loactionuse = 0;
@@ -197,7 +200,8 @@ export default Main;
 // main 페이지는 container, max-w-screen-lg, lg:w-[70%] 설정
 
 // 맨위 : 유저 정보 , 오늘의 정보
-function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
+function MyInfo({userMyInfo, userMyStudy,levelInfo}:any): JSX.Element {
+  const [openModal , setOpenModal] = useState<Boolean>(false);
   localStorage.setItem("nickname", userMyInfo.nickname);
   const navigate = useNavigate();
 
@@ -214,6 +218,8 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
   const s = time;
 
   return (
+    <>
+    {openModal && <StudyStartModal setOpenModal={setOpenModal} />}
     <div className="bg-[#F0ECE9]">
       <div className="container max-w-screen-xl mx-auto">
         <div className="w-full  mx-auto flex flex-col md:flex-row md:justify-around items-center text-start py-[2rem]">
@@ -295,22 +301,18 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
                   {userMyStudy.todayContext}
                   <span className="md:text-[1.5rem] text-[1rem] px-2">개</span>
                 </div>
-                <div className="md:text-[1.5rem] sm:text-[1rem] pt-1 text-[0.8rem] text-zinc-500">
-                  문맥 학습
-                </div>
+                <div className="md:text-[1.5rem] sm:text-[1rem] pt-1 text-[0.8rem] text-zinc-500">문맥 학습</div>
               </div>
             </div>
-            <div
-              className="cursor-pointer flex justify-center rounded-full bg-[#A87E6E] p-[0.7rem] mt-3z md:text-[2.5rem] sm:text-[2rem] text-[1.5rem] font-bold text-[#ffffff] hover:text-[#F0ECE9]"
-              onClick={() => navigate("/wordStudy")}
-            >
+            <div className="cursor-pointer flex justify-center rounded-full bg-[#A87E6E] p-[0.7rem] mt-3z md:text-[2.5rem] sm:text-[2rem] text-[1.5rem] font-bold text-[#ffffff] hover:text-[#F0ECE9]" onClick={()=>setOpenModal(true)}>
               <div className={`${style.iconBook}`}></div>
               <div>학습 시작하기</div>
             </div>
           </div>
         </div>
+        </div>
       </div>
-    </div>
+      </>
   );
 }
 
@@ -333,31 +335,23 @@ function StudyContent({ userScore }: any): JSX.Element {
   };
   return (
     <>
-      {/* {openModal && <PastTestIntroModal setOpenModal={setOpenModal} />} */}
+      {openModal && <StudyStartModal setOpenModal={setOpenModal} />}
+    
       <div className="container max-w-screen-lg w-full  mx-auto text-center md:pt-[7rem] pt-[5rem]">
         <div className="md:text-[1.5rem] text-[1rem]">홍민정음</div>
         <div className="md:text-[2.2rem] text-[1.9rem] font-bold ">
           신나고 즐거운 <span className="text-[#A87E6E]">학습</span>
         </div>
         <div className="flex md:justify-around flex-col md:flex-row items-center my-5">
-          <div
-            className={`${style.studyContents} md:relative static md:h-0 md:p-[3%] p-[4%] md:pb-[27%]  md:w-[30%] w-[90%] rounded-md`}
-          >
-            <div className="md:text-[1.2rem] sm:text-[1rem] text-[0.9rem] text-[#666666]">
-              오늘의 공부{" "}
-            </div>
-            <div className="text-[#A87E6E] font-bold md:text-[1.8rem] sm:text-[1.4rem] text-[1.1rem] py-0.5">
-              단어 학습
-            </div>
-            <div className="lg:text-[1rem] text-[0.9rem] text-[#666666]">
-              뜻을 읽고 해당 단어를 찾고, 정확한 뜻을 학습해보세요!
-            </div>
-            <br />
-            <div
-              id="word"
-              className={`${style.studyBtn} md:text-[1.3rem] md:absolute static md:bottom-[5%]  md:w-[80%] text-center border-2 border-[#A87E6E] rounded-lg py-1 mt-1`}
-              onClick={nav}
-            >
+          <div className={`${style.studyContents} md:relative static md:h-0 md:p-[3%] p-[4%] md:pb-[27%]  md:w-[30%] w-[90%] rounded-md`}>
+                <div className="md:text-[1.2rem] sm:text-[1rem] text-[0.9rem] text-[#666666]">오늘의 공부 </div>
+                <div className="text-[#A87E6E] font-bold md:text-[1.8rem] sm:text-[1.4rem] text-[1.1rem] py-0.5">단어 학습</div>
+                <div className="lg:text-[1rem] text-[0.9rem] text-[#666666]">
+                    뜻을 읽고 해당 단어를 찾고,
+                    정확한 뜻을 학습해보세요!
+                </div>
+                <br/>
+            <div id="word" className={`${style.studyBtn} md:text-[1.3rem] md:absolute static md:bottom-[5%]  md:w-[80%] text-center border-2 border-[#A87E6E] rounded-lg py-1 mt-1`} onClick={()=>setOpenModal(true)}>
               시작하기
             </div>
           </div>
@@ -555,10 +549,10 @@ function News({ newsKeyword }: any): JSX.Element {
         <div className="border-2 border-gray-100 bg-[#F9F9F9] p-4 mb-4">
           <ReactWordCloud
             words={words[select]?.words}
-            callbacks={{
-              onWordClick: handleClick,
-
-              getWordTooltip: (word: any) => {
+            callbacks = {{
+              onWordClick:handleClick,
+              
+              getWordTooltip : (word:any) => {
                 return null;
               },
             }}
@@ -715,7 +709,7 @@ function PassUsers({
             </div>
           </div>
 
-          <div className="border-t-2 mt-7 border-[#ffffff] lg:w-[70%] md:w-[80%] sm:w-[90%] w-full mx-auto">
+          <div className="border-t-2 mt-7 border-neutral-200 lg:w-[70%] md:w-[80%] sm:w-[90%] w-full mx-auto">
             <div className="flex md:justify-end items-end pt-2 px-2 justify-center flex-wrap">
               <div className="py-3 px-3">나의 과거시험 점수</div>
               <div className="text-[3rem] font-bold">
@@ -741,25 +735,14 @@ function PassUsers({
 
 // 랭킹
 
-function Ranking({
-  levelInfo,
-  levelRank,
-  wordRank,
-  userMyInfo,
-  userMyStudy,
-}: any): JSX.Element {
-  const userId = localStorage.getItem("userId");
-  console.log(levelRank);
-  console.log(wordRank);
-  console.log(userMyInfo);
-  console.log(userMyStudy);
+function Ranking({levelInfo, levelRank, wordRank, userMyInfo, userMyStudy}:any):JSX.Element {
+  const userId = localStorage.getItem('userId')
   const [menu, setMenu] = useState<boolean>(true);
 
-  let myRankLevel = levelRank.findIndex((user: any) => user.userId == userId);
-  let myRankWord = wordRank.findIndex((user: any) => user.userId == userId);
-  console.log(myRankLevel);
-
-  return (
+  let myRankLevel = levelRank.findIndex((user:any) => user.userId == userId);
+  let myRankWord = wordRank.findIndex((user:any) => user.userId == userId);
+  
+  return(
     <>
       <div className="bg-[#F4EFEC] w-full">
         <div className="container max-w-screen-xl mx-auto py-16">
@@ -806,55 +789,30 @@ function Ranking({
 
           <div className="flex flex-wrap">
             <div className="md:w-[70%] w-full min-h-[52rem]">
-              {menu ? (
-                <>
-                  {wordRank.length > 0 ? (
-                    <>
-                      {wordRank.map((user: any, idx: number) => (
-                        <div
-                          key={idx}
-                          className={`flex justify-between rounded-xl bg-[#ffffff] m-2 md:px-5 sm:px-4 px-2 py-3  sm:text-[1.1rem] text-[0.9rem] text-start`}
-                        >
-                          <div className="flex">
-                            <div className="font-bold flex items-center sm:px-6 px-2">
-                              {idx + 1}등
-                            </div>
-                            <div
-                              className={`${style.badgeImg2}`}
-                              style={{
-                                backgroundImage: `url('/Assets/Badge/${user.badgeImage}.png')`,
-                              }}
-                            ></div>
-                            <div className="px-1">
-                              <div className="text-[0.8rem]">
-                                {user.badgeName}
-                              </div>
-                              <div className="sm:text-[1.1rem] text-[1rem] font-bold text-start">
-                                {user.nickname}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="flex flex-col justify-center text-[#525252] sm:text-[1.2rem] text-[1rem] text-center sm:px-6 px-2 pt-1">
-                            <div>{user.count}개</div>
+                {menu ? <>
+                  {wordRank.length > 0 ? <>
+                      {wordRank.map((user:any,idx:number) => (
+                      <div key={idx} className={`flex justify-between rounded-xl bg-[#ffffff] m-2 md:px-5 sm:px-4 px-2 py-3  sm:text-[1.1rem] text-[0.9rem] text-start`}>
+                        <div className="flex">
+                          <div className="font-bold flex items-center sm:px-6 px-2">{idx+1}등</div>
+                          <div className={`${style.badgeImg2}`} style={{backgroundImage:`url('/Assets/Badge/${user.badgeImage}.png')`}}></div>
+                          <div className="px-1">
+                            <div className="text-[0.8rem]">{user.badgeName}</div>
+                            <div className="sm:text-[1.1rem] text-[1rem] font-bold text-start" >{user.nickname}</div>
                           </div>
                         </div>
-                      ))}
-                    </>
-                  ) : (
-                    <>
-                      <div className="font-bold text-[3rem] text-[#F55050] w-full text-center">
-                        순위가 아직 없습니다.
+                        <div className="flex flex-col justify-center text-[#525252] sm:text-[1.2rem] text-[1rem] text-center sm:px-6 px-2 pt-1">
+                          <div>{user.count}개</div>
+                        </div>
                       </div>
-                    </>
-                  )}
-                </>
-              ) : (
-                <>
-                  {levelRank.map((user: any, idx: number) => (
-                    <div
-                      key={idx}
-                      className={`flex justify-between rounded-xl bg-[#ffffff] m-2 md:px-5 sm:px-4 px-2 py-3  sm:text-[1.1rem] text-[0.9rem] text-start`}
-                    >
+                    ))}
+                  </>:<>
+                    <div className="font-bold text-[1.5rem] text-[#CF0A0A] w-full text-center p-3">순위가 아직 없습니다.</div>
+                  </>}
+
+                </>:<>
+                {levelRank.map((user:any,idx:number) => (
+                    <div key={idx} className={`flex justify-between rounded-xl bg-[#ffffff] m-2 md:px-5 sm:px-4 px-2 py-3  sm:text-[1.1rem] text-[0.9rem] text-start`}>
                       <div className="flex">
                         <div className="font-bold flex items-center sm:px-6 px-2">
                           {idx + 1}등
@@ -883,99 +841,59 @@ function Ranking({
             </div>
 
             <div className="md:w-[30%] w-full text-center p-2">
-              <div className="bg-[#ffffff] rounded-xl p-2">
-                <div className="text-[1.5rem] font-bold">나의 순위는?!</div>
-                {menu ? (
+                <div className="bg-[#ffffff] rounded-xl p-2">
+                  <div className="text-[1.5rem] font-bold">나의 순위는?!</div>
+                  {menu ? <>
+                    {myRankWord >= 0 ? <>
+                    <div className="font-bold text-[3rem] text-[#F99417]">{myRankWord+1}<span className="text-[1.5rem]">등</span></div>
+                    <div className="text-[0.9rem] py-1">축하드려요!</div>
+                    <div className="bg-[#F5F5F5] rounded-lg text-[1.1rem] p-2 font-bold">
+                      <div className="py-1">
+                        <span className="text-[0.9rem] text-[#434242]">단어 학습 / </span>{userMyStudy.todayWord}개
+                      </div>
+                    </div>
+                  </>:
                   <>
-                    {myRankWord >= 0 ? (
-                      <>
-                        <div className="font-bold text-[3rem] text-[#F55050]">
-                          {myRankWord + 1}
-                          <span className="text-[1.5rem]">등</span>
-                        </div>
-                        <div className="text-[0.9rem] py-1">축하드려요!</div>
-                        <div className="bg-[#F5F5F5] rounded-lg text-[1.1rem] p-2 font-bold">
-                          <div className="py-1">
-                            <span className="text-[0.9rem] text-[#434242]">
-                              단어 학습 /{" "}
-                            </span>
-                            {userMyStudy.todayWord}개
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="font-bold text-[3rem] text-[#F55050]">
-                          순위권 밖
-                        </div>
-                        <div className="text-[0.9rem] py-1">
-                          조금만 더 노력해봐요!
-                        </div>
-                        <div className="bg-[#F5F5F5] rounded-lg text-[1.1rem] p-2 font-bold">
-                          <div className="py-1">
-                            <span className="text-[0.9rem] text-[#434242]">
-                              단어 학습 /{" "}
-                            </span>
-                            {userMyStudy.todayWord}개
-                          </div>
-                        </div>
-                      </>
-                    )}
-                  </>
-                ) : (
+                    <div className="font-bold text-[3rem] text-[#F99417]">순위권 밖</div>
+                    <div className="text-[0.9rem] py-1">조금만 더 노력해봐요!</div>
+                    <div className="bg-[#F5F5F5] rounded-lg text-[1.1rem] p-2 font-bold">
+                      <div className="py-1">
+                        <span className="text-[0.9rem] text-[#434242]">단어 학습 / </span>{userMyStudy.todayWord}개
+                      </div>
+                    </div>
+                  </>}
+                  
+                  </>:<>
+                  {myRankLevel >= 0 ? <>
+                    <div className="font-bold text-[3rem] text-[#F99417]">{myRankLevel+1}<span className="text-[1.5rem]">등</span></div>
+                    <div className="text-[0.9rem] py-1">축하드려요!</div>
+                    <div className="bg-[#F5F5F5] rounded-lg text-[1.1rem] p-2 font-bold">
+                      <div className="py-1">
+                        <span className="text-[0.9rem] text-[#434242]">벼슬 / </span>{levelInfo[userMyInfo.level].levelName}
+                      </div>
+                      <div className="py-1">
+                        <span className="text-[0.9rem] text-[#434242]">경험치 / </span>{userMyInfo.exp}
+                      </div>
+                    </div>
+                  </>:
                   <>
-                    {myRankLevel >= 0 ? (
-                      <>
-                        <div className="font-bold text-[3rem] text-[#F55050]">
-                          {myRankLevel + 1}
-                          <span className="text-[1.5rem]">등</span>
-                        </div>
-                        <div className="text-[0.9rem] py-1">축하드려요!</div>
-                        <div className="bg-[#F5F5F5] rounded-lg text-[1.1rem] p-2 font-bold">
-                          <div className="py-1">
-                            <span className="text-[0.9rem] text-[#434242]">
-                              벼슬 /{" "}
-                            </span>
-                            {levelInfo[userMyInfo.level].levelName}
-                          </div>
-                          <div className="py-1">
-                            <span className="text-[0.9rem] text-[#434242]">
-                              경험치 /{" "}
-                            </span>
-                            {userMyInfo.exp}
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="font-bold text-[3rem] text-[#F55050]">
-                          순위권 밖
-                        </div>
-                        <div className="text-[0.9rem] py-1">
-                          조금만 더 노력해봐요!
-                        </div>
-                        <div className="bg-[#F5F5F5] rounded-lg text-[1.1rem] p-2 font-bold">
-                          <div className="py-1">
-                            <span className="text-[0.9rem] text-[#434242]">
-                              벼슬 /{" "}
-                            </span>
-                            {levelInfo[userMyInfo.level].levelName}
-                          </div>
-                          <div className="py-1">
-                            <span className="text-[0.9rem] text-[#434242]">
-                              경험치 /{" "}
-                            </span>
-                            {userMyInfo.exp}
-                          </div>
-                        </div>
-                      </>
-                    )}
+                    <div className="font-bold text-[3rem] text-[#F99417]">순위권 밖</div>
+                    <div className="text-[0.9rem] py-1">조금만 더 노력해봐요!</div>
+                    <div className="bg-[#F5F5F5] rounded-lg text-[1.1rem] p-2 font-bold">
+                      <div className="py-1">
+                        <span className="text-[0.9rem] text-[#434242]">벼슬 / </span>{levelInfo[userMyInfo.level].levelName}
+                      </div>
+                      <div className="py-1">
+                        <span className="text-[0.9rem] text-[#434242]">경험치 / </span>{userMyInfo.exp}
+                      </div>
+                    </div>
+                  </>}
                   </>
-                )}
-              </div>
-              <div className="py-2 font-bold text-[0.9rem] text-[#CF0A0A]">
-                1등부터 10등까지 표시됩니다.
-              </div>
+                  }
+                </div>
+                <div className="py-2 font-bold text-[0.9rem] text-[#CF0A0A]">
+                  1등부터 10등까지 표시됩니다.
+                </div>
             </div>
           </div>
         </div>
