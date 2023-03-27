@@ -3,6 +3,7 @@ package com.server.back.domain.study.service;
 
 import com.server.back.domain.study.dto.DailyWordResponseDto;
 import com.server.back.domain.study.dto.DictRequestDto;
+import com.server.back.domain.study.dto.RemainWordResponseDto;
 import com.server.back.domain.study.dto.WordResponseDto;
 
 import java.util.List;
@@ -21,5 +22,7 @@ public interface WordService {
 //	Integer getWrongWordCount(Long userId);
 
 	List<DailyWordResponseDto> getDailyWordList();
+
+	RemainWordResponseDto getRemainWordCnt(Long userId);
 
 }

@@ -25,4 +25,6 @@ public interface WordRepository extends JpaRepository<Word, Long> {
     @Query("select count(w) from Word w where w.wordName >= :startFilter and w.wordName < :endFilter and w.wordName like :keyword%")
     int countAllByWordNameAndFilterAndPaging(@Param("startFilter") String startFilter, @Param("endFilter") String endFilter, @Param("keyword") String keyword);
 
+    int countAllByWordRating(String wordRating);
+
 }
