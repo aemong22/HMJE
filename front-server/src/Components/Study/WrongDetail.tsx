@@ -35,6 +35,10 @@ function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
       handleSpeakClick();
     },[index])
 
+    useEffect(()=> {
+      speechSynthesis.cancel();
+    },[open])
+
     
     return(
         <>
