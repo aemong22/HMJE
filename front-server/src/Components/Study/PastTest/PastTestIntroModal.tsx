@@ -4,7 +4,7 @@ import { useAppDispatch } from "../../../Store/hooks";
 import { showPastTestIntro } from "../../../Store/store";
 import style from "./PastTestIntroModal.module.css";
 
-const PastTestIntroModal = (): JSX.Element => {
+const PastTestIntroModal = ({userScore}:any): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   //백그라운드 div
@@ -38,9 +38,9 @@ const PastTestIntroModal = (): JSX.Element => {
           "z-10 bg-slate-800 bg-opacity-80 fixed top-0 right-0 bottom-0 left-0"
         }
       >
-        <div className="relative top-[10rem] m-6 mx-auto max-w-xl">
+        <div className="relative top-[10rem] m-6 mx-auto max-w-lg p-2">
           {/*content*/}
-          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white px-4">
             {/*header*/}
             <div className="mx-4 my-1 border-b border-solid border-slate-200 md:pt-2 pt-1">
               <>
@@ -51,7 +51,7 @@ const PastTestIntroModal = (): JSX.Element => {
               </>
             </div>
             <div className="relative px-4 pt-3 flex justify-center items-end sm:min-w-[25rem] min-w-[19rem]">
-              <div className="flex flex-col items-center text-[#da4040]">
+              <div className="flex flex-col items-center text-[#c70505]">
                 <div className="md:text-[1.0rem] text-[1.2rem] font-bold mr-1 ">
                   주의
                 </div>
@@ -69,13 +69,18 @@ const PastTestIntroModal = (): JSX.Element => {
               >
                 그만두기
               </button>
-              <button
-                id="START"
-                className="w-[40%] h-[40%] py-2 bg-[#F5BEA4] rounded-[10px] text-white font-extrabold"
-                onClick={Nav}
-              >
-                시작하기
-              </button>
+              {userScore == null ? 
+                <button
+                  id="START"
+                  className="w-[40%] h-[40%] py-2 bg-[#F5BEA4] rounded-[10px] text-white font-extrabold"
+                  onClick={Nav}>시작하기
+                </button>:
+
+                <button
+                  id="OUT"
+                  className="w-[40%] h-[40%] py-2 bg-[#000000] rounded-[10px] text-white font-extrabold"
+                  onClick={Nav}>응시완료
+                </button>}
             </div>
           </div>
         </div>

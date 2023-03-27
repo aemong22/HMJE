@@ -5,7 +5,6 @@ import { Toast } from "../Common/Toast";
 import ReactDOMServer from 'react-dom/server';
 
 function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,setSemo,right, setRight, openModal, setResultModal, modalOpen, resultModal, closeModal}:any): JSX.Element {
-
   // 단어 디코딩
   const [decoding, setDecoding] = useState<String>();
   // 초성
@@ -49,10 +48,13 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     setSkip(false);
 
     if(studyType === "wordStudy") {
-      console.log("here")
       let temp = decodeURIComponent(escape(atob(question[num].wordName)))
       setDecoding(temp)
       chosung(temp)
+    }
+    else if(studyType==="contextStudy"){
+      let temp = decodeURIComponent(escape(atob(question[num].dogamName)))
+      setDecoding(temp)
     }
     else {
       setDecoding(question[num].wordName)
@@ -97,7 +99,6 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     // 그만두기
     else if(stop){
       clearInterval(id);
-      closeModal();
       setResultModal(true)
     }
     // 건너뛰기
@@ -202,7 +203,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     else {
       
       //정답
-      if(input === question[num].dogamName) {
+      if(input === decoding) {
         if(hint) {
           setSemo(semo+1)
           setHint(false)
@@ -240,7 +241,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
           {/* 왼쪽 학습 영역 */}
           <div className="mt-8 z-20 bg-[#F4EFEC] lg:w-[82%] w-full min-h-[25rem] py-6 lg:px-6 px-4 flex flex-col justify-between rounded-lg md:text-[1.3rem] text-[1.2rem] font-normal">
             <div>
-              <div className="font-semibold md:text-[1.2rem] text-[1.1rem] mb-6">
+              <div className="font-semibold md:text-[1.2rem] text-[1.1rem] mb-3">
                 {studyType !== "contextStudy" ? 
                   <>
                     해당 뜻을 가진 단어를 적으시오.
@@ -249,22 +250,22 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
                     빈칸에 공통적으로 들어갈 말을 적으시오.
                   </>}
               </div>
-              <div>
+              <div className="py-4 overflow-auto">
                 { studyType !== "contextStudy" ? 
                 <>
                   <span className="">{question[num]?.wordDetailResponseList[0]?.details}</span>
                 </> :  
                 <>
                   <div className= "leading-10" dangerouslySetInnerHTML={{__html: question[num]?.dogamExam1.replace(
-                    question[num]?.dogamName,
+                    decoding,
                     `<span class="px-[2rem] mx-[0.2rem] rounded-lg border-2 border-[#F7CCB7] bg-[#ffffff]"></span>`
                   )}}></div>
                   <div className= "leading-10" dangerouslySetInnerHTML={{__html: question[num]?.dogamExam2.replace(
-                    question[num]?.dogamName,
+                    decoding,
                     `<span class="px-[2rem] mx-[0.2rem] rounded-lg border-2 border-[#F7CCB7] bg-[#ffffff]"></span>`
                   )}}></div>
                   <div className= "leading-10" dangerouslySetInnerHTML={{__html: question[num]?.dogamExam3.replace(
-                    question[num]?.dogamName,
+                    decoding,
                     `<span class="px-[2rem] mx-[0.2rem] rounded-lg border-2 border-[#F7CCB7] bg-[#ffffff]"></span>`
                   )}}></div>
                 </>}
