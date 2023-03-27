@@ -1,7 +1,7 @@
 function Footer():JSX.Element {
   return (
     <div className="w-full bg-[#BF9F91] text-white">
-      <div className="container max-w-screen-xl w-full lg:px-0 px-2 py-4 mx-auto">
+      <div className="container max-w-screen-xl w-full lg:px-1 px-2 py-4 mx-auto">
         <div className="justify-start items-end w-full py-1 border-b-2 border-b-white mb-3 sm:text-[0.9rem] text-[0.8rem]">
         ㅎ ㅗ ㅇ ㅁ ㅣ ㄴ ㅈ ㅓ ㅇ ㅇ ㅡ ㅁ
         </div>
@@ -18,7 +18,7 @@ function Footer():JSX.Element {
             <div className="py-1 sm:text-[0.9rem] text-[0.8rem]">말랑하죠</div>
             
             <div className="sm:text-[0.9rem] text-[0.8rem] flex justify-between">
-              <div className="">앞. 김홍민 김찬희 김애림</div>
+              <div className="pr-2">앞. 김홍민 김찬희 김애림</div>
               <div className="">뒤. 김남규 양은진 최권민</div>
             </div>
 

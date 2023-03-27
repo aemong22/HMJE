@@ -2,6 +2,8 @@ import {usePostStudyWordResultMutation,usePostStudyStudyTimeMutation, usePostStu
 import { useNavigate } from "react-router-dom";
 import style from "./Study.module.css";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
+import { Toast } from "../Common/Toast";
 
 function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:any):JSX.Element {
   const userId = localStorage.getItem("userId");  
@@ -16,24 +18,59 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
 
     useEffect(() => {
       if(studyType === "wordStudy") {
-        postStudyWordResult({correct,semo, userId,wrong}).then((result) =>  {
+        postStudyWordResult({correct,semo, userId,wrong}).then((result:any) =>  {;
+          // 레벨 상승
+          if(result?.data.level > 0){
+            toast.info("벼슬 상승!")
+          }
+
         })
         const type = 0
-        postStudyStudyTime({korEnd,korStart,studyTime,type,userId}).then((result) => {
+        postStudyStudyTime({korEnd,korStart,studyTime,type,userId}).then((result:any) => {
+          // 스터디 뱃지 얻었냐 
+          if(result?.data.newBadge.length > 0){
+            toast.info(`칭호 ${result?.data.newBadge.length}개를 얻으셨습니다.`)
+          }
+
         })
 
       }
       else if (studyType === "contextStudy") {
-        postStudyContextResult({correct,semo, userId,wrong}).then((result) =>  {
+        postStudyContextResult({correct,semo, userId,wrong}).then((result:any) =>  {
+
+
+          // 뱃지, 레벨
+          if(result?.data.level > 0){
+            toast.info("벼슬 상승!")
+          }
+
+          if(result?.data.newBadge.length > 0) {
+            toast.info(`칭호 ${result?.data.newBadge.length}개를 얻으셨습니다.`)
+          }
+          
+          // 뉴 도감 리스트
+          if(result?.data.data.length > 0) {
+            toast.info(`새로운 도감 ${result?.data.data.length}개를 얻으셨습니다.`)
+          }
+
         })
         const type = 1
-        postStudyStudyTime({korEnd,korStart,studyTime,type,userId}).then((result) => {
+        postStudyStudyTime({korEnd,korStart,studyTime,type,userId}).then((result:any) => {
+
+          // 스터디 뱃지 얻었냐 
+            if(result?.data.newBadge.length > 0) {
+              toast.info(`칭호 ${result?.data.newBadge.length}개를 얻으셨습니다.`)
+            }
         })
 
       }
       else if(studyType === "wrongStudy") {
         const type = 3
-        postStudyStudyTime({korEnd,korStart,studyTime,type,userId}).then((result) => {
+        postStudyStudyTime({korEnd,korStart,studyTime,type,userId}).then((result:any) => {
+          // 스터디 뱃지 얻었냐 
+          if(result?.data.newBadge.length > 0) {
+            toast.info(`칭호 ${result?.data.newBadge.length}개를 얻으셨습니다.`)
+          }
         })
       }
 
@@ -60,21 +97,22 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
     }
 
     if(resultLoading || timeLoading || resultLoading2) {
-      return <>Loading...</>
+      return <></>
     }
 
-    if(resultError|| timeError || resultError2) {
-      return <>error...</>
+    else if(resultError|| timeError || resultError2) {
+      return <></>
     }
-
+    else {
     return(
         <>
+          <Toast />
           <div
-            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none"
+            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
           >
             <div className="relative w-auto my-6 mx-auto max-w-xl">
               {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 
                 {/*header*/}
                 <div className="mx-4 my-1 border-b border-solid border-slate-200 rounded-t md:pt-2 pt-1">
@@ -128,6 +166,7 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
     )
+  }
 }
 
 export default ResultModal

@@ -42,6 +42,8 @@ function Login(): JSX.Element {
     PostUserlogin(data)
       .unwrap()
       .then((r: any) => {
+        console.log(r);
+        
         // console.log(r);
         if (r.status === "200") {
           if (r.isSecession === "true") {

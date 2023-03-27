@@ -241,7 +241,6 @@ export const hmjeApi = createApi({
     // 1. 내 정보 조회
     getUserMyinfo: builder.query({
       query: (userId: any) => {
-        console.log("userId", userId);
         return {
           url: `/user/myinfo/${userId}`,
           params: {
@@ -276,7 +275,6 @@ export const hmjeApi = createApi({
     // 4. 학습시간,단어, 문맥, 통계
     getUserMystudy: builder.query({
       query: (userId: any) => {
-        console.log("userId", userId);
         return {
           url: `/user/stats/mystudy/${userId}`,
           params: {
@@ -344,6 +342,70 @@ export const hmjeApi = createApi({
         return [{ type: "Api" }]
       }
     }),
+
+    // 12. 레벨 랭킹
+    getUserRankLevel:builder.query({
+      query: () => {
+        return {
+          url: `/user/rank/level`
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }), 
+
+    // 13. 내 뱃지 조회
+    getUserBadge: builder.query({
+      query: (userId: any) => {
+        return {
+          url: `/user/badge/${userId}`,
+          params: {
+            userId: userId
+          }
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
+
+    // 13. 오늘의 단어 랭킹
+    getUserRankWord:builder.query({
+      query:() => {
+        return{
+          url:`/user/rank/word`
+        }
+
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+
+    }),
+
+    // 13. 뱃지 수정
+    putUserBadge: builder.mutation({
+      query: ([bagdeId, userId]) => {
+        return {
+          url: `/user/badge/${userId}/${bagdeId}`,
+          method: 'PUT',
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+    // 14. 말랑 이스터에그 뱃지
+    putUserBadgeMalrang: builder.mutation({
+      query: (userId) => {
+        return {
+          url: `/user/badge/malrang/${userId}`,
+          method: 'PUT',
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
 
     // ---------------STUDY---------------
 
@@ -522,7 +584,7 @@ export const hmjeApi = createApi({
 
     // 2.사전 조회하기
 
-    getWorddict: builder.query<dict, dict>({
+    getWorddict: builder.query<any, any>({
       query: (data) => {
         console.log("사전 조회하기 rtk에서 받은 데이터 : ", data);
         // console.log(`url : word/?filter=${data.filter}/?keyword=${data.keyword}/?p=${data.p}`);
@@ -572,7 +634,7 @@ export const hmjeApi = createApi({
 
   }),
 })
-
+// 임시저장
 export const {
   // ADMIN
   useLazyGetAdminUserListQuery,
@@ -599,6 +661,11 @@ export const {
   useGetUserMystudyQuery,
   usePutUserLogoutMutation,
   useLazyGetUserStatsCompareQuery,
+  useGetUserRankLevelQuery,
+  useGetUserRankWordQuery,
+  useLazyGetUserBadgeQuery,
+  usePutUserBadgeMutation,
+  usePutUserBadgeMalrangMutation,
 
   // STUDY
   useLazyGetStudyWordQuery,
