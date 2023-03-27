@@ -234,7 +234,60 @@ export const hmjeApi = createApi({
       }
     }),
 
+    // --------------notice---------------
+    // 1. 공지사항 목록 조회
+    getNotice: builder.query({
+      query: () => {
+        return {
+          url: `/notice`,
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
 
+
+    // 2. 공지사항 추가
+    postNotice: builder.mutation({
+      query: (body) => {
+        return {
+          url: "/notice",
+          method: 'post',
+          body: body
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+    // 3. 공지사항 조회
+    getNoticeDetail: builder.query({
+      query: (notice_id: any) => {
+        return {
+          url: `/notice/${notice_id}`,
+          method: 'put',
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
+
+
+    // 4. 공지사항 수정
+    putNoticeDetail: builder.query({
+      query: (notice_id: any) => {
+        return {
+          url: `/notice/${notice_id}`,
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
+
+    // 5. 공지사항 삭제
+// 공지사항 삭제 만들예정
 
     // --------------user---------------
 
@@ -555,7 +608,7 @@ export const hmjeApi = createApi({
     }),
 
     // 11. 장원급제 명단 반환
-    getStudyPastList : builder.query ({
+    getStudyPastList: builder.query({
       query: (userId: any) => {
         return {
           url: `/study/past/list/${userId}`,
@@ -571,7 +624,7 @@ export const hmjeApi = createApi({
 
     // 1. 오늘의 단어 전체 조회
     getWordDaily: builder.query({
-      query:() => {
+      query: () => {
         return {
           url: `/word/daily`,
 
@@ -601,7 +654,7 @@ export const hmjeApi = createApi({
         return [{ type: "Api" }]
       }
     }),
-    
+
     // 3. 사전 개별조회
     getWorddictdetail: builder.query({
       query: (data) => {
