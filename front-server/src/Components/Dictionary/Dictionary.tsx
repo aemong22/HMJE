@@ -7,7 +7,12 @@ import style from "../Dictionary/Dictionary.module.css";
 import { useGetWorddictQuery, useLazyGetWorddictQuery } from "../../Store/api";
 import { type } from "@testing-library/user-event/dist/type";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
-import { changeDictList, changeDictPage, showDictionaryDetail } from "../../Store/store";
+import {
+  changeDictionaryDetail,
+  changeDictList,
+  changeDictPage,
+  showDictionaryDetail,
+} from "../../Store/store";
 
 import styled from "styled-components";
 import DictionaryDetail from "./DictionaryDetail";
@@ -200,9 +205,9 @@ const DictionaryPage = () => {
       <>
         {WordList ? (
           <>
-            <div className="flex flex-col justify-between h-[100vh]">
+            <div className="flex flex-col justify-between h-[80vh]">
               <Navbar />
-              <div className="container max-w-screen-lg w-full mx-auto px-10 lg:px-10">
+              <div className="container max-w-screen-lg w-full h-full mx-auto px-10 lg:px-10">
                 <Searchbar onchangeSearch={setSearch} />
                 <CharPagination
                   currentPage={page}
@@ -267,7 +272,7 @@ const Searchbar: React.FC<Searchbar> = ({ onchangeSearch }) => {
   return (
     <>
       <div className="flex flex-row justify-between items-baseline ">
-        <div className=" text-[#A87E6E] font-extrabold text-3xl sm:text-3xl md:text-5xl lg:text-6xl">
+        <div className="pt-5 text-[#A87E6E] font-extrabold text-3xl sm:text-3xl md:text-5xl lg:text-6xl">
           사전[辭典]
         </div>
         <input
@@ -283,14 +288,14 @@ const Searchbar: React.FC<Searchbar> = ({ onchangeSearch }) => {
 };
 
 const List = (data: any): JSX.Element => {
-  const dispatch = useAppDispatch();  
+  const dispatch = useAppDispatch();
   // console.log("wordList", data);
   const DictionaryDetailClickCheck: any = useAppSelector((state: any) => {
     return state.DictionaryDetailClickCheck;
   });
 
   return (
-    <div className={`m-3 max-h-[40%] overflow-auto ${style.example} `}>
+    <div className={`m-3 max-h-[50%] overflow-auto ${style.example} `}>
       <div className="flex flex-col">
         {data.data.data.map((it: any) => {
           var a = new Array();
@@ -301,17 +306,16 @@ const List = (data: any): JSX.Element => {
 
           return (
             <>
-              {DictionaryDetailClickCheck ? (
-                <DictionaryDetail detail={it} />
-              ) : null}
               <div className="flex flex-row items-baseline my-2 font-extrabold">
                 <button
                   className="pr-2 text-2xl text-[#0078CE] underline underline-offset-[0.3rem]"
                   onClick={() => {
-                    console.log(`${it.wordName} 클릭함`);
+                    console.log(it);
+                    dispatch(changeDictionaryDetail(it));
                     dispatch(showDictionaryDetail());
                   }}
                 >
+                  {DictionaryDetailClickCheck ? <DictionaryDetail /> : null}
                   {it.wordName}
                 </button>
                 {it.wordOrigin ? (
