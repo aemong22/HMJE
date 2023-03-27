@@ -769,6 +769,8 @@ export const hmjeApi = createApi({
       }
     }),
 
+    
+  
 
     // 5. 난이도 별 남은 단어 수 조회
     getWordRemain: builder.query({
@@ -859,4 +861,7 @@ export const {
   usePostFaqMutation,
   useDeleteFaqMutation,
 
+
+  // NOTICE
+  useLazyGetNoticeQuery
 } = hmjeApi 

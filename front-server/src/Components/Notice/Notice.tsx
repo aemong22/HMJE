@@ -33,7 +33,7 @@ function NoticeSection1({isAdmin, choiceBtn, setChoiceBtn}:(boolean|any)):JSX.El
     <div className="w-full">
       <div className="container max-w-screen-xl w-[90%] lg:w-full mx-auto">
         <div className="flex justify-center mb-10">
-          <span className="pt-14 text-[1.8rem] md:text-[2rem] text-[#A87E6E] font-bold  border-b-[#A87E6E]/70 border-b-4">
+          <span className="pt-14 text-[1.8rem] md:text-[2rem] text-[#A87E6E] font-bold">
             알림공간
           </span>
         </div>
