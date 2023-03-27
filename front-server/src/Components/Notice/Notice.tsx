@@ -14,10 +14,10 @@ export default Notice
 
 function AdminExamSection1():JSX.Element {
   return (
-    <div className="w-full border-b-2">
-      <div className="container max-w-screen-lg w-[90%] lg:w-full mx-auto">
+    <div className="w-full ">
+      <div className="container max-w-screen-xl w-[90%] lg:w-full mx-auto">
         <div className="flex justify-center mb-10">
-          <span className="pt-14 text-[1.8rem] md:text-[2rem] text-[#A87E6E] font-bold  border-b-[#A87E6E]/70 border-b-4">
+          <span className="pt-14 text-[1.8rem] md:text-[2rem] text-[#A87E6E] font-bold">
             알림공간
           </span>
         </div>
@@ -79,7 +79,7 @@ function AdminExamSection2():JSX.Element {
     }
   }
   return (
-    <div className="container max-w-screen-xl w-[90%] lg:w-full mx-auto">
+    <div className="flex flex-col justify-center items-start container max-w-screen-xl w-[90%] lg:w-full mx-auto border-b-2">
       <div className="flex justify-between text-center font-semibold text-[#A87E6E] text-[1.3rem]">
         <div className="flex justify-start">
           <div ref={one} aria-label="공지사항" className="mr-4 px-4 py-2 border-b-white border-b-4 cursor-pointer testChoiceBtn testChoiceBtnHover" onClick={onClick}>공지사항</div>
