@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
     public boolean userUsernameCheck(UserRequestDto requestDto) {
         System.out.println("requestDto-username///////////////"+requestDto);
         User user = userRepository.findByUsername(requestDto.getUsername());
-        if(user.equals(null)){
+        if( null == user){
             return true;
         }
         else{
