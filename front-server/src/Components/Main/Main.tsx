@@ -11,6 +11,7 @@ import PastTestIntroModal from "../Study/PastTest/PastTestIntroModal";
 import { showPastTestIntro } from "../../Store/store";
 import  ReactWordCloud from 'react-wordcloud'
 import StudyStartModal from "./StudyStartModal";
+import OrangeCat from "../Threejs/OrangeCat";
 
 
 
@@ -140,16 +141,21 @@ function MyInfo({userMyInfo, userMyStudy,levelInfo}:any): JSX.Element {
   time = time % 60
   const s = time
 
+  let checkEmoState:number = 1
+
+
 
 
   return (
     <>
     {openModal && <StudyStartModal setOpenModal={setOpenModal} />}
     <div className="bg-[#F0ECE9]">
-      <div className="container max-w-screen-xl mx-auto">
-      <div className="w-full  mx-auto flex flex-col md:flex-row md:justify-around items-center text-start py-[2rem]">
+      <div className="container max-w-screen-xl mx-auto md:p-4 p-2">
+      <div className="w-full mx-auto flex flex-col md:flex-row md:justify-around items-center text-start">
         <div className="md:w-[45%] w-[95%] bg-[#ffffff] py-2 md:px-4 rounded-md px-2">
-          <Pangguin position={-2} />
+          <div className="h-[20rem] py-2">
+            <OrangeCat sendEmo={checkEmoState}/>
+          </div>
           <div className="flex justify-start md:text-[1.2rem] sm:text-[1.1rem] text-[1rem]">
             <div className={`${style.badgeImg}`} style={{backgroundImage:`url('/Assets/Badge/${userMyInfo?.nowbadgeImage}.png')`}}></div>{userMyInfo?.nowbadgeName}
           </div>
@@ -169,11 +175,11 @@ function MyInfo({userMyInfo, userMyStudy,levelInfo}:any): JSX.Element {
             </div>
 
           </div>
-            <div className="bg-[#F0ECE9] rounded-lg my-2 overflow-hidden">
+            <div className="bg-[#F0ECE9] rounded-lg my-2">
               <div className="bg-[#F7CCB7] rounded-lg py-[0.5rem]" style={{width:`${expWidth}` , maxWidth:"100%"}}></div>
             </div>
           </div>
-          <div className="md:w-[43%] w-[95%] pt-[2rem] pb-[0.5rem] text-center">
+          <div className="md:w-[43%] w-[95%] text-center py-2">
             <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold p-2">오늘의</div>
             <div className="w-full flex flex-wrap justify-center items-end">
                 <div className="md:text-[1.5rem] sm:text-[1rem] text-[0.8rem] p-2 text-zinc-500">학습 시간</div>
