@@ -467,11 +467,7 @@ export const hmjeApi = createApi({
       query: (data) => {
         console.log(data)
         return {
-          url: `/study/word/${data.userId}/`,
-          params: {
-            userId: data.userId,
-            filter: data.difficulty,
-          }
+          url: `/study/word/${data.userId}/?filter=${data.difficulty}`,
         }
       },
       providesTags: (result, error, arg) => {
