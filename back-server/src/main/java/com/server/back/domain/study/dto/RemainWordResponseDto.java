@@ -17,4 +17,7 @@ public class RemainWordResponseDto {
 	private Integer lowWordCnt;
 	private Integer middleWordCnt;
 	private Integer highWordCnt;
+	private Integer remainLowWordCnt;
+	private Integer remainMiddleWordCnt;
+	private Integer remainHighWordCnt;
 }
