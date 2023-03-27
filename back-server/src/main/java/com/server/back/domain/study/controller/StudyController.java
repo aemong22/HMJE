@@ -27,6 +27,8 @@ public class StudyController {
     @GetMapping("/word/{userId}")
     public ResponseEntity<Map<String, Object>> wordQuestion(@PathVariable(value = "userId") Long userId,
                                                              @RequestParam(name = "filter", defaultValue = "") String filter){
+        System.out.println("filter = " + filter);
+
         Map<String, Object> response = new HashMap<>();
         if(filter.isBlank()){
             List<WordResponseDto> wordQuestion = studyService.wordQuestion(userId);
