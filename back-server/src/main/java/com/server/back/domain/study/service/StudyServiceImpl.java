@@ -253,7 +253,7 @@ public class StudyServiceImpl implements StudyService{
     public List<PastTestResultResponseDto> getJangwonList(Long pastTestId) {
         System.out.println("pastTestId = " + pastTestId);
         PastTest pastTest = pastTestRepository.findByPastTestId(pastTestId);
-        List<PastTestResult> pastTestResultList = pastTestResultRepository.findAllByPastTestAndScore(pastTest, 100);
+        List<PastTestResult> pastTestResultList = pastTestResultRepository.findAllByPastTestAndScoreGreaterThanEqual(pastTest, 80);
         System.out.println("pastTestResultList = " + pastTestResultList);
         List<PastTestResultResponseDto> result = PastTestResultResponseDto.fromEntityList(pastTestResultList);
         System.out.println("result = " + result);

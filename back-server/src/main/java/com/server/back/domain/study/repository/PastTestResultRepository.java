@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public interface PastTestResultRepository extends JpaRepository<PastTestResult, Long> {
-	List<PastTestResult> findAllByPastTestAndScore(PastTest pastTest, Integer score);
+	List<PastTestResult> findAllByPastTestAndScoreGreaterThanEqual(PastTest pastTest, Integer score);
 	PastTestResult findFirstByUserAndPastTest(User user, PastTest pastTest);
 
 }
