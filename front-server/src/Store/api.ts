@@ -861,7 +861,4 @@ export const {
   usePostFaqMutation,
   useDeleteFaqMutation,
 
-
-  // NOTICE
-  useLazyGetNoticeQuery
 } = hmjeApi 
