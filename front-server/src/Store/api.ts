@@ -77,6 +77,7 @@ export const hmjeApi = createApi({
   tagTypes: ['Api'],
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://hmje.net/api',
+    
     prepareHeaders(headers) {
       headers.set('accessToken', accessToken)
     },
@@ -683,6 +684,20 @@ export const hmjeApi = createApi({
     }),
 
 
+    // 5. 난이도 별 남은 단어 수 조회
+    getWordRemain: builder.query({
+      query: (userId: any) => {
+        return {
+          url: `/word/remain/${userId}`,
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+
+    })
+
+
   }),
 })
 // 임시저장
@@ -743,5 +758,6 @@ export const {
   useLazyGetWordWrongQuery,
 
   useGetWordDailyQuery,
+  useGetWordRemainQuery,
 
 } = hmjeApi 

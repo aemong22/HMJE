@@ -34,7 +34,6 @@ function WordStudy(): JSX.Element {
 
   useEffect(() => {
 
-    
     if(studyType === "wordStudy") {
       console.log("here")
       const tempData = {
@@ -102,6 +101,10 @@ function WordStudy(): JSX.Element {
 
   if(LoadingContexts || LoadingWords || LoadingWrong) {
     return <div>Loading...</div>
+  }
+
+  if(ErrorWords){
+    console.log(ErrorWords)
   }
   return (
     <>

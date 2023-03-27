@@ -18,6 +18,7 @@ import StudyStartModal from "./StudyStartModal";
 
 function Main(): JSX.Element {
   const navigate = useNavigate();
+  localStorage.removeItem("difficulty")
   
   // 로그인 안했을 시 intro페이지로 이동
   useEffect(() => {
@@ -123,6 +124,7 @@ export default Main;
 
 // 맨위 : 유저 정보 , 오늘의 정보
 function MyInfo({userMyInfo, userMyStudy,levelInfo}:any): JSX.Element {
+  const [openModal , setOpenModal] = useState<Boolean>(false);
   localStorage.setItem("nickname", userMyInfo.nickname);
   const navigate = useNavigate()
   
@@ -141,6 +143,8 @@ function MyInfo({userMyInfo, userMyStudy,levelInfo}:any): JSX.Element {
 
 
   return (
+    <>
+    {openModal && <StudyStartModal setOpenModal={setOpenModal} />}
     <div className="bg-[#F0ECE9]">
       <div className="container max-w-screen-xl mx-auto">
       <div className="w-full  mx-auto flex flex-col md:flex-row md:justify-around items-center text-start py-[2rem]">
@@ -194,7 +198,7 @@ function MyInfo({userMyInfo, userMyStudy,levelInfo}:any): JSX.Element {
                 <div className="md:text-[1.5rem] sm:text-[1rem] pt-1 text-[0.8rem] text-zinc-500">문맥 학습</div>
               </div>
             </div>
-            <div className="cursor-pointer flex justify-center rounded-full bg-[#A87E6E] p-[0.7rem] mt-3z md:text-[2.5rem] sm:text-[2rem] text-[1.5rem] font-bold text-[#ffffff] hover:text-[#F0ECE9]"  onClick={()=> navigate('/wordStudy')}>
+            <div className="cursor-pointer flex justify-center rounded-full bg-[#A87E6E] p-[0.7rem] mt-3z md:text-[2.5rem] sm:text-[2rem] text-[1.5rem] font-bold text-[#ffffff] hover:text-[#F0ECE9]" onClick={()=>setOpenModal(true)}>
               <div className={`${style.iconBook}`}></div>
               <div>학습 시작하기</div>
             </div>
@@ -202,6 +206,7 @@ function MyInfo({userMyInfo, userMyStudy,levelInfo}:any): JSX.Element {
         </div>
         </div>
       </div>
+      </>
   );
 }
 
@@ -501,7 +506,7 @@ function PassUsers({ pastList, pastInfo, levelInfo, userMyInfo, userScore}:any):
             </div>
           </div>
 
-          <div className="border-t-2 mt-7 border-[#ffffff] lg:w-[70%] md:w-[80%] sm:w-[90%] w-full mx-auto">
+          <div className="border-t-2 mt-7 border-neutral-200 lg:w-[70%] md:w-[80%] sm:w-[90%] w-full mx-auto">
             <div className="flex md:justify-end items-end pt-2 px-2 justify-center flex-wrap">
               <div className="py-3 px-3">나의 과거시험 점수</div>
               <div className="text-[3rem] font-bold">
