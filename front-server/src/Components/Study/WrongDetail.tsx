@@ -3,6 +3,16 @@ import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
 
 function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
+    console.log(data)
+
+    const handleSpeakClick = () => {
+      const word = new SpeechSynthesisUtterance(data[index].wordName);
+      speechSynthesis.speak(word);
+      data[index].wordDetailResponseList.map((word:any, index:any) => {
+        const mean = new SpeechSynthesisUtterance(word.details);
+        speechSynthesis.speak(mean);
+      })
+    };
     
     // 스크롤 방지 효과 주는 코드
     useEffect(() => {
@@ -16,7 +26,18 @@ function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
         document.body.style.cssText = "";
         window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
       };
+
     }, []);
+
+    // 카드 넘길때 마다 자동 재생
+    useEffect(() => {
+      speechSynthesis.cancel();
+      handleSpeakClick();
+    },[index])
+
+    useEffect(()=> {
+      speechSynthesis.cancel();
+    },[open])
 
     
     return(
