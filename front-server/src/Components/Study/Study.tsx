@@ -227,6 +227,11 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     }
   }
 
+  let difficulty = localStorage.getItem("difficulty");
+  if(difficulty?.length === 0) {
+    difficulty = "전체"
+  }
+
 
   return(
     <>
@@ -311,8 +316,10 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
 
           {/* 오른쪽 학습 상세정보 영역  */}
           <div className="lg:w-[17%] w-full flex lg:block flex-wrap text-center justify-between">
-            <div className="px-4 m-2 lg:pt-6 lg:pb-4 rounded-lg md:text-[1.8rem] sm:text-[1.3rem] text-[1rem] text-[#A87C6E] font-bold flex flex-col justify-center">
-              {studyType === "wordStudy"  ? <>단어학습</>
+            <div className="px-4 m-1 lg:pt-6 lg:pb-4 rounded-lg md:text-[1.8rem] sm:text-[1.3rem] text-[1rem] text-[#A87C6E] font-bold flex flex-col justify-center">
+              {studyType === "wordStudy"  ? <div>
+              단어학습 <span className="sm:text-[1rem] text-[0.9rem]">[{difficulty}]</span>
+              </div>
               : studyType === "contextStudy" ? <>문맥학습</>
               : <><span className="px-4">복습</span></>
               }
