@@ -34,6 +34,7 @@
         "react-scripts": "5.0.1",
         "react-speech-recognition": "^3.10.0",
         "react-toastify": "^9.1.1",
+        "react-wordcloud": "^1.2.7",
         "redux": "^4.2.1",
         "styled-components": "^5.3.8",
         "three": "^0.150.1",
