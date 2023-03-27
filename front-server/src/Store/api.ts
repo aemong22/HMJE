@@ -276,10 +276,38 @@ export const hmjeApi = createApi({
 
 
     // 4. 공지사항 수정
-    putNoticeDetail: builder.query({
-      query: (notice_id: any) => {
+    putNoticeDetail: builder.mutation({
+      query: ([notice_id, content, title, userId]) => {
         return {
+          method: 'put',
           url: `/notice/${notice_id}`,
+          body: {
+            content: content,
+            title: title,
+            userId: userId
+          }
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+    // 5. 공지사항 삭제
+    deleteNotice: builder.mutation({
+      query: (notice_id) => {
+        return {
+          method: 'delete',
+          url: `/notice/${notice_id}`,
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+    // --------------FAQ---------------
+    // 1. FAQ 목록 조회
+    getFaq: builder.query({
+      query: () => {
+        return {
+          url: `/faq`,
         }
       },
       providesTags: (result, error, arg) => {
@@ -287,8 +315,59 @@ export const hmjeApi = createApi({
       }
     }),
 
-    // 5. 공지사항 삭제
-// 공지사항 삭제 만들예정
+
+    // 2. FAQ 추가
+    postFaq: builder.mutation({
+      query: (body) => {
+        return {
+          url: "/notice",
+          method: 'post',
+          body: body
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+    // 3. FAQ 상세 조회
+    getFaqDetail: builder.query({
+      query: (faq_id: number) => {
+        return {
+          url: `/faq/${faq_id}`,
+          method: 'get',
+        }
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: "Api" }]
+      }
+    }),
+
+
+    // 4. FAQ 수정
+    putFaqDetail: builder.mutation({
+      query: ([faq_id, content, title, userId]) => {
+        return {
+          method: 'put',
+          url: `/faq/${faq_id}`,
+          body: {
+            content: content,
+            title: title,
+            userId: userId
+          }
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+    // 5. FAQ 삭제
+    deleteFaq: builder.mutation({
+      query: (faq_id) => {
+        return {
+          method: 'delete',
+          url: `/faq/${faq_id}`,
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
 
     // --------------user---------------
 
@@ -759,5 +838,18 @@ export const {
 
   useGetWordDailyQuery,
   useGetWordRemainQuery,
+
+
+  // NOTICE
+  useLazyGetNoticeQuery,
+  usePutNoticeDetailMutation,
+  usePostNoticeMutation,
+  useDeleteNoticeMutation,
+  
+  // FQA
+  useLazyGetFaqQuery,
+  usePutFaqDetailMutation,
+  usePostFaqMutation,
+  useDeleteFaqMutation,
 
 } = hmjeApi 
