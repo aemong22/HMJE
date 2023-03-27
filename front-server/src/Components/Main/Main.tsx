@@ -174,7 +174,7 @@ function MyInfo({userMyInfo, userMyStudy,levelInfo}:any): JSX.Element {
             </div>
           </div>
           <div className="md:w-[43%] w-[95%] pt-[2rem] pb-[0.5rem] text-center">
-            <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold p-2">오늘</div>
+            <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold p-2">오늘의</div>
             <div className="w-full flex flex-wrap justify-center items-end">
                 <div className="md:text-[1.5rem] sm:text-[1rem] text-[0.8rem] p-2 text-zinc-500">학습 시간</div>
                 <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold text-[#BE8D65] pl-2">
@@ -549,7 +549,7 @@ function Ranking({levelInfo, levelRank, wordRank, userMyInfo, userMyStudy}:any):
                     <path fillRule="evenodd" d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z" clipRule="evenodd" />
                 </svg>
                 <div className="text-[3rem] font-bold px-2">
-                  { menu ? <>단어 학습</>: <>벼슬 순위</>}
+                  { menu ? <>단어 학습</>: <>등급 순위</>}
                 </div>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 mx-1" onClick={()=>{
                   setMenu(!menu)
@@ -632,7 +632,7 @@ function Ranking({levelInfo, levelRank, wordRank, userMyInfo, userMyStudy}:any):
                     <div className="text-[0.9rem] py-1">축하드려요!</div>
                     <div className="bg-[#F5F5F5] rounded-lg text-[1.1rem] p-2 font-bold">
                       <div className="py-1">
-                        <span className="text-[0.9rem] text-[#434242]">벼슬 / </span>{levelInfo[userMyInfo.level].levelName}
+                        <span className="text-[0.9rem] text-[#434242]">등급 / </span>{levelInfo[userMyInfo.level].levelName}
                       </div>
                       <div className="py-1">
                         <span className="text-[0.9rem] text-[#434242]">경험치 / </span>{userMyInfo.exp}
@@ -644,7 +644,7 @@ function Ranking({levelInfo, levelRank, wordRank, userMyInfo, userMyStudy}:any):
                     <div className="text-[0.9rem] py-1">조금만 더 노력해봐요!</div>
                     <div className="bg-[#F5F5F5] rounded-lg text-[1.1rem] p-2 font-bold">
                       <div className="py-1">
-                        <span className="text-[0.9rem] text-[#434242]">벼슬 / </span>{levelInfo[userMyInfo.level].levelName}
+                        <span className="text-[0.9rem] text-[#434242]">등급 / </span>{levelInfo[userMyInfo.level].levelName}
                       </div>
                       <div className="py-1">
                         <span className="text-[0.9rem] text-[#434242]">경험치 / </span>{userMyInfo.exp}

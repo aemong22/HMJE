@@ -21,7 +21,7 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
         postStudyWordResult({correct,semo, userId,wrong}).then((result:any) =>  {;
           // 레벨 상승
           if(result?.data.level > 0){
-            toast.info("벼슬 상승!")
+            toast.info("등급 상승!")
           }
 
         })
@@ -41,7 +41,7 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
 
           // 뱃지, 레벨
           if(result?.data.level > 0){
-            toast.info("벼슬 상승!")
+            toast.info("등급 상승!")
           }
 
           if(result?.data.newBadge.length > 0) {
