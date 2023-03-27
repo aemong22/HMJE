@@ -75,7 +75,6 @@ const PastTestIntroModal = ({userScore}:any): JSX.Element => {
                   className="w-[40%] h-[40%] py-2 bg-[#F5BEA4] rounded-[10px] text-white font-extrabold"
                   onClick={Nav}>시작하기
                 </button>:
-
                 <button
                   id="OUT"
                   className="w-[40%] h-[40%] py-2 bg-[#000000] rounded-[10px] text-white font-extrabold"

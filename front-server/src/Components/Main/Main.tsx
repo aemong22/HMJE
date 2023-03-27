@@ -1,6 +1,6 @@
 import { useGetUserMyinfoQuery,useGetUserRankLevelQuery,useGetUserRankWordQuery, useGetUserMystudyQuery,useGetWordDailyQuery,useGetStudyPastListQuery,useGetStudyPastQuery } from "../../Store/api";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,useLocation } from "react-router-dom";
 import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
 import Pangguin from "../Threejs/Pangguin";
@@ -10,6 +10,8 @@ import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import PastTestIntroModal from "../Study/PastTest/PastTestIntroModal";
 import { showPastTestIntro } from "../../Store/store";
 import  ReactWordCloud from 'react-wordcloud'
+import { toast } from "react-toastify";
+import { Toast } from "../Common/Toast";
 
 
 
@@ -17,11 +19,19 @@ import  ReactWordCloud from 'react-wordcloud'
 
 function Main(): JSX.Element {
   const navigate = useNavigate();
-  
+  const location = useLocation();
   // 로그인 안했을 시 intro페이지로 이동
+  var loactionuse=0;
   useEffect(() => {
     if(localStorage.getItem("accessToken") === "undefined"){
       navigate('/')
+    }
+    else {
+      console.log(location);      
+      if(location.state.newBadgeNum>0){
+       toast.info(`칭호 ${location.state.newBadgeNum}개를 얻으셨습니다.`)
+      //  초기회 location.state.newBadgeNum=0
+      }
     }
   }, [])
 
@@ -105,6 +115,7 @@ function Main(): JSX.Element {
   return (
     <>
       <Navbar />
+      <Toast />
       {/* <Example /> */}
       <MyInfo levelInfo={levelInfo} userMyInfo={userMyInfo?.data} userMyStudy={userMyStudy?.data}/>
       <StudyContent userScore={pastList?.user_score}/>
@@ -383,7 +394,7 @@ function News({newsKeyword}:any): JSX.Element {
             callbacks = {{
               onWordClick:handleClick,
               
-              getWordTooltip : (word) => {
+              getWordTooltip : (word:any) => {
                 return null;
               },
               

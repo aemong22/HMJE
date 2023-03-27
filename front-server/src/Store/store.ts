@@ -1,6 +1,7 @@
 // createSlice: store state 생성 (name: state 변수 이름, initialState: 초기 데이터, reducers: state 변경 함수)
 import { configureStore, createSlice, } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query/react";
+import DictionaryDetail from "../Components/Dictionary/DictionaryDetail";
 import { hmjeApi } from "./api"
 import { NonAuthApi } from "./NonAuthApi";
 
@@ -26,6 +27,16 @@ const dictPage = createSlice({
   },
 });
 
+const DictionaryDetailClickCheck = createSlice({
+  name: "DictionaryDetailClickCheck",
+  initialState: false,
+  reducers: {
+    showDictionaryDetail(state) {
+      return !state;
+    },
+  },
+});
+
 // 메인페이지에 있는 과거시험 intro 클릭 여부
 const PastTestIntroClickCheck = createSlice({
   name: "PastTestIntroClickCheck",
@@ -46,6 +57,7 @@ export const store = configureStore({
     dictList: dictList.reducer,
     dictPage: dictPage.reducer,
     PastTestIntroClickCheck: PastTestIntroClickCheck.reducer,
+    DictionaryDetailClickCheck: DictionaryDetailClickCheck.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(hmjeApi.middleware).concat(NonAuthApi.middleware),
 
@@ -57,6 +69,7 @@ setupListeners(store.dispatch)
 // 사전
 export const { changeDictList } = dictList.actions;
 export const { changeDictPage } = dictPage.actions;
+export const { showDictionaryDetail } = DictionaryDetailClickCheck.actions;
 
 // 메인페이지 모달
 export const { showPastTestIntro } = PastTestIntroClickCheck.actions;

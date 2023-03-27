@@ -37,6 +37,13 @@ type dictresponse = {
   wordDetailResponseList: []
 }
 
+type Worddict = {
+  count: number,
+  data: dictresponse[],
+  message: string,
+
+}
+
 const fetchAccessToken = async () => {
   // const userName: string = localStorage.getItem("userName")
 
@@ -287,7 +294,7 @@ export const hmjeApi = createApi({
     }),
 
     // 5. 공지사항 삭제
-// 공지사항 삭제 만들예정
+    // 공지사항 삭제 만들예정
 
     // --------------user---------------
 
@@ -397,7 +404,7 @@ export const hmjeApi = createApi({
     }),
 
     // 12. 레벨 랭킹
-    getUserRankLevel:builder.query({
+    getUserRankLevel: builder.query({
       query: () => {
         return {
           url: `/user/rank/level`
@@ -406,7 +413,7 @@ export const hmjeApi = createApi({
       providesTags: (result, error, arg) => {
         return [{ type: "Api" }]
       }
-    }), 
+    }),
 
     // 13. 내 뱃지 조회
     getUserBadge: builder.query({
@@ -424,10 +431,10 @@ export const hmjeApi = createApi({
     }),
 
     // 13. 오늘의 단어 랭킹
-    getUserRankWord:builder.query({
-      query:() => {
-        return{
-          url:`/user/rank/word`
+    getUserRankWord: builder.query({
+      query: () => {
+        return {
+          url: `/user/rank/word`
         }
 
       },
@@ -637,7 +644,7 @@ export const hmjeApi = createApi({
 
     // 2.사전 조회하기
 
-    getWorddict: builder.query<any, any>({
+    getWorddict: builder.query<Worddict, any>({
       query: (data) => {
         console.log("사전 조회하기 rtk에서 받은 데이터 : ", data);
         // console.log(`url : word/?filter=${data.filter}/?keyword=${data.keyword}/?p=${data.p}`);
