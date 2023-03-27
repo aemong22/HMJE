@@ -61,11 +61,11 @@ function Navbar():JSX.Element {
         <div className="flex">
           <div aria-label="main" className='font-bold text-[1.2rem] md:text-[1.3rem] cursor-pointer' onClick={onClick}>홍민정음</div>
           <div className="lg:flex text-[1rem] px-4 items-center hidden">
-            <div aria-label="main" className = "px-4 cursor-pointer" onClick={onClick}>학습</div>
+            <div aria-label="main" className = "px-4 cursor-pointer" onClick={onClick}>학습공간</div>
             <div aria-label="note" className = "px-4 cursor-pointer" onClick={onClick}>오답공책</div>
             <div aria-label="dogam" className = "px-4 cursor-pointer" onClick={onClick}>문맥도감</div>
-            <div aria-label="mypage" className = "px-4 cursor-pointer" onClick={onClick}>관리</div>
-            <div aria-label="dictionary" className = "px-4 cursor-pointer" onClick={onClick}>사전</div>
+            <div aria-label="mypage" className = "px-4 cursor-pointer" onClick={onClick}>학습관리</div>
+            <div aria-label="dictionary" className = "px-4 cursor-pointer" onClick={onClick}>단어사전</div>
             <div aria-label="notice" className = "px-4 cursor-pointer" onClick={onClick}>알림공간</div>
           </div>
         </div>

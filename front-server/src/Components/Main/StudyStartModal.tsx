@@ -80,7 +80,7 @@ function StudyStartModal({setOpenModal}:any):JSX.Element {
                                 }
                         }}>
                                 <img className="object-contain w-[4rem] h-[4rem] my-[0.5rem] mx-[0.5rem] hover:scale-125" style={{transition: 'all .4s'}} src={`/Assets/Icon/고급.png`} alt="뱃지"/>
-                                <div>상급</div>
+                                <div>고급</div>
                                 <div className="text-[1rem] text-[#B8B0B0]">{data?.data.highWordCnt}</div>
                             </div>
                             <div className="text-[1.2rem] font-bold text-center p-2 text-[#798777]" onClick={() => {
