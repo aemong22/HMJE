@@ -1,14 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
-// import ReactPaginate from "react-paginate";
 import Pagination from "react-js-pagination";
 import style from "../Dictionary/Dictionary.module.css";
 import { useGetWorddictQuery, useLazyGetWorddictQuery } from "../../Store/api";
 import { type } from "@testing-library/user-event/dist/type";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
-import { changeDictList, changeDictPage } from "../../Store/store";
+import {
+  changeDictionaryDetail,
+  changeDictList,
+  changeDictPage,
+  showDictionaryDetail,
+} from "../../Store/store";
+
 import styled from "styled-components";
+import DictionaryDetail from "./DictionaryDetail";
 
 type dict = {
   filter: string;
@@ -34,27 +41,18 @@ type dictresponse = {
   wordType: string;
   wordRating: string;
   wordOrigin: string;
-  wordDetailResponseList: wordDetailResponseList[];
+  wordDetailResponseList: [];
 };
-const posts = [
-  { id: "ㄱ", name: "ㄱ" },
-  { id: "ㄴ", name: "ㄴ" },
-  { id: "ㄷ", name: "ㄷ" },
-  { id: "ㄹ", name: "ㄹ" },
-  { id: "ㅁ", name: "ㅁ" },
-  { id: "ㅂ", name: "ㅂ" },
-  { id: "ㅅ", name: "ㅅ" },
-  { id: "ㅇ", name: "ㅇ" },
-  { id: "ㅈ", name: "ㅈ" },
-  { id: "ㅊ", name: "ㅊ" },
-  { id: "ㅋ", name: "ㅋ" },
-  { id: "ㅌ", name: "ㅌ" },
-  { id: "ㅍ", name: "ㅍ" },
-  { id: "ㅎ", name: "ㅎ" },
-];
+
+type Worddict = {
+  count: number;
+  data: dictresponse[];
+  message: string;
+};
+
 const DictionaryPage = () => {
-  // store
-  let dispatch = useAppDispatch();
+  // =========================store============================
+
   const dictPage = useAppSelector((state: any) => {
     return state.dictPage;
   });
@@ -62,7 +60,7 @@ const DictionaryPage = () => {
     return state.dictList;
   });
 
-  // RTK
+  // =========================RTK=========================
   const first = {
     filter: "",
     keyword: "",
@@ -73,19 +71,55 @@ const DictionaryPage = () => {
     isLoading: isLading1,
     error: error1,
   } = useGetWorddictQuery(first);
-  const [getWorddict] = useLazyGetWorddictQuery();
 
-  const [data, setData] = useState([]);
-  const [WordList, setWordList] = useState();
+  const [getWorddict] = useLazyGetWorddictQuery();
+  // =========================WordList=========================
+
+  const [WordList, setWordList] = useState<Worddict>();
+  const [WordListSize, setWordListSize] = useState<number>(46737);
+  const [keyWord, setkeyWord] = useState("");
+  const [filter, setfilter] = useState("");
   const [page, setPage] = useState(1);
   const [items, setItems] = useState(0);
-  const handlePageChange = (page: any) => {
-    console.log((page * items) / 10);
+  const [Search, setSearch] = useState("");
+  // ===============charPage==================
+  const [pageNumbers, setPageNumbers] = useState<any>([]);
+  useEffect(() => {
+    const newPageNumbers = [];
+    const initialConsonants = [
+      { initialConsonants: "전체", id: "" },
+      { initialConsonants: "ㄱ", id: "가" },
+      { initialConsonants: "ㄴ", id: "나" },
+      { initialConsonants: "ㄷ", id: "다" },
+      { initialConsonants: "ㄹ", id: "라" },
+      { initialConsonants: "ㅁ", id: "마" },
+      { initialConsonants: "ㅂ", id: "바" },
+      { initialConsonants: "ㅅ", id: "사" },
+      { initialConsonants: "ㅇ", id: "아" },
+      { initialConsonants: "ㅈ", id: "자" },
+      { initialConsonants: "ㅊ", id: "차" },
+      { initialConsonants: "ㅋ", id: "카" },
+      { initialConsonants: "ㅌ", id: "타" },
+      { initialConsonants: "ㅍ", id: "파" },
+      { initialConsonants: "ㅎ", id: "하" },
+    ];
+    for (let i = 0; i < 15; i++) {
+      const pageNumber = initialConsonants[i];
+      newPageNumbers.push(pageNumber);
+    }
+    setPageNumbers(newPageNumbers);
+    return () => {};
+  }, []);
 
-    console.log(page);
+  // ===============charPage==================
+  const handlePageChange = (page: any) => {
+    // console.log((page * items) / 10);
+    console.log("keyword는", keyWord);
+    console.log("page는?", page);
+
     const tempdata = {
-      filter: "",
-      keyword: "",
+      filter: filter,
+      keyword: keyWord,
       p: (page * items) / 10 - 1,
     };
     getWorddict(tempdata)
@@ -95,17 +129,45 @@ const DictionaryPage = () => {
         // console.log(Math.floor(r.count/10));
 
         setWordList(r);
+
         setPage(page);
       });
 
     // wordList변경
   };
+
+  const handleCharPageChange = (keyword: any) => {
+    // console.log((page * items) / 10);
+    // console.log(page);
+    const tempdata = {
+      filter: filter,
+      keyword: "",
+      p: 0,
+    };
+    console.log("tempdata", tempdata);
+
+    getWorddict(tempdata)
+      .unwrap()
+      .then((r) => {
+        console.log("rtk결과", r);
+        // console.log(Math.floor(r.count/10));
+        setWordList(r);
+        console.log("r은?", r.count);
+        // setWordListSize(r.count)
+
+        setPage(page);
+      });
+
+    // wordList변경
+  };
+
   useEffect(() => {
+    console.log(wordList);
+
     setWordList(wordList);
+    // setWordListSize(wordList.count);
     return () => {};
   }, [wordList]);
-
-  const [charPageLimit, setcharPageLimit] = useState<number>(5); // 보여줄 페이지네이션 개수
   // 가로 사이즈에 따라
   const [Width, setWidth] = useState(window.innerWidth);
   const handleResize = () => {
@@ -129,7 +191,6 @@ const DictionaryPage = () => {
 
   useEffect(() => {
     console.log("item바뀌었다", items);
-
     return () => {};
   }, [items]);
 
@@ -138,26 +199,32 @@ const DictionaryPage = () => {
   } else if (error1) {
     return <>error</>;
   } else {
-    console.log(Math.floor(wordList.count));
+    console.log(Math.floor(wordList!.count));
 
     return (
       <>
         {WordList ? (
           <>
-            <div className="flex flex-col justify-between h-[100vh]">
+            <div className="flex flex-col justify-between h-[80vh]">
               <Navbar />
-              <div className="container max-w-screen-lg w-full mx-auto px-10 lg:px-10">
-                <Search />
+              <div className="container max-w-screen-lg w-full h-full mx-auto px-10 lg:px-10">
+                <Searchbar onchangeSearch={setSearch} />
+                <CharPagination
+                  currentPage={page}
+                  newPageNumbers={pageNumbers}
+                  totalPages={14}
+                  onfilterChange={setfilter}
+                  fetchData={handleCharPageChange}
+                  changeList={setWordList}
+                />
                 <List data={WordList} />
                 <PaginationBox>
                   <Pagination
                     activePage={page}
                     itemsCountPerPage={items}
-                    totalItemsCount={wordList.count}
+                    totalItemsCount={WordListSize}
                     pageRangeDisplayed={items}
                     onChange={handlePageChange}
-                    // firstPageText={"<<"}
-                    // lastPageText={">>"}
                   ></Pagination>
                 </PaginationBox>
               </div>
@@ -172,12 +239,14 @@ const DictionaryPage = () => {
   }
 };
 
-function Search(): JSX.Element {
-  const [Search, setSearch] = useState("");
+type Searchbar = {
+  onchangeSearch: Function;
+};
+
+const Searchbar: React.FC<Searchbar> = ({ onchangeSearch }) => {
   const ChangeSearch = (event: any) => {
     console.log(event.target.value);
-
-    setSearch(event.target.value);
+    onchangeSearch(event.target.value);
   };
 
   // const handleOnKeyPress = (e: any) => {
@@ -203,7 +272,7 @@ function Search(): JSX.Element {
   return (
     <>
       <div className="flex flex-row justify-between items-baseline ">
-        <div className=" text-[#A87E6E] font-extrabold text-3xl sm:text-3xl md:text-5xl lg:text-6xl">
+        <div className="pt-5 text-[#A87E6E] font-extrabold text-3xl sm:text-3xl md:text-5xl lg:text-6xl">
           사전[辭典]
         </div>
         <input
@@ -216,13 +285,17 @@ function Search(): JSX.Element {
       </div>
     </>
   );
-}
+};
 
-const List = (data: any) => {
+const List = (data: any): JSX.Element => {
+  const dispatch = useAppDispatch();
   // console.log("wordList", data);
+  const DictionaryDetailClickCheck: any = useAppSelector((state: any) => {
+    return state.DictionaryDetailClickCheck;
+  });
 
   return (
-    <div className={`m-3 max-h-[40%] overflow-auto ${style.example} `}>
+    <div className={`m-3 max-h-[50%] overflow-auto ${style.example} `}>
       <div className="flex flex-col">
         {data.data.data.map((it: any) => {
           var a = new Array();
@@ -234,9 +307,17 @@ const List = (data: any) => {
           return (
             <>
               <div className="flex flex-row items-baseline my-2 font-extrabold">
-                <div className="pr-2 text-2xl text-[#0078CE] underline underline-offset-[0.3rem]">
+                <button
+                  className="pr-2 text-2xl text-[#0078CE] underline underline-offset-[0.3rem]"
+                  onClick={() => {
+                    console.log(it);
+                    dispatch(changeDictionaryDetail(it));
+                    dispatch(showDictionaryDetail());
+                  }}
+                >
+                  {DictionaryDetailClickCheck ? <DictionaryDetail /> : null}
                   {it.wordName}
-                </div>
+                </button>
                 {it.wordOrigin ? (
                   <div className=" text-[#767676] font-normal">
                     [ {it.wordOrigin} ]
@@ -255,68 +336,50 @@ const List = (data: any) => {
   );
 };
 
-// Example items, to simulate fetching from another resources.
+interface Props {
+  currentPage: number;
+  newPageNumbers: any[];
+  totalPages: number;
+  onfilterChange: Function;
+  fetchData: Function;
+  changeList: Function;
+}
 
-// function Items({ currentItems }: { currentItems: any }) {
-//   return (
-//     <>
-//       {currentItems &&
-//         currentItems.map((item: any) => (
-//           <div>
-//             <h3>Item #{item}</h3>
-//           </div>
-//         ))}
-//     </>
-//   );
-// }
+const CharPagination: React.FC<Props> = ({
+  currentPage,
+  newPageNumbers,
+  totalPages,
+  onfilterChange,
+  fetchData,
+  changeList,
+}) => {
+  const handlePageChange = (pageNumber: any) => {
+    console.log("pageNumber는", pageNumber);
 
-// function PaginatedItems({ itemsPerPage }: { itemsPerPage: any }) {
-//   // Here we use item offsets; we could also use page offsets
-//   // following the API or data you're working with.
-//   const [itemOffset, setItemOffset] = useState(0);
-
-//   // Simulate fetching items from another resources.
-//   // (This could be items from props; or items loaded in a local state
-//   // from an API endpoint with useEffect and useState)
-//   const endOffset = itemOffset + itemsPerPage;
-//   console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-
-//   // 보여질 아이템들 잘라서 내보냄
-//   const currentItems = items.slice(itemOffset, endOffset);
-
-//   const pageCount = Math.ceil(items.length / itemsPerPage);
-
-//   // Invoke when user click to request another page.
-//   const handlePageClick = (event: any) => {
-//     const newOffset = (event.selected * itemsPerPage) % items.length;
-//     console.log(
-//       `User requested page number ${event.selected}, which is offset ${newOffset}`,
-//     );
-//     setItemOffset(newOffset);
-//   };
-
-//   return (
-//     <>
-//       <Items currentItems={currentItems} />
-//       <PaginationBox>
-//         <ReactPaginate
-//           breakLabel="..."
-//           nextLabel="next >"
-//           onPageChange={handlePageClick}
-//           pageRangeDisplayed={5}
-//           pageCount={pageCount}
-//           previousLabel="< previous"
-//           // renderOnZeroPageCount={null}
-//         />
-//       </PaginationBox>
-//     </>
-//   );
-// }
+    onfilterChange(pageNumber.id);
+    fetchData(pageNumber.id);
+  };
+  const buttonTail =
+    "w-[3rem]  h-[3rem] text-[#A87E6E] font-extrabold hover:text-black border-2 text-[1.2rem] border-[#F7CCB7] rounded-lg";
+  return (
+    <div className="flex flex-row w-full items-center justify-between pt-6">
+      {newPageNumbers.map((pageNumber: any) => (
+        <button
+          className={buttonTail}
+          key={pageNumber.initialConsonants}
+          onClick={() => handlePageChange(pageNumber)}
+        >
+          {pageNumber.initialConsonants}
+        </button>
+      ))}
+    </div>
+  );
+};
 const PaginationBox = styled.div`
   .pagination {
     display: flex;
     justify-content: center;
-    margin-top: 15px;
+    margin-top: 5px;
   }
   ul {
     list-style: none;
@@ -324,9 +387,9 @@ const PaginationBox = styled.div`
   }
   ul.pagination li {
     display: inline-block;
-    width: 30px;
-    height: 30px;
-    border: 1px solid #e2e2e2;
+    width: 3rem;
+    height: 3rem;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -341,18 +404,19 @@ const PaginationBox = styled.div`
   }
   ul.pagination li a {
     text-decoration: none;
-    color: #337ab7;
-    font-size: 1rem;
+    color: #a87e6e;
+    font-size: 1.5rem;
   }
   ul.pagination li.active a {
     color: white;
   }
   ul.pagination li.active {
-    background-color: #337ab7;
+    background-color: #a87e6e;
+    border-radius: 5px 5px 5px 5px;
   }
   ul.pagination li a:hover,
   ul.pagination li a.active {
-    color: blue;
+    color: black;
   }
 `;
 

@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { usePostUserloginMutation } from "../../Store/NonAuthApi";
 import Api from "../Common/Api";
 import Footer from "../Common/Footer";
+import { toast } from "react-toastify";
+import { Toast } from "../Common/Toast";
 import IntroNavbar from "../Intro/IntroNavbar";
 type login = {
   username: string;
@@ -33,7 +35,6 @@ function Login(): JSX.Element {
       navigate("/join");
     } else if (e.target.id === "enter") {
       // axios 입장하기
-      
     }
   };
 
@@ -42,25 +43,14 @@ function Login(): JSX.Element {
     PostUserlogin(data)
       .unwrap()
       .then((r: any) => {
-        console.log(r);
-        
+        console.log("벳지 로그인 결과", r.newBadge.length);
+
         // console.log(r);
         if (r.status === "200") {
           if (r.isSecession === "true") {
             alert("탈퇴한 회원입니다.");
             navigate("/intro");
-          } else if (r.isAdmin === "true") {
-            const accessToken = r.accessToken;
-            const refreshToken = r.refreshToken;
-            const userId = r.userId;
-            localStorage.setItem("accessToken", accessToken);
-            localStorage.setItem("userName", Id!);
-            localStorage.setItem("userId", userId);
-            localStorage.setItem("refreshToken", refreshToken);
-            navigate("/admin");
-          }
-          // console.log("받는 데이터", r);
-          else if (r.isAdmin === "false") {
+          } else {
             const accessToken = r.accessToken;
             const refreshToken = r.refreshToken;
             const userId = r.userId;
@@ -70,12 +60,25 @@ function Login(): JSX.Element {
             localStorage.setItem("userName", Id!);
             localStorage.setItem("userId", userId);
             localStorage.setItem("refreshToken", refreshToken);
-            navigate("/main");
+
+            if (r.isAdmin === "true") {
+              navigate("/admin", {
+                state: {
+                  newBadgeNum: r.newBadge.length,
+                },
+              });
+            } else if (r.isAdmin === "false") {
+              navigate("/main", {
+                state: {
+                  newBadgeNum: r.newBadge.length,
+                },
+              });
+            }
           }
         }
       })
       .catch((e) => {
-        console.log("error났다", e.data.status === 401);
+        console.log("error났다", e);
         if (e.data.status === 401 || e.data.status === 500) {
           alert("아이디 혹은 패스워드가 틀렸습니다");
         }
@@ -95,6 +98,7 @@ function Login(): JSX.Element {
   return (
     <>
       <IntroNavbar />
+      <Toast />
       <div className="">
         {/* <!-- Example --> */}
         <div className="flex min-h-screen max-w-screen-x">
