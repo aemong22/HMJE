@@ -59,7 +59,6 @@ public class UserServiceImpl implements UserService {
                 .continAttendance(1)
                 .accumAttendance(1)
                 .build();
-
         userRepository.save(user);
     }
     @Override
