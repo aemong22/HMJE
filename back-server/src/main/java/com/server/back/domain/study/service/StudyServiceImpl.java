@@ -132,7 +132,7 @@ public class StudyServiceImpl implements StudyService{
             }
         }else{
             while (set.size() < 2) {
-                Double d = Math.random() * myWrong.size() + 1;
+                Double d = Math.random() * myWrong.size();
                 int index = d.intValue();
                 Word word = myWrong.get(index).getWord();
                 set.add(word.getWordId());
@@ -177,7 +177,7 @@ public class StudyServiceImpl implements StudyService{
                 }
             }else{
                 while (set.size() < 2) {
-                    Double d = Math.random() * wrongWordList.size() + 1;
+                    Double d = Math.random() * wrongWordList.size();
                     int index = d.intValue();
                     Word word = wrongWordList.get(index).getWord();
                     set.add(word.getWordId());
@@ -186,7 +186,7 @@ public class StudyServiceImpl implements StudyService{
             }
 
             while (set.size() < 10) {
-                Double d = Math.random() * wordList.size() + 1;
+                Double d = Math.random() * wordList.size();
                 int index = d.intValue();
                 Word word = wordList.get(index);
                 WrongWord wrong = wrongWordRepository.findByWordAndUser(word, user);
