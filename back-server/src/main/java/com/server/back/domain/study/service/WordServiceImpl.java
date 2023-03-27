@@ -165,9 +165,12 @@ public class WordServiceImpl implements WordService {
 		System.out.println("myhighWordCnt = " + myhighWordCnt);
 
 		RemainWordResponseDto result = RemainWordResponseDto.builder()
-										.lowWordCnt(lowWordCnt - myLowWordCnt)
-										.middleWordCnt(middleWordCnt - mymiddleWordCnt)
-										.highWordCnt(highWordCnt - myhighWordCnt)
+										.lowWordCnt(lowWordCnt)
+										.middleWordCnt(middleWordCnt)
+										.highWordCnt(highWordCnt)
+					                    .remainLowWordCnt(lowWordCnt - myLowWordCnt)
+					                    .remainMiddleWordCnt(middleWordCnt - mymiddleWordCnt)
+					                    .remainHighWordCnt(highWordCnt - myhighWordCnt)
 							            .build();
 
 		return result;
