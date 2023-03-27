@@ -8,6 +8,7 @@ import Study from "./Study"
 
 function WordStudy(): JSX.Element {
   const userId = localStorage.getItem("userId");
+  const difficulty = localStorage.getItem("difficulty")
 
  
   // 학습 종류
@@ -35,10 +36,17 @@ function WordStudy(): JSX.Element {
 
     
     if(studyType === "wordStudy") {
-      getStudyWord(userId).then((r) => { 
+      console.log("here")
+      const tempData = {
+        userId : userId,
+        difficulty : difficulty,
+      }
+      getStudyWord(tempData).then((r) => { 
+        console.log(r)
         const myArray = [...r.data.data];
         myArray.sort(() => Math.random() - 0.5);
         setQuestion(myArray)
+        console.log("받은 데이터", r.data.data)
       })
     }
     else if(studyType === "contextStudy"){
@@ -94,9 +102,6 @@ function WordStudy(): JSX.Element {
 
   if(LoadingContexts || LoadingWords || LoadingWrong) {
     return <div>Loading...</div>
-  }
-  else if(ErrorWords || ErrorContext || ErrorWrong) {
-    return <div>error</div>
   }
   return (
     <>

@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import PastTestIntroModal from "../Study/PastTest/PastTestIntroModal";
 import { showPastTestIntro } from "../../Store/store";
 import  ReactWordCloud from 'react-wordcloud'
+import StudyStartModal from "./StudyStartModal";
 
 
 
@@ -226,7 +227,8 @@ function StudyContent({userScore}:any): JSX.Element {
   }
   return (
     <>
-      {/* {openModal && <PastTestIntroModal setOpenModal={setOpenModal} />} */}
+      {openModal && <StudyStartModal setOpenModal={setOpenModal} />}
+    
       <div className="container max-w-screen-lg w-full  mx-auto text-center md:pt-[7rem] pt-[5rem]">
         <div className="md:text-[1.5rem] text-[1rem]">홍민정음</div>
         <div className="md:text-[2.2rem] text-[1.9rem] font-bold ">
@@ -241,7 +243,7 @@ function StudyContent({userScore}:any): JSX.Element {
                     정확한 뜻을 학습해보세요!
                 </div>
                 <br/>
-            <div id="word" className={`${style.studyBtn} md:text-[1.3rem] md:absolute static md:bottom-[5%]  md:w-[80%] text-center border-2 border-[#A87E6E] rounded-lg py-1 mt-1`} onClick={nav}>
+            <div id="word" className={`${style.studyBtn} md:text-[1.3rem] md:absolute static md:bottom-[5%]  md:w-[80%] text-center border-2 border-[#A87E6E] rounded-lg py-1 mt-1`} onClick={()=>setOpenModal(true)}>
               시작하기
             </div>
           </div>
@@ -383,7 +385,7 @@ function News({newsKeyword}:any): JSX.Element {
             callbacks = {{
               onWordClick:handleClick,
               
-              getWordTooltip : (word) => {
+              getWordTooltip : (word:any) => {
                 return null;
               },
               
@@ -521,15 +523,10 @@ function PassUsers({ pastList, pastInfo, levelInfo, userMyInfo, userScore}:any):
 
 function Ranking({levelInfo, levelRank, wordRank, userMyInfo, userMyStudy}:any):JSX.Element {
   const userId = localStorage.getItem('userId')
-  console.log(levelRank)
-  console.log(wordRank)
-  console.log(userMyInfo)
-  console.log(userMyStudy)
   const [menu, setMenu] = useState<boolean>(true);
 
   let myRankLevel = levelRank.findIndex((user:any) => user.userId == userId);
   let myRankWord = wordRank.findIndex((user:any) => user.userId == userId);
-  console.log(myRankLevel)
   
   return(
     <>
@@ -578,7 +575,7 @@ function Ranking({levelInfo, levelRank, wordRank, userMyInfo, userMyStudy}:any):
                       </div>
                     ))}
                   </>:<>
-                    <div className="font-bold text-[3rem] text-[#F55050] w-full text-center">순위가 아직 없습니다.</div>
+                    <div className="font-bold text-[1.5rem] text-[#CF0A0A] w-full text-center p-3">순위가 아직 없습니다.</div>
                   </>}
 
                 </>:<>
@@ -606,7 +603,7 @@ function Ranking({levelInfo, levelRank, wordRank, userMyInfo, userMyStudy}:any):
                   <div className="text-[1.5rem] font-bold">나의 순위는?!</div>
                   {menu ? <>
                     {myRankWord >= 0 ? <>
-                    <div className="font-bold text-[3rem] text-[#F55050]">{myRankWord+1}<span className="text-[1.5rem]">등</span></div>
+                    <div className="font-bold text-[3rem] text-[#F99417]">{myRankWord+1}<span className="text-[1.5rem]">등</span></div>
                     <div className="text-[0.9rem] py-1">축하드려요!</div>
                     <div className="bg-[#F5F5F5] rounded-lg text-[1.1rem] p-2 font-bold">
                       <div className="py-1">
@@ -615,7 +612,7 @@ function Ranking({levelInfo, levelRank, wordRank, userMyInfo, userMyStudy}:any):
                     </div>
                   </>:
                   <>
-                    <div className="font-bold text-[3rem] text-[#F55050]">순위권 밖</div>
+                    <div className="font-bold text-[3rem] text-[#F99417]">순위권 밖</div>
                     <div className="text-[0.9rem] py-1">조금만 더 노력해봐요!</div>
                     <div className="bg-[#F5F5F5] rounded-lg text-[1.1rem] p-2 font-bold">
                       <div className="py-1">
@@ -626,7 +623,7 @@ function Ranking({levelInfo, levelRank, wordRank, userMyInfo, userMyStudy}:any):
                   
                   </>:<>
                   {myRankLevel >= 0 ? <>
-                    <div className="font-bold text-[3rem] text-[#F55050]">{myRankLevel+1}<span className="text-[1.5rem]">등</span></div>
+                    <div className="font-bold text-[3rem] text-[#F99417]">{myRankLevel+1}<span className="text-[1.5rem]">등</span></div>
                     <div className="text-[0.9rem] py-1">축하드려요!</div>
                     <div className="bg-[#F5F5F5] rounded-lg text-[1.1rem] p-2 font-bold">
                       <div className="py-1">
@@ -638,7 +635,7 @@ function Ranking({levelInfo, levelRank, wordRank, userMyInfo, userMyStudy}:any):
                     </div>
                   </>:
                   <>
-                    <div className="font-bold text-[3rem] text-[#F55050]">순위권 밖</div>
+                    <div className="font-bold text-[3rem] text-[#F99417]">순위권 밖</div>
                     <div className="text-[0.9rem] py-1">조금만 더 노력해봐요!</div>
                     <div className="bg-[#F5F5F5] rounded-lg text-[1.1rem] p-2 font-bold">
                       <div className="py-1">
