@@ -67,6 +67,7 @@ function DogamList({ get, total }: any): JSX.Element {
         {open && select && <DogamDetail select={select} detail={total[select]} setOpen={setOpen}/>}
         <div className="container max-w-screen-xl md:w-[90%] w-full mx-auto justify-evenly flex flex-wrap px-3">
         {numbers.map((num) => (
+        
           
           <>
               {get.includes(num) ? (
@@ -82,7 +83,7 @@ function DogamList({ get, total }: any): JSX.Element {
                           <div className="px-3">{total[num-1].dogamName}</div>
                         </div>
 
-                        <div className="pb-[80%] w-[80%] mx-auto mt-3 bg-no-repeat bg-center bg-cover" style={{backgroundImage:`url('/Assets/Dogam/메타몽.jpg')`}}></div>
+                        <div className="pb-[80%] w-[80%] mx-auto mt-3 bg-no-repeat bg-center bg-cover" style={{backgroundImage:`url('/Assets/Dogam/${num}.png')`}}></div>
                         <div className="text-[#A87E6E] font-bold md:text-[1.8rem] sm:text-[1.4rem] text-[1.1rem] py-0.5"></div>
                     </div> 
                   </>
@@ -95,7 +96,7 @@ function DogamList({ get, total }: any): JSX.Element {
                           </div>
                           <div className="pl-3 pr-4">미획득</div>
                         </div>
-                        <div className="pb-[80%] w-[80%] mx-auto mt-3 bg-no-repeat bg-center bg-cover" style={{backgroundImage:`url('/Assets/Dogam/고라파덕.jpg')`}}></div>
+                        <div className="pb-[80%] w-[80%] mx-auto mt-3 bg-no-repeat bg-center bg-cover" style={{backgroundImage:`url('/Assets/Dogam/물음표.png')`}}></div>
                         <div className="text-[#A87E6E] font-bold md:text-[1.8rem] sm:text-[1.4rem] text-[1.1rem] py-0.5"></div>
                     </div>  
                   </>

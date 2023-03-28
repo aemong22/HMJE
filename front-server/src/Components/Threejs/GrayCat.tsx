@@ -17,15 +17,26 @@ function GreyCat({sendEmo}:any) {
     }
   },[])
   return (
-    <div className='w-full h-full'>
+    <div className='w-full h-full mt-2'>
       <Canvas style={{width: '100%', height: '100%', borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem'}}>
         <mesh scale={1} position={[0,-2.4,2.5]}>
           <Suspense fallback={null}>
             <ambientLight />
-            <Sky azimuth={0.7}/>
-            <spotLight intensity={0.9} angle={0.1} penumbra={1} position={[10,15,10]} castShadow/>
+            <directionalLight 
+            castShadow
+            position={[0, 30, 0]}
+            intensity={1}
+            shadow-mapSize-width={1024}
+            shadow-mapSize-height={1024}
+            shadow-camera-far={50}
+            shadow-camera-left={-100}
+            shadow-camera-right={100}
+            shadow-camera-top={100}
+            shadow-camera-bottom={-100}
+        />
+            <Sky azimuth={0.8} sunPosition={[5, 30, 8]} distance={450000} inclination={0}/>
             {emo}
-            {/* <OrbitControls enablePan={true} enableZoom={false} enableRotate={true}/> */}
+            <OrbitControls enablePan={true} enableZoom={false} enableRotate={true}/>
           </Suspense>
         </mesh>
       </Canvas>
@@ -38,7 +49,7 @@ export default GreyCat;
 
 function Default() {
   const group = useRef<any>()
-  const { nodes, materials, animations }:any = useGLTF('/ThreeFile/Grey/Default.gltf') 
+  const { nodes, materials, animations }:any = useGLTF('/ThreeFile/Gray/Default.gltf') 
   const { actions, mixer, clips }:any = useAnimations(animations, group)
 
   
@@ -105,7 +116,7 @@ function Default() {
 
 function Smile() {
   const group = useRef<any>()
-  const { nodes, materials, animations }:any = useGLTF('/ThreeFile/Grey/Smile.gltf')  
+  const { nodes, materials, animations }:any = useGLTF('/ThreeFile/Gray/Smile.gltf')  
   const { actions, mixer, clips }:any = useAnimations(animations, group)
 
   
@@ -171,7 +182,7 @@ function Smile() {
 
 function Dazed() {
   const group = useRef<any>()
-  const { nodes, materials, animations }:any = useGLTF('/ThreeFile/Grey/Dazed.gltf')  
+  const { nodes, materials, animations }:any = useGLTF('/ThreeFile/Gray/Dazed.gltf')  
   const { actions, mixer, clips }:any = useAnimations(animations, group)
 
   
@@ -238,7 +249,7 @@ function Dazed() {
 
 function Sad() {
   const group = useRef<any>()
-  const { nodes, materials, animations }:any = useGLTF('/ThreeFile/Grey/Sad.gltf')  
+  const { nodes, materials, animations }:any = useGLTF('/ThreeFile/Gray/Sad.gltf')  
   const { actions, mixer, clips }:any = useAnimations(animations, group)
 
   
