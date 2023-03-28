@@ -5,6 +5,7 @@ import Navbar from "../Common/Navbar"
 import "./Notice.css";
 import { Toast } from "../Common/Toast";
 import Loading from "../Common/Loading";
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 
 function Notice():JSX.Element {
   const userId = localStorage.getItem('userId')
@@ -263,7 +264,8 @@ function NoticeSection3({isAdmin}:(boolean|any)) {
   const [noticeList, setNoticeList] = useState<NoticeType[]>([])
   const [noticeComponent, setNoticeComponent] = useState<any>(null)
   const [isNoticeClick, setIsNoticeClick] = useState(false)
-  const [noticeDetail, setNoticeDetail] = useState<(NoticeType|null)>(null)
+  const [noticeDetail, setNoticeDetail] = useState<(NoticeType|null|any)>(null)
+  console.log(noticeDetail?.content);
   
   const userId = useRef<HTMLInputElement>(null)
   const title = useRef<HTMLInputElement>(null)
@@ -374,7 +376,10 @@ function NoticeSection3({isAdmin}:(boolean|any)) {
             </div>
             <div className="flex justify-center items-start w-full h-[80%] border-t-2 my-2 py-5">
               <div className="flex flex-col w-[80%] h-full">
-                <div className="w-full h-[90%] text-[0.8rem] md:text-[0.9rem] lg:text-[1.1rem] overflow-y-auto mb-4 whitespace-pre-wrap leading-5">{noticeDetail?.content}</div>
+                <div className="w-full h-[90%] text-[0.8rem] md:text-[0.9rem] lg:text-[1.1rem] overflow-y-auto mb-4 whitespace-pre-wrap leading-5">
+                  <ReactMarkdown children={noticeDetail?.content} />
+                  {/* {noticeDetail?.content} */}
+                </div>
                 <div aria-label="목록으로" className="text-start w-[80%] h-[10%] text-[#BF9F91] text-[0.8rem] md:text-[1rem] lg:text-[1.1rem] font-semibold cursor-pointer" onClick={click}>목록으로</div>
               </div>
             </div>
@@ -408,7 +413,7 @@ function NoticeSection4({isAdmin}:(boolean|any)) {
   const [FaqList, setFaqList] = useState<NoticeType[]>([])
   const [FaqComponent, setFaqComponent] = useState<any>(null)
   const [isFaqClick, setIsFaqClick] = useState(false)
-  const [FaqDetail, setFaqDetail] = useState<(NoticeType|null)>(null)
+  const [FaqDetail, setFaqDetail] = useState<(NoticeType|null|any)>(null)
   
   const userId = useRef<HTMLInputElement>(null)
   const title = useRef<HTMLInputElement>(null)
@@ -519,7 +524,10 @@ function NoticeSection4({isAdmin}:(boolean|any)) {
             </div>
             <div className="flex justify-center items-start w-full h-[80%] border-t-2 my-2 py-5">
               <div className="flex flex-col w-[80%] h-full">
-                <div className="w-full h-[90%] text-[0.8rem] md:text-[0.9rem] lg:text-[1.1rem] overflow-y-auto mb-4 whitespace-pre-wrap leading-5">{FaqDetail?.content}</div>
+                <div className="w-full h-[90%] text-[0.8rem] md:text-[0.9rem] lg:text-[1.1rem] overflow-y-auto mb-4 whitespace-pre-wrap leading-5">
+                  <ReactMarkdown children={FaqDetail?.content} />
+                  
+                </div>
                 <div aria-label="목록으로" className="text-start w-[80%] h-[10%] text-[#BF9F91] text-[0.8rem] md:text-[1rem] lg:text-[1.1rem] font-semibold cursor-pointer" onClick={click}>목록으로</div>
               </div>
             </div>
