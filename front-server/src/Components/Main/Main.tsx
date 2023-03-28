@@ -36,14 +36,21 @@ function Main(): JSX.Element {
       if (location.state !== null) {
         if (location.state.newBadgeNum > 0) {
           toast.info(`칭호 ${location.state.newBadgeNum}개를 얻으셨습니다.`);
-          const stateData = {
-            ...window.history.state,
-            usr: { ...window.history.state.usr, newBadgeNum: 0 },
-          };
-          const pageTitle = "Title";
-          const pageUrl = "/main";
-          window.history.replaceState(stateData, pageTitle, pageUrl);
         }
+        if (location.state.result >= 0) {
+          toast.info(`과거시험 결과는 [${location.state.result} 점] 입니다`);
+        }
+        if (location.state.level > 0) {
+          toast.info("벼슬 상승!");
+        }
+
+        const stateData = {
+          ...window.history.state,
+          usr: { ...window.history.state.usr, newBadgeNum: 0, result: -10,level:0 },
+        };
+        const pageTitle = "Title";
+        const pageUrl = "/main";
+        window.history.replaceState(stateData, pageTitle, pageUrl);
       }
     }
   }, []);
