@@ -35,13 +35,11 @@ function WordStudy(): JSX.Element {
   useEffect(() => {
 
     if(studyType === "wordStudy") {
-      console.log("here")
       const tempData = {
         userId : userId,
         difficulty : difficulty,
       }
       getStudyWord(tempData).then((r) => { 
-        console.log(r)
         const myArray = [...r.data.data];
         myArray.sort(() => Math.random() - 0.5);
         setQuestion(myArray)
