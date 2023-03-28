@@ -2,6 +2,7 @@ import Navbar from "../Common/Navbar"
 import {useGetDogamUserIdQuery ,useGetDogamQuery} from "../../Store/api"
 import { useState } from "react";
 import DogamDetail from "./DogamDetail";
+import Loading from "../Common/Loading";
 
 function Dogam(): JSX.Element {
   const userId = localStorage.getItem("userId");
@@ -18,7 +19,11 @@ function Dogam(): JSX.Element {
   } = useGetDogamQuery("");
 
   if (isLoading || isLoading2) {
-    return <>로딩중</>;
+    return(
+      <>
+        <Loading />
+      </>
+    )
   } else if (error || error2) {
     return <>에러</>;
   } else {

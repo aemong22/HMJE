@@ -288,7 +288,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
               <div className="flex flex-wrap justify-between w-full relative">
                 <input type="text" value={input} className="m-1 block w-full p-4 pl-5 text-sm text-gray-900 border border-gray-300 rounded-lg focus:outline-none bg-gray-50" placeholder="정답을 입력하세요." 
                 required onChange={(e:any)=>onChange(e)} onKeyPress={(e:any)=>{
-                  if ((e.key === 'Enter') && input.length > 0) {
+                  if ((e.key === 'Enter') && input.length > 0 && !modalOpen && !resultModal) {
                     if(studyType !== "contextStudy") {
                       submit();
                     }
@@ -296,7 +296,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
                     submit2();
                     }
                   }
-                  else if((e.key === 'Enter')) {
+                  else if((e.key === 'Enter')  && !modalOpen && !resultModal ) {
                     toast.error("정답을 입력해주세요.")
                   }
                 }}/>
