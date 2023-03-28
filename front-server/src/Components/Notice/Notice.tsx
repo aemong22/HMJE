@@ -181,7 +181,7 @@ function NoticeSection2({isAdmin, choiceBtn, setChoiceBtn, adminUserId}:(boolean
           <div className="flex justify-start">
             <div className="flex flex-col w-full">
               <div className="flex justify-between w-full text-[1.5rem] md:text-[2rem] font-bold">
-                <div className="w-1/2"><input className="w-full" ref={title} type="text" placeholder="Title" /> </div>
+                <div className="w-full"><input className="w-full" ref={title} type="text" placeholder="Title" /> </div>
               </div>
             </div>
           </div>          
@@ -210,7 +210,7 @@ function NoticeSection2({isAdmin, choiceBtn, setChoiceBtn, adminUserId}:(boolean
           <div className="flex justify-start">
             <div className="flex flex-col w-full">
               <div className="flex justify-between w-full text-[1.5rem] md:text-[2rem] font-bold">
-                <div className="w-1/2"><input className="w-full" ref={title2} type="text" placeholder="Title" /> </div>
+                <div className="w-full"><input className="w-full" ref={title2} type="text" placeholder="Title" /> </div>
               </div>
             </div>
           </div>          
@@ -336,16 +336,16 @@ function NoticeSection3({isAdmin}:(boolean|any)) {
         (
           <div className="flex flex-col justify-start items-center w-[90%] md:w-[80%] lg:w-[70%] xl:w-[60%] h-[60%] md:h-[80%] bg-white">
             <div className="flex flex-col justify-center items-start w-[80%] h-[20%] pt-4">
-              <div className="flex justify-start">
+              <div className="flex justify-start w-full">
                 <div className="flex flex-col w-full">
                   <div className="w-full text-[1rem] md:text-[1.2rem] lg:text-[1.5rem] font-bold overflow-x-auto">
                     <input className="w-full" ref={title} type="text" defaultValue={noticeDetail?.title} />
                   </div>
                   <div className="flex justify-between items-end w-full">
-                    <div className="w-1/2 text-[#666666] text-[0.8rem] md:text-[1.5rem]">{noticeDetail?.createdAt.split('T')[0]}</div>
-                    <div className="flex justify-end w-1/2 lg:w-1/5 text-center text-[0.8rem] md:text-[1.5rem] text-[#8E8E8E]">
-                      <div aria-label="수정" className={`flex justify-center items-center w-1/3 mx-1 border-[#DDDDDD] border-2 rounded-sm noticeChoiceBtn`} onClick={click}>수정</div>
-                      <div aria-label="삭제" className={`flex justify-center items-center w-1/3 mx-1 border-[#DDDDDD] border-2 rounded-sm noticeChoiceBtn`} onClick={click}>삭제</div>
+                    <div className="w-1/2 text-[#666666] text-[0.7rem] md:text-[1.2rem] lg:text-[1.3rem]">{noticeDetail?.createdAt.split('T')[0]}</div>
+                    <div className="flex justify-end w-1/2 text-center text-[0.7rem] md:text-[1.2rem] lg:text-[1.3rem] text-[#8E8E8E]">
+                      <div aria-label="수정" className={`flex justify-center items-center w-1/4 mx-1 border-[#DDDDDD] border-2 rounded-sm noticeChoiceBtn`} onClick={click}>수정</div>
+                      <div aria-label="삭제" className={`flex justify-center items-center w-1/4 mx-1 border-[#DDDDDD] border-2 rounded-sm noticeChoiceBtn`} onClick={click}>삭제</div>
                     </div>
                   </div>
                 </div>
@@ -353,7 +353,7 @@ function NoticeSection3({isAdmin}:(boolean|any)) {
             </div>
             <div className="flex justify-center items-start w-full h-[80%] border-t-2 my-2 py-5">
               <div className="flex flex-col w-[80%] h-[90%] my-5 relative">
-                <div className="w-full h-[90%] text-[0.8rem] md:text-[0.9rem] lg:text-[1.1rem] overflow-y-auto mb-4 whitespace-pre-wrap leading-5"><textarea ref={content} className="w-full h-full " defaultValue={noticeDetail?.content} /></div>
+                <div className="w-full h-[90%] text-[0.7rem] md:text-[0.9rem] lg:text-[1.1rem] overflow-y-auto mb-4 whitespace-pre-wrap leading-5"><textarea ref={content} className="w-full h-full " defaultValue={noticeDetail?.content} /></div>
                 <div aria-label="목록으로" className="text-start w-[80%] h-[10%] text-[#BF9F91] text-[0.8rem] md:text-[1rem] lg:text-[1.1rem] font-semibold cursor-pointer" onClick={click}>목록으로</div>
               </div>
             </div>
@@ -362,7 +362,7 @@ function NoticeSection3({isAdmin}:(boolean|any)) {
         (
           <div className="flex flex-col justify-start items-center w-[90%] md:w-[80%] lg:w-[70%] xl:w-[60%] h-[60%] md:h-[80%] bg-white">
             <div className="flex flex-col justify-center items-start w-[80%] h-[20%] pt-4">
-              <div className="flex justify-start">
+              <div className="flex justify-start w-full">
                 <div className="flex flex-col w-full">
                   <div className="w-full text-[1rem] md:text-[1.2rem] lg:text-[1.5rem] font-bold overflow-x-auto">
                     <span className="text-[#666666]">{noticeDetail?.title.split(']')[0]}]</span>
@@ -484,16 +484,16 @@ function NoticeSection4({isAdmin}:(boolean|any)) {
         (
           <div className="flex flex-col justify-start items-center w-[90%] md:w-[80%] lg:w-[70%] xl:w-[60%] h-[60%] md:h-[80%] bg-white">
             <div className="flex flex-col justify-center items-start w-[80%] h-[20%] pt-4">
-              <div className="flex justify-start">
+              <div className="flex justify-start w-full">
                 <div className="flex flex-col w-full">
                   <div className="w-full text-[1rem] md:text-[1.2rem] lg:text-[1.5rem] font-bold overflow-x-auto">
                     <input className="w-full" ref={title} type="text" defaultValue={FaqDetail?.title} />
                   </div>
                   <div className="flex justify-between items-end w-full">
-                    <div className="w-1/2 text-[#666666] text-[0.8rem] md:text-[1.5rem]">{FaqDetail?.createdAt.split('T')[0]}</div>
-                    <div className="flex justify-end w-1/2 lg:w-1/5 text-center text-[0.8rem] md:text-[1.5rem] text-[#8E8E8E]">
-                      <div aria-label="수정" className={`flex justify-center items-center w-1/3 mx-1 border-[#DDDDDD] border-2 rounded-sm noticeChoiceBtn`} onClick={click}>수정</div>
-                      <div aria-label="삭제" className={`flex justify-center items-center w-1/3 mx-1 border-[#DDDDDD] border-2 rounded-sm noticeChoiceBtn`} onClick={click}>삭제</div>
+                    <div className="w-1/2 text-[#666666] text-[0.7rem] md:text-[1.1rem] lg:text-[1.2rem]">{FaqDetail?.createdAt.split('T')[0]}</div>
+                    <div className="flex justify-end w-1/2 text-center text-[0.7rem] md:text-[1.1rem] lg:text-[1.2rem] text-[#8E8E8E]">
+                      <div aria-label="수정" className={`flex justify-center items-center w-1/4 mx-1 border-[#DDDDDD] border-2 rounded-sm noticeChoiceBtn`} onClick={click}>수정</div>
+                      <div aria-label="삭제" className={`flex justify-center items-center w-1/4 mx-1 border-[#DDDDDD] border-2 rounded-sm noticeChoiceBtn`} onClick={click}>삭제</div>
                     </div>
                   </div>
                 </div>
@@ -501,7 +501,7 @@ function NoticeSection4({isAdmin}:(boolean|any)) {
             </div>
             <div className="flex justify-center items-start w-full h-[80%] border-t-2 my-2 py-5">
               <div className="flex flex-col w-[80%] h-[90%] my-5 relative">
-                <div className="w-full h-[90%] text-[0.8rem] md:text-[0.9rem] lg:text-[1.1rem] overflow-y-auto mb-4 whitespace-pre-wrap leading-5"><textarea ref={content} className="w-full h-full " defaultValue={FaqDetail?.content} /></div>
+                <div className="w-full h-[90%] text-[0.7rem] md:text-[0.9rem] lg:text-[1.1rem] overflow-y-auto mb-4 whitespace-pre-wrap leading-5"><textarea ref={content} className="w-full h-full " defaultValue={FaqDetail?.content} /></div>
                 <div aria-label="목록으로" className="text-start w-[80%] h-[10%] text-[#BF9F91] text-[0.8rem] md:text-[1rem] lg:text-[1.1rem] font-semibold cursor-pointer" onClick={click}>목록으로</div>
               </div>
             </div>
@@ -526,7 +526,6 @@ function NoticeSection4({isAdmin}:(boolean|any)) {
               <div className="flex flex-col w-[80%] h-full">
                 <div className="w-full h-[90%] text-[0.8rem] md:text-[0.9rem] lg:text-[1.1rem] overflow-y-auto mb-4 whitespace-pre-wrap leading-5">
                   <ReactMarkdown children={FaqDetail?.content} />
-                  
                 </div>
                 <div aria-label="목록으로" className="text-start w-[80%] h-[10%] text-[#BF9F91] text-[0.8rem] md:text-[1rem] lg:text-[1.1rem] font-semibold cursor-pointer" onClick={click}>목록으로</div>
               </div>
