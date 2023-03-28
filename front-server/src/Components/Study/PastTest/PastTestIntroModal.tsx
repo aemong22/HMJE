@@ -35,7 +35,7 @@ const PastTestIntroModal = ({userScore}:any): JSX.Element => {
         ref={bgDiv}
         onMouseDown={ClosePastTestIntro}
         className={
-          "z-10 bg-slate-800 bg-opacity-80 fixed top-0 right-0 bottom-0 left-0"
+          "z-10 bg-slate-800 bg-opacity-95 fixed top-0 right-0 bottom-0 left-0"
         }
       >
         <div className="relative top-[10rem] m-6 mx-auto max-w-lg p-2">
