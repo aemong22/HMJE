@@ -12,11 +12,11 @@ const PastTestIntroModal = ({userScore}:any): JSX.Element => {
 
   // 프로필선택 모달 끄는 함수
   function ClosePastTestIntro(event: React.MouseEvent<HTMLDivElement>) {
-    console.log("클릭인것같음", event.target);
-    console.log("뭔가용", bgDiv.current);
+    //console.log("클릭인것같음", event.target);
+    //console.log("뭔가용", bgDiv.current);
 
     if (event.target === bgDiv.current) {
-      console.log("인트로창꺼짐!");
+      //console.log("인트로창꺼짐!");
       dispatch(showPastTestIntro());
     }
   }

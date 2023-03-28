@@ -43,7 +43,7 @@ function Login(): JSX.Element {
     PostUserlogin(data)
       .unwrap()
       .then((r: any) => {
-        console.log("벳지 로그인 결과", r.newBadge.length);
+        //console.log("벳지 로그인 결과", r.newBadge.length);
 
         // console.log(r);
         if (r.status === "200") {

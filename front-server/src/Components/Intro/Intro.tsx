@@ -61,15 +61,15 @@ function IntroSection1(): JSX.Element {
     <div className="flex justify-center items-center h-[13rem] sm:h-[18rem] md:h-[20rem] lg:h-[29rem] md:px-4 bg-[#D6B17A]">
       <div id="introSection1" className="flex justify-between items-center text-white sm:px-2 w-full max-w-screen-xl">
         {/* 왼쪽 */}
-        <div className="flex justify-center items-center w-1/2 sm:w-1/2 md:w-3/5 xl:w-2/5">
+        <div className="flex justify-start items-center w-1/2 sm:w-1/2 md:w-3/5 xl:w-2/5 px-2">
           <div>
-            <div className="text-[1.2rem] sm:text-[1.4rem] md:text-[1.8rem] font-semibold pl-1 mb-1">
+            <div className="text-[1.2rem] sm:text-[1.4rem] md:text-[1.7rem] font-semibold pl-1 mb-1">
               즐거운 단어 학습
             </div>
-            <div className="leading-none text-[1.8rem] sm:text-[3rem] md:text-[4.5rem] font-bold my-1">
+            <div className="leading-none text-[1.8rem] sm:text-[3rem] md:text-[4rem] font-bold my-1">
               홍민정음
             </div>
-            <div className="hidden sm:flex text-[1.2rem] sm:text-[1.4rem] md:text-[1.8rem] font-medium mb-4">
+            <div className="hidden sm:flex text-[1.2rem] sm:text-[1.4rem] md:text-[1.7rem] font-medium mb-4">
               문해력실력을 향상시킬 수 있는 곳
             </div>
             <div className="flex sm:hidden text-[0.8em] sm:text-[1rem] md:text-[1.1rem] font-medium pl-1 mb-2">
@@ -81,8 +81,6 @@ function IntroSection1(): JSX.Element {
             </div>
           </div>
         </div>
-        {/* 여백 */}
-        <div className="hidden sm:text-red-500 lg:flex xl:w-2/5 "></div>
         {/* 오른쪽 */}
         <div className="flex justify-center items-center w-1/2 sm:w-1/2 lg:w-2/5 xl:w-2/5 ">
           <img className="h-[10rem] sm:h-[17rem] md:h-[18rem] lg:h-[21rem]  xl:h-96" src="/Assets/Intro/sejong.png" alt="sejong" />
@@ -95,7 +93,7 @@ function IntroSection1(): JSX.Element {
 
 function IntroSection2():JSX.Element {
   return(
-    <div className="h-[33rem] sm:h-[40rem] lg:h-[50rem] flex justify-center items-center">
+    <div className="flex justify-center items-center py-10 sm:px-4 px-2 mt-16">
       <div className=" max-w-screen-xl w-full h-[90%] ">
         {/* 텍스트 */}
         <div className="flex justify-center items-end h-[25%]  w-[85%] sm:w-[60%] lg:w-[38.4%] pb-6 mx-auto ">
@@ -115,8 +113,8 @@ function IntroSection2():JSX.Element {
           </div>
         </div>
         {/* 카드 */}
-        <div className="flex-col justify-center items-center h-[75%] mx-auto w-[85%] sm:w-[60%] lg:w-[50%] xl:w-[42%]">
-          {/* 상단 */}
+        {/* <div className="flex-col justify-center items-center h-[75%] mx-auto w-[85%] sm:w-[60%] lg:w-[50%] xl:w-[42%]">
+          
           <div className="flex justify-between items-center h-[43%] ">
             <div className="flex flex-col justify-start items-center text-center h-full w-[47%] rounded-[0.9rem] bg-[#F0ECE9] relative">
               <div className="mt-5 px-3 md:py-1 rounded-xl bg-[#BE8D65] absolute"><span className="w-full text-white text-[0.7rem] md:text-[1.05rem] lg:text-[1.1rem] font-semibold">단어학습이란?</span></div>
@@ -132,7 +130,7 @@ function IntroSection2():JSX.Element {
             </div>
           </div>
           <div className="h-[4%]"></div>
-          {/* 하단 */}
+          
           <div className="flex justify-start items-center h-[43%] w-full rounded-[0.9rem] bg-[#F0ECE9]">
             <div className="mx-auto text-[#BE8D65] text-[0.6rem] md:text-[1rem] lg:text-[1.05rem] font-semibold">
               <div className="flex w-full">
@@ -145,9 +143,12 @@ function IntroSection2():JSX.Element {
               </div>
             </div>
             <div>
-              {/* 뭘 넣긴해야함 */}
+             
             </div>
           </div>
+        </div> */}
+        <div className={`${sModule.introStudy} md:w-[60%] mx-auto w-full md:pb-[50%] pb-[80%]`}>
+
         </div>
       </div>
     </div>
