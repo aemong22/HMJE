@@ -34,7 +34,6 @@ const PastTestResult = (): JSX.Element => {
             toast.info("계급 상승!");
           }, 2000);
         }
-
         const stateData = {
           ...window.history.state,
           usr: {
@@ -52,21 +51,52 @@ const PastTestResult = (): JSX.Element => {
   }, []);
 
   return (
-    <>
-      <div className="flex flex-col justify-between h-[100vh]">
-        <Navbar />
-        <Toast />
-        <ResultPage TestScore={TestScore} />
-        <Footer />
-      </div>
-    </>
+    <div className="flex flex-col justify-between h-[100vh]">
+      <Navbar />
+      <Toast />
+      <ResultPage TestScore={TestScore} />
+      <Footer />
+    </div>
   );
 };
 function ResultPage({ TestScore }: any) {
+  const navigate = useNavigate();
+  const gomain = () => {
+    navigate("/main");
+  };
   return (
-    <div className="flex flex-col max-w-screen-lg w-[80%] mx-auto">
-      <div className="w-[50%]">{TestScore}점 입니다</div>
-      <div className="m-2">메인으로 돌아가기</div>
+    <div className="flex flex-col items-center justify-center px-10">
+      {/* <!-- Login box --> */}
+      <div className="flex flex-col justify-center">
+        <div className="flex flex-col items-center space-y-2 text-center mb-[1rem]">
+          <div className="text-3xl font-extrabold text-[#A87E6E] md:text-6xl">
+            홍민정음
+          </div>
+          <div className="text-[#BD9789] font-extrabold text-[15px] leading-7 md:text-[24px] md:leading-8  w-[20rem] ">
+            즐거운 단어 학습
+          </div>
+        </div>
+        <div className="flex flex-col max-w-xl w-[100%] lg:w-[50rem] space-y-5 ">
+          <div className="text-[#A87C6E] font-extrabold text-center text-3xl pt-3 leading-7">
+            과거시험
+          </div>
+          <div className="flex flex-row  justify-center">
+            <div className=" text-[#f35050]  font-extrabold text-center text-5xl pt-3 leading-7">
+              {TestScore}점
+            </div>
+            <div className="text-[#A87C6E]  font-extrabold text-center text-[1rem] pt-3 leading-7">
+              입니다
+            </div>
+          </div>
+
+          <button
+            className="flex items-center justify-center flex-none px-3 py-2 md:px-4 md:py-3 border-2 rounded-lg font-extrabold bg-[#BF9F91] text-white"
+            onClick={gomain}
+          >
+            메인으로
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
