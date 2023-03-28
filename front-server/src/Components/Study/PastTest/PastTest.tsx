@@ -41,6 +41,12 @@ const PastTest = (): JSX.Element => {
   const date = today.getDate();
   const today_temp = year + "-" + "0" + month + "-" + date;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.onbeforeunload = () => {
+      return "Are you sure you want to leave?";
+    }
+  }, []);
   if (isLoading1) {
     return <>로딩중</>;
   } else if (isLoading2) {
