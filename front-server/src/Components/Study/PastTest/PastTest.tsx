@@ -45,7 +45,7 @@ const PastTest = (): JSX.Element => {
   useEffect(() => {
     window.onbeforeunload = () => {
       return "Are you sure you want to leave?";
-    }
+    };
   }, []);
   if (isLoading1) {
     return <>로딩중</>;
@@ -188,16 +188,16 @@ const Question = (
 
         if (r.message == "success") {
           // console.log("성공!");
-          if (r.newBadge) {
-            navigate("/main", {
+          if (r.newBadge) {            
+            navigate("/pasttestresult", {
               state: {
                 result: result,
                 newBadgeNum: r.newBadge.length,
                 level: r.level,
               },
             });
-          } else {
-            navigate("/main", {
+          } else {            
+            navigate("/pasttestresult", {
               state: {
                 result: result,
                 newBadgeNum: 0,
