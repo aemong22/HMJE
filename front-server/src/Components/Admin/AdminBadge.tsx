@@ -38,9 +38,7 @@ function AdminUserSection1():JSX.Element {
   
 
   useEffect(()=> {
-    getUserBadge('').unwrap().then((r)=> {
-      console.log(r.data);
-      
+    getUserBadge('').unwrap().then((r)=> {      
       setUserBadge(r.data)
     })
   },[])

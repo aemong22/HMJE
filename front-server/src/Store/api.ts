@@ -54,7 +54,6 @@ const fetchAccessToken = async () => {
     const nowDate: number = new Date().getTime() / 1000;
     // 토큰 만료시간이 지났다면
     if (decode.exp < nowDate) {
-      console.log("재발급처리 하는 로직");
       // 리프레쉬 토큰 발급 서버 요청
       const userName = localStorage.getItem('userName')
       const { data } = await axios({
@@ -67,12 +66,10 @@ const fetchAccessToken = async () => {
       return data.accessToken;
     } else {
       // 유효기간이 싱싱할때
-      console.log('유효기간이 싱싱할때');
       return localStorage.getItem("accessToken");
     }
   } else {
     // 토큰이 null 일때
-    console.log("토큰이 null 일때 하는짓");
   }
 };
 
@@ -152,7 +149,6 @@ export const hmjeApi = createApi({
     // 5. 검색 회원 목록 
     getAdminUserSearchList: builder.query({
       query: (nickname: string) => {
-        console.log(nickname);
 
         return {
           url: `/admin/user/${nickname}`
@@ -177,7 +173,6 @@ export const hmjeApi = createApi({
     // 7. 뱃지 추가
     postAdminBadge: builder.mutation({
       query: (body) => {
-        console.log(body);
 
         return {
           url: `/admin/badge/`,
@@ -192,7 +187,6 @@ export const hmjeApi = createApi({
     putAdminBadge: builder.mutation({
       query: (data) => {
         const [badge_id, body] = data
-        console.log(badge_id, body);
         return {
           url: `/admin/badge/${badge_id}`,
           method: 'put',
@@ -435,10 +429,6 @@ export const hmjeApi = createApi({
     postUserMonthstudy: builder.mutation({
       query: (data: (string | number | null | undefined)[]) => {
         const [userId, year, month] = data
-        console.log(month);
-
-        console.log(userId, month, year);
-
         return {
           url: `user/stats/monthstudy/${userId}`,
           method: 'POST',
@@ -458,7 +448,6 @@ export const hmjeApi = createApi({
     // 10. 로그아웃
     putUserLogout: builder.mutation({
       query: (data) => {
-        console.log("로그아웃 data는", data);
         return {
           url: `/user/logout/${data.userId}`,
           method: 'PUT',
@@ -470,7 +459,6 @@ export const hmjeApi = createApi({
     // 11. 다른 유저와 통계 비교
     getUserStatsCompare: builder.query({
       query: (userId: any) => {
-        console.log("userId", userId);
         return {
           url: `/user/stats/compare/${userId}`,
           params: {
@@ -665,7 +653,6 @@ export const hmjeApi = createApi({
     // 9. 과거시험 점수 저장
     postStudyPastResult: builder.mutation({
       query: (data) => {
-        //console.log("아이디 중복 rtk에서 받은 데이터 : ", data);
         return {
           url: `study/past/result`,
           method: "POST",
@@ -723,8 +710,6 @@ export const hmjeApi = createApi({
 
     getWorddict: builder.query<Worddict, any>({
       query: (data) => {
-        console.log("사전 조회하기 rtk에서 받은 데이터 : ", data);
-        // console.log(`url : word/?filter=${data.filter}/?keyword=${data.keyword}/?p=${data.p}`);
         return {
           url: `word/`,
           params: {
@@ -742,8 +727,6 @@ export const hmjeApi = createApi({
     // 3. 사전 개별조회
     getWorddictdetail: builder.query({
       query: (data) => {
-        console.log("사전 조회하기 rtk에서 받은 데이터 : ", data);
-        // console.log(`url : word/?filter=${data.filter}/?keyword=${data.keyword}/?p=${data.p}`);
         return {
           url: `word/dict/`,
           params: {

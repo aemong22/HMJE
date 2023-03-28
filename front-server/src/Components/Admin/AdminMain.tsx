@@ -121,7 +121,6 @@ function AdminMainSection4():JSX.Element {
   const loading = <div>로딩중</div>
 
   const levelArray = Array.from({length:9},()=> 0)
-  // console.log('levelArray: ', levelArray);
   
   if (userList) {
     userList.map((user)=> {
@@ -179,8 +178,7 @@ function AdminMainSection4():JSX.Element {
     },
     maintainAspectRatio: false
   };
-  console.log('levelArray: ', levelArray);
-  
+    
   const data = {
     datasets: [
       {
