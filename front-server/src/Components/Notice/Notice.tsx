@@ -265,7 +265,6 @@ function NoticeSection3({isAdmin}:(boolean|any)) {
   const [noticeComponent, setNoticeComponent] = useState<any>(null)
   const [isNoticeClick, setIsNoticeClick] = useState(false)
   const [noticeDetail, setNoticeDetail] = useState<(NoticeType|null|any)>(null)
-  console.log(noticeDetail?.content);
   
   const userId = useRef<HTMLInputElement>(null)
   const title = useRef<HTMLInputElement>(null)
