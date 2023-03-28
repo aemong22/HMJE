@@ -53,9 +53,7 @@ function Login(): JSX.Element {
           } else {
             const accessToken = r.accessToken;
             const refreshToken = r.refreshToken;
-            const userId = r.userId;
-            // console.log("accessToken", accessToken);
-            // console.log("refreshToken", refreshToken);
+            const userId = r.userId;            
             localStorage.setItem("accessToken", accessToken);
             localStorage.setItem("userName", Id!);
             localStorage.setItem("userId", userId);
