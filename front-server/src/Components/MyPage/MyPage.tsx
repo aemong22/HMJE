@@ -984,9 +984,9 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
 
   return (
     <>
-      {
+      {/* {
         (monthStudyLoading||isLoading2||isLoading3||isLoading4)&&loading
-      }
+      } */}
       
       <div className="flex flex-col justify-start items-center w-full px-[5%] h-[130rem] lg:h-[130rem] mb-6 md:mb-0 md:my-6 pb-5">
         <div className="flex justify-center items-center h-[90%] max-w-screen-xl w-full">
