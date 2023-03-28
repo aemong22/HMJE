@@ -113,7 +113,7 @@ public class StudyController {
         Map<String, Object> response = new HashMap<>();
         Boolean result = studyService.createPastTestResult(pastTestResultRequestDto);
         if(result){
-            if(pastTestResultRequestDto.getScore().equals(100)){
+            if(pastTestResultRequestDto.getScore() >= 80){
                 System.out.println("장 원 급 제 !!");
                 // 여기에 뱃지 추가하는 로직 추가 예정
                 List<Long> badgeData = badgeService.badgecheckPast(pastTestResultRequestDto.getUserId()); // 뱃지
