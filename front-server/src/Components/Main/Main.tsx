@@ -22,6 +22,9 @@ import OrangeCat from "../Threejs/OrangeCat";
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
 import Loading from "../Common/Loading";
+import StrangeCat from "../Threejs/StrangeCat";
+import MixCat from "../Threejs/MixCat";
+import GrayCat from "../Threejs/GrayCat";
 
 function Main(): JSX.Element {
   const navigate = useNavigate();
@@ -229,6 +232,20 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
   time = time % 60;
   const s = time;
   let checkEmoState:number = 1
+
+  const [character , setCharacter] = useState<any>();
+
+  useEffect(()=> {
+    if (userMyInfo?.level >= 9) {
+      setCharacter(<StrangeCat sendEmo={checkEmoState}/>)
+    } else if (7 <= userMyInfo?.level && userMyInfo?.level <= 8) {
+      setCharacter(<GrayCat sendEmo={checkEmoState}/>)
+    } else if (4 <= userMyInfo?.level && userMyInfo?.level <= 6) {
+      setCharacter(<MixCat sendEmo={checkEmoState}/>)
+    } else {
+      setCharacter(<OrangeCat sendEmo={checkEmoState}/>)
+    }
+  },[])
 
 
 
