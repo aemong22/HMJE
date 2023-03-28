@@ -432,7 +432,7 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public List<RankLevelResponseDto> rankLevel(){
-        List<User> users = userRepository.findAll();
+        List<User> users = userRepository.findAllByNotAdminAndNotSecession();
         users.sort(Comparator.comparing(User::getLevel).thenComparing(User::getExp).thenComparing(User::getTodayRight).reversed());
         System.out.println("users = " + users);
         List<RankLevelResponseDto> responseDto = new ArrayList<>();
