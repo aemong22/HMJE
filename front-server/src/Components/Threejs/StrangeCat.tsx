@@ -3,7 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF, useAnimations, Sky, useTexture } from '@react-three/drei';
 import * as THREE from 'three'
 
-function OrangeCat({sendEmo}:any) {
+function StrangeCat({sendEmo}:any) {
   const [emo, setEmo] = useState<any>()
   useEffect(()=> {
     if (sendEmo === 0) {
@@ -44,12 +44,12 @@ function OrangeCat({sendEmo}:any) {
   );
 }
 
-export default OrangeCat;
+export default StrangeCat;
 
 
 function Default() {
   const group = useRef<any>()
-  const { nodes, materials, animations }:any = useGLTF('/ThreeFile/Orange/Default.gltf') 
+  const { nodes, materials, animations }:any = useGLTF('/ThreeFile/Strange/Default.gltf') 
   const { actions, mixer, clips }:any = useAnimations(animations, group)
 
   
@@ -118,7 +118,7 @@ function Default() {
 
 function Smile() {
   const group = useRef<any>()
-  const { nodes, materials, animations }:any = useGLTF('/ThreeFile/Orange/Smile.gltf')  
+  const { nodes, materials, animations }:any = useGLTF('/ThreeFile/Strange/Smile.gltf')  
   const { actions, mixer, clips }:any = useAnimations(animations, group)
 
   
@@ -184,7 +184,7 @@ function Smile() {
 
 function Dazed() {
   const group = useRef<any>()
-  const { nodes, materials, animations }:any = useGLTF('/ThreeFile/Orange/Dazed.gltf')  
+  const { nodes, materials, animations }:any = useGLTF('/ThreeFile/Strange/Dazed.gltf')  
   const { actions, mixer, clips }:any = useAnimations(animations, group)
 
   
@@ -251,7 +251,7 @@ function Dazed() {
 
 function Sad() {
   const group = useRef<any>()
-  const { nodes, materials, animations }:any = useGLTF('/ThreeFile/Orange/Sad.gltf')  
+  const { nodes, materials, animations }:any = useGLTF('/ThreeFile/Strange/Sad.gltf')  
   const { actions, mixer, clips }:any = useAnimations(animations, group)
 
   

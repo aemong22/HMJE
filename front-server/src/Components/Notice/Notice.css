@@ -9,3 +9,10 @@
   transition: all .6s;
   border-bottom: none;
 }
+
+.noticeChoiceBtn:hover {
+  background-color: #A87E6E;
+  color: white;
+  cursor: pointer;
+  transition: all .3s;
+}
