@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
-import Pangguin from "../Threejs/Pangguin";
 import style from "./Main.module.css";
 import classNames from "classnames";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";

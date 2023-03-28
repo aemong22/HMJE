@@ -36,7 +36,7 @@ function StrangeCat({sendEmo}:any) {
         />
             <Sky azimuth={0.8} sunPosition={[5, 30, 8]} distance={450000} inclination={0}/>
             {emo}
-            <OrbitControls enablePan={true} enableZoom={false} enableRotate={true}/>
+            {/* <OrbitControls enablePan={true} enableZoom={false} enableRotate={true}/> */}
           </Suspense>
         </mesh>
       </Canvas>
