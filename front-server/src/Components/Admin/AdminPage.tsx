@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useLazyGetUserMyinfoQuery } from "../../Store/api";
+import Loading from "../Common/Loading";
 import AdminCuteImg from "./AdminCuteImg";
 
 function AdminPage():JSX.Element {
@@ -16,6 +17,7 @@ function AdminPage():JSX.Element {
   },[])
   return (
     <>
+      {isLoading&&<Loading/>}
       <Outlet/>
       <AdminCuteImg/>
     </>

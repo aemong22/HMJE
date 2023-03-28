@@ -233,9 +233,12 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
   const s = time;
   let checkEmoState:number = 1
 
-  const [character , setCharacter] = useState<any>();
+  const [character , setCharacter] = useState(<GrayCat sendEmo={checkEmoState}/>);
 
   useEffect(()=> {
+    console.log(userMyInfo);
+    console.log(userMyInfo?.level);
+    
     if (userMyInfo?.level >= 9) {
       setCharacter(<StrangeCat sendEmo={checkEmoState}/>)
     } else if (7 <= userMyInfo?.level && userMyInfo?.level <= 8) {
@@ -258,7 +261,7 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
       <div className="w-full mx-auto flex flex-col md:flex-row md:justify-around items-center text-start">
         <div className="md:w-[45%] w-[95%] bg-[#ffffff] py-2 md:px-4 rounded-md px-2">
           <div className="h-[20rem] py-2">
-            <OrangeCat sendEmo={checkEmoState}/>
+            {character}
           </div>
           <div className="flex justify-start md:text-[1.2rem] sm:text-[1.1rem] text-[1rem]">
             <div className={`${style.badgeImg}`} style={{backgroundImage:`url('/Assets/Badge/${userMyInfo?.nowbadgeImage}.png')`}}></div>{userMyInfo?.nowbadgeName}
