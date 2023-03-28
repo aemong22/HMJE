@@ -33,7 +33,7 @@ const PastTest = (): JSX.Element => {
     data: PastDetail,
     error: error1,
     isLoading: isLoading1,
-  } = useGetStudyPastTestQuery("");
+  } = useGetStudyPastTestQuery(localStorage.getItem("userId"));
   const [postStudyPastResult] = usePostStudyPastResultMutation();
   const today = new Date();
   const year = today.getFullYear();
