@@ -50,8 +50,8 @@ const PastTest = (): JSX.Element => {
   } else if (error2) {
     return <>error</>;
   } else {
-    console.log("test", test);
-    console.log("PastDetail", PastDetail);
+    //console.log("test", test);
+    //console.log("PastDetail", PastDetail);
     return (
       <>
         <Navbar />
@@ -64,7 +64,13 @@ const PastTest = (): JSX.Element => {
                   <Title data={test.data} />
                 </div>
                 <div className="flex justify-center">
-                  {Question(PastDetail, test, answer, setanswer,postStudyPastResult)}
+                  {Question(
+                    PastDetail,
+                    test,
+                    answer,
+                    setanswer,
+                    postStudyPastResult,
+                  )}
                 </div>
               </>
             ) : (
@@ -79,7 +85,7 @@ const PastTest = (): JSX.Element => {
 };
 
 const Title = (data: any): JSX.Element => {
-  console.log("data", data);
+  //console.log("data", data);
   if (data) {
     return (
       <>
@@ -109,10 +115,10 @@ const Question = (
   na: any,
   answer: any,
   setanswer: Function,
-  postStudyPastResult:any,
+  postStudyPastResult: any,
 ) => {
-  // const navigate = useNavigate();
-  
+  const navigate = useNavigate();
+
   const item = "flex flex-row items-center py-2";
   const labletage =
     " text-sm font-medium text-gray-900 dark:text-gray-300 flex flex-row";
@@ -171,8 +177,14 @@ const Question = (
     postStudyPastResult(data).then((r: any) => {
       // console.log(r);
       if (r.data.message === "success") {
-        alert(`결과는 ${result} 입니다`);
-        // navigate("/main");
+        // alert(`결과는 ${result} 입니다`);
+        navigate("/main", {
+          state: {
+            result: result,
+            newBadgeNum: r.data.newBadge.length,
+            level: r.data.level,
+          },
+        });
       } else {
         alert(`과거시험이 저장되지 않았습니다`);
       }
