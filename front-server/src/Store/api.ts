@@ -552,7 +552,6 @@ export const hmjeApi = createApi({
     // 1. 단어학습 문제 
     getStudyWord: builder.query({
       query: (data) => {
-        console.log(data)
         return {
           url: `/study/word/${data.userId}/?filter=${data.difficulty}`,
         }

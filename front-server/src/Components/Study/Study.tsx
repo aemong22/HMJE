@@ -232,6 +232,8 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     difficulty = "전체"
   }
 
+  const letters = decoding?.split("")
+
 
   return(
     <>
@@ -244,8 +246,8 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
             <div className="font-bold">{num+1} / {Object.keys(question).length}</div>
           </div>
           {/* 왼쪽 학습 영역 */}
-          <div className="mt-8 z-20 bg-[#F4EFEC] lg:w-[82%] w-full min-h-[25rem] py-6 lg:px-6 px-4 flex flex-col justify-between rounded-lg md:text-[1.3rem] text-[1.2rem] font-normal">
-            <div>
+          <div className="mt-8 z-20 bg-[#F4EFEC] lg:w-[82%] w-full min-h-[25rem] py-6 lg:px-6 px-4 flex flex-col justify-between rounded-lg md:text-[1.3rem] text-[1.2rem] font-normal sm:text-center text-start">
+            <div className="">
               <div className="font-semibold md:text-[1.2rem] text-[1.1rem] mb-3">
                 {studyType !== "contextStudy" ? 
                   <>
@@ -258,7 +260,14 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
               <div className="py-4 overflow-auto">
                 { studyType !== "contextStudy" ? 
                 <>
-                  <span className="">{question[num]?.wordDetailResponseList[0]?.details}</span>
+                                  <div className="flex justify-start m-2 flex-wrap mx-auto w-fit pt-5">
+                      {
+                      letters?.map((letter,index) => (
+                        <div key={index} className="h-14 w-14 rounded-xl border-2 border-[#F7CCB7] bg-[#ffffff] m-1"></div>
+                      ))
+                      }
+                  </div>
+                  <div className="">{question[num]?.wordDetailResponseList[0]?.details}</div>
                 </> :  
                 <>
                   <div className= "leading-10" dangerouslySetInnerHTML={{__html: question[num]?.dogamExam1.replace(
