@@ -50,8 +50,8 @@ const PastTest = (): JSX.Element => {
   } else if (error2) {
     return <>error</>;
   } else {
-    console.log("test", test);
-    console.log("PastDetail", PastDetail);
+    //console.log("test", test);
+    //console.log("PastDetail", PastDetail);
     return (
       <>
         <Navbar />
@@ -79,7 +79,7 @@ const PastTest = (): JSX.Element => {
 };
 
 const Title = (data: any): JSX.Element => {
-  console.log("data", data);
+  //console.log("data", data);
   if (data) {
     return (
       <>
