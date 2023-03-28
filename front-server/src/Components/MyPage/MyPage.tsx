@@ -14,6 +14,7 @@ import GrayCat from "../Threejs/GrayCat"
 import OrangeCat from "../Threejs/OrangeCat"
 import MixCat from "../Threejs/MixCat"
 import StrangeCat from "../Threejs/StrangeCat"
+import Loading from "../Common/Loading"
 
 interface UserDataType {
   exp: number,
@@ -227,7 +228,7 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
     setClickCnt(clickCnt+1)
   }
 
-  const loading = <div>로딩중</div>
+  const loading = <Loading/>
 
   return (
     <>
@@ -979,7 +980,7 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
     </div>
   )
 
-  const loading = <div>로딩중</div>
+  const loading = <Loading/>
 
   return (
     <>

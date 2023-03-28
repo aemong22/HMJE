@@ -668,9 +668,9 @@ export const hmjeApi = createApi({
 
     // 10. 과거시험 문제
     getStudyPastTest: builder.query({
-      query: () => {
+      query: (data) => {
         return {
-          url: `/study/past/test`,
+          url: `/study/past/test/${data}`,
         }
       },
       providesTags: (result, error, arg) => {
