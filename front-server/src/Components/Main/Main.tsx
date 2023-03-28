@@ -39,7 +39,6 @@ function Main(): JSX.Element {
     } else {
             
       if (location.state !== null) {
-        console.log(location.state);
         if (location.state.newBadgeNum > 0) {          
           setTimeout(() => {
             toast.info(`칭호 ${location.state.newBadgeNum}개를 얻으셨습니다.`);  
