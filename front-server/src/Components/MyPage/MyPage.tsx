@@ -198,7 +198,6 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
   const [putUserBadgeMalrang, {isLoading}] = usePutUserBadgeMalrangMutation()
   const [character, setCharacter] = useState(<GrayCat sendEmo={checkEmoState}/>)
   const [clickCnt, setClickCnt] = useState<number>(0)
-  console.log(dataLevel);
   
   useEffect(()=> {
     if (dataLevel >= 9) {
@@ -246,24 +245,42 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
             {/* 메인 데이터 */}
             <div className="flex flex-col justify-center items-center h-4/5 w-full">
               <div className="flex justify-between items-center w-full">
-                {/* 칭호 & 수정 */}
                 <div className="flex justify-start items-center md:text-[1.2rem]"><img className="w-[1.5rem]" src={`/Assets/Badge/${nowbadgeImage}.png`} alt="뱃지" />&nbsp; {nowbadgeName}</div>
                 <div aria-label="정보수정" className="text-[#8E8E8E] md:text-[1rem] cursor-pointer">정보 수정⚙</div>
               </div>
-              <div className="flex flex-col justify-center items-center w-full">
+              {/* 데스크탑 */}
+              <div className="hidden lg:flex flex-col justify-center items-center w-full">
                 <div className="flex justify-between items-end w-full">
-                  {/* 닉네임 & 등급 & 경험치 */}
                   <div className="py-2">
-                    {/* 닉네임 & 등급 */}
                     <span className="mr-1 md:text-[2.4rem] text-[2rem] font-bold">{nickname}</span><span className="md:text-[1.1rem] font-bold text-[#8E8E8E] mr-1">{level}</span><span className="md:text-[1.1rem] px-1 border-2 border-[#A87E6E] w-fit mx-auto rounded-full bg-[#F0ECE9] font-bold text-[#A87E6E]">{level2}</span>
                   </div>
                   <div className="text-[1rem] pb-2 text-[#8E8E8E]">
-                    {/* 등급 */}
                     {exp} / {dataLevel > 9 ? <>∞</> : <>{totalExp}</>}
                   </div>
                 </div>
                 <div className="w-full rounded-xl h-4 bg-[#F0ECE9] overflow-hidden">
-                  {/* 경험치 바: 위에서 퍼센트 계산해서 넣으면 될듯?*/}
+                  <div className="rounded-xl h-full bg-[#F7CCB7]" style={{width: `${expWidth}`, maxWidth: '100%'}}>
+                    &nbsp;
+                  </div>
+                </div>
+              </div>
+              {/* 태블릿 */}
+              <div className="flex lg:hidden flex-col justify-center items-center w-full">
+                <div className="flex flex-col  w-full">
+                  <div className="text-start py-1">
+                    <span className="mr-1 md:text-[2.4rem] text-[2rem] font-bold">{nickname}</span>
+                  </div>
+                  <div className="flex justify-between items-center text-[1rem] pb-2 text-[#8E8E8E]">
+                    <div>
+                      <span className="md:text-[1.3rem] font-bold text-[#8E8E8E] mr-2">{level}</span>
+                      <span className="md:text-[1.1rem] px-1 border-2 border-[#A87E6E] w-fit mx-auto rounded-full bg-[#F0ECE9] font-bold text-[#A87E6E]">{level2}</span>
+                    </div>
+                    <div>
+                      <span>{exp} / {dataLevel > 9 ? <>∞</> : <>{totalExp}</>}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="w-full rounded-xl h-4 bg-[#F0ECE9] overflow-hidden">
                   <div className="rounded-xl h-full bg-[#F7CCB7]" style={{width: `${expWidth}`, maxWidth: '100%'}}>
                     &nbsp;
                   </div>
@@ -312,7 +329,8 @@ function MyPageSection2V1({todayWord, totalWord, todayContext, totalContext, tod
     },
   };
 
-  const showDataChart = (
+  const 
+  showDataChart = (
     statsRight+statsSemo+statsWrong !== 0 ? (
       <div className="flex justify-center items-center w-[45%] h-[100%] relative">
         <div className="absolute -bottom-[2.3rem] font-semibold text-[1.2rem] text-[#FFA800]">오늘의 학습</div>
