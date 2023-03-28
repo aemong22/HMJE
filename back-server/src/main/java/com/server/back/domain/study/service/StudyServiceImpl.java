@@ -218,14 +218,24 @@ public class StudyServiceImpl implements StudyService{
 
 
     @Override
-    public List<PastQuestionResponseDto> getPastTest() {
+    public List<PastQuestionResponseDto> getPastTest(Long userId) {
         PastTest pastTest = pastTestRepository.findFirstByOrderByCreatedAtDesc();
         LocalDate today = LocalDate.now(); // 오늘 날짜 확인
         if(today.isBefore(pastTest.getStartTime()) || today.isAfter(pastTest.getEndTime())){ // 시작날짜보다 빠르거나 종료날짜보다 늦으면
             return null;
         }
+        User user = userRepository.findByUserId(userId);
         List<PastQuestion> pastQuestionList = pastQuestionRepository.findAllByPastTest(pastTest);
         List<PastQuestionResponseDto> result = PastQuestionResponseDto.fromEntityList(pastQuestionList);
+
+        // 테스트 문제 주면서 0점짜리 데이터 만들기
+        PastTestResult pastTestResult = PastTestResult.builder()
+                                        .pastTest(pastTest)
+                                        .user(user)
+                                        .score(0)
+                                        .build();
+
+        pastTestResultRepository.save(pastTestResult);
 
         return result;
 
@@ -238,11 +248,8 @@ public class StudyServiceImpl implements StudyService{
         User user = userRepository.findByUserId(pastTestResultRequestDto.getUserId());
         PastTest pastTest = pastTestRepository.findByPastTestId(pastTestResultRequestDto.getPastTestId());
 
-        PastTestResult pastTestResult = PastTestResult.builder()
-            .score(pastTestResultRequestDto.getScore())
-            .user(user)
-            .pastTest(pastTest)
-            .build();
+        PastTestResult pastTestResult = pastTestResultRepository.findFirstByUserAndPastTest(user, pastTest);
+        pastTestResult.updateScore(pastTestResultRequestDto.getScore());
 
         pastTestResultRepository.save(pastTestResult);
 
