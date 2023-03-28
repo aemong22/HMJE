@@ -170,7 +170,7 @@ public class BadgeService {
         PastTest pastTest = pastTestRepository.findFirstByOrderByCreatedAtDesc();
         PastTestResult mypast = pastTestResultRepository.findFirstByUserAndPastTest(user, pastTest);
         if (null != mypast){
-            if (mypast.getScore() == 100){
+            if (mypast.getScore() >= 80){
                 if (!myBadgeList.contains(20L)) {
                     response.add(badgeadd(20L, user)); // 뱃지 추가
                 }

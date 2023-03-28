@@ -17,7 +17,7 @@ public interface RightWordRepository extends JpaRepository<RightWord, Long> {
     List<RightWord> findAllByUser(User user);
     List<RightWord> findByUserAndCreatedAtAfterOrderByCreatedAtDesc(User user, LocalDateTime today);
 
-    @Query("select distinct r.user from RightWord r where r.createdAt > :date")
+    @Query("select distinct r.user from RightWord r where r.createdAt > :date and r.user.isSecession = false and r.user.isAdmin = false")
     List<User> findByDate(@Param("date") LocalDateTime date);
 
     @Query("select rw from RightWord rw JOIN FETCH rw.word w WHERE w.wordRating = :filter and rw.user = :user")

@@ -14,7 +14,7 @@ public interface StudyService {
 	List<WordResponseDto> wordQuestionWithFilter(Long userId, String filter);
 	PastTestResponseDto getPastInfo();
 
-	List<PastQuestionResponseDto> getPastTest();
+	List<PastQuestionResponseDto> getPastTest(Long userId);
 
 	Boolean createPastTestResult(PastTestResultRequestDto pastTestResultRequestDto);
 
