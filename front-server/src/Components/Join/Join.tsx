@@ -72,37 +72,37 @@ const Join = () => {
   const [postUserjoin, isloading5] = usePostUserjoinMutation();
 
   function ChangeName(event: any): void {
-    console.log("IsPasswordConfirm", IsPasswordConfirm);
-    console.log("IsAuthnum", IsAuthnum);
-    console.log("IsName", IsName);
-    console.log("IsNickname", IsNickname);
-    console.log(event.target.value);
+    //console.log("IsPasswordConfirm", IsPasswordConfirm);
+    //console.log("IsAuthnum", IsAuthnum);
+    //console.log("IsName", IsName);
+    //console.log("IsNickname", IsNickname);
+    //console.log(event.target.value);
     setUserName(event.target.value);
   }
   const ChangePassword = (event: any): void => {
-    console.log(event.target.value);
+    //console.log(event.target.value);
     setPassword(event.target.value);
   };
   const ChangePasswordCheck = (
     event: React.ChangeEvent<HTMLInputElement>,
   ): void => {
-    console.log(event.target.value);
+    //console.log(event.target.value);
     setPasswordCheck(event.target.value);
   };
   const ChangeNickname = (event: React.ChangeEvent<HTMLInputElement>): void => {
     event.preventDefault();
     event.preventDefault();
-    console.log(event.target.value);
+    //console.log(event.target.value);
     setNickname(event.target.value);
     // CheckEnglish();
   };
 
   const ChangePhonenum = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    console.log(event.target.value);
+    //console.log(event.target.value);
     setPhonenum(event.target.value);
   };
   const ChangeAuthnum = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    // console.log(event.target.value);
+    // //console.log(event.target.value);
     const temp: string = event.target.value;
     setAuthnum(temp);
   };
@@ -112,11 +112,11 @@ const Join = () => {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const passwordConfirmCurrent = e.target.value;
       setPasswordCheck(passwordConfirmCurrent);
-      console.log(passwordConfirmCurrent);
+      //console.log(passwordConfirmCurrent);
 
       if (Password === passwordConfirmCurrent) {
         setPasswordConfirmMessage("비밀번호를 똑같이 입력했어요 : )");
-        console.log("비밀번호를 똑같이 입력했어요 : )");
+        //console.log("비밀번호를 똑같이 입력했어요 : )");
         setIsPasswordConfirm(true);
       } else {
         setPasswordConfirmMessage("비밀번호가 틀려요. 다시 확인해주세요 ㅜ ㅜ");
@@ -178,9 +178,9 @@ const Join = () => {
     // 이름
 
     if (e.target.id === "UserName") {
-      // console.log("Nickname", Nickname);
-      // console.log("UserName", UserName);
-      // console.log("Password", Password);
+      // //console.log("Nickname", Nickname);
+      // //console.log("UserName", UserName);
+      // //console.log("Password", Password);
       if (UserName === "") {
         alert("빈칸입니다 다시 입력해주세요!");
       } else {
@@ -209,7 +209,7 @@ const Join = () => {
     // 닉네임
     else if (e.target.id === "Nickname") {
       // 2글자에서 6글자
-      console.log("닉네임확인", Nickname);
+      //console.log("닉네임확인", Nickname);
       if (Nickname === "") {
         alert("빈칸입니다 다시 입력해주세요!");
       } else {
@@ -253,15 +253,15 @@ const Join = () => {
       // 전화번호 border변경
       alert("번호가 이상합니다");
     }
-    console.log("IsPasswordConfirm", IsPasswordConfirm);
-    console.log("IsAuthnum", IsAuthnum);
-    console.log("IsName", IsName);
-    console.log("IsNickname", IsNickname);
+    //console.log("IsPasswordConfirm", IsPasswordConfirm);
+    //console.log("IsAuthnum", IsAuthnum);
+    //console.log("IsName", IsName);
+    //console.log("IsNickname", IsNickname);
   };
 
   // 인증번호 전송
   const SendAuthnum = (phonenum: string): void => {
-    console.log("폰번호확인", phonenum);
+    //console.log("폰번호확인", phonenum);
     const data: smssend = {
       to: phonenum,
       role: "only",
@@ -271,7 +271,7 @@ const Join = () => {
       .then((r: any) => {
         if (r.data !== "이미 가입된 휴대폰입니다.") {
           alert("전송하였습니다!");
-          console.log("전화번호 중복 결과", r);
+          //console.log("전화번호 중복 결과", r);
           setAmIHidden("");
           // 인증번호 닫고
           setTimeout(() => {
@@ -282,7 +282,7 @@ const Join = () => {
         }
       })
       .catch((e) => {
-        console.log(e);
+        //console.log(e);
       });
   };
   const Cancel = () => {
@@ -291,17 +291,17 @@ const Join = () => {
   // 회원가입
   const GoJoin = (): void => {
     // 회원가입axios
-    console.log("닉네임", Nickname);
-    console.log("패스워드", Password);
-    console.log("전화번호", Phonenum);
-    console.log("username", UserName);
+    //console.log("닉네임", Nickname);
+    //console.log("패스워드", Password);
+    //console.log("전화번호", Phonenum);
+    //console.log("username", UserName);
 
-    console.log("IsPasswordConfirm", IsPasswordConfirm);
-    console.log("IsAuthnum", IsAuthnum);
-    console.log("IsName", IsName);
-    console.log("IsNickname", IsNickname);
+    //console.log("IsPasswordConfirm", IsPasswordConfirm);
+    //console.log("IsAuthnum", IsAuthnum);
+    //console.log("IsName", IsName);
+    //console.log("IsNickname", IsNickname);
 
-    console.log("disable", disable);
+    //console.log("disable", disable);
 
     const data = {
       isAdmin: false,
@@ -315,7 +315,7 @@ const Join = () => {
     postUserjoin(data)
       .unwrap()
       .then((r: any) => {
-        console.log(r);
+        //console.log(r);
         navigate("/login");
       });
   };
@@ -323,9 +323,9 @@ const Join = () => {
     authnum: string | undefined,
     phonenum: string,
   ): void => {
-    console.log("인증가자");
-    console.log(Authnum);
-    console.log(Phonenum);
+    //console.log("인증가자");
+    //console.log(Authnum);
+    //console.log(Phonenum);
 
     const data: find = {
       modifyNumber: Authnum,
@@ -335,7 +335,7 @@ const Join = () => {
     postSmsmodify(data)
       .unwrap()
       .then((r: any) => {
-        console.log("인증번호 결과", r.data);
+        //console.log("인증번호 결과", r.data);
         if (r.data === "true") {
           // 인증성공!
           alert("인증되었습니다");
@@ -346,19 +346,19 @@ const Join = () => {
           setIsAuthnum(false);
         }
       });
-    console.log("IsPasswordConfirm", IsPasswordConfirm);
-    console.log("IsAuthnum", IsAuthnum);
-    console.log("IsName", IsName);
-    console.log("IsNickname", IsNickname);
+    //console.log("IsPasswordConfirm", IsPasswordConfirm);
+    //console.log("IsAuthnum", IsAuthnum);
+    //console.log("IsName", IsName);
+    //console.log("IsNickname", IsNickname);
   };
 
   const elemetPadding = "my-2";
   let disable = IsPasswordConfirm && IsAuthnum && IsName && IsNickname;
   useEffect(() => {
-    console.log(IsPasswordConfirm);
-    console.log(IsAuthnum);
-    console.log(IsName);
-    console.log(IsName);
+    //console.log(IsPasswordConfirm);
+    //console.log(IsAuthnum);
+    //console.log(IsName);
+    //console.log(IsName);
 
     return () => {};
   }, []);

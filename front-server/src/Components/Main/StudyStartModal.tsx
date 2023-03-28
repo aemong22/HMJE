@@ -9,7 +9,6 @@ function StudyStartModal({setOpenModal}:any):JSX.Element {
     const userId = localStorage.getItem("userId")
     const {data,error,isLoading} = useGetWordRemainQuery(userId);
     const navigate = useNavigate();
-    console.log(data);
 
     useEffect(() => {
         document.body.style.cssText = `
@@ -42,7 +41,7 @@ function StudyStartModal({setOpenModal}:any):JSX.Element {
 
                         <div className="flex flex-wrap justify-around">
                             <div className="text-[1.2rem] font-bold text-center p-2 text-[#F90716] " onClick={() => {
-                                if(data?.data.lowWordCnt > 0 ){
+                                if(data?.data.remainLowWordCnt > 0 ){
                                     localStorage.setItem("difficulty" , "초급")
                                     navigate('/wordStudy')
                                 }
@@ -54,10 +53,10 @@ function StudyStartModal({setOpenModal}:any):JSX.Element {
                             }>
                                 <img className="object-contain w-[4rem] h-[4rem] my-[0.5rem] mx-[0.5rem] hover:scale-125" style={{transition: 'all .2s'}} src={`/Assets/Icon/초급.png`} alt="뱃지"/>
                                 <div>초급</div>
-                                <div className="text-[1rem] text-[#B8B0B0]">{data?.data.lowWordCnt}</div>
+                                <div className="text-[1rem] text-[#B8B0B0]">{data?.data.remainLowWordCnt}</div>
                             </div>
                             <div className="text-[1.2rem] font-bold text-center p-2 text-[#FFCA03]" onClick={() => {
-                                if(data?.data.middleWordCnt > 0){
+                                if(data?.data.remainMiddleWordCnt > 0){
                                     localStorage.setItem("difficulty" , "중급")
                                     navigate('/wordStudy')
                                 }
@@ -68,10 +67,10 @@ function StudyStartModal({setOpenModal}:any):JSX.Element {
                         }>
                                 <img className="object-contain w-[4rem] h-[4rem] my-[0.5rem] mx-[0.5rem] hover:scale-125" style={{transition: 'all .4s'}} src={`/Assets/Icon/중급.png`} alt="뱃지"/>
                                 <div>중급</div>
-                                <div className="text-[1rem] text-[#B8B0B0]">{data?.data.middleWordCnt}</div>
+                                <div className="text-[1rem] text-[#B8B0B0]">{data?.data.remainMiddleWordCnt}</div>
                             </div>
                             <div className="text-[1.2rem] font-bold text-center p-2 text-[#3F72AF]" onClick={() => {
-                                if(data?.data.highWordCnt > 0){
+                                if(data?.data.remainHighWordCnt > 0){
                                     localStorage.setItem("difficulty" , "고급")
                                     navigate('/wordStudy')
                                 }
@@ -81,14 +80,20 @@ function StudyStartModal({setOpenModal}:any):JSX.Element {
                         }}>
                                 <img className="object-contain w-[4rem] h-[4rem] my-[0.5rem] mx-[0.5rem] hover:scale-125" style={{transition: 'all .4s'}} src={`/Assets/Icon/고급.png`} alt="뱃지"/>
                                 <div>고급</div>
-                                <div className="text-[1rem] text-[#B8B0B0]">{data?.data.highWordCnt}</div>
+                                <div className="text-[1rem] text-[#B8B0B0]">{data?.data.remainHighWordCnt}</div>
                             </div>
                             <div className="text-[1.2rem] font-bold text-center p-2 text-[#798777]" onClick={() => {
-                                localStorage.setItem("difficulty" , "")
-                                navigate('/wordStudy')
+                                if((data?.data.highWordCnt + data?.data.lowWordCnt + data?.data.middleWordCnt) > 0){
+                                    localStorage.setItem("difficulty" , "")
+                                    navigate('/wordStudy')
+                                }
+                                else {
+                                    toast.error("모든 문제를 푸셨습니다.")
+                                }
                         }}>
                                 <img className="object-contain w-[4rem] h-[4rem] my-[0.5rem] mx-[0.5rem] hover:scale-125" style={{transition: 'all .4s'}} src={`/Assets/Icon/전체.png`} alt="뱃지"/>
                                 <div>전체</div>
+                                <div className="text-[1rem] text-[#B8B0B0]">{data?.data.highWordCnt + data?.data.lowWordCnt + data?.data.middleWordCnt}</div>
                             </div>
                         </div>
                         <div className="text-center text-[#B8B0B0] p-2">각 난이도 아래 숫자는 난이도별 남은 단어 갯수를 의미합니다.</div>

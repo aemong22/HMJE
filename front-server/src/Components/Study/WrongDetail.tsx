@@ -3,7 +3,6 @@ import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
 
 function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
-    console.log(data)
 
     const handleSpeakClick = () => {
       const word = new SpeechSynthesisUtterance(data[index].wordName);

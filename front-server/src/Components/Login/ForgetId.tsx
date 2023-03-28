@@ -45,12 +45,12 @@ const ForgetId = () => {
   const [Disalbe, setDisalbe] = useState(true);
 
   function ChangeName(event: any): void {
-    console.log(event.target.value);
+    //console.log(event.target.value);
     setUserName(event.target.value);
   }
 
   const ChangePhonenum = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    console.log(event.target.value);
+    //console.log(event.target.value);
     setPhonenum(event.target.value);
   };
   const ChangeAuthnum = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -79,14 +79,14 @@ const ForgetId = () => {
       phoneNumber: phonenum,
       purpose: "findId",
     };
-    console.log("인증번호 보내기!", data);
+    //console.log("인증번호 보내기!", data);
 
     postSmsmodify(data)
       .unwrap()
       .then((r: any) => {
-        console.log(r);
+        //console.log(r);
         if (r.data == false) {
-          console.log("인증번호 에러");
+          //console.log("인증번호 에러");
           setDisalbe(true);
         } else {
           alert(`인증되었습니다`);
@@ -102,17 +102,17 @@ const ForgetId = () => {
     if (Phonenum.length === 11) {
       if (checkNum(Phonenum) === false) {
         // 인증번호 보여주고
-        console.log("폰번호확인", Phonenum);
+        //console.log("폰번호확인", Phonenum);
         const data: smssend = {
           to: Phonenum,
           role: "else",
         };
-        console.log("보낼데이터", data);
+        //console.log("보낼데이터", data);
 
         postSmssend(data)
           .unwrap()
           .then((r: any) => {
-            console.log("받는데이터", r.data.statusCode);
+            //console.log("받는데이터", r.data.statusCode);
             if (r.data.statusCode === "202") {
               alert("전송하였습니다!");
               setAmIHidden("");
@@ -141,7 +141,7 @@ const ForgetId = () => {
   };
 
   const FindButton = () => {
-    console.log("디스에이블", Disalbe);
+    //console.log("디스에이블", Disalbe);
 
     const data: find = {
       modifyNum: Authnum,
@@ -149,12 +149,12 @@ const ForgetId = () => {
       phoneNum: Phonenum,
       username: UserName,
     };
-    console.log("프론트에서 보내는거", data);
+    //console.log("프론트에서 보내는거", data);
 
     postUserfindid(data)
       .unwrap()
       .then((r: any) => {
-        console.log("받은 결과 : ", r);
+        //console.log("받은 결과 : ", r);
         if (r.data === "false") {
           alert("false");
         } else {

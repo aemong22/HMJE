@@ -54,7 +54,7 @@ const ResetPassword = () => {
     usePostUserfindpasswordMutation();
 
   const ChangePassword = (event: any): void => {
-    console.log(event.target.value);
+    //console.log(event.target.value);
     setPassword(event.target.value);
   };
 
@@ -73,11 +73,11 @@ const ResetPassword = () => {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const passwordConfirmCurrent = e.target.value;
       setPasswordCheck(passwordConfirmCurrent);
-      console.log(passwordConfirmCurrent);
+      //console.log(passwordConfirmCurrent);
 
       if (Password === passwordConfirmCurrent) {
         setPasswordConfirmMessage("비밀번호를 똑같이 입력했어요 : )");
-        console.log("비밀번호를 똑같이 입력했어요 : )");
+        //console.log("비밀번호를 똑같이 입력했어요 : )");
         setIsPasswordConfirm(true);
       } else {
         setPasswordConfirmMessage("비밀번호가 틀려요. 다시 확인해주세요 ㅜ ㅜ");
@@ -112,11 +112,11 @@ const ResetPassword = () => {
       username: location.state.username,
     };
 
-    console.log("프론트에서 보내는거", data);
+    //console.log("프론트에서 보내는거", data);
     postUserfindpassword(data)
       .unwrap()
       .then((r: any) => {
-        console.log(r);
+        //console.log(r);
         if (r.data === true) {
           alert("수정되었습니다!");
           navigate("/login");

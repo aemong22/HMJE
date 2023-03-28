@@ -136,9 +136,10 @@ const DictionaryPage = () => {
     // wordList변경
   };
 
-  const handleCharPageChange = (keyword: any) => {
+  const handleCharPageChange = (filter: any) => {
     // console.log((page * items) / 10);
     // console.log(page);
+
     const tempdata = {
       filter: filter,
       keyword: "",
@@ -162,6 +163,12 @@ const DictionaryPage = () => {
   };
 
   useEffect(() => {
+    console.log(WordList);
+
+    return () => {};
+  }, [WordList]);
+
+  useEffect(() => {
     console.log(wordList);
 
     setWordList(wordList);
@@ -180,7 +187,7 @@ const DictionaryPage = () => {
     };
   });
   useEffect(() => {
-    console.log(Width);
+    // console.log(Width);
     if (Width < 475) {
       setItems(5);
     } else {
@@ -199,7 +206,7 @@ const DictionaryPage = () => {
   } else if (error1) {
     return <>error</>;
   } else {
-    console.log(Math.floor(wordList!.count));
+    console.log("Math.floor(wordList!.count)", Math.floor(wordList!.count));
 
     return (
       <>
@@ -245,7 +252,7 @@ type Searchbar = {
 
 const Searchbar: React.FC<Searchbar> = ({ onchangeSearch }) => {
   const ChangeSearch = (event: any) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     onchangeSearch(event.target.value);
   };
 
@@ -310,7 +317,7 @@ const List = (data: any): JSX.Element => {
                 <button
                   className="pr-2 text-2xl text-[#0078CE] underline underline-offset-[0.3rem]"
                   onClick={() => {
-                    console.log(it);
+                    // console.log(it);
                     dispatch(changeDictionaryDetail(it));
                     dispatch(showDictionaryDetail());
                   }}
