@@ -88,21 +88,24 @@ public class UserServiceImpl implements UserService {
         loginHistoryRepository.save(loginHistory);
 
     }
-
     @Override
     public boolean userNicknameCheck(UserRequestDto requestDto) {
         System.out.println("requestDto-nickname///////////////"+requestDto);
-        int count = 0;
-        for (User r : userRepository.findAll()) {
-            if (r.getNickname().equals(requestDto.getNickname())){
-                count += 1;
+        List<String> nicknamex = Arrays.asList("어드민","관리자","홍민정음","훈민정음","세종","운영자");
+        for (String i : nicknamex){
+            if (requestDto.getNickname().contains(i)){
+                return false;
             }
         }
-        if (count == 0) {
+        User user = userRepository.findByNickname(requestDto.getNickname());
+        if( null == user){
             return true;
         }
-        return false;
+        else{
+            return false;
+        }
     }
+
     @Override
     public boolean userUsernameCheck(UserRequestDto requestDto) {
         System.out.println("requestDto-username///////////////"+requestDto);
@@ -113,8 +116,6 @@ public class UserServiceImpl implements UserService {
         else{
             return false;
         }
-
-
     }
 
     @Override
