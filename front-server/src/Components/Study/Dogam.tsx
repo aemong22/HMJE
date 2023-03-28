@@ -43,7 +43,7 @@ export default Dogam;
 function DogamHeader({ num }: any): JSX.Element {
   return (
     <>
-      <div className="w-full border-b-2 border-[#895229]">
+      <div className="w-full border-b-2 border-[#D0B8A8]">
         <div className="container max-w-screen-xl md:w-[90%] w-full mx-auto font-bold sm:flex block justify-between md:pt-14 pt-8 md:px-0 px-3">
           <div className="lg:text-[2.6rem] md:text-[2.3rem] sm:text-[2rem] text-[1.6rem] lg:px-0 px-2 pb-1 text-[#A87E6E]">문맥도감[文脈圖鑑]
           <div className="lg:text-[1.5rem] md:text-[1.4rem] sm:text-[1.2rem] text-[1rem] font-medium text-[#8E8E8E] py-1">문맥학습으로 단어들을 수집해보세요!</div>
