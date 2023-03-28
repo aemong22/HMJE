@@ -37,14 +37,11 @@ function Navbar():JSX.Element {
       navigate('/notice')
     }
     else if(target.ariaLabel==="logout"){
-      console.log("로그아웃 시작");      
       const data={
-       userId:localStorage.getItem("userId")
+        userId:localStorage.getItem("userId")
       }
       putUserLogout(data).unwrap().then((r)=>{
-        console.log(r.message=="success");        
         if(r.message=="success"){
-          console.log("로그아웃성공");          
           window.localStorage.clear();
           navigate("/login");
         }        

@@ -69,9 +69,7 @@ function MyPage():JSX.Element {
   const userId = localStorage.getItem('userId')
   const {data:userMyInfo, isError:isError1, isLoading:isLoading1} = useGetUserMyinfoQuery(userId)
   const {data:studyData, isError:isError2, isLoading:isLoading2} = useGetUserMystudyQuery(userId)
-  
-  // console.log('studyData: ', studyData);
-  
+    
 
   if (isLoading1 || isLoading2 ) {
     return <div>Loading...</div>;
@@ -201,8 +199,9 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
   const [putUserBadgeMalrang, {isLoading}] = usePutUserBadgeMalrangMutation()
   const [character, setCharacter] = useState(<GrayCat sendEmo={checkEmoState}/>)
   const [clickCnt, setClickCnt] = useState<number>(0)
+  
   useEffect(()=> {
-    if (dataLevel === 9) {
+    if (dataLevel === 4) {
       setCharacter(<StrangeCat sendEmo={checkEmoState}/>)
     } else if (7 <= dataLevel&&dataLevel <= 8) {
       setCharacter(<GreyCat sendEmo={checkEmoState}/>)
@@ -216,7 +215,6 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
   useEffect(()=> {
     if (clickCnt !== 0 && clickCnt === 100) {
       putUserBadgeMalrang(userId).unwrap().then((r)=> {
-        console.log(r);
         if (r.newbadge.length) {
           toast.success('숨겨진 칭호를 획득했습니다!')
         } else {
@@ -374,7 +372,6 @@ function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sent
   useEffect(()=> {
     if (clickCnt !== 0 && clickCnt === 100) {
       putUserBadgeMalrang(userId).unwrap().then((r)=> {
-        console.log(r);
         if (r.newbadge.length) {
           toast.success('숨겨진 칭호를 획득했습니다!')
         } else {
@@ -555,8 +552,6 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
   const [getUserStatsCompare, {isLoading: isLoading2}] = useLazyGetUserStatsCompareQuery()
   const [getUserBadge, {isLoading: isLoading3}]  = useLazyGetUserBadgeQuery()
   const [putUserBadge, {isLoading: isLoading4}]  = usePutUserBadgeMutation()
-
-  // console.log('다른 유저와 통계 비교: ', getUserStatsCompare?.data);
   
   const [studyTimeChart, setStudyTimeChart] = useState<any>()
   const [studyCntChart, setStudyCntChart] = useState<any>()
@@ -706,7 +701,6 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
     })
 
     getUserStatsCompare(userId).unwrap().then((r)=> {
-      // console.log('통계 데이터: ',r.data);
       const options = {
         // 옵션 (1)
         responsive: true,
@@ -956,7 +950,6 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
       {
         monthList.map((month:number, key:number)=> {
           const isSelected = key === nowMonth-1
-          console.log(nowMonth);
           
           return <option key={key} className="text-center w-full" value={month} selected={isSelected}>{month}월</option>
         })

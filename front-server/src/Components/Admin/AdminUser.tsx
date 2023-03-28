@@ -41,8 +41,6 @@ function AdminUserSection1():JSX.Element {
   const [userMyInfo, {error:error1, isLoading:isLoading1}] = useLazyGetAdminUserListQuery()
   const [putAdminUserUpdate, {error:error2, isLoading:isLoading2}] = usePutAdminUserUpdateMutation()
   const [searchUser, {error:error3, isLoading:isLoading3}] = useLazyGetAdminUserSearchListQuery()
-
-  console.log('유저 아이디: ', userId);
   
   // 어드민 확인 용
   const {data:isAdminInfo} = useGetUserMyinfoQuery(userId)
