@@ -49,8 +49,9 @@ export default OrangeCat;
 
 function Default() {
   const group = useRef<any>()
-  const { nodes, materials, animations }:any = useGLTF('/ThreeFile/Orange/Default.gltf') 
+  const { nodes, materials, animations,  }:any = useGLTF('/ThreeFile/Orange/Default.gltf') 
   const { actions, mixer, clips }:any = useAnimations(animations, group)
+
 
   
   useEffect(()=> {
