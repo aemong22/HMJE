@@ -735,7 +735,7 @@ function PassUsers({
         
 
           <div className="lg:w-[70%] md:w-[80%] sm:w-[90%] w-full mx-auto">
-            <div className="border-b-2 mt-7 border-neutral-200 p-2 text-[#7F8487] text-[0.9rem]">과거시험 점수가 <strong>80</strong>점 이상인 경우 장원급제 칭호를 얻을 수 있습니다.</div>
+            <div className="border-b-2 mt-7 border-neutral-200 p-2 text-[#7F8487] text-[0.92rem]">과거시험 점수가 <strong>80</strong>점 이상인 경우 장원급제 칭호를 얻을 수 있습니다.</div>
             <div className="flex md:justify-end items-end pt-2 px-2 justify-center flex-wrap">
               <div className="py-3 px-3">나의 과거시험 점수</div>
               <div className="text-[3rem] font-bold">
