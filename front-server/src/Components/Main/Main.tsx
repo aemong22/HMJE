@@ -37,15 +37,23 @@ function Main(): JSX.Element {
     if (localStorage.getItem("accessToken") === "undefined") {
       navigate("/");
     } else {
+            
       if (location.state !== null) {
-        if (location.state.newBadgeNum > 0) {
-          toast.info(`칭호 ${location.state.newBadgeNum}개를 얻으셨습니다.`);
+        console.log(location.state);
+        if (location.state.newBadgeNum > 0) {          
+          setTimeout(() => {
+            toast.info(`칭호 ${location.state.newBadgeNum}개를 얻으셨습니다.`);  
+          }, 2000);
         }
         if (location.state.result >= 0) {
-          toast.info(`과거시험 결과는 [${location.state.result} 점] 입니다`);
+          setTimeout(() => {
+            toast.info(`과거시험 결과는 [${location.state.result} 점] 입니다`);
+          }, 2000);
         }
         if (location.state.level > 0) {
-          toast.info("벼슬 상승!");
+          setTimeout(() => {
+            toast.info("계급 상승!");
+        }, 2000);
         }
 
         const stateData = {

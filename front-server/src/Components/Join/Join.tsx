@@ -1,4 +1,4 @@
-import React, { useCallback, useState,useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../Common/Footer";
 import axios from "axios";
@@ -9,6 +9,7 @@ import {
   usePostUserchecknicknameMutation,
   usePostUsercheckusernameMutation,
   usePostUserjoinMutation,
+  usePostUserloginMutation,
 } from "../../Store/NonAuthApi";
 var pattern2 = /[a-zA-Z]/; //영어
 
@@ -69,7 +70,10 @@ const Join = () => {
   const [postUsercheckusername, isloading4] =
     usePostUsercheckusernameMutation();
 
+  // 회원가입
   const [postUserjoin, isloading5] = usePostUserjoinMutation();
+  // 로그인
+  const [PostUserlogin, isloading6] = usePostUserloginMutation();
 
   function ChangeName(event: any): void {
     //console.log("IsPasswordConfirm", IsPasswordConfirm);
@@ -315,8 +319,31 @@ const Join = () => {
     postUserjoin(data)
       .unwrap()
       .then((r: any) => {
-        //console.log(r);
-        navigate("/login");
+        const data = { username: UserName, password: Password };
+        PostUserlogin(data)
+          .unwrap()
+          .then((r: any) => {
+            const accessToken = r.accessToken;
+            const refreshToken = r.refreshToken;
+            const userId = r.userId;
+            localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem("userName", UserName);
+            localStorage.setItem("userId", userId);
+            localStorage.setItem("refreshToken", refreshToken);
+            if (r.isAdmin === "true") {
+              navigate("/admin", {
+                state: {
+                  newBadgeNum: r.newBadge.length,
+                },
+              });
+            } else if (r.isAdmin === "false") {
+              navigate("/main", {
+                state: {
+                  newBadgeNum: r.newBadge.length,
+                },
+              });
+            }
+          });
       });
   };
   const CheckAuthnum = (
