@@ -54,7 +54,6 @@ function Default() {
 
   
   useEffect(()=> {
-    console.log(actions);
     
     actions.Angry.play()
     actions.Tree.play()
@@ -135,7 +134,6 @@ function Smile() {
   }, [mixer])
 
   const click = () => {
-    console.log('hi');
     
     actions.Bow.play()
 
@@ -201,7 +199,6 @@ function Dazed() {
   }, [mixer])
 
   const click = () => {
-    console.log('hi');
     
     actions.Bow.play()
 
@@ -268,7 +265,6 @@ function Sad() {
   }, [mixer])
 
   const click = () => {
-    console.log('hi');
     
     actions.Bow.play()
 

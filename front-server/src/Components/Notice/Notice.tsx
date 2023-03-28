@@ -9,14 +9,13 @@ function Notice():JSX.Element {
   const userId = localStorage.getItem('userId')
   const [choiceBtn, setChoiceBtn] = useState<boolean>(false)
   const {data:userMyInfo, isError:isError1, isLoading:isLoading1} = useGetUserMyinfoQuery(userId)
-  console.log(userMyInfo?.data.isAdmin);
   const loading = <div>loading</div>
   return (
     <>
       {isError1&&loading}
       <Toast/>
       <Navbar/>
-      <NoticeSection1 isAdmin={userMyInfo?.data.isAdmin} choiceBtn={choiceBtn} setChoiceBtn={setChoiceBtn}/>
+      <NoticeSection1 isAdmin={userMyInfo?.data.isAdmin} choiceBtn={choiceBtn} setChoiceBtn={setChoiceBtn} adminUserId={userId}/>
       {
         choiceBtn === false? (
           <NoticeSection3 isAdmin={userMyInfo?.data.isAdmin}/>
@@ -28,7 +27,7 @@ function Notice():JSX.Element {
 }
 export default Notice
 
-function NoticeSection1({isAdmin, choiceBtn, setChoiceBtn}:(boolean|any)):JSX.Element {
+function NoticeSection1({isAdmin, choiceBtn, setChoiceBtn, adminUserId}:(boolean|any)):JSX.Element {
   return (
     <div className="w-full">
       <div className="container max-w-screen-xl w-[90%] lg:w-full mx-auto">
@@ -38,12 +37,12 @@ function NoticeSection1({isAdmin, choiceBtn, setChoiceBtn}:(boolean|any)):JSX.El
           </span>
         </div>
       </div>
-      <NoticeSection2 isAdmin={isAdmin} choiceBtn={choiceBtn} setChoiceBtn={setChoiceBtn}/>
+      <NoticeSection2 isAdmin={isAdmin} choiceBtn={choiceBtn} setChoiceBtn={setChoiceBtn} adminUserId={adminUserId}/>
     </div>
   )
 }
 
-function NoticeSection2({isAdmin, choiceBtn, setChoiceBtn}:(boolean|any)):JSX.Element {
+function NoticeSection2({isAdmin, choiceBtn, setChoiceBtn, adminUserId}:(boolean|any)):JSX.Element {
   const [postNotice, {isLoading:isLoading1}] = usePostNoticeMutation()
   const [postFaq, {isLoading:isLoading2}] = usePostFaqMutation()
 
@@ -57,12 +56,10 @@ function NoticeSection2({isAdmin, choiceBtn, setChoiceBtn}:(boolean|any)):JSX.El
   const one = useRef<HTMLDivElement>(null) 
   const two = useRef<HTMLDivElement>(null)
 
-  const userId = useRef<HTMLInputElement>(null)
   const title = useRef<HTMLInputElement>(null)
   const content= useRef<HTMLTextAreaElement>(null)
   const ref = useRef<HTMLDivElement>(null)
   
-  const userId2 = useRef<HTMLInputElement>(null)
   const title2 = useRef<HTMLInputElement>(null)
   const content2= useRef<HTMLTextAreaElement>(null)
   const ref2 = useRef<HTMLDivElement>(null)
@@ -73,15 +70,13 @@ function NoticeSection2({isAdmin, choiceBtn, setChoiceBtn}:(boolean|any)):JSX.El
       one.current?.classList.add('testChoiceBtn')
       two.current?.classList.remove('testChoiceBtn')
       setChoiceBtn(false)
-      console.log(one.current);
       
     } else if (clickBtn === '질문') {
       two.current?.classList.add('testChoiceBtn')
       one.current?.classList.remove('testChoiceBtn')
-      console.log(two.current);
       setChoiceBtn(true)
     } else {
-      one.current?.classList.remove('testChoiceBtn')
+      one.current?.classList.add('testChoiceBtn')
       two.current?.classList.remove('testChoiceBtn')
       setChoiceBtn(false)
     }
@@ -130,7 +125,7 @@ function NoticeSection2({isAdmin, choiceBtn, setChoiceBtn}:(boolean|any)):JSX.El
       const body = {
         content: content.current?.value, 
         title: title.current?.value, 
-        userId: userId.current?.value
+        userId: adminUserId
       }
       postNotice(body).unwrap().then((r)=> {
         if (r.message === 'success') {
@@ -155,7 +150,7 @@ function NoticeSection2({isAdmin, choiceBtn, setChoiceBtn}:(boolean|any)):JSX.El
       const body = {
         content: content2.current?.value, 
         title: title2.current?.value, 
-        userId: userId2.current?.value
+        userId: adminUserId
       }
       postFaq(body).unwrap().then((r)=> {
         if (r.message === 'success') {
@@ -183,9 +178,6 @@ function NoticeSection2({isAdmin, choiceBtn, setChoiceBtn}:(boolean|any)):JSX.El
             <div className="flex flex-col w-full">
               <div className="flex justify-between w-full text-[1.5rem] md:text-[2rem] font-bold">
                 <div className="w-1/2"><input className="w-full" ref={title} type="text" placeholder="Title" /> </div>
-                <div className="flex justify-end w-1/2 text-[1rem] md:text-[1.5rem] font-normal text-right">
-                  <span className="felx justify-end w-full text-right">UserId: <input className="text-right pr-2 w-1/2 md:w-[40%] lg:w-[30%]" ref={userId} type="text" placeholder="UserId" /></span> 
-                </div>
               </div>
             </div>
           </div>          
@@ -215,9 +207,6 @@ function NoticeSection2({isAdmin, choiceBtn, setChoiceBtn}:(boolean|any)):JSX.El
             <div className="flex flex-col w-full">
               <div className="flex justify-between w-full text-[1.5rem] md:text-[2rem] font-bold">
                 <div className="w-1/2"><input className="w-full" ref={title2} type="text" placeholder="Title" /> </div>
-                <div className="flex justify-end w-1/2 text-[1rem] md:text-[1.5rem] font-normal text-right">
-                  <span className="felx justify-end w-full text-right">UserId: <input className="text-right pr-2 w-1/2 md:w-[40%] lg:w-[30%]" ref={userId2} type="text" placeholder="UserId" /></span> 
-                </div>
               </div>
             </div>
           </div>          
@@ -226,7 +215,7 @@ function NoticeSection2({isAdmin, choiceBtn, setChoiceBtn}:(boolean|any)):JSX.El
           <div className="flex flex-col w-[80%] h-[90%] my-5">
             <div className="w-full h-[90%] text-[1.2rem] md:text-[1.5rem] mb-4"><textarea ref={content2} className="w-full h-full overflow-y-auto" placeholder="Content" /></div>
             <div className="flex justify-center w-full">
-              <div aria-label="목록으로" className="text-center w-[80%] h-[10%] text-[#BF9F91] text-[1.3rem] md:text-[1.7rem] font-semibold cursor-pointer" onClick={click2}>목록으로Faq</div>
+              <div aria-label="목록으로" className="text-center w-[80%] h-[10%] text-[#BF9F91] text-[1.3rem] md:text-[1.7rem] font-semibold cursor-pointer" onClick={click2}>목록으로</div>
               <div aria-label="생성하기" className="text-center w-[80%] h-[10%] text-[#BF9F91] text-[1.3rem] md:text-[1.7rem] font-semibold cursor-pointer" onClick={click2}>생성하기</div>
             </div>
           </div>
@@ -280,7 +269,6 @@ function NoticeSection3({isAdmin}:(boolean|any)) {
 
   useEffect(()=> {
     getNotice('').unwrap().then((r)=> {
-      console.log(r.data);
       setNoticeList(r.data)
     }).then(()=> {
       if (noticeList !== null) {
@@ -319,7 +307,6 @@ function NoticeSection3({isAdmin}:(boolean|any)) {
       })
     } else {
       deleteNotice(noticeDetail?.noticeId).unwrap().then((r)=> {
-        console.log(r);
         
         if (r.message === 'success') {
           toast.success('삭제가 완료되었습니다.')
@@ -348,9 +335,6 @@ function NoticeSection3({isAdmin}:(boolean|any)) {
                 <div className="flex flex-col w-full">
                   <div className="flex justify-between w-full text-[1rem] md:text-[1.5rem] lg:text-[2rem] font-bold">
                     <div className="w-1/2"><input className="w-full" ref={title} type="text" defaultValue={noticeDetail?.title} /> </div>
-                    <div className="flex justify-end w-1/2 text-[0.8rem] md:text-[1.5rem] font-normal text-right">
-                      <span className="felx justify-end w-full text-right">UserId: <input className="text-right pr-2 w-[25%] md:w-[15%]" ref={userId} type="text" defaultValue={noticeDetail?.userId} /></span> 
-                    </div>
                   </div>
                   <div className="flex justify-between items-end w-full">
                     <div className="w-1/2 text-[#666666] text-[0.8rem] md:text-[1.5rem]">{noticeDetail?.createdAt.split('T')[0]}</div>
@@ -432,7 +416,6 @@ function NoticeSection4({isAdmin}:(boolean|any)) {
 
   useEffect(()=> {
     getFaq('').unwrap().then((r)=> {
-      console.log(r.data);
       setFaqList(r.data)
     }).then(()=> {
       if (FaqList !== null) {
@@ -471,7 +454,6 @@ function NoticeSection4({isAdmin}:(boolean|any)) {
       })
     } else {
       deleteFaq(FaqDetail?.noticeId).unwrap().then((r)=> {
-        console.log(r);
         
         if (r.message === 'success') {
           toast.success('삭제가 완료되었습니다.')
@@ -500,9 +482,6 @@ function NoticeSection4({isAdmin}:(boolean|any)) {
                 <div className="flex flex-col w-full">
                   <div className="flex justify-between w-full text-[1rem] md:text-[1.5rem] lg:text-[2rem] font-bold">
                     <div className="w-1/2"><input className="w-full" ref={title} type="text" defaultValue={FaqDetail?.title} /> </div>
-                    <div className="flex justify-end w-1/2 text-[0.8rem] md:text-[1.5rem] font-normal text-right">
-                      <span className="felx justify-end w-full text-right">UserId: <input className="text-right pr-2 w-[25%] md:w-[15%]" ref={userId} type="text" defaultValue={FaqDetail?.userId} /></span> 
-                    </div>
                   </div>
                   <div className="flex justify-between w-full">
                     <div className="w-1/2 text-[#666666] text-[0.8rem] md:text-[1.5rem]">{FaqDetail?.createdAt.split('T')[0]}</div>
@@ -525,7 +504,6 @@ function NoticeSection4({isAdmin}:(boolean|any)) {
         (
           <div className="flex flex-col justify-start items-center w-[90%] md:w-[80%] lg:w-[70%] xl:w-[60%] h-[60%] lg:h-[80%] bg-white">
             <div className="flex flex-col w-[80%] pt-16">
-              {/* <div className="flex justify-center items-center text-[2rem] text-[#A87E6E] font-semibold py-5">DETAIL</div> */}
               <div className="flex justify-start">
                 <div className="flex flex-col w-full">
                   <div className="w-full text-[1rem] md:text-[1.5rem] lg:text-[2rem] font-bold">

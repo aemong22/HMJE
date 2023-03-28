@@ -176,11 +176,11 @@ function Login(): JSX.Element {
                   </div>
 
                   <button
-                    className="flex items-center justify-center flex-none px-3 py-2 md:px-4 md:py-3 border-2 rounded-lg font-extrabold bg-[#F0ECE9] text-[#A87E6E]"
+                    className="flex items-center justify-center flex-none px-3 py-2 md:px-4 md:py-3 border-2 rounded-lg font-extrabold bg-[#F0ECE9] text-[#A87E6E] cursor-not-allowed"
                     onClick={Social}
                   >
                     <span className="absolute left-4"></span>
-                    <span> 소셜 로그인</span>
+                    <span className=""> 소셜 로그인</span>
                   </button>
                   {/* <div className="flex lg:hidden justify-between items-center w-full py-4">
                     <div className="flex items-center justify-start space-x-3"></div>
