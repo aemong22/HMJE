@@ -4,15 +4,16 @@ import { useDeleteFaqMutation, useDeleteNoticeMutation, useGetUserMyinfoQuery, u
 import Navbar from "../Common/Navbar"
 import "./Notice.css";
 import { Toast } from "../Common/Toast";
+import Loading from "../Common/Loading";
 
 function Notice():JSX.Element {
   const userId = localStorage.getItem('userId')
   const [choiceBtn, setChoiceBtn] = useState<boolean>(false)
   const {data:userMyInfo, isError:isError1, isLoading:isLoading1} = useGetUserMyinfoQuery(userId)
-  const loading = <div>loading</div>
+  const loading = <Loading/>
   return (
     <>
-      {isError1&&loading}
+      {isLoading1&&loading}
       <Toast/>
       <Navbar/>
       <NoticeSection1 isAdmin={userMyInfo?.data.isAdmin} choiceBtn={choiceBtn} setChoiceBtn={setChoiceBtn} adminUserId={userId}/>
@@ -64,6 +65,8 @@ function NoticeSection2({isAdmin, choiceBtn, setChoiceBtn, adminUserId}:(boolean
   const content2= useRef<HTMLTextAreaElement>(null)
   const ref2 = useRef<HTMLDivElement>(null)
   
+  const loading = <Loading/> 
+
   useEffect(()=> {
 
     if (clickBtn === '공지사항') {
@@ -226,6 +229,7 @@ function NoticeSection2({isAdmin, choiceBtn, setChoiceBtn, adminUserId}:(boolean
 
   return (
     <>
+      {(isLoading1||isLoading2)&&loading}
       {isNoticeAdd&&addNoticeModal}
       {isFaqAdd&&addFaqModal}
       <div className="container max-w-screen-xl w-[90%] lg:w-full mx-auto border-b-2">
@@ -527,7 +531,7 @@ function NoticeSection4({isAdmin}:(boolean|any)) {
 
   
 
-  const isLoading = <div>Loading</div>
+  const isLoading = <Loading/>
   return (
     <>
       {(isLoading1||isLoading2||isLoading3)&&isLoading}

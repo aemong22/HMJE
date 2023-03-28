@@ -2,6 +2,7 @@ import React, { MouseEventHandler, useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useGetUserMyinfoQuery, useLazyGetAdminDogamQuery, useLazyGetAdminUserListQuery, useLazyGetAdminUserSearchListQuery, usePutAdminUserDeleteMutation, usePutAdminUserUpdateMutation } from "../../Store/api";
+import Loading from "../Common/Loading";
 import Navbar from "../Common/Navbar"
 import { Toast } from "../Common/Toast";
 import styles from "./Admin.module.css";
@@ -41,7 +42,7 @@ function AdminContextSection1():JSX.Element {
   const [Getdogam, {error:error2, isLoading:isLoading1}] = useLazyGetAdminDogamQuery()
   
   
-  const loading = <div>로딩중</div>
+  const loading = <Loading/>
   
 
   useEffect(()=> {
@@ -77,51 +78,55 @@ function AdminContextSection1():JSX.Element {
         setIsClickDogam(false)
       }
     }
+    const loading = <Loading/>
     
     return (
-      <div ref={ref} className="flex justify-center absolute mx-auto w-screen h-[90vh]  z-10" onClick={(e)=> {
+      <>
+        {isLoading && loading}
+        <div ref={ref} className="flex justify-center absolute mx-auto w-screen h-[90vh]  z-10" onClick={(e)=> {
         if (e.target === ref.current) {
           setIsClickDogam(false)
       }}}>
-        <div className="flex justify-center items-center w-[90%] my-auto bg-white border-4 border-[#A87E6E] rounded-lg">
-          <div className="flex flex-col w-full">
-            <div className="flex justify-center items-center text-[1.3rem] text-[#A87E6E] font-semibold py-5">DETAIL</div>
-            <div className="flex justify-evenly w-full">
-              <div className="flex flex-col justify-center items-end w-[10%] mx-5 text-[1rem] text-[#A87E6E] font-semibold">
-                <div className="py-[0.15rem]">dogamId</div>
-                <div className="py-[0.15rem]">dogamName</div>
-                <div className="py-[0.15rem]">dogamClass</div>
-                <div className="py-[0.15rem]">dogamOrigin</div>
-                <div className="py-[0.15rem]">dogamMean1</div>
-                <div className="py-[0.15rem]">dogamMean2</div>
-                <div className="py-[0.15rem]">dogamMean3</div>
-                <div className="py-[0.15rem]">dogamExam1</div>
-                <div className="py-[0.15rem]">dogamExam2</div>
-                <div className="py-[0.15rem]">dogamExam3</div>
-                <div className="py-[0.15rem]">isRared</div>
+          <div className="flex justify-center items-center w-[90%] my-auto bg-white border-4 border-[#A87E6E] rounded-lg">
+            <div className="flex flex-col w-full">
+              <div className="flex justify-center items-center text-[1.3rem] text-[#A87E6E] font-semibold py-5">DETAIL</div>
+              <div className="flex justify-evenly w-full">
+                <div className="flex flex-col justify-center items-end w-[10%] mx-5 text-[1rem] text-[#A87E6E] font-semibold">
+                  <div className="py-[0.15rem]">dogamId</div>
+                  <div className="py-[0.15rem]">dogamName</div>
+                  <div className="py-[0.15rem]">dogamClass</div>
+                  <div className="py-[0.15rem]">dogamOrigin</div>
+                  <div className="py-[0.15rem]">dogamMean1</div>
+                  <div className="py-[0.15rem]">dogamMean2</div>
+                  <div className="py-[0.15rem]">dogamMean3</div>
+                  <div className="py-[0.15rem]">dogamExam1</div>
+                  <div className="py-[0.15rem]">dogamExam2</div>
+                  <div className="py-[0.15rem]">dogamExam3</div>
+                  <div className="py-[0.15rem]">isRared</div>
+                </div>
+                <div className="flex flex-col justify-center items-start w-[90%] mx-5 text-[1rem] text-[#767676] font-semibold">
+                  <div className="py-[0.15rem]">{clickDogamData?.dogamId}</div>
+                  <div className="py-[0.15rem]">{clickDogamData?.dogamName}</div>
+                  <div className="py-[0.15rem]">{clickDogamData?.dogamClass}</div>
+                  <div className="py-[0.15rem]">{clickDogamData?.dogamOrigin === ''? 'null': clickDogamData?.dogamOrigin}</div>
+                  <div className="py-[0.15rem]">{clickDogamData?.dogamMean1}</div>
+                  <div className="py-[0.15rem]">{clickDogamData?.dogamMean2}</div>
+                  <div className="py-[0.15rem]">{clickDogamData?.dogamMean3}</div>
+                  <div className="py-[0.15rem]">{clickDogamData?.dogamExam1}</div>
+                  <div className="py-[0.15rem]">{clickDogamData?.dogamExam2}</div>
+                  <div className="py-[0.15rem]">{clickDogamData?.dogamExam3}</div>
+                  <div className="py-[0.15rem]">{clickDogamData?.isRared === null ? 'null': clickDogamData?.isRared}</div>
+                </div>
               </div>
-              <div className="flex flex-col justify-center items-start w-[90%] mx-5 text-[1rem] text-[#767676] font-semibold">
-                <div className="py-[0.15rem]">{clickDogamData?.dogamId}</div>
-                <div className="py-[0.15rem]">{clickDogamData?.dogamName}</div>
-                <div className="py-[0.15rem]">{clickDogamData?.dogamClass}</div>
-                <div className="py-[0.15rem]">{clickDogamData?.dogamOrigin === ''? 'null': clickDogamData?.dogamOrigin}</div>
-                <div className="py-[0.15rem]">{clickDogamData?.dogamMean1}</div>
-                <div className="py-[0.15rem]">{clickDogamData?.dogamMean2}</div>
-                <div className="py-[0.15rem]">{clickDogamData?.dogamMean3}</div>
-                <div className="py-[0.15rem]">{clickDogamData?.dogamExam1}</div>
-                <div className="py-[0.15rem]">{clickDogamData?.dogamExam2}</div>
-                <div className="py-[0.15rem]">{clickDogamData?.dogamExam3}</div>
-                <div className="py-[0.15rem]">{clickDogamData?.isRared === null ? 'null': clickDogamData?.isRared}</div>
+              <div className="flex justify-center  text-[1rem] text-[#A87E6E] font-semibold my-4">
+                <div aria-label="취소" className={`bg-[#F0ECE9] border-[#A87E6E] border-2 px-6 py-1 mx-5 rounded-md ${styles.choiceBtn}`} onClick={click}>취소</div>
+                <div aria-label="수정" className={`bg-[#F0ECE9] border-[#A87E6E] border-2 px-6 py-1 mx-5 rounded-md ${styles.choiceBtn}`} onClick={click}>수정</div>
+                <div aria-label="삭제" className={`bg-[#F0ECE9] border-[#A87E6E] border-2 px-6 py-1 mx-5 rounded-md ${styles.choiceBtn}`} onClick={click}>삭제</div>
               </div>
-            </div>
-            <div className="flex justify-center  text-[1rem] text-[#A87E6E] font-semibold my-4">
-              <div aria-label="취소" className={`bg-[#F0ECE9] border-[#A87E6E] border-2 px-6 py-1 mx-5 rounded-md ${styles.choiceBtn}`} onClick={click}>취소</div>
-              <div aria-label="수정" className={`bg-[#F0ECE9] border-[#A87E6E] border-2 px-6 py-1 mx-5 rounded-md ${styles.choiceBtn}`} onClick={click}>수정</div>
-              <div aria-label="삭제" className={`bg-[#F0ECE9] border-[#A87E6E] border-2 px-6 py-1 mx-5 rounded-md ${styles.choiceBtn}`} onClick={click}>삭제</div>
             </div>
           </div>
         </div>
-      </div>
+      </>
     )
   }
 
@@ -131,7 +136,7 @@ function AdminContextSection1():JSX.Element {
         isClickDogam? <UserDetail/>: null
       }
       <Toast />
-      {isLoading1 && loading}
+      {(isLoading1) && loading}
       <div className="container max-w-screen-xl w-[90%] my-4 mx-auto ">
         <div className="w-full flex justify-center text-[2.2rem] text-[#A87E6E] font-bold mb-5">
           Dogam 관리

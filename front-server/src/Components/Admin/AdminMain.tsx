@@ -5,6 +5,7 @@ import styles from "./Admin.module.css";
 import { useLazyGetAdminUserListQuery } from "../../Store/api";
 import { Line } from "react-chartjs-2";
 import Chart from 'chart.js/auto';
+import Loading from "../Common/Loading";
 
 function AdminMain():JSX.Element {
   return (
@@ -118,7 +119,7 @@ function AdminMainSection4():JSX.Element {
     Chart.register();
   },[])
   
-  const loading = <div>로딩중</div>
+  const loading = <Loading/>
 
   const levelArray = Array.from({length:9},()=> 0)
   

@@ -2,6 +2,7 @@ import React, { MouseEventHandler, useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useGetAdminPastListQuery, useLazyGetAdminPastDetailListQuery, useLazyGetAdminPastListQuery, usePostAdminPostTestMutation } from "../../Store/api";
+import Loading from "../Common/Loading";
 import Navbar from "../Common/Navbar"
 import { Toast } from "../Common/Toast";
 import styles from "./Admin.module.css";
@@ -63,7 +64,7 @@ function AdminPastSection1():JSX.Element {
     }
   },[clickExamData])
 
-  const loading = <div>로딩중</div>
+  const loading = <Loading/>
 
   const addExam = () => {
     setIsAddExam(!isAddExam)
@@ -153,7 +154,7 @@ function AdminPastSection1():JSX.Element {
       {
         isClickExam? <UserDetail/>: null
       }
-      {isLoading1&&loading}
+      {(isLoading1||isLoading2||isLoading3)&&loading}
       <Toast />
       <div className="container max-w-screen-xl w-[90%] my-4 mx-auto ">
         <div className="w-full flex justify-center text-[2.2rem] text-[#A87E6E] font-bold mb-5">

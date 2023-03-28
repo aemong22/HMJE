@@ -1,6 +1,7 @@
 import React, { MouseEventHandler, useEffect, useRef, useState } from "react"
 import { toast } from "react-toastify";
 import { useDeleteAdminBadgeMutation, useLazyGetAdminBadgeListQuery, usePostAdminBadgeMutation, usePutAdminBadgeMutation } from "../../Store/api";
+import Loading from "../Common/Loading";
 import Navbar from "../Common/Navbar"
 import { Toast } from "../Common/Toast";
 import styles from "./Admin.module.css";
@@ -34,7 +35,7 @@ function AdminUserSection1():JSX.Element {
   const [postAdminBadge, {error:error3, isLoading:isLoading3}] = usePostAdminBadgeMutation()
   const [putAdminBadge, {error:error4, isLoading:isLoading4}] = usePutAdminBadgeMutation()
   
-  const loading = <div>로딩중</div>
+  const loading = <Loading/>
   
 
   useEffect(()=> {
@@ -207,7 +208,7 @@ function AdminUserSection1():JSX.Element {
         isBadgeAdd? <BadgeAdd/>: null
       }
       <Toast/>
-      {isLoading1 && loading}
+      {(isLoading1||isLoading2||isLoading3||isLoading4) && loading}
       <div className="container max-w-screen-xl w-[70%] my-8 mx-auto ">
         <div className="w-full flex justify-center text-[2.2rem] text-[#A87E6E] font-bold mb-10">
           Badge 관리
