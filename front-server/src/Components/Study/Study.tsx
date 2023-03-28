@@ -25,10 +25,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     }
     setResult(make);
   }
-  if(studyType === "wordStudy"){
 
-  }
-  
 
 
   const [hint, setHint] = useState<Boolean>(false);
@@ -54,6 +51,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     }
     else if(studyType==="contextStudy"){
       let temp = decodeURIComponent(escape(atob(question[num].dogamName)))
+      console.log("조짐", temp);
       setDecoding(temp)
     }
     else {

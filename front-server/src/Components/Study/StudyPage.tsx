@@ -48,6 +48,7 @@ function WordStudy(): JSX.Element {
     }
     else if(studyType === "contextStudy"){
       getStudyContext(userId).then((r) => { 
+        console.log("받은데이터",r)
         return(r)
       }).then((r) => { 
         setQuestion(r.data.data)
