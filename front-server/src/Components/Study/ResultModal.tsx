@@ -8,8 +8,6 @@ import { Toast } from "../Common/Toast";
 function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:any):JSX.Element {
   const userId = localStorage.getItem("userId");  
   const navigate = useNavigate()
-  console.log("맞힌거", correct);
-  console.log("틀린거", wrong);
 
     //RTK
     const [postStudyWordResult, {isLoading : resultLoading, error:resultError}]= usePostStudyWordResultMutation();

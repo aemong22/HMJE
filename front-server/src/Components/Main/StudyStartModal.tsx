@@ -9,7 +9,6 @@ function StudyStartModal({setOpenModal}:any):JSX.Element {
     const userId = localStorage.getItem("userId")
     const {data,error,isLoading} = useGetWordRemainQuery(userId);
     const navigate = useNavigate();
-    console.log("here", data);
 
     useEffect(() => {
         document.body.style.cssText = `
