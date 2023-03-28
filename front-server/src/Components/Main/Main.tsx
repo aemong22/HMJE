@@ -601,8 +601,8 @@ function News({ newsKeyword }: any): JSX.Element {
           </span>
         </div>
 
-        <div className="h-[11rem] rounded-lg bg-[#F4EFEC] p-2 mt-2 md:text-[1.2rem] sm:text-[1.1rem] text-[1rem] overflow-auto">
-          <div className="relative max-h-[50vh] overflow-y-auto">
+        <div className="h-[11rem] rounded-lg bg-[#F4EFEC] p-2 mt-2 md:text-[1.2rem] sm:text-[1.1rem] text-[1rem] overflow-y-auto ">
+          <div className="relative border-3">
             {selectWord?.detail?.wordDetailResponseList.map(
               (detail: any, DetailIdx: any) => {
                 let temp = detail.wordExampleResponseList.filter(
