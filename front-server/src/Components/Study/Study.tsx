@@ -51,7 +51,6 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     }
     else if(studyType==="contextStudy"){
       let temp = decodeURIComponent(escape(atob(question[num].dogamName)))
-      console.log("조짐", temp);
       setDecoding(temp)
     }
     else {

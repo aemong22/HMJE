@@ -692,6 +692,7 @@ function PassUsers({
                     </div>
                   </div>
                   <div className="flex flex-col justify-end text-[#525252] md:text-[1.3rem] sm:text-[1rem] text-[0.8rem] ">
+                    <div className="text-[1rem] text-end">{user.score}점</div>
                     {levelInfo[user.level].levelName}
                   </div>
                 </div>
