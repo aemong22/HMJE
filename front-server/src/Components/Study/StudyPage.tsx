@@ -1,6 +1,6 @@
 import { useLazyGetStudyWordQuery, useLazyGetStudyContextQuery,useLazyGetWordWrongQuery } from "../../Store/api";
 import { useEffect, useState } from "react"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import Navbar from "../Common/Navbar"
 import AnswerModal from "./AnswerModal"
 import ResultModal from "./ResultModal"
