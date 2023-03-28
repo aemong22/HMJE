@@ -23,6 +23,7 @@ import Notice from "./Components/Notice/Notice";
 import PastTest from "./Components/Study/PastTest/PastTest";
 import AdminExam from "./Components/Admin/AdminExam";
 import ResetPassword from "./Components/Login/ResetPassword";
+import PastTestResult from "./Components/Study/PastTest/PastTestResult";
 
 function App() {
   const notify = () => toast("Wow so easy!");
@@ -48,6 +49,8 @@ function App() {
         <Route path="/note" element={<WrongNote />} />
         <Route path="/dogam" element={<Dogam />} />
         <Route path="/pasttest" element={<PastTest />} />
+        <Route path="/pasttestresult" element={<PastTestResult />} />
+
 
         <Route path="/admin" element={<AdminPage />}>
           <Route path="" element={<AdminMain />} />

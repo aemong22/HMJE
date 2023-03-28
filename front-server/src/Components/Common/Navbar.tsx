@@ -62,7 +62,7 @@ function Navbar():JSX.Element {
             <div aria-label="note" className = "px-4 cursor-pointer" onClick={onClick}>오답공책</div>
             <div aria-label="dogam" className = "px-4 cursor-pointer" onClick={onClick}>문맥도감</div>
             <div aria-label="mypage" className = "px-4 cursor-pointer" onClick={onClick}>학습관리</div>
-            <div aria-label="dictionary" className = "px-4 cursor-pointer" onClick={onClick}>단어사전</div>
+            <div aria-label="dictionary" className = "px-4 cursor-pointer" >단어사전</div>
             <div aria-label="notice" className = "px-4 cursor-pointer" onClick={onClick}>알림공간</div>
           </div>
         </div>
