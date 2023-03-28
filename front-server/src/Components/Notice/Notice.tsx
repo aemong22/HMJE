@@ -346,9 +346,10 @@ function NoticeSection3({isAdmin}:(boolean|any)) {
                 </div>
               </div>          
             </div>
-            <div className="flex justify-center items-center w-full h-full border-t-2 my-2 py-5">
-              <div className="flex flex-col w-[80%] h-[90%] my-5">
-                <div className="w-full h-[90%] text-[1.1rem] md:text-[1.5rem] mb-4"><textarea ref={content} className="w-full h-full overflow-y-auto" defaultValue={noticeDetail?.content} /></div>
+            <div className="flex justify-center items-center w-full h-full border-t-2 my-2 py-5 ">
+              <div className="flex flex-col w-[80%] h-[90%] my-5 ">
+                <div className="w-full h-[90%] text-[1.1rem] md:text-[1.5rem] mb-4">
+                  <textarea ref={content} className="w-full h-full overflow-y-auto" defaultValue={noticeDetail?.content} /></div>
                 <div aria-label="목록으로" className="text-start w-[80%] h-[10%] text-[#BF9F91] text-[1rem] md:text-[1.3rem] lg:text-[1.7rem]  font-semibold cursor-pointer" onClick={click}>목록으로</div>
               </div>
             </div>
@@ -360,7 +361,7 @@ function NoticeSection3({isAdmin}:(boolean|any)) {
               {/* <div className="flex justify-center items-center text-[2rem] text-[#A87E6E] font-semibold py-5">DETAIL</div> */}
               <div className="flex justify-start">
                 <div className="flex flex-col w-full">
-                  <div className="w-full text-[1rem] md:text-[1.5rem] lg:text-[2rem]font-bold">
+                  <div className="w-full text-[1rem] md:text-[1.5rem] lg:text-[2rem] font-bold">
                     <span className="text-[#666666]">{noticeDetail?.title.split(']')[0]}]</span>
                     <span>{noticeDetail?.title.split(']')[1]}</span>
                   </div>
@@ -372,7 +373,7 @@ function NoticeSection3({isAdmin}:(boolean|any)) {
             </div>
             <div className="flex justify-center items-center w-full h-full border-t-2 my-2 py-5">
               <div className="flex flex-col w-[80%] h-[90%] my-5">
-                <div className="w-full h-[90%] text-[0.8rem] md:text-[1.5rem] overflow-y-auto mb-4">{noticeDetail?.content}</div>
+                <div className="w-full h-[90%] text-[0.8rem] md:text-[1.5rem] overflow-y-auto mb-4 border-2">{noticeDetail?.content}</div>
                 <div aria-label="목록으로" className="text-start w-[80%] h-[10%] text-[#BF9F91] text-[1rem] md:text-[1.3rem] lg:text-[1.7rem]  font-semibold cursor-pointer" onClick={click}>목록으로</div>
               </div>
             </div>

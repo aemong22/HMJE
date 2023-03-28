@@ -5,6 +5,7 @@ import Navbar from "../Common/Navbar"
 import AnswerModal from "./AnswerModal"
 import ResultModal from "./ResultModal"
 import Study from "./Study"
+import Loading from "../Common/Loading";
 
 function WordStudy(): JSX.Element {
   const userId = localStorage.getItem("userId");
@@ -48,6 +49,7 @@ function WordStudy(): JSX.Element {
     }
     else if(studyType === "contextStudy"){
       getStudyContext(userId).then((r) => { 
+        console.log("받은데이터",r)
         return(r)
       }).then((r) => { 
         setQuestion(r.data.data)
@@ -98,7 +100,11 @@ function WordStudy(): JSX.Element {
   const [right, setRight] = useState<Boolean>(false);
 
   if(LoadingContexts || LoadingWords || LoadingWrong) {
-    return <div>Loading...</div>
+    return(
+      <>
+        <Loading />
+      </>
+    )
   }
 
   if(ErrorWords){

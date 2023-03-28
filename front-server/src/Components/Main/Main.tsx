@@ -22,6 +22,7 @@ import StudyStartModal from "./StudyStartModal";
 import OrangeCat from "../Threejs/OrangeCat";
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
+import Loading from "../Common/Loading";
 
 function Main(): JSX.Element {
   const navigate = useNavigate();
@@ -162,7 +163,11 @@ function Main(): JSX.Element {
     isLoading6 ||
     isLoading7
   ) {
-    return <div>Loading...</div>;
+    return(
+      <>
+        <Loading />
+      </>
+    )
   }
 
   if (error1 || error2 || error3 || error4 || error5 || error6 || error7) {

@@ -83,17 +83,11 @@ function StudyStartModal({setOpenModal}:any):JSX.Element {
                                 <div className="text-[1rem] text-[#B8B0B0]">{data?.data.remainHighWordCnt}</div>
                             </div>
                             <div className="text-[1.2rem] font-bold text-center p-2 text-[#798777]" onClick={() => {
-                                if((data?.data.highWordCnt + data?.data.lowWordCnt + data?.data.middleWordCnt) > 0){
-                                    localStorage.setItem("difficulty" , "")
-                                    navigate('/wordStudy')
-                                }
-                                else {
-                                    toast.error("모든 문제를 푸셨습니다.")
-                                }
+                                localStorage.setItem("difficulty" , "")
+                                navigate('/wordStudy')  
                         }}>
                                 <img className="object-contain w-[4rem] h-[4rem] my-[0.5rem] mx-[0.5rem] hover:scale-125" style={{transition: 'all .4s'}} src={`/Assets/Icon/전체.png`} alt="뱃지"/>
                                 <div>전체</div>
-                                <div className="text-[1rem] text-[#B8B0B0]">{data?.data.highWordCnt + data?.data.lowWordCnt + data?.data.middleWordCnt}</div>
                             </div>
                         </div>
                         <div className="text-center text-[#B8B0B0] p-2">각 난이도 아래 숫자는 난이도별 남은 단어 갯수를 의미합니다.</div>
