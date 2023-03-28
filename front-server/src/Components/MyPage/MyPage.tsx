@@ -972,7 +972,7 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
             <div className="text-[#8E8E8E]">{badgeDetail?.createdAt.slice(0,10)}&nbsp;획득</div>
           </div>
           <div className="flex justify-around text-center w-[90%] md:w-[80%] text-[1.4rem]  lg:text-[1.8rem] font-bold text-white py-3 ">
-            <div className="w-[45%] lg:w-1/3 bg-[#B7B7B7] rounded-xl hover:bg-[#898989] cursor-pointer" onClick={()=> {setIsshowBadgeDetail(false)}}><span>그만두기</span></div>
+            <div className="w-[45%] lg:w-1/3 bg-[#B7B7B7] rounded-xl hover:bg-[#898989] cursor-pointer" onClick={()=> {setIsshowBadgeDetail(false)}}><span>닫기</span></div>
             <div className="w-[45%] lg:w-1/3 bg-[#F5BEA4] rounded-xl hover:bg-[#f1a581] cursor-pointer" onClick={updateBadge}><span>장착하기</span></div>
           </div>
         </div>
