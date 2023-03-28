@@ -27,4 +27,8 @@ public class PastTestResult extends CommonEntity {
 	@JoinColumn(name = "past_test_id")
 	private PastTest pastTest;
 
+	public void updateScore(Integer score){
+		this.score = score;
+	}
+
 }

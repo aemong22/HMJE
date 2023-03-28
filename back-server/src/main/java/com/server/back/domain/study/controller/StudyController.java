@@ -94,10 +94,10 @@ public class StudyController {
     }
 
     @ApiOperation(value = "과거시험 문제")
-    @GetMapping("/past/test")
-    public ResponseEntity<Map<String, Object>> getPastTest(){
+    @GetMapping("/past/test/{userId}")
+    public ResponseEntity<Map<String, Object>> getPastTest(@PathVariable(value = "userId") Long userId){
         Map<String, Object> response = new HashMap<>();
-        List<PastQuestionResponseDto> result = studyService.getPastTest();
+        List<PastQuestionResponseDto> result = studyService.getPastTest(userId);
         if(result == null){
             response.put("message","fail");
         }else{
