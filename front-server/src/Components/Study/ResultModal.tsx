@@ -95,13 +95,13 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
     }
 
     if(resultLoading || timeLoading || resultLoading2) {
-      return <></>
+      console.log("로딩중")
     }
 
     else if(resultError|| timeError || resultError2) {
-      return <></>
+      console.log("에러")
     }
-    else {
+    
     return(
         <>
           <Toast />
@@ -164,7 +164,7 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
     )
-  }
+  
 }
 
 export default ResultModal

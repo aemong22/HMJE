@@ -1,6 +1,5 @@
 import Footer from "../Common/Footer"
 import Navbar from "../Common/Navbar"
-import Pangguin from "../Threejs/Pangguin"
 import { useGetUserMyinfoQuery, useGetUserMystudyQuery, useLazyGetUserBadgeQuery, useLazyGetUserStatsCompareQuery, usePostUserMonthstudyMutation, usePutUserBadgeMalrangMutation, usePutUserBadgeMutation, usePutUserdataMutation } from "../../Store/api"
 // import { usePostUserchecknicknameMutation } from "../../Store/NonAuthApi";
 import React, { KeyboardEvent, KeyboardEventHandler, MouseEventHandler, useEffect, useRef, useState } from "react"
@@ -15,7 +14,7 @@ import GrayCat from "../Threejs/GrayCat"
 import OrangeCat from "../Threejs/OrangeCat"
 import MixCat from "../Threejs/MixCat"
 import StrangeCat from "../Threejs/StrangeCat"
-import GreyCat from "../Threejs/GrayCat"
+import Loading from "../Common/Loading"
 
 interface UserDataType {
   exp: number,
@@ -199,12 +198,13 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
   const [putUserBadgeMalrang, {isLoading}] = usePutUserBadgeMalrangMutation()
   const [character, setCharacter] = useState(<GrayCat sendEmo={checkEmoState}/>)
   const [clickCnt, setClickCnt] = useState<number>(0)
+  console.log(dataLevel);
   
   useEffect(()=> {
-    if (dataLevel === 4) {
+    if (dataLevel >= 9) {
       setCharacter(<StrangeCat sendEmo={checkEmoState}/>)
     } else if (7 <= dataLevel&&dataLevel <= 8) {
-      setCharacter(<GreyCat sendEmo={checkEmoState}/>)
+      setCharacter(<GrayCat sendEmo={checkEmoState}/>)
     } else if (4 <= dataLevel&&dataLevel <= 6) {
       setCharacter(<MixCat sendEmo={checkEmoState}/>)
     } else {
@@ -228,9 +228,7 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
     setClickCnt(clickCnt+1)
   }
 
-  
-
-  const loading = <div>로딩중</div>
+  const loading = <Loading/>
 
   return (
     <>
@@ -358,10 +356,10 @@ function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sent
   const [clickCnt, setClickCnt] = useState<number>(0)
 
   useEffect(()=> {
-    if (dataLevel === 9) {
+    if (dataLevel >= 9) {
       setCharacter(<StrangeCat sendEmo={checkEmoState}/>)
     } else if (7 <= dataLevel&&dataLevel <= 8) {
-      setCharacter(<GreyCat sendEmo={checkEmoState}/>)
+      setCharacter(<GrayCat sendEmo={checkEmoState}/>)
     } else if (4 <= dataLevel&&dataLevel <= 6) {
       setCharacter(<MixCat sendEmo={checkEmoState}/>)
     } else {
@@ -982,7 +980,7 @@ function MyPageSection3({userId}:MyPageSection3Type):JSX.Element {
     </div>
   )
 
-  const loading = <div>로딩중</div>
+  const loading = <Loading/>
 
   return (
     <>

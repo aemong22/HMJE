@@ -40,7 +40,7 @@ const PastTest = (): JSX.Element => {
   const month = today.getMonth() + 1; // 0부터 시작하므로 +1을 해줍니다.
   const date = today.getDate();
   const today_temp = year + "-" + "0" + month + "-" + date;
-
+  const navigate = useNavigate();
   if (isLoading1) {
     return <>로딩중</>;
   } else if (isLoading2) {
@@ -70,6 +70,7 @@ const PastTest = (): JSX.Element => {
                     answer,
                     setanswer,
                     postStudyPastResult,
+                    navigate,
                   )}
                 </div>
               </>
@@ -116,13 +117,14 @@ const Question = (
   answer: any,
   setanswer: Function,
   postStudyPastResult: any,
-) => {
-  const navigate = useNavigate();
+  navigate: any,
+): JSX.Element => {
+  // const navigate = useNavigate();
 
   const item = "flex flex-row items-center py-2";
   const labletage =
     " text-sm font-medium text-gray-900 dark:text-gray-300 flex flex-row";
-  const handleClickRadioButton = (e: any) => {
+  const handleClickRadioButton = (e: any): any => {
     var copy = answer;
     switch (e.target.name) {
       case "1":
@@ -163,7 +165,6 @@ const Question = (
     var result = 0;
     PastDetail.data.map((it: any): void => {
       // console.log(it.pastAnswer);
-
       if (answer[it.pastQuestionId] == it.pastAnswer) {
         result += 10;
       }
@@ -174,21 +175,34 @@ const Question = (
       score: result,
       userId: localStorage.getItem("userId"),
     };
-    postStudyPastResult(data).then((r: any) => {
-      // console.log(r);
-      if (r.data.message === "success") {
-        // alert(`결과는 ${result} 입니다`);
-        navigate("/main", {
-          state: {
-            result: result,
-            newBadgeNum: r.data.newBadge.length,
-            level: r.data.level,
-          },
-        });
-      } else {
-        alert(`과거시험이 저장되지 않았습니다`);
-      }
-    });
+    postStudyPastResult(data)
+      .unwrap()
+      .then((r: any) => {
+        console.log(r);
+
+        if (r.message == "success") {
+          // console.log("성공!");
+          if (r.newBadge) {
+            navigate("/main", {
+              state: {
+                result: result,
+                newBadgeNum: r.newBadge.length,
+                level: r.level,
+              },
+            });
+          } else {
+            navigate("/main", {
+              state: {
+                result: result,
+                newBadgeNum: 0,
+                level: r.level,
+              },
+            });
+          }
+        } else {
+          alert(`과거시험이 저장되지 않았습니다`);
+        }
+      });
   };
 
   return (

@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
-import Pangguin from "../Threejs/Pangguin";
 import style from "./Main.module.css";
 import classNames from "classnames";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
@@ -22,6 +21,10 @@ import StudyStartModal from "./StudyStartModal";
 import OrangeCat from "../Threejs/OrangeCat";
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
+import Loading from "../Common/Loading";
+import StrangeCat from "../Threejs/StrangeCat";
+import MixCat from "../Threejs/MixCat";
+import GrayCat from "../Threejs/GrayCat";
 
 function Main(): JSX.Element {
   const navigate = useNavigate();
@@ -34,15 +37,23 @@ function Main(): JSX.Element {
     if (localStorage.getItem("accessToken") === "undefined") {
       navigate("/");
     } else {
+            
       if (location.state !== null) {
-        if (location.state.newBadgeNum > 0) {
-          toast.info(`칭호 ${location.state.newBadgeNum}개를 얻으셨습니다.`);
+        console.log(location.state);
+        if (location.state.newBadgeNum > 0) {          
+          setTimeout(() => {
+            toast.info(`칭호 ${location.state.newBadgeNum}개를 얻으셨습니다.`);  
+          }, 2000);
         }
         if (location.state.result >= 0) {
-          toast.info(`과거시험 결과는 [${location.state.result} 점] 입니다`);
+          setTimeout(() => {
+            toast.info(`과거시험 결과는 [${location.state.result} 점] 입니다`);
+          }, 2000);
         }
         if (location.state.level > 0) {
-          toast.info("벼슬 상승!");
+          setTimeout(() => {
+            toast.info("계급 상승!");
+        }, 2000);
         }
 
         const stateData = {
@@ -162,7 +173,11 @@ function Main(): JSX.Element {
     isLoading6 ||
     isLoading7
   ) {
-    return <div>Loading...</div>;
+    return(
+      <>
+        <Loading />
+      </>
+    )
   }
 
   if (error1 || error2 || error3 || error4 || error5 || error6 || error7) {
@@ -226,6 +241,23 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
   const s = time;
   let checkEmoState:number = 1
 
+  const [character , setCharacter] = useState(<GrayCat sendEmo={checkEmoState}/>);
+
+  useEffect(()=> {
+    console.log(userMyInfo);
+    console.log(userMyInfo?.level);
+    
+    if (userMyInfo?.level >= 9) {
+      setCharacter(<StrangeCat sendEmo={checkEmoState}/>)
+    } else if (7 <= userMyInfo?.level && userMyInfo?.level <= 8) {
+      setCharacter(<GrayCat sendEmo={checkEmoState}/>)
+    } else if (4 <= userMyInfo?.level && userMyInfo?.level <= 6) {
+      setCharacter(<MixCat sendEmo={checkEmoState}/>)
+    } else {
+      setCharacter(<OrangeCat sendEmo={checkEmoState}/>)
+    }
+  },[])
+
 
 
 
@@ -237,7 +269,7 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
       <div className="w-full mx-auto flex flex-col md:flex-row md:justify-around items-center text-start">
         <div className="md:w-[45%] w-[95%] bg-[#ffffff] py-2 md:px-4 rounded-md px-2">
           <div className="h-[20rem] py-2">
-            <OrangeCat sendEmo={checkEmoState}/>
+            {character}
           </div>
           <div className="flex justify-start md:text-[1.2rem] sm:text-[1.1rem] text-[1rem]">
             <div className={`${style.badgeImg}`} style={{backgroundImage:`url('/Assets/Badge/${userMyInfo?.nowbadgeImage}.png')`}}></div>{userMyInfo?.nowbadgeName}

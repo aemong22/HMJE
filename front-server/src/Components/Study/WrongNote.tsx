@@ -7,6 +7,7 @@ import WrongDetail from "./WrongDetail";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
+import Loading from "../Common/Loading";
 
 function WrongNote(): JSX.Element {
   const userId = localStorage.getItem("userId")
@@ -16,7 +17,11 @@ function WrongNote(): JSX.Element {
   
 
   if(isLoading) {
-    return <>로딩중</>
+    return(
+      <>
+        <Loading />
+      </>
+    )
   }
   else if(error) {
     return <>에러</>
