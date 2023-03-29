@@ -13,11 +13,11 @@ const MyInfoSelect = (): JSX.Element => {
   );
 };
 const normalbutton =
-  "border-2 rounded-xl border-[#A87E6E] font-extrabold text-[#A87E6E] text-[1.5rem] my-3 py-2 px-[3rem] md:px-[5rem] lg:px-[7rem]";
+  "border-2 rounded-xl border-[#A87E6E] hover:text-white font-extrabold text-[#A87E6E] text-[1.5rem] my-3 py-2 px-[3rem] md:px-[5rem] lg:px-[7rem] hover:bg-[#A87E6E]";
 const secessionbutton =
-  "border-2 rounded-xl border-red-400 font-extrabold text-[#F15850] text-[1.5rem] my-3 py-2 px-[3rem] md:px-[5rem] lg:px-[7rem]";
+  "border-2 rounded-xl border-red-400 hover:text-white font-extrabold text-[#F15850] text-[1.5rem] my-3 py-2 px-[3rem] md:px-[5rem] lg:px-[7rem] hover:bg-[#F15850] hover:border-[#A87E6E]";
 const secessionbutton2 =
-  "border-2 rounded-xl border-red-400 bg-red-400 font-extrabold text-[#fffff] lg:text-[1.5rem] md:text-[1.2rem] m-2 py-2 px-[3rem] md:px-[5rem] lg:px-[7rem]";
+  "border-2 rounded-xl border-red-400  bg-red-400 font-extrabold text-[#fffff] lg:text-[1.5rem] md:text-[1.2rem] m-2 py-2 px-[3rem] md:px-[5rem] lg:px-[7rem]";
 const Select = (): JSX.Element => {
   const navigate = useNavigate();
   const Nav = (e: any) => {
@@ -28,10 +28,8 @@ const Select = (): JSX.Element => {
     } else if (e.target.id === "phonenum") {
       navigate("/changephonenum");
     } else if (e.target.id === "secession") {
-      navigate("/secession");
+      navigate("/checksecession");
     } else if (e.target.id === "back") {
-      console.log("나가기눌렀다");
-      
       navigate("/mypage");
     }
   };
@@ -42,19 +40,19 @@ const Select = (): JSX.Element => {
         정보수정
       </div>
       <button id="password" className={normalbutton} onClick={Nav}>
-        <span className="text-amber-900">비밀번호</span> 수정
+        비밀번호 수정
       </button>
       <button id="nickname" className={normalbutton} onClick={Nav}>
-        <span className="text-amber-900">별명</span> 수정
+        별명 수정
       </button>
       <button id="phonenum" className={normalbutton} onClick={Nav}>
-        <span className="text-amber-900">전화번호</span> 수정
+        전화번호 수정
       </button>
       <button id="secession" className={secessionbutton} onClick={Nav}>
         회원탈퇴
       </button>
       <button id="back" className={normalbutton} onClick={Nav}>
-        <span className="text-amber-900">나가기</span>
+        나가기
       </button>
     </div>
   );
