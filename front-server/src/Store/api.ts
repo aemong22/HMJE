@@ -12,7 +12,7 @@ interface decodedInfo {
   username: string; //유저이름
 }
 
-type PostData = {
+type UserData = {
   isAdmin: boolean,
   isSecession: boolean,
   nickname: string,
@@ -81,7 +81,7 @@ export const hmjeApi = createApi({
   tagTypes: ['Api'],
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://hmje.net/api',
-    
+
     prepareHeaders(headers) {
       headers.set('accessToken', accessToken)
     },
@@ -390,15 +390,11 @@ export const hmjeApi = createApi({
     // 2. 정보 수정
     putUserdata: builder.mutation({
       query: (data) => {
-        const [userId, nickname] = data
+        const [bodydata, userId] = data
         return {
           url: `/user/${userId}`,
           method: 'PUT',
-          body: {
-            isAdmin: true,
-            isSecession: true,
-            nickname: nickname,
-          }
+          body: bodydata
         }
       },
       invalidatesTags: (result, error, arg) => [{ type: "Api" }]
@@ -534,6 +530,31 @@ export const hmjeApi = createApi({
       invalidatesTags: (result, error, arg) => [{ type: "Api" }]
     }),
 
+    // 15. 비밀번호 수정
+    putUserChangePassword: builder.mutation({
+      query: (data) => {
+        const [bodydata, userId] = data
+        return {
+          url: `/user/change/password/${userId}`,
+          method: 'PUT',
+          body: bodydata,
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
+    // 16. 휴대폰 번호 수정
+    putUserChangePhonenumber:builder.mutation({
+      query:(data)=>{
+        const [bodydata,userId]=data
+        return{
+          url:`/user/change/phonenumber/${userId}`,
+          method:'PUT',
+          body:bodydata,
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
 
     // ---------------STUDY---------------
 
@@ -751,9 +772,6 @@ export const hmjeApi = createApi({
       }
     }),
 
-    
-  
-
     // 5. 난이도 별 남은 단어 수 조회
     getWordRemain: builder.query({
       query: (userId: any) => {
@@ -764,10 +782,7 @@ export const hmjeApi = createApi({
       providesTags: (result, error, arg) => {
         return [{ type: "Api" }]
       }
-
     })
-
-
   }),
 })
 // 임시저장
@@ -802,6 +817,8 @@ export const {
   useLazyGetUserBadgeQuery,
   usePutUserBadgeMutation,
   usePutUserBadgeMalrangMutation,
+  usePutUserChangePasswordMutation,
+  usePutUserChangePhonenumberMutation,
 
   // STUDY
   useLazyGetStudyWordQuery,
@@ -836,7 +853,7 @@ export const {
   usePutNoticeDetailMutation,
   usePostNoticeMutation,
   useDeleteNoticeMutation,
-  
+
   // FQA
   useLazyGetFaqQuery,
   usePutFaqDetailMutation,
