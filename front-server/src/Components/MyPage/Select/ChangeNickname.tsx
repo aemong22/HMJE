@@ -186,21 +186,25 @@ const NickName = () => {
               중복확인
             </button>
           </div>
-          <div className="flex flex-row justify-between pt-5">
+          <div className="flex flex-row justify-between w-full">
             <button
-              className=" p-3 rounded-2xl bg-[#B7B7B7] text-white font-extrabold"
+              className="mt-7 cursor-pointer w-[45%] h-[3.5rem] rounded-lg font-extrabold bg-[#B7B7B7] text-white disabled:cursor-not-allowed"
               onClick={() => {
                 navigate("/myinfoselect");
               }}
             >
-              돌아가기
+              <div className="flex justify-center items-center ">
+                <div>취소</div>
+              </div>
             </button>
             <button
-              className=" p-3 rounded-2xl bg-[#F5BEA4] text-white font-extrabold disabled:cursor-not-allowed disabled:opacity-50"
+              className="mt-7 cursor-pointer w-[45%] h-[3.5rem] rounded-lg font-extrabold bg-[#F0ECE9] text-[#A87E6E] disabled:cursor-not-allowed disabled:opacity-50 "
               onClick={modify}
               disabled={nicknameCheck}
             >
-              수정하기
+              <div className="flex justify-center items-center ">
+                <div>수정하기</div>
+              </div>
             </button>
           </div>
         </div>

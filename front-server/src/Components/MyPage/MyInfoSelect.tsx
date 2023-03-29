@@ -79,9 +79,9 @@ const Select = (): JSX.Element => {
       <button id="nickname" className={normalbutton} onClick={Nav}>
         별명 수정
       </button>
-      {/* <button id="phonenum" className={normalbutton} onClick={Nav}>
+      <button id="phonenum" className={normalbutton} onClick={Nav}>
         전화번호 수정
-      </button> */}
+      </button>
       <button id="secession" className={secessionbutton} onClick={Nav}>
         회원탈퇴
       </button>
