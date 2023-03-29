@@ -168,7 +168,7 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
                       </>
                     :
                     <button
-                      className="block text-white bg-[#F7CCB7] font-bold w-fit md:text-base text-sm px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mt-1 mr-2 mb-1 ease-linear transition-all duration-150"
+                      className="block text-white bg-[#AEE1E1] font-bold w-fit md:text-base text-sm px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mt-1 mr-2 mb-1 ease-linear transition-all duration-150"
                       type="button"
                       onClick={() => {
                         setResultModal(false)
