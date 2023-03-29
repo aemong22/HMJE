@@ -292,7 +292,7 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
             </div>
           </div>
           <div className="md:w-[43%] w-[95%] text-center py-2">
-            <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold p-2">오늘의</div>
+            <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold p-2">오늘의 학습</div>
             <div className="w-full flex flex-wrap justify-center items-end">
                 <div className="md:text-[1.5rem] sm:text-[1rem] text-[0.8rem] p-2 text-zinc-500">학습 시간</div>
                 <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold text-[#BE8D65] pl-2">
@@ -725,6 +725,7 @@ function PassUsers({
                     </div>
                   </div>
                   <div className="flex flex-col justify-end text-[#525252] md:text-[1.3rem] sm:text-[1rem] text-[0.8rem] ">
+                    <div className="text-[1rem] text-end">{user.score}점</div>
                     {levelInfo[user.level].levelName}
                   </div>
                 </div>
