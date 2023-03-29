@@ -1,4 +1,9 @@
 FROM adoptopenjdk/openjdk11 AS builder
+
+# timezone
+ENV TZ=Asia/Seoul
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 COPY gradlew .
 COPY gradle gradle
 COPY build.gradle .
