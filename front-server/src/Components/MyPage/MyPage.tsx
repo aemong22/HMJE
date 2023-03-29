@@ -212,6 +212,8 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
         } else {
           toast.error('칭호를 소유하고 있습니다!')
         }
+      }).then(()=> {
+        window.location.replace('/mypage')
       })
     }
   },[clickCnt])
