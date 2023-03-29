@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { useNavigate } from "react-router-dom";
 import {
+  useGetStudyPastListQuery,
   useGetStudyPastQuery,
   useGetStudyPastTestQuery,
   usePostStudyPastResultMutation,
@@ -34,6 +35,13 @@ const PastTest = (): JSX.Element => {
     error: error1,
     isLoading: isLoading1,
   } = useGetStudyPastTestQuery(localStorage.getItem("userId"));
+
+  const {
+    data: pastList,
+    error: error4,
+    isLoading: isLoading4,
+  } = useGetStudyPastListQuery(localStorage.getItem("userId"));
+
   const [postStudyPastResult] = usePostStudyPastResultMutation();
   const today = new Date();
   const year = today.getFullYear();
@@ -45,19 +53,13 @@ const PastTest = (): JSX.Element => {
   useEffect(() => {
     window.onbeforeunload = () => {
       return "Are you sure you want to leave?";
-    }
-  }, []);
-  if (isLoading1) {
+    };
+  }, []); 
+  if (isLoading1 || isLoading4 || isLoading2) {
     return <>로딩중</>;
-  } else if (isLoading2) {
-    return <>로딩중</>;
-  } else if (error1) {
-    return <>error</>;
-  } else if (error2) {
+  } else if (error1 || error2 || error4) {
     return <>error</>;
   } else {
-    //console.log("test", test);
-    //console.log("PastDetail", PastDetail);
     return (
       <>
         <Navbar />
@@ -189,7 +191,7 @@ const Question = (
         if (r.message == "success") {
           // console.log("성공!");
           if (r.newBadge) {
-            navigate("/main", {
+            navigate("/pasttestresult", {
               state: {
                 result: result,
                 newBadgeNum: r.newBadge.length,
@@ -197,7 +199,7 @@ const Question = (
               },
             });
           } else {
-            navigate("/main", {
+            navigate("/pasttestresult", {
               state: {
                 result: result,
                 newBadgeNum: 0,

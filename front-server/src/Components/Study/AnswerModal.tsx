@@ -200,7 +200,7 @@ function AnswerModal({
             {/*footer*/}
             <div className="flex items-center justify-end p-4 rounded-b">
               <button
-                className="text-white bg-[#F7CCB7] font-bold uppercase md:text-base text-sm px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                className="text-white bg-[#FFB4B4] font-bold uppercase md:text-base text-sm px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
                 onClick={() => {
                   motion();

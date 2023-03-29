@@ -24,6 +24,11 @@ import PastTest from "./Components/Study/PastTest/PastTest";
 import AdminExam from "./Components/Admin/AdminExam";
 import ResetPassword from "./Components/Login/ResetPassword";
 import PastTestResult from "./Components/Study/PastTest/PastTestResult";
+import MyInfoSelect from "./Components/MyPage/MyInfoSelect";
+import ChangeNickname from "./Components/MyPage/Select/ChangeNickname";
+import ChangePassword from "./Components/MyPage/Select/ChangePassword";
+import ChangePhonenum from "./Components/MyPage/Select/ChangePhonenum";
+import CheckSecession from "./Components/MyPage/Select/CheckSecession";
 
 function App() {
   const notify = () => toast("Wow so easy!");
@@ -36,6 +41,12 @@ function App() {
         <Route path="/forgetpassword" element={<ForgetPassword />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/myinfoselect" element={<MyInfoSelect />} />
+        <Route path="/changenickname" element={<ChangeNickname />} />
+        <Route path="/changepassword" element={<ChangePassword />} />
+        <Route path="/changephonenum" element={<ChangePhonenum />} />
+        <Route path="/checksecession" element={<CheckSecession />} />
+        
         <Route path="/join" element={<Join />} />
         <Route path="/main" element={<Main />} />
         <Route path="/dictionary" element={<Dictionary />} />

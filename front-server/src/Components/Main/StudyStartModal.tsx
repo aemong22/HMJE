@@ -90,7 +90,14 @@ function StudyStartModal({setOpenModal}:any):JSX.Element {
                                 <div>전체</div>
                             </div>
                         </div>
-                        <div className="text-center text-[#B8B0B0] p-2">각 난이도 아래 숫자는 난이도별 남은 단어 갯수를 의미합니다.</div>
+                        <div className="text-center text-[#B8B0B0] text-[0.9rem] p-1">각 난이도 아래 숫자는 난이도별 남은 단어 갯수를 의미합니다.</div>
+                        <div className="text-center text-[#B8B0B0] text-[0.9rem] px-1 flex justify-center items-center">난이도에 따라 획득 경험치가 다르게 적용됩니다.
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+                            </svg>
+                        </div>
+
+                        <div className="text-center text-[#B8B0B0] p-1 hidden">경험치는 맞힌 단어 당 초급은 10, 중급은 15, 고급은 20 얻을 수 있습니다. 귀뜸으로 도움을 받은 경우는 난이도에 상관없이 경험치 5를 획득할 수 있습니다.</div>
 
                         
                         <div className="flex flex-row justify-between pt-2 text-[1.2rem]">
