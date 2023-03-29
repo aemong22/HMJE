@@ -114,17 +114,18 @@ public class BadgeService {
         for (StudyTime s : totalstudytimelist){
             mytotalstudytime += s.getStudyTime();
         }
-        if ((!myBadgeList.contains(10L)) && (mytotalstudytime >= 3600)){
+
+        if ((!myBadgeList.contains(10L)) && (mytotalstudytime >= 3600)) {
             response.add(badgeadd(10L, user)); // 뱃지 추가
-            if ((!myBadgeList.contains(11L)) && (mytotalstudytime >= 86400)){
-                response.add(badgeadd(11L, user)); // 뱃지 추가
-                if ((!myBadgeList.contains(12L)) && (mytotalstudytime >= 259200)){
-                    response.add(badgeadd(12L, user)); // 뱃지 추가
-                    if ((!myBadgeList.contains(13L)) && (mytotalstudytime >= 1296000)){
+        }
+        if ((!myBadgeList.contains(11L)) && (mytotalstudytime >= 86400)) {
+            response.add(badgeadd(11L, user)); // 뱃지 추가
+        }
+        if ((!myBadgeList.contains(12L)) && (mytotalstudytime >= 259200)) {
+            response.add(badgeadd(12L, user)); // 뱃지 추가
+        }
+        if ((!myBadgeList.contains(13L)) && (mytotalstudytime >= 1296000)){
                         response.add(badgeadd(13L, user)); // 뱃지 추가
-                    }
-                }
-            }
         }
         return response;
     }
@@ -189,8 +190,6 @@ public class BadgeService {
         }
         return response;
     }
-
-
 
     public Long badgeadd (Long badgeId, User user){
         Badge badge = badgeRepository.findByBadgeId(badgeId);
