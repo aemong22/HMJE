@@ -150,7 +150,7 @@ const DictionaryPage = () => {
         // console.log(Math.floor(r.count/10));
         setWordList(r);
         console.log("r은?", r.count);
-        // setWordListSize(r.count)
+        setWordListSize(r.count)
         setPage(page);
       });
 
@@ -172,8 +172,7 @@ const DictionaryPage = () => {
         // console.log(Math.floor(r.count/10));
         setWordList(r);
         console.log("r은?", r.count);
-        // setWordListSize(r.count)
-
+        setWordListSize(r.count)
         setPage(page);
       });
 
@@ -188,9 +187,8 @@ const DictionaryPage = () => {
 
   useEffect(() => {
     console.log(wordList);
-
-    setWordList(wordList);
-    // setWordListSize(wordList.count);
+    setWordList(wordList);    
+    // setWordListSize(wordList!.count);
     return () => {};
   }, [wordList]);
   // 가로 사이즈에 따라
