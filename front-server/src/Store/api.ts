@@ -544,17 +544,30 @@ export const hmjeApi = createApi({
     }),
 
     // 16. 휴대폰 번호 수정
-    putUserChangePhonenumber:builder.mutation({
-      query:(data)=>{
-        const [bodydata,userId]=data
-        return{
-          url:`/user/change/phonenumber/${userId}`,
-          method:'PUT',
-          body:bodydata,
+    putUserChangePhonenumber: builder.mutation({
+      query: (data) => {
+        const [bodydata, userId] = data
+        return {
+          url: `/user/change/phonenumber/${userId}`,
+          method: 'PUT',
+          body: bodydata,
         }
       },
       invalidatesTags: (result, error, arg) => [{ type: "Api" }]
     }),
+
+    // 17. 회원 탈퇴
+
+    deleteUser: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/user/${data}`,
+          method: 'DELETE'
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
+
 
     // ---------------STUDY---------------
 
@@ -821,6 +834,7 @@ export const {
   usePutUserBadgeMalrangMutation,
   usePutUserChangePasswordMutation,
   usePutUserChangePhonenumberMutation,
+  useDeleteUserMutation,
 
   // STUDY
   useLazyGetStudyWordQuery,
