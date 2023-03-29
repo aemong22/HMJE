@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
 import ReactDOMServer from 'react-dom/server';
 
-function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,setSemo,right, setRight, openModal, setResultModal, modalOpen, resultModal, closeModal}:any): JSX.Element {
+function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,setSemo,right, setRight, openModal, setResultModal, modalOpen, resultModal, closeModal , exp, setExp}:any): JSX.Element {
   // 단어 디코딩
   const [decoding, setDecoding] = useState<String>();
   // 초성
@@ -26,7 +26,20 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     setResult(make);
   }
 
+  
+  const getExp = () => {
+    if(question[num]?.wordRating === "초급") {
+      setExp(exp + 10)
 
+    }else if(question[num]?.wordRating === "중급") {
+      setExp(exp + 15)
+
+    }else if(question[num]?.wordRating === "고급") {
+      setExp(exp + 20)
+    }else {
+      setExp(exp + 10)
+    }
+  }
 
   const [hint, setHint] = useState<Boolean>(false);
 
@@ -62,6 +75,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     
 
    },[num])
+
 
    
    

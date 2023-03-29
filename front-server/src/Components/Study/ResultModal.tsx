@@ -82,6 +82,7 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
     
     // 시작시간 커스텀
     const korStart = new Date(startTime).toISOString();
+    
     // 끝 시간 커스텀
     const korEnd = new Date(endTime).toISOString();
 
@@ -138,25 +139,56 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
 
                 </div>
 
-                {/*footer*/}
-                <div className="flex md:justify-between py-2 px-4 flex-wrap md:flex-row flex-col items-center md:w-auto">
-                  <div className="text-sm text-[#5F5F5F]">학습시간 : <span className="text-[#A87E6E] font-bold pr-2">{studyTime}초 </span>{" "}
-                  {studyType === "wordStudy" &&
+                <div className="py-2 px-4 text-sm text-[#5F5F5F]">학습시간 : <span className="text-[#A87E6E] font-bold pr-2">{studyTime}초 </span>{" "}
+                  {studyType === "wrongStudy" &&
                     <>획득 경험치 : <span className="text-[#A87E6E] font-bold">{getExp}</span></>
                   }
                 
-                  </div> 
-                  <button
-                    className="block text-white bg-[#F7CCB7] font-bold uppercase md:w-auto w-full md:text-base text-sm px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mt-1 mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={() => {
+                  </div>
+                {/*footer*/}
+                <div className="flex md:justify-between flex-wrap px-4 md:w-auto w-full pb-2">
+                {studyType !== "contextStudy" ? 
+                  <div className="text-[0.7rem] text-[#B2B2B2] flex flex-col justify-center flex-wrap">틀린 단어는 오답공책에서 확인할 수 있습니다.</div>
+                : 
+                  <div className="text-[0.7rem] text-[#B2B2B2] flex flex-col justify-center flex-wrap">획득한 도감은 문맥도감에서 확인할 수 있습니다.</div>
+                }
+                  <div className="flex flex-wrap md:pt-0 pt-1 justify-end md:w-fit w-full">
+                    {studyType !== "contextStudy" ?
+                      <>
+                        <button
+                          className="block text-white bg-[#AEE1E1] font-bold md:w-auto w-fit md:text-base text-sm px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mt-1 mr-2 mb-1 ease-linear transition-all duration-150"
+                          type="button"
+                          onClick={() => {
+                            setResultModal(false)
+                            localStorage.removeItem("difficulty")
+                            navigate('/note')
+                            }}
+                        >오답 확인
+                        </button>
+                      </>
+                    :
+                    <button
+                      className="block text-white bg-[#AEE1E1] font-bold w-fit md:text-base text-sm px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mt-1 mr-2 mb-1 ease-linear transition-all duration-150"
+                      type="button"
+                      onClick={() => {
                         setResultModal(false)
-                        navigate('/main')
-                        }
+                        navigate('/dogam')
+                        }}
+                    >도감 확인
+                    </button>
                     }
-                  >
-                    확인
-                  </button>
+                    <button
+                      className="block text-white bg-[#FFB4B4] font-bold md:w-auto w-fit md:text-base text-sm px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mt-1 mr-1 mb-1 ease-linear transition-all duration-150"
+                      type="button"
+                      onClick={() => {
+                          setResultModal(false)
+                          navigate('/main')
+                          }
+                      }
+                    >
+                      확인
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
