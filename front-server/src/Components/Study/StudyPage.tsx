@@ -125,6 +125,8 @@ function WordStudy(): JSX.Element {
                 semo={semo}
                 wrong={wrong}
                 startTime={startTime}
+                exp={exp}
+                setExp={setExp}
                 />}
                 
 

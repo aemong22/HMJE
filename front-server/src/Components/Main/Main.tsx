@@ -435,6 +435,7 @@ function StudyContent({ userScore }: any): JSX.Element {
 
 // 뉴스 ( 신문 핵심 단어 )
 function News({ newsKeyword }: any): JSX.Element {
+  console.log(newsKeyword);
   const [select, setSelect] = useState<number>(0);
   const [selectWord, setSelectWord] = useState<any>([]);
 
