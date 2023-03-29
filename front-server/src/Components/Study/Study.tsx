@@ -29,7 +29,6 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
   
   // wordStudy 경험치 계산
   const getExp = () => {
-    console.log("exp 계산", decoding)
     if(hint){
       setExp(exp + 5)
     }
