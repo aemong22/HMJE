@@ -59,7 +59,6 @@ function Default({level}:(number|any)) {
 
   
   useEffect(()=> {
-    console.log(actions);
     
     actions.dle05.play()    
     actions.Tree.play()
@@ -194,7 +193,6 @@ function Smile({level}:(number|any)) {
   const group = useRef<any>()
   const { nodes, materials, animations,  }:any = useGLTF('/ThreeFile/Orange/Smile.gltf') 
   const { actions, mixer, clips }:any = useAnimations(animations, group)
-  console.log(level);
   
 
   
