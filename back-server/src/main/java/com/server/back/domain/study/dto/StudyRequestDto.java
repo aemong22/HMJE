@@ -16,6 +16,7 @@ import java.util.List;
 public class StudyRequestDto {
     Long userId;
     Integer semo;
+    Integer score;
     List<Long> wrongIdList;
     List<Long> RightIdList;
 }
