@@ -32,9 +32,9 @@ function DogamDetail({select,detail,setOpen}:any):JSX.Element {
           {/*content*/}
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white">
                 <div className="bg-[#AEAEAE] rounded-full px-3 font-bold text-[#fff] w-fit mx-4 mt-4">
-                    {select.toString().padStart(3,"0")}
+                    {(select).toString().padStart(3,"0")}
                 </div>
-                <div className="pb-[30%] w-[30%] mx-auto mt-2 bg-no-repeat bg-center bg-contain" style={{backgroundImage:`url('/Assets/Dogam/${select+1}.png')`}}></div>
+                <div className="pb-[30%] w-[30%] mx-auto mt-2 bg-no-repeat bg-center bg-contain" style={{backgroundImage:`url('/Assets/Dogam/${select}.png')`}}></div>
             
             {/*body header*/}
 
