@@ -135,11 +135,29 @@ const DictionaryPage = () => {
 
     // wordList변경
   };
+  const handleSearchPageChange = (keyword: any) => {
+    const tempdata = {
+      filter: "",
+      keyword: keyword,
+      p: 0,
+    };
+    // console.log("tempdata", tempdata);
+
+    getWorddict(tempdata)
+      .unwrap()
+      .then((r) => {
+        console.log("rtk결과", r);
+        // console.log(Math.floor(r.count/10));
+        setWordList(r);
+        console.log("r은?", r.count);
+        // setWordListSize(r.count)
+        setPage(page);
+      });
+
+    // wordList변경
+  };
 
   const handleCharPageChange = (filter: any) => {
-    // console.log((page * items) / 10);
-    // console.log(page);
-
     const tempdata = {
       filter: filter,
       keyword: "",
@@ -197,7 +215,7 @@ const DictionaryPage = () => {
   }, [Width]);
 
   useEffect(() => {
-    console.log("item바뀌었다", items);
+    // console.log("item바뀌었다", items);
     return () => {};
   }, [items]);
 
@@ -206,7 +224,7 @@ const DictionaryPage = () => {
   } else if (error1) {
     return <>error</>;
   } else {
-    console.log("Math.floor(wordList!.count)", Math.floor(wordList!.count));
+    // console.log("Math.floor(wordList!.count)", Math.floor(wordList!.count));
 
     return (
       <>
@@ -215,7 +233,13 @@ const DictionaryPage = () => {
             <div className="flex flex-col justify-between h-[80vh]">
               <Navbar />
               <div className="container max-w-screen-lg w-full h-full mx-auto px-10 lg:px-10">
-                <Searchbar onchangeSearch={setSearch} />
+                <Searchbar
+                  onchangeSearch={setSearch}
+                  Search={Search}
+                  WordList={WordList}
+                  fetchData={handleSearchPageChange}
+                  setWordList={setWordList}
+                />
                 <CharPagination
                   currentPage={page}
                   newPageNumbers={pageNumbers}
@@ -250,32 +274,40 @@ type Searchbar = {
   onchangeSearch: Function;
 };
 
-const Searchbar: React.FC<Searchbar> = ({ onchangeSearch }) => {
+function Searchbar({
+  onchangeSearch,
+  Search,
+  WordList,
+  setWordList,
+  fetchData,
+}: any): JSX.Element {
   const ChangeSearch = (event: any) => {
-    // console.log(event.target.value);
+    console.log(event.target.value);
+
     onchangeSearch(event.target.value);
   };
 
-  // const handleOnKeyPress = (e: any) => {
-  //   if (e.key === "Enter") {
-  //     FindWord();
-  //     console.log("검색 ㄱ");
-  //   }
-  // };
-  // const [getWorddict, isLoading, error] = useLazyGetWorddictQuery();
+  const handleOnKeyPress = (e: any) => {
+    if (e.key === "Enter") {
+      fetchData(Search);
+      // FindWord();
+      console.log("검색 ㄱ");
+    }
+  };
+  const [getWorddict, isLoading, error] = useLazyGetWorddictQuery();
 
-  // const FindWord = () => {
-  //   const data: dict = {
-  //     filter: "",
-  //     keyword: Search,
-  //     p: 0,
-  //   };
-  //   getWorddict(data)
-  //     .unwrap()
-  //     .then((r: any) => {
-  //       console.log(r.data);
-  //     });
-  // };
+  const FindWord = () => {
+    const data: dict = {
+      filter: "",
+      keyword: Search,
+      p: 0,
+    };
+    getWorddict(data)
+      .unwrap()
+      .then((r: any) => {
+        setWordList(r.data);
+      });
+  };
   return (
     <>
       <div className="flex flex-row justify-between items-baseline ">
@@ -287,12 +319,12 @@ const Searchbar: React.FC<Searchbar> = ({ onchangeSearch }) => {
           className="border-[#A87E6E] lg:h-[60%] w-[40%] sm:w-[40%] md:w-[40%] lg:w-[40%] border-2 rounded-md py-2 px-5 text-xl sm:text-xl md:text-2xl lg:text-2xl font-medium placeholder:font-normal"
           placeholder="검색"
           onChange={ChangeSearch}
-          // onKeyPress={handleOnKeyPress}
+          onKeyPress={handleOnKeyPress}
         />
       </div>
     </>
   );
-};
+}
 
 const List = (data: any): JSX.Element => {
   const dispatch = useAppDispatch();

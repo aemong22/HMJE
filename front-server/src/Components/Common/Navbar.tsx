@@ -118,7 +118,7 @@ function Navbar():JSX.Element {
         <div aria-label="note" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>오답공책</div>
         <div aria-label="dogam" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>문맥도감</div>
         <div aria-label="mypage" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>학습관리</div>
-        <div aria-label="dictionary" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>단어사전</div>
+        <div aria-label="dictionary" className = "p-2 cursor-pointer hover:bg-gray-100">단어사전</div>
         <div aria-label="notice" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>알림공간</div>
         <div aria-label="logout" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>나가기</div>
     </div>
