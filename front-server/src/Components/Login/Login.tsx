@@ -48,12 +48,11 @@ function Login(): JSX.Element {
         // console.log(r);
         if (r.status === "200") {
           if (r.isSecession === "true") {
-            alert("탈퇴한 회원입니다.");
-            navigate("/intro");
+            toast.error("탈퇴한 회원입니다.", { position: "top-center" });
           } else {
             const accessToken = r.accessToken;
             const refreshToken = r.refreshToken;
-            const userId = r.userId;            
+            const userId = r.userId;
             localStorage.setItem("accessToken", accessToken);
             localStorage.setItem("userName", Id!);
             localStorage.setItem("userId", userId);
