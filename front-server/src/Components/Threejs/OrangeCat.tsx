@@ -198,7 +198,7 @@ function Smile({level}:(number|any)) {
   
   useEffect(()=> {
     
-    actions.Yes.play()    
+    actions.dle05.play()    
     actions.Tree.play()
     actions.Fly.play()
     actions.Fly2.play()
@@ -206,7 +206,6 @@ function Smile({level}:(number|any)) {
     actions.Grass2.play()
     actions.Whirligig1.play()
     actions.Whirligig2.play()
-    actions.Yes.reset()
 
     // 애니메이션 종료 후에 actions 객체를 리셋합니다.
     // actions.Angry.clampWhenFinished = true
@@ -335,7 +334,7 @@ function Dazed({level}:(number|any)) {
   
   useEffect(()=> {
     
-    actions.Yes.play()    
+    actions.dle05.play()    
     actions.Tree.play()
     actions.Fly.play()
     actions.Fly2.play()
@@ -343,7 +342,6 @@ function Dazed({level}:(number|any)) {
     actions.Grass2.play()
     actions.Whirligig1.play()
     actions.Whirligig2.play()
-    actions.Yes.reset()
 
     // 애니메이션 종료 후에 actions 객체를 리셋합니다.
     // actions.Angry.clampWhenFinished = true
@@ -472,7 +470,7 @@ function Sad({level}:(number|any)) {
   
   useEffect(()=> {
     
-    actions.Yes.play()    
+    actions.dle05.play()    
     actions.Tree.play()
     actions.Fly.play()
     actions.Fly2.play()
@@ -480,7 +478,6 @@ function Sad({level}:(number|any)) {
     actions.Grass2.play()
     actions.Whirligig1.play()
     actions.Whirligig2.play()
-    actions.Yes.reset()
 
     // 애니메이션 종료 후에 actions 객체를 리셋합니다.
     // actions.Angry.clampWhenFinished = true
