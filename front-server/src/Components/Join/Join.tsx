@@ -120,7 +120,6 @@ const Join = () => {
 
       if (Password === passwordConfirmCurrent) {
         setPasswordConfirmMessage("비밀번호를 똑같이 입력했어요 : )");
-        //console.log("비밀번호를 똑같이 입력했어요 : )");
         setIsPasswordConfirm(true);
       } else {
         setPasswordConfirmMessage("비밀번호가 틀려요. 다시 확인해주세요 ㅜ ㅜ");
@@ -187,6 +186,8 @@ const Join = () => {
       // //console.log("Password", Password);
       if (UserName === "") {
         alert("빈칸입니다 다시 입력해주세요!");
+      } else if (UserName.length < 2) {
+        alert("두글자 이상 입력해 주세요!");
       } else {
         window.localStorage.clear();
         const data = {
@@ -216,6 +217,8 @@ const Join = () => {
       //console.log("닉네임확인", Nickname);
       if (Nickname === "") {
         alert("빈칸입니다 다시 입력해주세요!");
+      } else if (Nickname.length < 2) {
+        alert("2글자 이상 입력해주세요!");
       } else {
         window.localStorage.clear();
         const data = {

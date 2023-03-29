@@ -225,7 +225,7 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
   }
 
   const Nav=()=>{
-    //navigate("/myinfoselect");
+    navigate("/myinfoselect");
   }
 
   const loading = <Loading/>
@@ -375,7 +375,7 @@ function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sent
     setClickCnt(clickCnt+1)
   }
   const Nav=()=>{
-    //navigate("/myinfoselect");
+    navigate("/myinfoselect");
   }
   return (
     <>
