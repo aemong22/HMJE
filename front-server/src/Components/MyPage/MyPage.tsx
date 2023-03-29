@@ -7,6 +7,7 @@ import React, { KeyboardEvent, KeyboardEventHandler, MouseEventHandler, useEffec
 import { Bar, Doughnut, Line } from "react-chartjs-2"
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
+import { useNavigate } from "react-router-dom";
 // import { useAppDispatch } from "../../Store/hooks";
 // import { changeUserNickname } from "../../Store/store";
 import Chart from 'chart.js/auto';
@@ -199,7 +200,7 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
   const [character, setCharacter] = useState(<GrayCat sendEmo={checkEmoState}/>)
   const [clickCnt, setClickCnt] = useState<number>(0)
   console.log(dataLevel);
-  
+  const navigate= useNavigate();
   useEffect(()=> {
     if (dataLevel >= 9) {
       setCharacter(<StrangeCat sendEmo={checkEmoState}/>)
@@ -228,6 +229,10 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
     setClickCnt(clickCnt+1)
   }
 
+  const Nav=()=>{
+    navigate("/myinfoselect");
+  }
+
   const loading = <Loading/>
 
   return (
@@ -248,7 +253,7 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
               <div className="flex justify-between items-center w-full">
                 {/* 칭호 & 수정 */}
                 <div className="flex justify-start items-center md:text-[1.2rem]"><img className="w-[1.5rem]" src={`/Assets/Badge/${nowbadgeImage}.png`} alt="뱃지" />&nbsp; {nowbadgeName}</div>
-                <div aria-label="정보수정" className="text-[#8E8E8E] md:text-[1rem] cursor-pointer">정보 수정⚙</div>
+                <div aria-label="정보수정" className="text-[#8E8E8E] md:text-[1rem] cursor-pointer" onClick={Nav}>정보 수정⚙</div>
               </div>
               <div className="flex flex-col justify-center items-center w-full">
                 <div className="flex justify-between items-end w-full">
@@ -354,7 +359,7 @@ function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sent
   const [putUserBadgeMalrang, {isLoading}] = usePutUserBadgeMalrangMutation()
   const [character, setCharacter] = useState(<GrayCat sendEmo={checkEmoState}/>)
   const [clickCnt, setClickCnt] = useState<number>(0)
-
+  const navigate= useNavigate();
   useEffect(()=> {
     if (dataLevel >= 9) {
       setCharacter(<StrangeCat sendEmo={checkEmoState}/>)
@@ -382,6 +387,9 @@ function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sent
   const clickCat = () => {
     setClickCnt(clickCnt+1)
   }
+  const Nav=()=>{
+    navigate("/myinfoselect");
+  }
   return (
     <>
       {/* <Toast /> */}
@@ -393,7 +401,7 @@ function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sent
               <div className="flex justify-between items-center w-full pb-1 text-[1rem]">
                 {/* 칭호 & 수정 */}
                 <div className="flex justify-start items-center"><img className="w-[1.5rem]" src={`/Assets/Badge/${nowbadgeImage}.png`} alt="뱃지" />&nbsp;{nowbadgeName}</div>
-                <div aria-label="정보수정" className="text-[#8E8E8E] cursor-pointer">정보 수정⚙</div>
+                <div aria-label="정보수정" className="text-[#8E8E8E] cursor-pointer" onClick={Nav}>정보 수정⚙</div>
               </div>
               <span className="text-left w-full mr-1 text-[1.5rem] font-semibold">{nickname}</span>
               <div className="h-[90%] w-full" onClick={clickCat}>

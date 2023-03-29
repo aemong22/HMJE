@@ -24,6 +24,7 @@ import PastTest from "./Components/Study/PastTest/PastTest";
 import AdminExam from "./Components/Admin/AdminExam";
 import ResetPassword from "./Components/Login/ResetPassword";
 import PastTestResult from "./Components/Study/PastTest/PastTestResult";
+import MyInfoSelect from "./Components/MyPage/MyInfoSelect";
 
 function App() {
   const notify = () => toast("Wow so easy!");
@@ -36,6 +37,8 @@ function App() {
         <Route path="/forgetpassword" element={<ForgetPassword />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/myinfoselect" element={<MyInfoSelect />} />
+        
         <Route path="/join" element={<Join />} />
         <Route path="/main" element={<Main />} />
         <Route path="/dictionary" element={<Dictionary />} />
