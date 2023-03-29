@@ -70,10 +70,10 @@ function IntroSection1(): JSX.Element {
               홍민정음
             </div>
             <div className="hidden sm:flex text-[1.2rem] sm:text-[1.4rem] md:text-[1.7rem] font-medium mb-4">
-              문해력실력을 향상시킬 수 있는 곳
+              문해력을 향상시킬 수 있는 곳
             </div>
             <div className="flex sm:hidden text-[0.8em] sm:text-[1rem] md:text-[1.1rem] font-medium pl-1 mb-2">
-              문해력실력을 <br />향상시킬 수 있는 곳
+              문해력을 <br />향상시킬 수 있는 곳
             </div>
             <div className="flex justify-start w-full text-[0.8rem] sm:text-[1rem] md:text-[1rem] lg:text-[1.2rem]">
               <div ref={div1} aria-label="login" className="w-full my-1 py-1 flex justify-center items-center border-2 sm:rounded-lg  rounded-md px-1 mr-1 sm:mr-2 cursor-pointer" onClick={nav} onMouseLeave={hoverOut} onMouseEnter={hover}>입장하기</div>

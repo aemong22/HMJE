@@ -581,6 +581,8 @@ export const hmjeApi = createApi({
             semo: data.semo,
             userId: data.userId,
             wrongIdList: data.wrong,
+            score: data.exp,
+            
           }
         }
       },

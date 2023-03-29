@@ -69,7 +69,7 @@ function DogamList({ get, total }: any): JSX.Element {
     return (
       <>
       <div className="w-full py-4">
-        {open && select && <DogamDetail select={select} detail={total[select]} setOpen={setOpen}/>}
+        {open && select && <DogamDetail select={select} detail={total[select-1]} setOpen={setOpen}/>}
         <div className="container max-w-screen-xl md:w-[90%] w-full mx-auto justify-evenly flex flex-wrap px-3">
         {numbers.map((num) => (
         
@@ -78,7 +78,7 @@ function DogamList({ get, total }: any): JSX.Element {
               {get.includes(num) ? (
                   <>
                     <div className="relative h-0 lg:pb-[21%] lg:w-[22%] lg:p-[1%] md:pb-[27%] md:w-[30%] md:p-[3%] sm:pb-[42%] sm:w-[45%] sm:p-[3%] pb-[75%] w-[78%] p-[3%] rounded-lg border-2 m-[1%]" onClick={()=>{
-                      setSelect(num-1)
+                      setSelect(num)
                       setOpen(true)
                       }}>
                         <div className="text-[0.9rem] text-[#000000] w-fit rounded-full border-2 border-[#AEAEAE] flex"> 

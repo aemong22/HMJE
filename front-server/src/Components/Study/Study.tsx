@@ -27,8 +27,13 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
   }
 
   
+  // wordStudy 경험치 계산
   const getExp = () => {
-    if(question[num]?.wordRating === "초급") {
+    console.log("exp 계산", decoding)
+    if(hint){
+      setExp(exp + 5)
+    }
+    else if(question[num]?.wordRating === "초급") {
       setExp(exp + 10)
 
     }else if(question[num]?.wordRating === "중급") {
@@ -36,10 +41,12 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
 
     }else if(question[num]?.wordRating === "고급") {
       setExp(exp + 20)
+
     }else {
       setExp(exp + 10)
     }
   }
+
 
   const [hint, setHint] = useState<Boolean>(false);
 
@@ -132,14 +139,19 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
      return () => clearInterval(id);
    }, [count]);
 
+
+
   // 입력
   const [input, setInput] = useState("");
+
+
   const onChange = (e:any)  => {
     if(modalOpen || resultModal) {
       console.log("이미 결과가 뜬 단어입니다.")
     }
     else{
       setInput(e.target.value)
+      
     }
   }
 
@@ -150,6 +162,8 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     resetTranscript,
     browserSupportsSpeechRecognition
   } = useSpeechRecognition();
+
+
 
 
   useEffect(() => {
@@ -170,7 +184,10 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     }
   },[input,listening])
 
-  // wordStudy, 복습
+
+
+
+  // wordStudy & 복습 제출
   const submit = () => {
     resetTranscript()
     setInput("")
@@ -182,6 +199,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
       console.log("제출")
       //정답
       if(input === decoding) {
+        getExp();
         if(hint) {
           setSemo(semo+1)
           setHint(false)
@@ -204,7 +222,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     }
   }
 
-  // contextStudy
+  // contextStudy 제출
   const submit2 = () => {
     resetTranscript()
     setInput("")
@@ -229,6 +247,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
         }
         setRight(true)
         openModal()
+        
       }
 
       // 오답 -> toast 띄우기
@@ -317,7 +336,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
                   { listening ? <> 입력 중... </>: <>음성 입력</>}
                 </button>
                 <button type="submit" onClick={()=> {
-                  if(input.length > 0 ) {
+                  if(input.length > 0 && !modalOpen && !resultModal ) {
                     if(studyType !== "contextStudy") {
                       submit();
                     }
