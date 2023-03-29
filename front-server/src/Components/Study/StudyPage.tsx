@@ -44,12 +44,10 @@ function WordStudy(): JSX.Element {
         const myArray = [...r.data.data];
         myArray.sort(() => Math.random() - 0.5);
         setQuestion(myArray)
-        console.log("받은 데이터", r.data.data)
       })
     }
     else if(studyType === "contextStudy"){
       getStudyContext(userId).then((r) => { 
-        console.log("받은데이터",r)
         return(r)
       }).then((r) => { 
         setQuestion(r.data.data)
@@ -99,6 +97,9 @@ function WordStudy(): JSX.Element {
   // 맞힘 틀림
   const [right, setRight] = useState<Boolean>(false);
 
+  // 경험치
+  const [exp, setExp] = useState<number>(0);
+
   if(LoadingContexts || LoadingWords || LoadingWrong) {
     return(
       <>
@@ -145,6 +146,7 @@ function WordStudy(): JSX.Element {
             question={question}
             studyType={studyType} 
             num={num}
+            exp={exp} setExp={setExp}
             correct={correct} setCorrect={setCorrect} 
             wrong={wrong} setWrong={setWrong}
             semo={semo}
