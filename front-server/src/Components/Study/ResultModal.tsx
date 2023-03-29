@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
 
-function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:any):JSX.Element {
+function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime ,exp, setExp}:any):JSX.Element {
   const userId = localStorage.getItem("userId");  
   const navigate = useNavigate()
 
@@ -16,26 +16,25 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
 
     useEffect(() => {
       if(studyType === "wordStudy") {
-        postStudyWordResult({correct,semo, userId,wrong}).then((result:any) =>  {;
+        postStudyWordResult({correct,semo, userId,wrong,exp}).then((result:any) =>  {
           // 레벨 상승
           if(result?.data.level > 0){
             toast.info("등급 상승!")
           }
 
         })
+
         const type = 0
         postStudyStudyTime({korEnd,korStart,studyTime,type,userId}).then((result:any) => {
           // 스터디 뱃지 얻었냐 
           if(result?.data.newBadge.length > 0){
             toast.info(`칭호 ${result?.data.newBadge.length}개를 얻으셨습니다.`)
           }
-
         })
-
       }
+
       else if (studyType === "contextStudy") {
         postStudyContextResult({correct,semo, userId,wrong}).then((result:any) =>  {
-
 
           // 뱃지, 레벨
           if(result?.data.level > 0){
@@ -49,9 +48,11 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
           // 뉴 도감 리스트
           if(result?.data.data.length > 0) {
             toast.info(`새로운 도감 ${result?.data.data.length}개를 얻으셨습니다.`)
+            setExp((result?.data.data.length)*30)
           }
 
         })
+
         const type = 1
         postStudyStudyTime({korEnd,korStart,studyTime,type,userId}).then((result:any) => {
 
@@ -60,8 +61,8 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
               toast.info(`칭호 ${result?.data.newBadge.length}개를 얻으셨습니다.`)
             }
         })
-
       }
+
       else if(studyType === "wrongStudy") {
         const type = 3
         postStudyStudyTime({korEnd,korStart,studyTime,type,userId}).then((result:any) => {
@@ -74,8 +75,6 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
 
     },[])
 
-    let getExp = 0;
-
     // 학습 시작 시간
     const endTime = Date.now()
     let studyTime = Math.round((endTime - startTime) / 1000)
@@ -86,14 +85,8 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
     // 끝 시간 커스텀
     const korEnd = new Date(endTime).toISOString();
 
-    // 끝 시간 커스텀
 
 
-
-    // 단어 학습
-    if(studyType === "wordStudy") {
-        getExp = (correct.length * 10) + (semo * 5)
-    }
 
     if(resultLoading || timeLoading || resultLoading2) {
       console.log("로딩중")
@@ -139,20 +132,18 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime}:
 
                 </div>
 
-                <div className="py-2 px-4 text-sm text-[#5F5F5F]">학습시간 : <span className="text-[#A87E6E] font-bold pr-2">{studyTime}초 </span>{" "}
-                  {studyType === "wrongStudy" &&
-                    <>획득 경험치 : <span className="text-[#A87E6E] font-bold">{getExp}</span></>
-                  }
-                
-                  </div>
+                <div className="py-1 px-4 text-sm text-[#5F5F5F]">학습시간 : <span className="text-[#A87E6E] font-bold pr-2">{studyTime}초 </span>{" "}
+                    획득 경험치 : <span className="text-[#A87E6E] font-bold">{exp}</span>
+                </div>
+
                 {/*footer*/}
-                <div className="flex md:justify-between flex-wrap px-4 md:w-auto w-full pb-2">
+                <div className="px-4 md:w-auto w-full pb-2">
                 {studyType !== "contextStudy" ? 
-                  <div className="text-[0.7rem] text-[#B2B2B2] flex flex-col justify-center flex-wrap">틀린 단어는 오답공책에서 확인할 수 있습니다.</div>
+                  <div className="text-[0.9rem] text-[#B2B2B2] flex flex-col justify-center flex-wrap">틀린 단어는 오답공책에서 확인할 수 있습니다.</div>
                 : 
-                  <div className="text-[0.7rem] text-[#B2B2B2] flex flex-col justify-center flex-wrap">획득한 도감은 문맥도감에서 확인할 수 있습니다.</div>
+                  <div className="text-[0.9rem] text-[#B2B2B2] flex flex-col justify-center flex-wrap">획득한 도감은 문맥도감에서 확인할 수 있습니다.</div>
                 }
-                  <div className="flex flex-wrap md:pt-0 pt-1 justify-end md:w-fit w-full">
+                  <div className="flex flex-wrap md:pt-0 pt-1 justify-end w-full">
                     {studyType !== "contextStudy" ?
                       <>
                         <button

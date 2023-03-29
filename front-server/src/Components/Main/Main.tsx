@@ -227,6 +227,7 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
   localStorage.setItem("nickname", userMyInfo.nickname);
   const navigate = useNavigate();
 
+  
   // 경험치 비율 width
   const expWidth =
     (userMyInfo.exp / levelInfo[userMyInfo.level].totalExp) * 100 + "%";
@@ -240,19 +241,10 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
   const s = time;
   let checkEmoState:number = 1
 
-  const [character , setCharacter] = useState(<GrayCat sendEmo={checkEmoState}/>);
+  const [character, setCharacter] = useState<any>()
 
   useEffect(()=> {
-    
-    if (userMyInfo?.level >= 9) {
-      setCharacter(<StrangeCat sendEmo={checkEmoState}/>)
-    } else if (7 <= userMyInfo?.level && userMyInfo?.level <= 8) {
-      setCharacter(<GrayCat sendEmo={checkEmoState}/>)
-    } else if (4 <= userMyInfo?.level && userMyInfo?.level <= 6) {
-      setCharacter(<MixCat sendEmo={checkEmoState}/>)
-    } else {
-      setCharacter(<OrangeCat sendEmo={checkEmoState}/>)
-    }
+    setCharacter(<OrangeCat sendEmo={checkEmoState} dataLevel={userMyInfo.level}/>)
   },[])
 
 
