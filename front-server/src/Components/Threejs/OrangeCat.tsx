@@ -21,7 +21,7 @@ function OrangeCat({sendEmo, dataLevel}:any) {
   },[])
   return (
     <div className='w-full h-full mt-2'>
-      <Canvas style={{width: '100%', height: '100%', borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem'}}>
+      <Canvas style={{width: '100%', height: '100%', borderRadius: '0.5rem'}}>
         <mesh scale={1} position={[0,-2.4,2.5]}>
           {/* 로딩중일때  */}
           <Suspense fallback={null}>
@@ -29,7 +29,7 @@ function OrangeCat({sendEmo, dataLevel}:any) {
             <directionalLight 
             castShadow
             position={[0, 30, 0]}
-            intensity={1}
+            intensity={0}
             shadow-mapSize-width={1024}
             shadow-mapSize-height={1024}
             shadow-camera-far={50}
