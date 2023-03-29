@@ -47,7 +47,9 @@ public class StudyController {
     @PostMapping("/word/result")
     public ResponseEntity<Map<String, Object>> wordResult(@RequestBody StudyRequestDto requestDto){
         Map<String, Object> response = new HashMap<>();
-        Integer rightexp = studyService.wordResult(requestDto)*10 + requestDto.getSemo()*5; //맞은단어,틀린단어 체크
+//        Integer rightexp = studyService.wordResult(requestDto)*10 + requestDto.getSemo()*5; //맞은단어,틀린단어 체크
+        studyService.wordResult(requestDto);
+        Integer rightexp = requestDto.getScore();
         userService.updateStudyResult(requestDto); //오늘의 통계 OXV 체크
         userService.updateStudyExp(requestDto.getUserId(), rightexp); //경험치
         Integer newlevel = userService.levelup(requestDto.getUserId()); //레벨업
