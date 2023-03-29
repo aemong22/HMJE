@@ -110,7 +110,7 @@ const PassWord = () => {
       alert("새 비밀번호를 동일하게 입력해주세요");
     }
   };
-  const updown="relative z-0 my-7 w-[100%]"
+  const updown = "relative z-0 my-7 w-[100%]";
   return (
     <>
       <div className="max-w-screen-md mx-auto  w-full my-4">
@@ -182,20 +182,24 @@ const PassWord = () => {
               {passwordConfirmMessage}
             </div>
           )}
-          <div className="flex flex-row justify-between pt-5">
+          <div className="flex flex-row justify-between w-full">
             <button
-              className=" p-3 rounded-2xl bg-[#B7B7B7] text-white font-extrabold"
+              className="mt-7 cursor-pointer w-[45%] h-[3.5rem] rounded-lg font-extrabold bg-[#B7B7B7] text-white disabled:cursor-not-allowed"
               onClick={() => {
                 navigate("/myinfoselect");
               }}
             >
-              돌아가기
-            </button>            
+              <div className="flex justify-center items-center ">
+                <div>취소</div>
+              </div>
+            </button>
             <button
-              className=" p-3 rounded-2xl bg-[#F5BEA4] text-white font-extrabold"
+              className="mt-7 cursor-pointer w-[45%] h-[3.5rem] rounded-lg font-extrabold bg-[#F0ECE9] text-[#A87E6E] disabled:cursor-not-allowed disabled:opacity-50 "
               onClick={modify}
             >
-              수정하기
+              <div className="flex justify-center items-center ">
+                <div>수정하기</div>
+              </div>
             </button>
           </div>
         </div>
