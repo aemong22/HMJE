@@ -5,19 +5,6 @@ import loadingLottie from "./lottie/hangulnal.json";
 
 function Loading():JSX.Element {
 
-  // const option = {
-  //   animationData: loadingLottie,
-  //   loop: true,
-  // }
-
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: loadingLottie,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
-  };
   return(
     <>
       <div className="flex justify-center items-center w-screen h-screen">
