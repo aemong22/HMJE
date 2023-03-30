@@ -47,7 +47,7 @@ const Secession = (): JSX.Element => {
           <button
             className=" p-3 rounded-2xl bg-[#B7B7B7] text-white font-extrabold"
             onClick={() => {
-              navigate("/myinfoselect");
+              navigate("/myinfoselect", { state: { RightAccess: true } });
             }}
           >
             돌아가기

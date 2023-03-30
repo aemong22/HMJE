@@ -94,77 +94,76 @@ function Login(): JSX.Element {
 
   return (
     <>
-      <IntroNavbar />
       <Toast />
-      <div className="">
-        {/* <!-- Example --> */}
-        <div className="flex min-h-screen max-w-screen-x">
-          {/* <!-- Container --> */}
-          <div className="flex flex-row justify-center w-full">
-            {/* <!-- Login --> */}
-            <div className="flex flex-col items-center justify-center px-10">
-              {/* <!-- Login box --> */}
-              <div className="flex flex-col justify-center">
-                <div className="flex flex-col items-center space-y-2 text-center">
-                  <div className="text-5xl font-extrabold text-[#A87E6E] md:text-6xl">
-                    홍민정음
+
+      <div className="flex flex-col justify-between h-[110vh]">
+        <IntroNavbar />
+        {/* <!-- Container --> */}
+        <div className="flex flex-row justify-center w-full">
+          {/* <!-- Login --> */}
+          <div className="flex flex-col items-center justify-center">
+            {/* <!-- Login box --> */}
+            <div className="flex flex-col justify-center">
+              <div className="flex flex-col items-center space-y-2 text-center">
+                <div className="text-5xl font-extrabold text-[#A87E6E] md:text-6xl">
+                  홍민정음
+                </div>
+                <div className="text-[#BD9789] font-extrabold text-[20px] leading-7 md:text-[24px] md:leading-8  w-[20rem] ">
+                  즐거운 단어 학습
+                </div>
+              </div>
+              <div className="flex flex-col max-w-xl w-[100%] lg:w-[50rem] space-y-5">
+                <div className="text-[#A87C6E] font-extrabold text-[22px] leading-7">
+                  계정
+                </div>
+                <input
+                  type="text"
+                  placeholder="계정"
+                  className="flex px-3 py-2 md:px-4 md:py-3 border-2 focus:outline-none focus:border-[#d2860c] border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
+                  onChange={ChangeId}
+                />
+                <div className="text-[#A87C6E] font-extrabold text-[22px] leading-7">
+                  비밀번호
+                </div>
+                <input
+                  type="password"
+                  placeholder="비밀번호"
+                  className="flex px-3 py-2 md:px-4 md:py-3 border-2 focus:outline-none focus:border-[#d2860c] border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
+                  onChange={ChangePassword}
+                  onKeyPress={handleOnKeyPress}
+                />
+                <button
+                  className="flex items-center justify-center flex-none px-3 py-2 md:px-4 md:py-3 border-2 rounded-lg font-extrabold bg-[#BF9F91] text-white"
+                  onClick={Enter}
+                >
+                  입장하기
+                </button>
+                <div
+                  className={`flex flex-row-reverse items-center text-[#666666]  h-4 text-base`}
+                >
+                  <div
+                    id="forgetPassword"
+                    className=" cursor-pointer font-extrabold "
+                    onClick={Nav}
+                  >
+                    비밀번호 찾기
                   </div>
-                  <div className="text-[#BD9789] font-extrabold text-[20px] leading-7 md:text-[24px] md:leading-8  w-[20rem] ">
-                    즐거운 단어 학습
+                  <div
+                    id="forgetId"
+                    className=" cursor-pointer font-extrabold px-10"
+                    onClick={Nav}
+                  >
+                    계정 찾기
+                  </div>
+                  <div
+                    id="join"
+                    className=" cursor-pointer font-extrabold "
+                    onClick={Nav}
+                  >
+                    가입하기
                   </div>
                 </div>
-                <div className="flex flex-col max-w-xl w-[100%] lg:w-[50rem] space-y-5">
-                  <div className="text-[#A87C6E] font-extrabold text-[22px] leading-7">
-                    계정
-                  </div>
-                  <input
-                    type="text"
-                    placeholder="계정"
-                    className="flex px-3 py-2 md:px-4 md:py-3 border-2 focus:outline-none focus:border-[#d2860c] border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
-                    onChange={ChangeId}
-                  />
-                  <div className="text-[#A87C6E] font-extrabold text-[22px] leading-7">
-                    비밀번호
-                  </div>
-                  <input
-                    type="password"
-                    placeholder="비밀번호"
-                    className="flex px-3 py-2 md:px-4 md:py-3 border-2 focus:outline-none focus:border-[#d2860c] border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
-                    onChange={ChangePassword}
-                    onKeyPress={handleOnKeyPress}
-                  />
-                  <button
-                    className="flex items-center justify-center flex-none px-3 py-2 md:px-4 md:py-3 border-2 rounded-lg font-extrabold bg-[#BF9F91] text-white"
-                    onClick={Enter}
-                  >
-                    입장하기
-                  </button>
-                  <div
-                    className={`flex flex-row-reverse items-center text-[#666666]  h-4 text-base`}
-                  >
-                    <div
-                      id="forgetPassword"
-                      className=" cursor-pointer font-extrabold "
-                      onClick={Nav}
-                    >
-                      비밀번호 찾기
-                    </div>
-                    <div
-                      id="forgetId"
-                      className=" cursor-pointer font-extrabold px-10"
-                      onClick={Nav}
-                    >
-                      계정 찾기{" "}
-                    </div>
-                    <div
-                      id="join"
-                      className=" cursor-pointer font-extrabold "
-                      onClick={Nav}
-                    >
-                      가입하기
-                    </div>
-                  </div>
-                  <div className="flex justify-center items-center">
+                {/* <div className="flex justify-center items-center">
                     <div className="w-[45%] border border-[#B18978]"></div>
                     <div className="w-[10%] text-center text-[#BF9F91] font-extrabold text-base">
                       또는
@@ -178,27 +177,13 @@ function Login(): JSX.Element {
                   >
                     <span className="absolute left-4"></span>
                     <span className=""> 소셜 로그인</span>
-                  </button>
-                  {/* <div className="flex lg:hidden justify-between items-center w-full py-4">
-                    <div className="flex items-center justify-start space-x-3"></div>
-                    <div className="flex items-center space-x-2">
-                      <span>회원이 아니신가요? </span>
-                      <a
-                        href="#"
-                        className="underline font-medium text-[#070eff]"
-                      >
-                        가입하기
-                      </a>
-                    </div>
-                  </div> */}
-                </div>
+                  </button> */}
               </div>
             </div>
           </div>
         </div>
-        {/* <!-- Example --> */}
+        <Footer />
       </div>
-      <Footer />
     </>
   );
 }
