@@ -210,10 +210,10 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @ApiOperation(value = "말랑 이스터에그 뱃지")
-    @PutMapping("/badge/malrang/{userId}")
-    public ResponseEntity<Map<String, Object>> badgecheckMalrang(@PathVariable(value = "userId") Long userId){
+    @PutMapping("/badge/malrang/{userId}/{badgeId}")
+    public ResponseEntity<Map<String, Object>> badgecheckMalrang(@PathVariable(value = "userId") Long userId,@PathVariable(value = "badgeId") Long badgeId){
         Map<String, Object> response = new HashMap<>();
-        List<Long> newbadge = badgeService.badgecheckMalrang(userId);
+        List<Long> newbadge = badgeService.badgecheckMalrang(userId,badgeId);
         response.put("newbadge", newbadge);
         response.put("message", "success");
         return new ResponseEntity<>(response, HttpStatus.OK);
