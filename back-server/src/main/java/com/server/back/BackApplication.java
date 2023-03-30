@@ -13,6 +13,12 @@ public class BackApplication {
 		return new BCryptPasswordEncoder();
 	}
 
+	@PostConstruct
+	public void started() {
+		// timezone Asia/Seoul 셋팅
+		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(BackApplication.class, args);
 	}
