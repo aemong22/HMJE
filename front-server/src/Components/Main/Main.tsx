@@ -545,12 +545,12 @@ function News({ newsKeyword }: any): JSX.Element {
               }}
             >
               <div
-                className={`${style.menu}`}
+                className={`${style.menu} cursor-pointer hover:scale-125 transition-all duration-200`}
                 style={{
                   backgroundImage: `url('/Assets/Icon/${words[0]?.category}.png')`,
                 }}
               ></div>
-              {words[0]?.category}
+              <span className="cursor-pointer">{words[0]?.category}</span>
             </div>
 
             <div
@@ -564,12 +564,12 @@ function News({ newsKeyword }: any): JSX.Element {
               }}
             >
               <div
-                className={`${style.menu}`}
+                className={`${style.menu} cursor-pointer hover:scale-125 transition-all duration-200`}
                 style={{
                   backgroundImage: `url('/Assets/Icon/${words[1]?.category}.png')`,
                 }}
               ></div>
-              {words[1]?.category}
+              <span className="cursor-pointer">{words[1]?.category}</span>
             </div>
 
             <div
@@ -583,12 +583,12 @@ function News({ newsKeyword }: any): JSX.Element {
               }}
             >
               <div
-                className={`${style.menu}`}
+                className={`${style.menu} cursor-pointer hover:scale-125 transition-all duration-200`}
                 style={{
                   backgroundImage: `url('/Assets/Icon/${words[2]?.category}.png')`,
                 }}
               ></div>
-              {words[2]?.category}
+              <span className="cursor-pointer">{words[2]?.category}</span>
             </div>
 
             <div
@@ -602,12 +602,12 @@ function News({ newsKeyword }: any): JSX.Element {
               }}
             >
               <div
-                className={`${style.menu}`}
+                className={`${style.menu} cursor-pointer hover:scale-125 transition-all duration-200`}
                 style={{
                   backgroundImage: `url('/Assets/Icon/${words[3]?.category}.png')`,
                 }}
               ></div>
-              {words[3]?.category}
+              <span className="cursor-pointer">{words[3]?.category}</span>
             </div>
           </div>
         </div>

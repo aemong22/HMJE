@@ -16,7 +16,7 @@
   }
 
   .loadingAnimation {
-    animation: ddongddong 4s infinite;
+    animation: ddongddong 3s infinite;
     font-size: 2.2rem;
     font-weight: 600;
     font-family: EBSJSKMedium;
@@ -63,7 +63,7 @@
   }
 
   .errorAnimation {
-    animation: ddongddong2 4s infinite;
+    animation: ddongddong 2s infinite;
     font-size: 2.2rem;
     font-weight: 600;
     font-family: EBSJSKMedium;
@@ -97,8 +97,8 @@
     animation-delay: 1.8s;
   }
 
-  @keyframes ddongddong2 {
-    0% {
+  @keyframes ddongddong {
+    0%,15% {
       transform: translateY(0px);
     }
 

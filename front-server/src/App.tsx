@@ -45,7 +45,6 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/myinfoselect" element={<MyInfoSelect />} />
         <Route path="/myinfoselectcheck" element={<MyInfoSelectCheck />} />
-        <Route path="/loading" element={<ErrorPage />} />
 
         <Route path="/changenickname" element={<ChangeNickname />} />
         <Route path="/changepassword" element={<ChangePassword />} />
@@ -76,6 +75,7 @@ function App() {
           <Route path="exam" element={<AdminExam />} />
         </Route>
         
+        <Route path="*" element={<ErrorPage/>} />
       </Routes>
     </>
   );
