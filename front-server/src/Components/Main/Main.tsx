@@ -23,8 +23,6 @@ import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
 import Loading from "../Common/Loading";
 import StrangeCat from "../Threejs/StrangeCat";
-import MixCat from "../Threejs/MixCat";
-import GrayCat from "../Threejs/GrayCat";
 
 function Main(): JSX.Element {
   const navigate = useNavigate();
@@ -274,7 +272,7 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo, checkEmoState}: any): JSX.
     <>
     {openModal && <StudyStartModal setOpenModal={setOpenModal} />}
     <div className="bg-[#F0ECE9] w-full">
-    <div className="container max-w-screen-xl w-full mx-auto lg:flex flex-col md:flex-row md:justify-around items-center text-center lg:px-5 px-0 lg:py-[2.7rem] py-4 bg-[#F0ECE9]">
+    <div className="container max-w-screen-xl w-full mx-auto lg:flex flex-col md:flex-row md:justify-around text-center lg:px-5 px-0 lg:py-[2.7rem] py-4 bg-[#F0ECE9]">
         <div className="flex flex-col lg:w-[45%] w-[100%]">
           <div className="flex justify-center items-center lg:w-[90%] w-[95%] mx-auto">
             <div className="flex flex-col justify-center items-center w-full bg-white py-4 px-4 rounded-md">
@@ -309,12 +307,13 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo, checkEmoState}: any): JSX.
             </div>
           </div>
         </div>
-        <div className="flex justify-center items-center lg:w-[50%] pt-[1rem] pb-[0.5rem] h-[90%] px-4">
-          <div className="flex justify-center items-center w-full">
+
+        <div className="flex justify-start lg:w-[50%] px-4 py-8">
+          <div className="flex justify-start w-full">
             {/* 메인 데이터 */}
             <div className="flex flex-col justify-start items-start w-full">
-            <div className="md:text-[2.5rem] sm:text-[2rem] text-[1.7rem] font-bold w-full border-b-2 border-gray-100 py-1">오늘의 학습</div>
-            <div className="w-full flex flex-wrap justify-center items-center">
+            <div className="md:text-[2.5rem] sm:text-[2rem] text-[1.7rem] font-bold w-full border-b-2 border-gray-100 py-3">오늘의 학습</div>
+            <div className="w-full flex flex-wrap justify-center items-center py-2">
                 <div className="md:text-[1.1rem] sm:text-[1rem] text-[0.8rem] px-4 text-zinc-500">학습 시간</div>
                 <div className="md:text-[3.2rem] sm:text-[2.5rem] text-[2rem] font-bold text-[#B18978]">
                   {h > 0 && <>{h}<span className="md:text-[1.3rem] text-[1rem] px-2">시간 </span><span className="px-2"></span></>}
@@ -342,7 +341,7 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo, checkEmoState}: any): JSX.
 
 
               {/* 이동 버튼 */}
-              <div className="flex justify-center items-center bg-[#C6A89A] mt-5 w-full text-white text-[1.2rem] font-semibold rounded-lg">
+              <div className="flex justify-center items-center bg-[#C6A89A] mt-7 w-full text-white text-[1.2rem] font-semibold rounded-lg">
                 <div className="flex justify-around items-center w-full py-2">
                   <div className="flex flex-col justify-center items-center w-full">
                     <div className="flex justify-around items-center w-full py-2">
@@ -476,6 +475,7 @@ function StudyContent({ userScore }: any): JSX.Element {
     </>
   );
 }
+
 
 // 뉴스 ( 신문 핵심 단어 )
 function News({ newsKeyword }: any): JSX.Element {
@@ -612,7 +612,7 @@ function News({ newsKeyword }: any): JSX.Element {
           </div>
         </div>
 
-        <div className="border-2 border-gray-100 bg-[#F9F9F9] p-4 mb-4">
+        <div className="border-2 border-gray-100 bg-[#F9F9F9] p-4 mb-2">
           <ReactWordCloud
             words={words[select]?.words}
             callbacks={{
@@ -632,6 +632,7 @@ function News({ newsKeyword }: any): JSX.Element {
             }}
           />
         </div>
+        <div className="mb-2 text-[#A2A2A2] text-[0.8rem] text-end">{newsKeyword[0]?.created_at?.split('T')[0]} {newsKeyword[0]?.created_at?.split('T')[1]?.split('.')[0]} {" "}기준</div>
 
         <div className="md:text-[1.8rem] sm:text-[1.4rem] text-[1.2rem] font-bold">
           {selectWord?.detail?.wordName}
@@ -848,7 +849,7 @@ function Ranking({levelInfo, levelRank, wordRank, userMyInfo, userMyStudy}:any):
                       {wordRank.map((user:any,idx:number) => (
                       <div key={idx} className={`flex justify-between rounded-xl bg-[#ffffff] m-2 md:px-5 sm:px-4 px-2 py-3  sm:text-[1.1rem] text-[0.9rem] text-start`}>
                         <div className="flex">
-                          <div className="font-bold flex items-center sm:px-6 px-2">{idx+1}등</div>
+                          <div className={`font-bold flex items-center sm:px-6 px-2 ${idx===0? "text-yellow-500": (idx===1?"text-gray-400":(idx===2?"text-yellow-600":""))}`}>{idx+1}등</div>
                           <div className={`${style.badgeImg2}`} style={{backgroundImage:`url('/Assets/Badge/${user.badgeImage}.png')`}}></div>
                           <div className="px-1">
                             <div className="text-[0.8rem]">{user.badgeName}</div>
@@ -868,7 +869,7 @@ function Ranking({levelInfo, levelRank, wordRank, userMyInfo, userMyStudy}:any):
                 {levelRank.map((user:any,idx:number) => (
                     <div key={idx} className={`flex justify-between rounded-xl bg-[#ffffff] m-2 md:px-5 sm:px-4 px-2 py-3  sm:text-[1.1rem] text-[0.9rem] text-start`}>
                       <div className="flex">
-                        <div className="font-bold flex items-center sm:px-6 px-2">{idx+1}등</div>
+                        <div className={`font-bold flex items-center sm:px-6 px-2 ${idx===0? "text-yellow-500": (idx===1?"text-gray-400":(idx===2?"text-yellow-600":""))}`}>{idx+1}등</div>
                         <div className={`${style.badgeImg2}`} style={{backgroundImage:`url('/Assets/Badge/${user.badgeImage}.png')`}}></div>
                         <div className="px-1">
                           <div className="text-[0.8rem]">{user.badgeName}</div>

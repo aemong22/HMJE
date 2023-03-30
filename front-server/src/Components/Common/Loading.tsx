@@ -1,16 +1,47 @@
 import styles from "./Common.module.css";
+import Lottie from "lottie-react";
+import loadingLottie from "./lottie/hangulnal.json";
 
 
 function Loading():JSX.Element {
 
-    return(
-        <>
-         <div className="mx-auto container max-w-screen-xl h-[100vh] flex flex-col justify-center">
-            <div className={`${styles.loading} w-[10rem] h-[10rem]`}></div>
-            <div className="text-[2.5rem] text-center">조금만 기다려주세요.</div>
-         </div>
-        </>
-    )
+  // const option = {
+  //   animationData: loadingLottie,
+  //   loop: true,
+  // }
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: loadingLottie,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
+  };
+  return(
+    <>
+      <div className="flex justify-center items-center w-screen h-screen">
+        <div className="flex flex-col justify-center items-center">
+          <Lottie animationData={loadingLottie} className={`${styles.loadingHangeul}`} style={{width: '15rem', height: '15rem', marginBottom: '1rem'}}/>
+          <div className="flex ">
+            <div className={`${styles.loadingAnimation}`}>잠</div>
+            <div className={`${styles.loadingAnimation}`}>시</div>
+            <div className={`${styles.loadingAnimation}`}>만</div>
+            <div className={`${styles.loadingAnimation}`}>&nbsp;</div>
+            <div className={`${styles.loadingAnimation}`}>기</div>
+            <div className={`${styles.loadingAnimation}`}>다</div>
+            <div className={`${styles.loadingAnimation}`}>려</div>
+            <div className={`${styles.loadingAnimation}`}>주</div>
+            <div className={`${styles.loadingAnimation}`}>시</div>
+            <div className={`${styles.loadingAnimation}`}>오</div>
+            <div className={`${styles.loadingAnimation}`}>.</div>
+            <div className={`${styles.loadingAnimation}`}>.</div>
+            <div className={`${styles.loadingAnimation}`}>.</div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
 }
 
 export default Loading;

@@ -53,12 +53,12 @@ type Worddict = {
 const DictionaryPage = () => {
   // =========================store============================
 
-  const dictPage = useAppSelector((state: any) => {
-    return state.dictPage;
-  });
-  const dictList = useAppSelector((state: any) => {
-    return state.dictList;
-  });
+  // const dictPage: string = useAppSelector((state) => {
+  //   return state.dictPage;
+  // });
+  // const dictList: string = useAppSelector((state) => {
+  //   return state.dictList;
+  // });
 
   // =========================RTK=========================
   const first = {
@@ -112,14 +112,7 @@ const DictionaryPage = () => {
   }, []);
 
   // ===============charPage==================
-  const handlePageChange = (page: any) => {
-    // const a = (page * items) / 10;
-    // console.log("무슨값?", a);
-    // console.log(아아);
-
-    // console.log("keyword는", keyWord);
-    // console.log("page는?", page);
-
+  const handlePageChange = (page: any) => {    
     const tempdata = {
       filter: filter,
       keyword: keyWord,
@@ -408,7 +401,7 @@ const CharPagination: React.FC<Props> = ({
     <div className="flex flex-row w-full items-center justify-between pt-6 ">
       {newPageNumbers.map((pageNumber: any) => (
         <button
-          className={`${buttonTail} text-ellipsis `}
+          className={`${buttonTail} text-ellipsis active:bg-[#b97912]  `} 
           key={pageNumber.initialConsonants}
           onClick={() => handlePageChange(pageNumber)}
         >
