@@ -255,9 +255,9 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
     <>
     {openModal && <StudyStartModal setOpenModal={setOpenModal} />}
     <div className="bg-[#F0ECE9] w-full">
-    <div className="container max-w-screen-xl w-full mx-auto md:flex flex-col md:flex-row md:justify-around items-center text-center  md:px-5 px-0 md:py-[2.7rem] py-4 bg-[#F0ECE9]">
-        <div className="flex flex-col md:w-[45%] w-[100%]">
-          <div className="flex justify-center items-center md:w-[90%] w-[95%] mx-auto">
+    <div className="container max-w-screen-xl w-full mx-auto lg:flex flex-col md:flex-row md:justify-around items-center text-center lg:px-5 px-0 lg:py-[2.7rem] py-4 bg-[#F0ECE9]">
+        <div className="flex flex-col lg:w-[45%] w-[100%]">
+          <div className="flex justify-center items-center lg:w-[90%] w-[95%] mx-auto">
             <div className="flex flex-col justify-center items-center w-full bg-white py-4 px-4 rounded-md">
               <div className="h-[19rem] w-full">
                 {character}
@@ -281,7 +281,7 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
                     <div className="text-[0.9rem] text-zinc-400 text-end font-medium"> {userMyInfo.exp} / {userMyInfo.level > 9 ? <> ∞ </> : <>{levelInfo[userMyInfo.level].totalExp} </> }</div>
                   </div>
                 </div>
-                <div className="bg-[#F0ECE9] rounded-lg mt-2">
+                <div className="bg-[#F0ECE9] rounded-lg mt-2 overflow-hidden">
                   <div className="bg-[#F7CCB7] rounded-lg py-[0.5rem]" style={{width:`${expWidth}` , maxWidth:"100%"}}></div>
                 </div>
 
@@ -290,7 +290,7 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
             </div>
           </div>
         </div>
-        <div className="flex justify-center items-center md:w-[50%] pt-[1rem] pb-[0.5rem] h-[90%] px-4">
+        <div className="flex justify-center items-center lg:w-[50%] pt-[1rem] pb-[0.5rem] h-[90%] px-4">
           <div className="flex justify-center items-center w-full">
             {/* 메인 데이터 */}
             <div className="flex flex-col justify-start items-start w-full">
@@ -306,15 +306,15 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
             </div>
 
             <div className="flex justify-around w-full">
-              <div className="w-[50%]">
-                <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold text-[#FFA800]">
-                  {userMyStudy.todayWord}<span className="md:text-[1.3rem] text-[1rem] px-2">개 / {userMyStudy.totalWord} 개</span>
+              <div className="w-[55%] ">
+                <div className="sm:text-[2.5rem] text-[2rem] font-bold text-[#FFA800] flex flex-wrap items-end justify-center">
+                  {userMyStudy.todayWord}<span className="md:text-[1.2rem] text-[1rem] px-1 pb-2">개</span><div className="md:text-[1.2rem] text-[1rem] px-2 pb-2">/ {userMyStudy.totalWord} 개</div>  
                 </div>
                 <div className="md:text-[1.1rem] sm:text-[1rem] text-[0.8rem] text-zinc-500">단어 학습</div>
               </div>
-              <div className="w-[50%]">
-                <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold text-[#FFA800]">
-                  {userMyStudy.todayContext}<span className="md:text-[1.3rem] text-[1rem] px-2">개 / {userMyStudy.totalContext} 개</span>
+              <div className="w-[45%]">
+                <div className="sm:text-[2.5rem] text-[2rem] font-bold text-[#FFA800] flex flex-wrap items-end justify-center">
+                  {userMyStudy.todayContext}<span className="md:text-[1.2rem] text-[1rem] px-1 pb-2">개</span> <div className="md:text-[1.2rem] text-[1rem] px-2 pb-2">/ {userMyStudy.totalContext} 개</div>
                 </div>
                 <div className="md:text-[1.1rem] sm:text-[1rem] text-[0.8rem] text-zinc-500">문맥 학습</div>
               </div>
