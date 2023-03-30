@@ -570,6 +570,18 @@ export const hmjeApi = createApi({
       invalidatesTags: (result, error, arg) => [{ type: "Api" }]
     }),
 
+    // 18. 사용자 확인 (수정페이지)
+    postUserChange: builder.mutation({
+      query: (data) => {
+        const [bodydata, userId] = data
+        return {
+          url: `user/change/${userId}`,
+          method: 'POST',
+          body: bodydata
+        }
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Api" }]
+    }),
 
     // ---------------STUDY---------------
 
@@ -597,7 +609,6 @@ export const hmjeApi = createApi({
             userId: data.userId,
             wrongIdList: data.wrong,
             score: data.exp,
-            
           }
         }
       },
@@ -837,6 +848,7 @@ export const {
   usePutUserChangePasswordMutation,
   usePutUserChangePhonenumberMutation,
   useDeleteUserMutation,
+  usePostUserChangeMutation,
 
   // STUDY
   useLazyGetStudyWordQuery,

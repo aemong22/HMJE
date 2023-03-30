@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { toast, ToastContainer, Slide, cssTransition } from "react-toastify";
 import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
 
 const MyInfoSelect = (): JSX.Element => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (location.state !== null) {
@@ -16,13 +17,17 @@ const MyInfoSelect = (): JSX.Element => {
         ...window.history.state,
         usr: {
           ...window.history.state.usr,
-          ModifyResult: 0,          
+          ModifyResult: 0,
         },
       };
       const pageTitle = "Title";
       const pageUrl = "/myinfoselect";
       window.history.replaceState(stateData, pageTitle, pageUrl);
+    } else {
+      alert("잘못된접근입니다");
+      navigate("/myinfoselectcheck");
     }
+    return () => {};
   }, []);
 
   return (
@@ -73,20 +78,21 @@ const Select = (): JSX.Element => {
       <div className="font-extrabold text-[#A87E6E] text-4xl  sm:text-4xl md:text-4xl lg:text-6xl py-[1rem] text-center">
         정보수정
       </div>
-      <button id="password" className={normalbutton} onClick={Nav}>
-        비밀번호 수정
-      </button>
+
       <button id="nickname" className={normalbutton} onClick={Nav}>
         별명 수정
       </button>
       <button id="phonenum" className={normalbutton} onClick={Nav}>
         전화번호 수정
       </button>
+      <button id="password" className={normalbutton} onClick={Nav}>
+        비밀번호 수정
+      </button>
       <button id="secession" className={secessionbutton} onClick={Nav}>
         회원탈퇴
       </button>
       <button id="back" className={normalbutton} onClick={Nav}>
-        나가기
+        뒤로가기
       </button>
     </div>
   );

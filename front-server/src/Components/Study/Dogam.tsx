@@ -3,9 +3,11 @@ import {useGetDogamUserIdQuery ,useGetDogamQuery} from "../../Store/api"
 import { useState } from "react";
 import DogamDetail from "./DogamDetail";
 import Loading from "../Common/Loading";
+import classNames from "classnames";
 
 function Dogam(): JSX.Element {
   const userId = localStorage.getItem("userId");
+  const [toggle , setToggle] = useState<Boolean>(true);
 
   const {
     data: get,
@@ -31,8 +33,8 @@ function Dogam(): JSX.Element {
       <>
         <div className="w-full h-screen">
           <Navbar />
-          <DogamHeader num={Object.keys(get.data).length} />
-          <DogamList get={get.data} total={total.data} />
+          <DogamHeader num={Object.keys(get.data).length} toggle={toggle} setToggle={setToggle} />
+          <DogamList get={get.data} total={total.data} toggle={toggle} />
         </div>
       </>
     );
@@ -40,7 +42,8 @@ function Dogam(): JSX.Element {
 }
 export default Dogam;
 
-function DogamHeader({ num }: any): JSX.Element {
+function DogamHeader({ num, toggle, setToggle }: any): JSX.Element {
+
   return (
     <>
       <div className="w-full border-b-2 border-[#D0B8A8]">
@@ -50,8 +53,22 @@ function DogamHeader({ num }: any): JSX.Element {
           </div>
 
           <div className="flex justify-end md:pt-6 pt-4 text-[#A2A2A2]">
-            <div className="md:px-6 px-4 py-1 mr-2 flex flex-col justify-end rounded-t-lg md:text-[1.2rem] text-[0.9rem]">
+            <div className="md:px-6 px-2 py-1 mr-1 flex flex-col justify-end rounded-t-lg md:text-[1.2rem] text-[0.9rem]">
               {num} / 100
+            </div>
+            <div className="flex flex-col justify-end sm:pb-1 pb-0">
+              <div>
+                <input
+                  className={classNames("mt-[0.3rem] mr-2 h-3.5 w-8 appearance-none rounded-[0.4375rem] before:pointer-events-none before:absolute before:h-3.5 before:w-3.5 before:rounded-full before:bg-transparent before:content-[''] after:absolute after:z-[2] after:-mt-[0.1875rem] after:h-5 after:w-5 after:rounded-full after:border-none after:bg-neutral-100 after:shadow-[0_0px_3px_0_rgb(0_0_0_/_7%),_0_2px_2px_0_rgb(0_0_0_/_4%)] after:transition-[background-color_0.2s,transform_0.2s] after:content-[''] checked:bg-primary checked:after:absolute checked:after:z-[2] checked:after:-mt-[3px] checked:after:ml-[1.0625rem] checked:after:h-5 checked:after:w-5 checked:after:rounded-full checked:after:border-none checked:after:bg-primary checked:after:shadow-[0_3px_1px_-2px_rgba(0,0,0,0.2),_0_2px_2px_0_rgba(0,0,0,0.14),_0_1px_5px_0_rgba(0,0,0,0.12)] checked:after:transition-[background-color_0.2s,transform_0.2s] checked:after:content-[''] hover:cursor-pointer focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[3px_-1px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-5 focus:after:w-5 focus:after:rounded-full focus:after:content-[''] checked:focus:border-primary checked:focus:bg-primary checked:focus:before:ml-[1.0625rem] checked:focus:before:scale-100 checked:focus:before:shadow-[3px_-1px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] dark:bg-neutral-600 dark:after:bg-neutral-400 dark:checked:bg-primary dark:checked:after:bg-primary",  toggle ? "bg-neutral-300" : "bg-[#F7CCB7]")}
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchChecked" 
+                  onClick={() => setToggle(!toggle) }/>
+                <label
+                  htmlFor="flexSwitchChecked"
+                  className="inline-block pl-[0.15rem] hover:cursor-pointer text-[0.9rem]">획득한 도감
+                </label>
+              </div>
             </div>
           </div>
         </div>
@@ -60,7 +77,7 @@ function DogamHeader({ num }: any): JSX.Element {
   );
 }
 
-function DogamList({ get, total }: any): JSX.Element {
+function DogamList({ get, total,toggle }: any): JSX.Element {
   const numbers = Array.from({ length: 100 }, (_, i) => i + 1);
   const [open, setOpen] = useState<Boolean>(false);
   const [select, setSelect] = useState<number>();
@@ -70,7 +87,7 @@ function DogamList({ get, total }: any): JSX.Element {
       <>
       <div className="w-full py-4">
         {open && select && <DogamDetail select={select} detail={total[select-1]} setOpen={setOpen}/>}
-        <div className="container max-w-screen-xl md:w-[90%] w-full mx-auto justify-evenly flex flex-wrap px-3">
+        <div className="container max-w-screen-xl md:w-[90%] w-full mx-auto justify-center flex flex-wrap px-3">
         {numbers.map((num) => (
         
           
@@ -94,7 +111,7 @@ function DogamList({ get, total }: any): JSX.Element {
                   </>
                 ) : (
                   <>
-                    <div className="relative h-0 lg:pb-[21%] lg:w-[22%] lg:p-[1%] md:pb-[27%] md:w-[30%] md:p-[3%] sm:pb-[42%] sm:w-[45%] sm:p-[3%] pb-[75%] w-[78%] p-[3%] rounded-lg border-2 m-[1%]">
+                    <div className={classNames("relative h-0 lg:pb-[21%] lg:w-[22%] lg:p-[1%] md:pb-[27%] md:w-[30%] md:p-[3%] sm:pb-[42%] sm:w-[45%] sm:p-[3%] pb-[75%] w-[78%] p-[3%] rounded-lg border-2 m-[1%]", toggle? null: 'hidden')}>
                         <div className="text-[0.9rem] text-[#000000] w-fit rounded-full border-2 border-[#AEAEAE] flex"> 
                           <div className="bg-[#AEAEAE] rounded-full px-3 font-bold text-[#fff]">
                             {num.toString().padStart(3,"0")}
