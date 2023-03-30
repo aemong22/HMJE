@@ -23,8 +23,6 @@ import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
 import Loading from "../Common/Loading";
 import StrangeCat from "../Threejs/StrangeCat";
-import MixCat from "../Threejs/MixCat";
-import GrayCat from "../Threejs/GrayCat";
 
 function Main(): JSX.Element {
   const navigate = useNavigate();
