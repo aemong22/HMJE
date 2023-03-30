@@ -17,7 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -172,8 +172,10 @@ public class WordController {
 	public ResponseEntity<Map<String, Object>> getDailyWordList(){
 		Map<String, Object> response = new HashMap<>();
 		List<DailyWordResponseDto> dailyWord = wordService.getDailyWordList();
+		LocalDateTime localDateTime = dailyWord.get(0).getCreated_at();
 
 		response.put("data", dailyWord);
+		response.put("created_at", localDateTime);
 		response.put("message", "success");
 
 		return new ResponseEntity<>(response, HttpStatus.OK);

@@ -4,6 +4,7 @@ package com.server.back.domain.study.dto;
 import com.server.back.domain.study.entity.DailyWord;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,12 +17,14 @@ public class DailyWordResponseDto {
 	private String category;
 	private WordResponseDto wordResponseDto;
 	private Integer score;
+	private LocalDateTime created_at;
 
 	public static DailyWordResponseDto fromEntity(DailyWord dailyWord) {
 		DailyWordResponseDto dailyWordResponseDto = DailyWordResponseDto.builder()
 			.category(dailyWord.getCategory())
 			.wordResponseDto(WordResponseDto.fromEntity(dailyWord.getWord()))
 			.score(dailyWord.getScore())
+			.created_at(dailyWord.getCreatedAt())
 			.build();
 
 		return dailyWordResponseDto;
