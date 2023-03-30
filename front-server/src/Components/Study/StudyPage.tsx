@@ -159,10 +159,7 @@ function WordStudy(): JSX.Element {
             openModal={openModal}
             closeModal={closeModal}
             modalOpen={modalOpen}/>
-    
-    
           </div>
-      
       }
     </>
    

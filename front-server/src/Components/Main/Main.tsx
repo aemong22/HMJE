@@ -250,72 +250,105 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
 
 
 
+
   return (
     <>
     {openModal && <StudyStartModal setOpenModal={setOpenModal} />}
-    <div className="bg-[#F0ECE9]">
-      <div className="container max-w-screen-xl mx-auto md:p-4 p-2">
-      <div className="w-full mx-auto flex flex-col md:flex-row md:justify-around items-center text-start">
-        <div className="md:w-[45%] w-[95%] bg-[#ffffff] py-2 md:px-4 rounded-md px-2">
-          <div className="h-[20rem] py-2">
-            {character}
-          </div>
-          <div className="flex justify-start md:text-[1.2rem] sm:text-[1.1rem] text-[1rem]">
-            <div className={`${style.badgeImg}`} style={{backgroundImage:`url('/Assets/Badge/${userMyInfo?.nowbadgeImage}.png')`}}></div>{userMyInfo?.nowbadgeName}
-          </div>
-          <div className="sm:text-[2.2rem] text-[2rem] font-bold items-end">
-            <div className="">
-              {userMyInfo?.nickname}
-            </div>
-            <div className="flex justify-between items-end">
-              <div className="flex items-end flex-wrap">
-                  <div className="md:text-[1.2rem] text-[1rem] font-bold text-[#8E8E8E] px-1">{levelInfo[userMyInfo.level].levelName}</div>
-                  <div className="md:text-[0.8rem] sm:text-[0.7rem] text-[0.5rem] px-2 border-2 border-[#A87E6E] w-fit rounded-full bg-[#F0ECE9] font-bold text-[#A87E6E]">
-                      {levelInfo[userMyInfo?.level].levelName2}
+    <div className="bg-[#F0ECE9] w-full">
+    <div className="container max-w-screen-xl w-full mx-auto md:flex flex-col md:flex-row md:justify-around items-center text-center  md:px-5 px-0 md:py-[2.7rem] py-4 bg-[#F0ECE9]">
+        <div className="flex flex-col md:w-[45%] w-[100%]">
+          <div className="flex justify-center items-center md:w-[90%] w-[95%] mx-auto">
+            <div className="flex flex-col justify-center items-center w-full bg-white py-4 px-4 rounded-md">
+              <div className="h-[19rem] w-full">
+                {character}
+              </div>
+              <div className="rounded-br-xl rounded-bl-xl font-semibold md:text-[1rem] w-full p-1 pt-3">
+
+                <div className="flex justify-start md:text-[1.2rem] sm:text-[1.1rem] text-[1rem] font-medium">
+                  <div className={`${style.badgeImg}`} style={{backgroundImage:`url('/Assets/Badge/${userMyInfo?.nowbadgeImage}.png')`}}></div>{userMyInfo?.nowbadgeName}
+                </div>
+                <div className="sm:text-[2.2rem] text-[2rem] font-bold items-end">
+                  <div className="text-start">
+                    {userMyInfo?.nickname}
                   </div>
-              </div>
-              <div className="text-[0.9rem] text-zinc-400 text-end font-medium"> {userMyInfo.exp} / {userMyInfo.level > 9 ? <> ∞ </> : <>{levelInfo[userMyInfo.level].totalExp} </> }</div>
+                  <div className="flex justify-between items-end">
+                    <div className="flex items-end flex-wrap">
+                      <div className="md:text-[1.2rem] text-[1rem] font-bold text-[#8E8E8E] px-1">{levelInfo[userMyInfo.level].levelName}</div>
+                      <div className="md:text-[0.8rem] sm:text-[0.7rem] text-[0.5rem] px-2 border-2 border-[#A87E6E] w-fit rounded-full bg-[#F0ECE9] font-bold text-[#A87E6E]">
+                        {levelInfo[userMyInfo?.level].levelName2}
+                      </div>
+                    </div>
+                    <div className="text-[0.9rem] text-zinc-400 text-end font-medium"> {userMyInfo.exp} / {userMyInfo.level > 9 ? <> ∞ </> : <>{levelInfo[userMyInfo.level].totalExp} </> }</div>
+                  </div>
+                </div>
+                <div className="bg-[#F0ECE9] rounded-lg mt-2">
+                  <div className="bg-[#F7CCB7] rounded-lg py-[0.5rem]" style={{width:`${expWidth}` , maxWidth:"100%"}}></div>
+                </div>
 
-            </div>
+              </div>
 
-          </div>
-            <div className="bg-[#F0ECE9] rounded-lg my-2">
-              <div className="bg-[#F7CCB7] rounded-lg py-[0.5rem]" style={{width:`${expWidth}` , maxWidth:"100%"}}></div>
-            </div>
-          </div>
-          <div className="md:w-[43%] w-[95%] text-center py-2">
-            <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold p-2">오늘의 학습</div>
-            <div className="w-full flex flex-wrap justify-center items-end">
-                <div className="md:text-[1.5rem] sm:text-[1rem] text-[0.8rem] p-2 text-zinc-500">학습 시간</div>
-                <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold text-[#BE8D65] pl-2">
-                  {h > 0 && <>{h}<span className="md:text-[1.5rem] text-[1rem] px-2">시간 </span></>}
-                  {m}<span className="md:text-[1.5rem] text-[1rem] px-2">분</span>
-                  {s}<span className="md:text-[1.5rem] text-[1rem] px-2">초 </span>
-                </div>
-                
-            </div>
-            <div className="flex justify-evenly md:my-3 my-1">
-              <div className="w-[40%]">
-                <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold text-[#BE8D65]">
-                  {userMyStudy.todayWord}<span className="md:text-[1.5rem] text-[1rem] px-2">개</span>
-                </div>
-                <div className="md:text-[1.5rem] sm:text-[1rem] pt-1 text-[0.8rem] text-zinc-500">단어 학습</div>
-              </div>
-              <div className="w-[40%]">
-                <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold text-[#BE8D65]">
-                  {userMyStudy.todayContext}<span className="md:text-[1.5rem] text-[1rem] px-2">개</span>
-                </div>
-                <div className="md:text-[1.5rem] sm:text-[1rem] pt-1 text-[0.8rem] text-zinc-500">문맥 학습</div>
-              </div>
-            </div>
-            <div className="cursor-pointer flex justify-center rounded-full bg-[#A87E6E] p-[0.7rem] mt-3z md:text-[2.5rem] sm:text-[2rem] text-[1.5rem] font-bold text-[#ffffff] hover:text-[#F0ECE9]" onClick={()=>setOpenModal(true)}>
-              <div className={`${style.iconBook}`}></div>
-              <div>학습 시작하기</div>
             </div>
           </div>
         </div>
+        <div className="flex justify-center items-center md:w-[50%] pt-[1rem] pb-[0.5rem] h-[90%] px-4">
+          <div className="flex justify-center items-center w-full">
+            {/* 메인 데이터 */}
+            <div className="flex flex-col justify-start items-start w-full">
+            <div className="md:text-[2.5rem] sm:text-[2rem] text-[1.7rem] font-bold w-full border-b-2 border-gray-100 py-1">오늘의 학습</div>
+            <div className="w-full flex flex-wrap justify-center items-center">
+                <div className="md:text-[1.1rem] sm:text-[1rem] text-[0.8rem] px-4 text-zinc-500">학습 시간</div>
+                <div className="md:text-[3.2rem] sm:text-[2.5rem] text-[2rem] font-bold text-[#B18978]">
+                  {h > 0 && <>{h}<span className="md:text-[1.3rem] text-[1rem] px-2">시간 </span><span className="px-2"></span></>}
+                  {m}<span className="md:text-[1.3rem] text-[1rem] px-2">분</span>
+                  <span className="px-2"></span>
+                  {s}<span className="md:text-[1.3rem] text-[1rem] px-2">초 </span>
+                </div>
+            </div>
+
+            <div className="flex justify-around w-full">
+              <div className="w-[50%]">
+                <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold text-[#FFA800]">
+                  {userMyStudy.todayWord}<span className="md:text-[1.3rem] text-[1rem] px-2">개 / {userMyStudy.totalWord} 개</span>
+                </div>
+                <div className="md:text-[1.1rem] sm:text-[1rem] text-[0.8rem] text-zinc-500">단어 학습</div>
+              </div>
+              <div className="w-[50%]">
+                <div className="md:text-[3rem] sm:text-[2.5rem] text-[2rem] font-bold text-[#FFA800]">
+                  {userMyStudy.todayContext}<span className="md:text-[1.3rem] text-[1rem] px-2">개 / {userMyStudy.totalContext} 개</span>
+                </div>
+                <div className="md:text-[1.1rem] sm:text-[1rem] text-[0.8rem] text-zinc-500">문맥 학습</div>
+              </div>
+            </div>
+
+
+
+              {/* 이동 버튼 */}
+              <div className="flex justify-center items-center bg-[#C6A89A] mt-5 w-full text-white text-[1.2rem] font-semibold rounded-lg">
+                <div className="flex justify-around items-center w-full py-2">
+                  <div className="flex flex-col justify-center items-center w-full">
+                    <div className="flex justify-around items-center w-full py-2">
+                      <div className="flex justify-center w-full border-r-2 border-r-white"><img className="object-contain md:w-[3.7rem] w-[3rem] hover:scale-125 transition-all duration-300 cursor-pointer" src="/Assets/Icon/단어학습.png" alt="icon" onClick={() => setOpenModal(true)}/></div>
+                      <div className="flex justify-center w-full border-r-2 border-r-white"><img className="object-contain md:w-[3.7rem] w-[3rem] hover:scale-125 transition-all duration-300 cursor-pointer" src="/Assets/Icon/학습관리.png" alt="icon" onClick={() => navigate('/mypage')}/></div>
+                      <div className="flex justify-center w-full border-r-2 border-r-white"><img className="object-contain md:w-[3.7rem] w-[3rem] hover:scale-125 transition-all duration-300 cursor-pointer" src="/Assets/Icon/오답공책.png" alt="icon" onClick={() => navigate('/note')}/></div>
+                      <div className="flex justify-center w-full "><img className="object-contain md:w-[3.7rem] w-[3rem] scale-125 hover:scale-150 transition-all duration-300 cursor-pointer" src="/Assets/Icon/문맥도감.png" alt="icon" onClick={() => navigate('/dogam')}/></div>
+                    </div>
+                    <div className="flex justify-around w-full md:text-[1rem] text-[0.9rem]">
+                      <div><div className="pt-1 cursor-pointer" onClick={() => setOpenModal(true)} >단어학습</div></div>
+                      <div><div className="pt-1 cursor-pointer" onClick={() => navigate('/mypage')}>학습관리</div></div>
+                      <div><div className="pt-1 cursor-pointer" onClick={() => navigate('/note')}>오답공책</div></div>
+                      <div><div className="pt-1 cursor-pointer" onClick={() => navigate('/dogam')}>문맥도감</div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
         </div>
+
+
       </div>
+    </div>  
       </>
   );
 }
