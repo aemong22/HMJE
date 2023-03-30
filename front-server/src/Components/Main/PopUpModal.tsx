@@ -1,175 +1,143 @@
-// import React, { useEffect } from "react";
-// import styled from "styled-components";
-// import PropTypes from "prop-types";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+import PropTypes from "prop-types";
 // import Portal from "./portal";
 // import img from "components/popup/img/1667.jpg";
 
-// function Modal({ className, onClose, maskClosable, closable, visible }: any) {
-//   const onMaskClick = (e: any) => {
-//     if (e.target === e.currentTarget) {
-//       onClose(e);
-//     }
-//   };
+interface ModalProps {
+  className: string;
+  onClose: (e: any) => void;
+  maskClosable: boolean;
+  closable: boolean;
+  visible: boolean;
+}
 
-//   // 이전방문 날짜
-//   const VISITED_BEFORE_DATE = localStorage.getItem("VisitCookie");
-//   // 현재 날짜
-//   const VISITED_NOW_DATE = Math.floor(new Date().getDate());
+function Modal({ onClose, maskClosable, closable, visible }: ModalProps) {
+  const navigate = useNavigate();
+  const onMaskClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      onClose?.(e);
+    }
+  };
 
-//   // console.log(VISITED_BEFORE_DATE)
-//   // console.log(VISITED_NOW_DATE)
-//   // localStorage.removeItem('VisitCookie')
+  function setCookie(name: any, value: any, days: any) {
+    const expires = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie =
+      name +
+      "=" +
+      encodeURIComponent(value) +
+      "; expires=" +
+      expires +
+      "; path=/main";
+  }
 
-//   useEffect(() => {
-//     // 팝업 오늘 하루닫기 체크
-//     if (VISITED_BEFORE_DATE !== null) {
-//       // 날짜가 같을경우 노출
-//       if (VISITED_BEFORE_DATE === VISITED_NOW_DATE) {
-//         localStorage.removeItem("VisitCookie");
-//         onClose(true);
-//       }
-//       // 날짜가 다를경우 비노출
-//       if (VISITED_BEFORE_DATE !== VISITED_NOW_DATE) {
-//         onClose(false);
-//       }
-//     }
-//   }, [VISITED_BEFORE_DATE]);
+  function getCookie(name: any) {
+    const cookies = document.cookie.split("; ");
+    for (let i = 0; i < cookies.length; i++) {
+      const [cookieName, cookieValue] = cookies[i].split("=");
+      if (cookieName === name) {
+        return decodeURIComponent(cookieValue);
+      }
+    }
+    return null;
+  }
 
-//   // 하루동안 팝업 닫기
-//   const Dayclose = (e) => {
-//     if (onClose) {
-//       onClose(e);
+  // 이전방문 날짜
+  const VISITED_BEFORE_DATE = getCookie("VisitCookie");
+  // 쿠키로바꾸자
 
-//       const expiry = new Date();
-//       // +1일 계산
-//       const expiryDate = expiry.getDate() + 1;
-//       // 로컬스토리지 저장
-//       localStorage.setItem("VisitCookie", expiryDate);
-//     }
-//   };
+  // 현재 날짜
+  const VISITED_NOW_DATE = Math.floor(new Date().getDate());
 
-//   const close = (e) => {
-//     if (onClose) {
-//       onClose(e);
-//     }
-//   };
+  useEffect(() => {
+    // 팝업 오늘 하루닫기 체크
+    if (VISITED_BEFORE_DATE !== null) {
+      // 날짜가 같을경우 노출
+      if (VISITED_BEFORE_DATE === VISITED_NOW_DATE.toString()) {
+        // 쿠키로바꾸자
+        // localStorage.removeItem("VisitCookie");
+        const expiry = new Date();
+        setCookie("VisitCookie", "modal", expiry.toString());
 
-//   return (
-//     <Portal elementId="modal-root">
-//       <ModalOverlay visible={visible} />
-//       <ModalWrapper
-//         className={className}
-//         onClick={maskClosable ? onMaskClick : null}
-//         tabIndex="-1"
-//         visible={visible}
-//       >
-//         <ModalInner tabIndex="0" className="modal-inner">
-//           <ModalInner2>
-//             <ImgStyle>
-//               <a
-//                 href="https://www.pping.kr"
-//                 rel="noopener noreferrer"
-//                 target={"_blank"}
-//                 cursor="pointer"
-//               >
-//                 <img
-//                   src={img}
-//                   style={{ width: "100%", height: "100%" }}
-//                   alt=""
-//                 />
-//               </a>
-//             </ImgStyle>
-//             {closable && (
-//               <CloseStyle>
-//                 <Close className="modal-close" onClick={Dayclose}>
-//                   오늘 하루 닫기
-//                 </Close>
-//                 <Close className="modal-close" onClick={close}>
-//                   닫기
-//                 </Close>
-//               </CloseStyle>
-//             )}
-//           </ModalInner2>
-//         </ModalInner>
-//       </ModalWrapper>
-//     </Portal>
-//   );
-// }
+        onClose?.(true);
+      }
+      // 날짜가 다를경우 비노출
+      if (VISITED_BEFORE_DATE !== VISITED_NOW_DATE.toString()) {
+        onClose?.(false);
+      }
+    }
+  }, [VISITED_BEFORE_DATE]);
 
-// Modal.propTypes = {
-//   visible: PropTypes.bool,
-// };
+  // 하루동안 팝업 닫기
+  const Dayclose = (e: React.MouseEvent<HTMLSpanElement>) => {
+    if (onClose) {
+      onClose(e);
 
-// const ModalInner2 = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-// `;
+      const expiry = new Date();
+      // +1일 계산
+      const expiryDate = expiry.getDate() + 1;
 
-// const ImgStyle = styled.div``;
+      // 쿠키로바꾸자
+      // 로컬스토리지 저장
+      setCookie("VisitCookie", "modal", expiryDate.toString());
+    }
+  };
 
-// const CloseStyle = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   background-color: #282828;
-//   width: 210px;
-//   padding: 15px;
-//   border-radius: 0 0 15px 15px;
-//   color: #ffffff;
-// `;
-
-// const Close = styled.span`
-//   cursor: pointer;
-// `;
-
-// const ModalWrapper = styled.div`
-//   box-sizing: border-box;
-//   display: ${(props) => (props.visible ? "block" : "none")};
-//   position: fixed;
-//   top: 0;
-//   right: 0;
-//   bottom: 0;
-//   left: 0;
-//   z-index: 1000;
-//   overflow: auto;
-//   outline: 0;
-// `;
-
-// const ModalOverlay = styled.div`
-//   box-sizing: border-box;
-//   display: ${(props) => (props.visible ? "block" : "none")};
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   bottom: 0;
-//   right: 0;
-//   background-color: rgba(0, 0, 0, 0.6);
-//   z-index: 999;
-// `;
-
-// const ModalInner = styled.div`
-//   box-sizing: border-box;
-//   position: relative;
-//   // box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
-//   // background-color: #fff;
-//   // border-radius: 10px;
-//   width: 360px;
-//   max-width: 480px;
-//   top: 50%;
-//   transform: translateY(-50%);
-//   margin: 0 auto;
-//   padding: 40px 20px;
-// `;
-
-// export default React.memo(Modal);
-import React from 'react';
-
-const PopUpModal = () => {
+  const close = (e: React.MouseEvent<HTMLSpanElement>) => {
+    onClose?.(e);
+  };
   return (
-    <div>
-      
-    </div>
+    <>
+      <div
+        className={`${
+          visible ? "block" : "hidden"
+        } flex box-border fixed top-0 left-0 bottom-0 right-0 z-[999] bg-[#000000] bg-opacity-60`}
+      >
+        <div
+          className={`${
+            visible ? "block" : "hidden"
+          } box-border fixed top-0 left-0 bottom-0 right-0 z-[1000] overflow-auto outline-0 `}
+          onClick={maskClosable ? onMaskClick : undefined}
+          tabIndex={-1}
+        >
+          <div
+            className="box-border relative w-[380px] md:w-[580px] md:max-w-[2xl] top-[50%] transform translate-y-[-50%] mx-auto my-auto px-[40px] py-[20px] "
+            tabIndex={0}
+          >
+            <div className="flex flex-col items-center">
+              <div
+                className="cursor-pointer"
+                onClick={() => {
+                  navigate("/notice");
+                }}
+              >
+                <img
+                  className="w-full h-full"
+                  src={"/Assets/test/pocha.jpg"}
+                  alt=""
+                />
+              </div>
+              {closable && (
+                <div className="flex justify-between bg-[#282828] w-[300px] md:w-[500px] p-[15px] rounded-br-[15px] rounded-bl-[15px] text-[#ffffff]">
+                  <div className="cursor-pointer" onClick={Dayclose}>
+                    오늘 하루 닫기
+                  </div>
+                  <div className="cursor-pointer" onClick={close}>
+                    닫기
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
+}
+
+Modal.propTypes = {
+  visible: PropTypes.bool,
 };
 
-export default PopUpModal;
+export default React.memo(Modal);

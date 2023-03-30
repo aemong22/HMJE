@@ -25,8 +25,14 @@ import Loading from "../Common/Loading";
 import StrangeCat from "../Threejs/StrangeCat";
 import MixCat from "../Threejs/MixCat";
 import GrayCat from "../Threejs/GrayCat";
+import Modal from "./PopUpModal"
+// import Modal from 'react-modal';
 
 function Main(): JSX.Element {
+  const [modalVisible, setModalVisible] = useState(true)
+  const closeModal = () => {
+    setModalVisible(false)
+}
   const navigate = useNavigate();
   localStorage.removeItem("difficulty");
 
@@ -190,7 +196,8 @@ function Main(): JSX.Element {
   return (
     <>
       <Navbar />
-      <Toast />
+      <Toast />    
+      {modalVisible? <Modal className={"test"} visible={modalVisible} maskClosable={true} closable={true} onClose={closeModal} /> : null }
       {/* <Example /> */}
       <MyInfo
         levelInfo={levelInfo}
