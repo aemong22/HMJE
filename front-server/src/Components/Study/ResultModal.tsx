@@ -17,9 +17,7 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime ,
     useEffect(() => {
       if(studyType === "wordStudy") {
         postStudyWordResult({correct,semo, userId,wrong,exp}).then((result:any) =>  {
-          console.log("받은 exp", exp);
           // 레벨 상승
-          console.log(result);
           if(result?.data.level > 0){
             toast.info("등급 상승!")
           }

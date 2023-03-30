@@ -247,7 +247,6 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
     setCharacter(<OrangeCat sendEmo={checkEmoState} dataLevel={userMyInfo.level}/>)
   },[])
 
-  console.log(userMyStudy);
 
 
 
