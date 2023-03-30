@@ -187,6 +187,20 @@ function Main(): JSX.Element {
     );
   }
 
+
+  const todayTotal = userMyStudy?.data.todayContext + userMyStudy?.data.todayTime + userMyStudy?.data.todayWord
+  const statsDate:number = userMyStudy?.data.statsRight - userMyStudy?.data.statsWrong
+  let checkEmoState:number
+
+  if (todayTotal === 0) {
+    checkEmoState = 0
+  } else if (statsDate > 0) {
+    checkEmoState = 1
+  } else if (statsDate < 0) {
+    checkEmoState = 2
+  } else {
+    checkEmoState = 3
+  }
   return (
     <>
       <Navbar />
@@ -196,6 +210,7 @@ function Main(): JSX.Element {
         levelInfo={levelInfo}
         userMyInfo={userMyInfo?.data}
         userMyStudy={userMyStudy?.data}
+        checkEmoState={checkEmoState}
       />
       <StudyContent userScore={pastList?.user_score} />
       <News newsKeyword={newsKeyword?.data} />
@@ -222,7 +237,9 @@ export default Main;
 // main 페이지는 container, max-w-screen-lg, lg:w-[70%] 설정
 
 // 맨위 : 유저 정보 , 오늘의 정보
-function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
+function MyInfo({ userMyInfo, userMyStudy, levelInfo, checkEmoState}: any): JSX.Element {
+  
+
   const [openModal, setOpenModal] = useState<Boolean>(false);
   localStorage.setItem("nickname", userMyInfo.nickname);
   const navigate = useNavigate();
@@ -239,11 +256,13 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
   const m: number = Math.floor(time / 60);
   time = time % 60;
   const s = time;
-  let checkEmoState:number = 1
+  
 
   const [character, setCharacter] = useState<any>()
+  
 
   useEffect(()=> {
+    
     setCharacter(<OrangeCat sendEmo={checkEmoState} dataLevel={userMyInfo.level}/>)
   },[])
 
