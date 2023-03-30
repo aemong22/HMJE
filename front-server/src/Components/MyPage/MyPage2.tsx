@@ -235,7 +235,7 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
       {
         isLoading&&loading
       }
-      <div className="container max-w-screen-xl h-[30rem] md:w-[90%] mx-auto hidden md:flex flex-col md:flex-row md:justify-around items-center text-center mb-2 py-5 bg-[#F0ECE9]">
+      <div className="container max-w-screen-xl h-[30rem] md:w-[90%] mx-auto hidden md:flex flex-col md:flex-row lg:justify-around items-center text-center mb-2 py-5 bg-[#F0ECE9]">
         <div className="flex flex-col md:w-[40%] h-full rounded-tr-xl rounded-tl-xl " onClick={clickCat}>
           <div className="flex justify-center items-center w-full h-full">
             <div className="flex flex-col justify-center items-center w-[90%] h-[90%] bg-white py-4 px-4">
@@ -344,34 +344,34 @@ function MyPageSection2V1({todayWord, totalWord, todayContext, totalContext, tod
       ): <div className="flex justify-center items-center w-[45%] h-full"><span className="font-semibold text-[1.2rem] text-[#FFA800]">아직 오늘의 학습 데이터가 없어요...</span></div> 
   )
   return (
-    <div className="container max-w-screen-xl h-[19rem] md:w-[90%] mx-auto hidden md:flex md:justify-around items-center text-center my-12 py-[1rem] overflow-hidden border-4">
-      <div className="flex flex-col items-center w-1/2">
+    <div className="container max-w-screen-xl h-[19rem] md:w-[90%] mx-auto hidden lg:flex md:justify-between items-center text-center my-12 py-[1rem] overflow-hidden border-4">
+      <div className="flex flex-col items-center w-[47%]">
         <div className="flex flex-col items-center w-full">
           <div className="flex justify-start w-full text-[1.5rem] font-bold">나의 학습 현황</div>
           <div className="flex justify-start w-full text-[1rem] text-[#A2A2A2]">나의 학습 정보를 확인해보세요!</div>
         </div>
         <div className="flex flex-col items-center w-full mt-5">
-          <div className="flex justify-around items-center w-full text-center text-[#A2A2A2]">
+          <div className="flex justify-around items-center w-full text-center text-[#A2A2A2] pb-2">
             <div className="w-1/2">&nbsp;</div>
             <div className="w-full">단어학습</div>
             <div className="w-full">문맥학습</div>
             <div className="w-full">학습시간</div>
           </div>
           <div className="flex justify-around items-center w-full border-t-2">
-            <div className="text-center w-1/2 text-[#A2A2A2] lg:text-[1.2rem]">오늘</div>
+            <div className="text-center w-1/2 text-[#A2A2A2] lg:text-[1.1rem]">오늘</div>
             <div className="w-full text-[#B18978]"><span className="w-full font-bold md:text-[2.9rem]">{todayWord}<span className="md:text-[1rem]">개</span></span></div>
             <div className="w-full text-[#B18978]"><span className="w-full font-bold md:text-[2.9rem]">{todayContext}<span className="md:text-[1rem]">개</span></span></div>
             <div className="w-full text-[#B18978]"><span className="w-full font-bold md:text-[2.9rem]">{m1}<span className="md:text-[1rem]">분</span></span></div>
           </div>
           <div className="flex justify-around items-center w-full border-t-2">
-            <div className="text-center w-1/2 text-[#A2A2A2] lg:text-[1.2rem]">전체</div>
+            <div className="text-center w-1/2 text-[#A2A2A2] lg:text-[1.1rem]">전체</div>
             <div className="w-full text-[#FFA800]"><span className="text-start w-full font-bold md:text-[2.9rem]">{totalWord}<span className="md:text-[1rem]">개</span></span></div>
             <div className="w-full text-[#FFA800]"><span className="text-start w-full font-bold md:text-[2.9rem]">{totalContext}<span className="md:text-[1rem]">개</span></span></div>
             <div className="w-full text-[#FFA800]"><span className="text-start w-full font-bold md:text-[2.9rem]"><span className="">{h2}<span  className="md:text-[1rem]">시간</span></span><span className=""> {m2}<span className="md:text-[1rem]">분</span></span></span></div>
           </div>
         </div>        
       </div>
-      <div className="flex flex-col justify-start h-full w-1/2">
+      <div className="flex flex-col justify-start h-full w-[47%]">
         <div className="flex flex-col justify-start items-start w-full py-4">
           <div className="text-[1.5rem] font-bold">나의 학습 현황</div>
           <div className="text-start text-[#A2A2A2]">
@@ -382,22 +382,22 @@ function MyPageSection2V1({todayWord, totalWord, todayContext, totalContext, tod
         </div>
         <div className="flex justify-between w-full">
           <div className="flex flex-col items-center w-[50%] bg-[#F7CCB7]/30">
-            <div className="flex flex-col items-center w-full py-4 px-4 text-[#A2A2A2]">
-              <div className="flex justify-between w-full">
-                <div className="w-1/2 px-2" style={{backgroundColor: 'rgb(54, 162, 235)'}}></div>
+            <div className="flex flex-col items-start w-full py-4 px-4 text-[#A2A2A2]">
+              <div className="flex justify-around w-full">
+                <div className="w-1/3 px-1" style={{backgroundColor: 'rgb(54, 162, 235)'}}></div>
                 <div>정답 개수</div>
               </div>
-              <div className="flex justify-between w-full my-2">
-                <div className="w-1/2 px-2" style={{backgroundColor: 'rgb(255, 99, 132)'}}></div>
+              <div className="flex justify-around w-full my-2">
+                <div className="w-1/3 px-1" style={{backgroundColor: 'rgb(255, 99, 132)'}}></div>
                 <div>오답 개수</div>
               </div>
-              <div className="flex justify-between w-full">
-                <div className="w-1/2 px-2" style={{backgroundColor: 'rgb(255, 205, 86)'}}></div>
+              <div className="flex justify-around w-full">
+                <div className="w-1/3 px-1" style={{backgroundColor: 'rgb(255, 205, 86)'}}></div>
                 <div>세모 개수</div>
               </div>
             </div>
           </div>
-          <div className="w-full h-full">
+          <div className="flex justify-center items-center w-full h-full">
             {showDataChart}
           </div>
         </div>
@@ -440,7 +440,7 @@ function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sent
   return (
     <>
       {/* <Toast /> */}
-      <div className="flex flex-col md:hidden justify-center items-center h-[42rem] mt-7">
+      <div className="flex flex-col lg:hidden justify-center items-center h-[42rem] mt-7">
         <div className="flex justify-center items-center w-[90%] h-[67%]">
           <div className="flex justify-center items-center h-full w-full">
             {/* 렙업에 따른 3D 캐릭터 */}
@@ -533,7 +533,7 @@ function MyPageSection2V2({todayWord, totalWord, todayContext, totalContext, tod
         ): <div className="flex justify-center items-center w-[45%] h-full"><span className="font-semibold text-[1.2rem] text-[#FFA800]">아직 오늘의 학습 데이터가 없어요...</span></div> 
     )
   return (
-    <div className="flex flex-col md:hidden justify-center items-center h-[28rem] mt-16">
+    <div className="flex flex-col lg:hidden justify-center items-center h-[28rem] mt-16">
       <div className="flex justify-center items-center h-[60%] w-full mb-[2%] overflow-hidden">
         {showDataChart}
       </div>
