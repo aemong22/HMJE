@@ -78,14 +78,15 @@ const Select = (): JSX.Element => {
       <div className="font-extrabold text-[#A87E6E] text-4xl  sm:text-4xl md:text-4xl lg:text-6xl py-[1rem] text-center">
         정보수정
       </div>
-      <button id="password" className={normalbutton} onClick={Nav}>
-        비밀번호 수정
-      </button>
+
       <button id="nickname" className={normalbutton} onClick={Nav}>
         별명 수정
       </button>
       <button id="phonenum" className={normalbutton} onClick={Nav}>
         전화번호 수정
+      </button>
+      <button id="password" className={normalbutton} onClick={Nav}>
+        비밀번호 수정
       </button>
       <button id="secession" className={secessionbutton} onClick={Nav}>
         회원탈퇴
