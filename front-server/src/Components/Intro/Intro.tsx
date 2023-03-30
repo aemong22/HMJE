@@ -90,10 +90,10 @@ function IntroSection1(): JSX.Element {
               홍민정음
             </div>
             <div className="hidden sm:flex text-[1.2rem] sm:text-[1.4rem] md:text-[1.7rem] font-medium mb-4">
-              문해력을 향상시킬 수 있는 곳
+              문해력을 향상시키기 위한 한 걸음
             </div>
             <div className="flex sm:hidden text-[0.8em] sm:text-[1rem] md:text-[1.1rem] font-medium pl-1 mb-2">
-              문해력을 <br />향상시킬 수 있는 곳
+              문해력을 <br />향상시키기 위한 한 걸음
             </div>
             <div className="flex justify-start w-full text-[0.8rem] sm:text-[1rem] md:text-[1rem] lg:text-[1.2rem]">
               <div
