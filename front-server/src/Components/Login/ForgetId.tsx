@@ -186,17 +186,6 @@ const ForgetId = () => {
           <div className="w-full">
             <div className={`my-2 `}>
               <div className="text-[#A87C6E] font-extrabold text-base">
-                이름
-              </div>
-              <input
-                type="text"
-                className="min-w-[100%] px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
-                placeholder="이름 입력"
-                onChange={ChangeName}
-              />
-            </div>
-            <div className={`my-2 `}>
-              <div className="text-[#A87C6E] font-extrabold text-base">
                 전화번호
               </div>
               <div className="flex flex-row justify-between">
