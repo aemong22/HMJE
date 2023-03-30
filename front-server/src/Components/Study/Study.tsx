@@ -5,6 +5,7 @@ import { Toast } from "../Common/Toast";
 import ReactDOMServer from 'react-dom/server';
 
 function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,setSemo,right, setRight, openModal, setResultModal, modalOpen, resultModal, closeModal , exp, setExp}:any): JSX.Element {
+  
   // 단어 디코딩
   const [decoding, setDecoding] = useState<String>();
   // 초성
@@ -277,7 +278,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
           {/* 왼쪽 학습 영역 */}
           <div className="mt-8 z-20 bg-[#F4EFEC] lg:w-[82%] w-full min-h-[25rem] py-6 lg:px-6 px-4 flex flex-col justify-between rounded-lg md:text-[1.3rem] text-[1.2rem] font-normal sm:text-center text-start">
             <div className="">
-              <div className="font-semibold md:text-[1.2rem] text-[1.1rem] mb-3">
+              <div className="font-semibold md:text-[1.2rem] text-[1.1rem] mb-5">
                 {studyType !== "contextStudy" ? 
                   <>
                     해당 뜻을 가진 단어를 적으시오.
@@ -287,9 +288,10 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
                   </>}
               </div>
               <div className="py-4 overflow-auto">
+                {question[num].isFailed && <><div className="text-[0.9rem] text-[#BD1616] font-bold text-center">- 틀렸던 문제 -</div></>}
                 { studyType !== "contextStudy" ? 
                 <>
-                                  <div className="flex justify-start m-2 flex-wrap mx-auto w-fit pt-5">
+                                  <div className="flex justify-start m-2 flex-wrap mx-auto w-fit pt-1">
                       {
                       letters?.map((letter,index) => (
                         <div key={index} className="h-14 w-14 rounded-xl border-2 border-[#F7CCB7] bg-[#ffffff] m-1"></div>
@@ -370,7 +372,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
             
             {studyType !== "contextStudy" ? 
             <>
-              <div className="border-4 m-2 lg:py-3 md:py-2 px-8 rounded-lg md:text-[1.6rem] sm:text-[1.3rem] text-[1rem] flex flex-col justify-center font-bold border-[#F4EFEC] text-[#A87C6E]">
+              <div className="border-4 m-2 lg:py-3 md:py-2 px-8 rounded-lg md:text-[1.6rem] sm:text-[1.3rem] text-[1rem] flex flex-col justify-center font-bold border-[#F4EFEC] text-[#FE7171]">
                 <span className="md:text-[1.2rem] sm:text-[1rem] text-[0.9rem] font-medium text-[#8E8E8E]">품사</span>
                 {question[num]?.wordType}
               </div>
