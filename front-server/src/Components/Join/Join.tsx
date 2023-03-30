@@ -11,6 +11,7 @@ import {
   usePostUserjoinMutation,
   usePostUserloginMutation,
 } from "../../Store/NonAuthApi";
+import { toast, ToastContainer } from "react-toastify";
 var pattern2 = /[a-zA-Z]/; //영어
 
 type find = {
@@ -185,9 +186,9 @@ const Join = () => {
       // //console.log("UserName", UserName);
       // //console.log("Password", Password);
       if (UserName === "") {
-        alert("빈칸입니다 다시 입력해주세요!");
+        toast.info("빈칸입니다 다시 입력해주세요!");
       } else if (UserName.length < 2) {
-        alert("두글자 이상 입력해 주세요!");
+        toast.info("두글자 이상 입력해 주세요!");
       } else {
         window.localStorage.clear();
         const data = {
@@ -203,10 +204,10 @@ const Join = () => {
           .unwrap()
           .then((r: any) => {
             if (r.data === true) {
-              alert("사용 가능한 계정입니다.");
+              toast.success("사용 가능한 계정입니다.");
               setIsName(true);
             } else {
-              alert("중복된 계정입니다.");
+              toast.error("중복된 계정입니다.");
             }
           });
       }
@@ -216,9 +217,9 @@ const Join = () => {
       // 2글자에서 6글자
       //console.log("닉네임확인", Nickname);
       if (Nickname === "") {
-        alert("빈칸입니다 다시 입력해주세요!");
+        toast.info("빈칸입니다 다시 입력해주세요!");
       } else if (Nickname.length < 2) {
-        alert("2글자 이상 입력해주세요!");
+        toast.info("2글자 이상 입력해주세요!");
       } else {
         window.localStorage.clear();
         const data = {
@@ -234,10 +235,10 @@ const Join = () => {
           .unwrap()
           .then((r: any) => {
             if (r.data === true) {
-              alert("사용 가능한 별명입니다.");
+              toast.success("사용 가능한 별명입니다.");
               setIsNickname(true);
             } else {
-              alert("중복된 별명입니다.");
+              toast.error("중복된 별명입니다.");
             }
           });
       }
@@ -254,11 +255,11 @@ const Join = () => {
         SendAuthnum(Phonenum);
       } else {
         // 전화번호 border 변경
-        alert("번호가 이상합니다");
+        toast.error("번호가 이상합니다");
       }
     } else {
       // 전화번호 border변경
-      alert("번호가 이상합니다");
+      toast.error("번호가 이상합니다");
     }
     //console.log("IsPasswordConfirm", IsPasswordConfirm);
     //console.log("IsAuthnum", IsAuthnum);
@@ -277,7 +278,7 @@ const Join = () => {
       .unwrap()
       .then((r: any) => {
         if (r.data !== "이미 가입된 휴대폰입니다.") {
-          alert("전송하였습니다!");
+          toast.success("전송하였습니다!");
           //console.log("전화번호 중복 결과", r);
           setAmIHidden("");
           // 인증번호 닫고
@@ -285,7 +286,7 @@ const Join = () => {
             setAmIHidden("hidden");
           }, 300000);
         } else {
-          alert(`${r.data}`);
+          toast.error(`${r.data}`);
         }
       })
       .catch((e) => {
@@ -368,11 +369,11 @@ const Join = () => {
         //console.log("인증번호 결과", r.data);
         if (r.data === "true") {
           // 인증성공!
-          alert("인증되었습니다");
+          toast.success("인증되었습니다");
           setIsAuthnum(true);
         } else if (r.data === "false") {
           // 인증실패!
-          alert("인증번호가 틀렸습니다");
+          toast.error("인증번호가 틀렸습니다");
           setIsAuthnum(false);
         }
       });
@@ -394,10 +395,22 @@ const Join = () => {
   }, []);
   return (
     <>
-      <IntroNavbar />
-      <div className="flex flex-col justify-between min-h-[100vh]">
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      <div className="flex flex-col justify-between items-center h-[100vh]">
+        <IntroNavbar />
         {/* 상 */}
-        <div className="max-h-[100%] w-full">
+        <div className="w-full">
           <div className="flex flex-col mx-5 sm:mx-5 md:mx-7 lg:mx-[20%]">
             <div className="my-4 font-extrabold text-[#A87E6E] text-4xl  sm:text-4xl md:text-4xl lg:text-6xl">
               홍민정음
@@ -588,8 +601,8 @@ const Join = () => {
           {/* 하 */}
           <div className="h-[2rem]"></div>
         </div>
+        <Footer />
       </div>
-      <Footer />
     </>
   );
 };

@@ -30,6 +30,7 @@ import ChangePassword from "./Components/MyPage/Select/ChangePassword";
 import ChangePhonenum from "./Components/MyPage/Select/ChangePhonenum";
 import CheckSecession from "./Components/MyPage/Select/CheckSecession";
 import MyPage2 from "./Components/MyPage/MyPage2";
+import MyInfoSelectCheck from "./Components/MyPage/MyInfoSelectCheck";
 
 function App() {
   const notify = () => toast("Wow so easy!");
@@ -43,6 +44,8 @@ function App() {
         <Route path="/resetpassword" element={<ResetPassword />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/myinfoselect" element={<MyInfoSelect />} />
+        <Route path="/myinfoselectcheck" element={<MyInfoSelectCheck />} />
+
         <Route path="/changenickname" element={<ChangeNickname />} />
         <Route path="/changepassword" element={<ChangePassword />} />
         <Route path="/changephonenum" element={<ChangePhonenum />} />

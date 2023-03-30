@@ -76,7 +76,7 @@ const DictionaryPage = () => {
   // =========================WordList=========================
 
   const [WordList, setWordList] = useState<Worddict>();
-  const [WordListSize, setWordListSize] = useState<number>(46737);
+  const [WordListSize, setWordListSize] = useState<number>(46730);
   const [keyWord, setkeyWord] = useState("");
   const [filter, setfilter] = useState("");
   const [page, setPage] = useState(1);
@@ -113,24 +113,30 @@ const DictionaryPage = () => {
 
   // ===============charPage==================
   const handlePageChange = (page: any) => {
-    // console.log((page * items) / 10);
-    console.log("keyword는", keyWord);
-    console.log("page는?", page);
+    // const a = (page * items) / 10;
+    // console.log("무슨값?", a);
+    // console.log(아아);
+
+    // console.log("keyword는", keyWord);
+    // console.log("page는?", page);
 
     const tempdata = {
       filter: filter,
       keyword: keyWord,
-      p: (page * items) / 10 - 1,
+      p: page,
     };
     getWorddict(tempdata)
       .unwrap()
       .then((r) => {
-        console.log("rtk결과", r);
-        // console.log(Math.floor(r.count/10));
+        // console.log("rtk결과", r);
+        // console.log(Math.floor(r.count / 10));
 
         setWordList(r);
 
         setPage(page);
+      })
+      .catch((e) => {
+        console.log(e.status === 400);
       });
 
     // wordList변경
@@ -146,11 +152,11 @@ const DictionaryPage = () => {
     getWorddict(tempdata)
       .unwrap()
       .then((r) => {
-        console.log("rtk결과", r);
+        // console.log("rtk결과", r);
         // console.log(Math.floor(r.count/10));
         setWordList(r);
         // console.log("r은?", r.count);
-        setWordListSize(r.count)
+        setWordListSize(r.count);
         setPage(1);
       });
 
@@ -168,11 +174,12 @@ const DictionaryPage = () => {
     getWorddict(tempdata)
       .unwrap()
       .then((r) => {
-        console.log("rtk결과", r);
+        // console.log("rtk결과", r);
         // console.log(Math.floor(r.count/10));
         setWordList(r);
-        // console.log("r은?", r.count);
-        setWordListSize(r.count)
+        // console.log("r은?", Math.floor(r.count/10)*10);
+
+        setWordListSize(Math.floor(r.count / 10) * 10);
         setSearch("");
         setPage(1);
       });
@@ -181,14 +188,14 @@ const DictionaryPage = () => {
   };
 
   useEffect(() => {
-    console.log(WordList);
+    // console.log(WordList);
 
     return () => {};
   }, [WordList]);
 
   useEffect(() => {
-    console.log(wordList);
-    setWordList(wordList);    
+    // console.log(wordList);
+    setWordList(wordList);
     // setWordListSize(wordList!.count);
     return () => {};
   }, [wordList]);
@@ -229,16 +236,16 @@ const DictionaryPage = () => {
       <>
         {WordList ? (
           <>
-            <div className="flex flex-col justify-between h-[80vh]">
-              <Navbar />
+            <Navbar />
+            <Searchbar
+              onchangeSearch={setSearch}
+              Search={Search}
+              WordList={WordList}
+              fetchData={handleSearchPageChange}
+              setWordList={setWordList}
+            />
+            <div className="flex flex-col justify-between min-h-[80vh]">
               <div className="container max-w-screen-lg w-full h-full mx-auto px-10 lg:px-10">
-                <Searchbar
-                  onchangeSearch={setSearch}
-                  Search={Search}
-                  WordList={WordList}
-                  fetchData={handleSearchPageChange}
-                  setWordList={setWordList}
-                />
                 <CharPagination
                   currentPage={page}
                   newPageNumbers={pageNumbers}
@@ -251,7 +258,7 @@ const DictionaryPage = () => {
                 <PaginationBox>
                   <Pagination
                     activePage={page}
-                    itemsCountPerPage={items}
+                    itemsCountPerPage={10}
                     totalItemsCount={WordListSize}
                     pageRangeDisplayed={items}
                     onChange={handlePageChange}
@@ -281,7 +288,7 @@ function Searchbar({
   fetchData,
 }: any): JSX.Element {
   const ChangeSearch = (event: any) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
 
     onchangeSearch(event.target.value);
   };
@@ -290,7 +297,7 @@ function Searchbar({
     if (e.key === "Enter") {
       fetchData(Search);
       // FindWord();
-      console.log("검색 ㄱ");
+      // console.log("검색 ㄱ");
     }
   };
   const [getWorddict, isLoading, error] = useLazyGetWorddictQuery();
@@ -309,7 +316,7 @@ function Searchbar({
   };
   return (
     <>
-      <div className="flex flex-row justify-between items-baseline ">
+      <div className="flex flex-row max-w-screen-lg mx-10 md:mx-auto justify-between items-baseline mt-10  ">
         <div className="pt-5 text-[#A87E6E] font-extrabold text-3xl sm:text-3xl md:text-5xl lg:text-6xl">
           사전[辭典]
         </div>
@@ -334,7 +341,7 @@ const List = (data: any): JSX.Element => {
   });
 
   return (
-    <div className={`m-3 max-h-[50%] overflow-auto ${style.example} `}>
+    <div className={`m-3 max-h-[100%] max-w-screen-md mx-auto`}>
       <div className="flex flex-col">
         {data.data.data.map((it: any) => {
           var a = new Array();
@@ -342,12 +349,11 @@ const List = (data: any): JSX.Element => {
             a.push(wordDetailResponseList.details);
           });
           const temp = a.join(" / ");
-
           return (
-            <>
-              <div className="flex flex-row items-baseline my-2 font-extrabold">
+            <div className="border-b-2 my-2">
+              <div className="flex flex-row items-baseline font-extrabold">
                 <button
-                  className="pr-2 text-2xl text-[#0078CE] underline underline-offset-[0.3rem]"
+                  className="pr-2 text-1xl text-[#b97912] underline underline-offset-[0.3rem]"
                   onClick={() => {
                     // console.log(it);
                     dispatch(changeDictionaryDetail(it));
@@ -366,8 +372,8 @@ const List = (data: any): JSX.Element => {
                   {it.wordType}
                 </div>
               </div>
-              <div className="max-w-full truncate my-3">{temp}</div>
-            </>
+              <div className="max-w-full truncate mt-2 mb-3">{temp}</div>
+            </div>
           );
         })}
       </div>
@@ -392,17 +398,17 @@ const CharPagination: React.FC<Props> = ({
   changeList,
 }) => {
   const handlePageChange = (pageNumber: any) => {
-    console.log("pageNumber는", pageNumber);
+    // console.log("pageNumber는", pageNumber);
     onfilterChange(pageNumber.id);
     fetchData(pageNumber.id);
   };
   const buttonTail =
-    "w-[3rem]  h-[3rem] text-[#A87E6E] font-extrabold hover:text-black border-2 text-[1.2rem] border-[#F7CCB7] rounded-lg";
+    "md:w-[3rem]  md:h-[3rem] text-[#A87E6E] font-extrabold hover:text-black focus:bg-[#b97912] focus:text-white focus:border-none  border-2 text-[0.8rem] md:text-[1.2rem] border-[#F7CCB7] rounded-lg md:rounded-2xl";
   return (
-    <div className="flex flex-row w-full items-center justify-between pt-6">
+    <div className="flex flex-row w-full items-center justify-between pt-6 ">
       {newPageNumbers.map((pageNumber: any) => (
         <button
-          className={buttonTail}
+          className={`${buttonTail} text-ellipsis `}
           key={pageNumber.initialConsonants}
           onClick={() => handlePageChange(pageNumber)}
         >
@@ -412,6 +418,7 @@ const CharPagination: React.FC<Props> = ({
     </div>
   );
 };
+
 const PaginationBox = styled.div`
   .pagination {
     display: flex;
