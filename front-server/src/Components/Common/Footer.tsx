@@ -15,7 +15,7 @@ function Footer():JSX.Element {
           
 
           <div className="text-end">
-            <div className="py-1 sm:text-[0.9rem] text-[0.8rem]">말랑하죠</div>
+            <div className="py-1 sm:text-[0.9rem] text-[0.8rem]">말랑하조</div>
             
             <div className="sm:text-[0.9rem] text-[0.8rem] flex justify-between">
               <div className="pr-2">앞. 김홍민 김찬희 김애림</div>
