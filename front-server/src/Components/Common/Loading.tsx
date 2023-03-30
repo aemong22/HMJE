@@ -5,24 +5,11 @@ import loadingLottie from "./lottie/hangulnal.json";
 
 function Loading():JSX.Element {
 
-  // const option = {
-  //   animationData: loadingLottie,
-  //   loop: true,
-  // }
-
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: loadingLottie,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
-  };
   return(
     <>
       <div className="flex justify-center items-center w-screen h-screen">
         <div className="flex flex-col justify-center items-center">
-          <Lottie animationData={loadingLottie} className={`${styles.loadingHangeul}`} style={{width: '15rem', height: '15rem', marginBottom: '1rem'}}/>
+          <Lottie animationData={loadingLottie} style={{width: '15rem', height: '15rem', marginBottom: '1rem'}}/>
           <div className="flex ">
             <div className={`${styles.loadingAnimation}`}>잠</div>
             <div className={`${styles.loadingAnimation}`}>시</div>

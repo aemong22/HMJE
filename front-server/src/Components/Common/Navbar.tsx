@@ -19,7 +19,7 @@ function Navbar():JSX.Element {
   },[])
 
 
-  const onClick:MouseEventHandler<HTMLDivElement> = (e) => {
+  const onClick:MouseEventHandler<HTMLSpanElement> = (e) => {
     const target = e.target as HTMLElement
     if (target.ariaLabel === 'main') {
       navigate('/main')
@@ -58,12 +58,12 @@ function Navbar():JSX.Element {
         <div className="flex">
           <div aria-label="main" className='font-bold text-[1.2rem] md:text-[1.3rem] cursor-pointer' onClick={onClick}>홍민정음</div>
           <div className="lg:flex text-[1rem] px-4 items-center hidden">
-            <div aria-label="main" className = "px-4 cursor-pointer" onClick={onClick}>학습공간</div>
-            <div aria-label="note" className = "px-4 cursor-pointer" onClick={onClick}>오답공책</div>
-            <div aria-label="dogam" className = "px-4 cursor-pointer" onClick={onClick}>문맥도감</div>
-            <div aria-label="mypage" className = "px-4 cursor-pointer" onClick={onClick}>학습관리</div>
-            <div aria-label="dictionary" className = "px-4 cursor-pointer"onClick={onClick} >단어사전</div>
-            <div aria-label="notice" className = "px-4 cursor-pointer" onClick={onClick}>알림공간</div>
+            <div className="px-4"><span aria-label="main"  className="cursor-pointer hover:text-[#c9805e]" onClick={onClick}>학습공간</span></div>
+            <div className="px-4"><span aria-label="note"  className="cursor-pointer hover:text-[#c9805e]" onClick={onClick}>오답공책</span></div>
+            <div className="px-4"><span aria-label="dogam" className="cursor-pointer hover:text-[#c9805e]" onClick={onClick}>문맥도감</span></div>
+            <div className="px-4"><span aria-label="mypage" className="cursor-pointer hover:text-[#c9805e]" onClick={onClick}>학습관리</span></div>
+            <div className="px-4"><span aria-label="dictionary" className="cursor-pointer hover:text-[#c9805e]" onClick={onClick}>단어사전</span></div>
+            <div className="px-4"><span aria-label="notice" className="cursor-pointer hover:text-[#c9805e]" onClick={onClick}>알림공간</span></div>
           </div>
         </div>
         <div className='flex justify-around text-[1rem]'>
@@ -114,13 +114,13 @@ function Navbar():JSX.Element {
       </div>
     </div>
     <div className={classNames("lg:hidden z-30 absolute bg-[#ffffff] w-full text-[0.9rem] text-[#A87E6E] px-2", { hidden: !menuToggle})}>
-        <div aria-label="main" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>학습공간</div>
-        <div aria-label="note" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>오답공책</div>
-        <div aria-label="dogam" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>문맥도감</div>
-        <div aria-label="mypage" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>학습관리</div>
-        <div aria-label="dictionary" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>단어사전</div>
-        <div aria-label="notice" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>알림공간</div>
-        <div aria-label="logout" className = "p-2 cursor-pointer hover:bg-gray-100" onClick={onClick}>나가기</div>
+        <div aria-label="main" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span>학습공간</span></div>
+        <div aria-label="note" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span>오답공책</span></div>
+        <div aria-label="dogam" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span>문맥도감</span></div>
+        <div aria-label="mypage" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span>학습관리</span></div>
+        <div aria-label="dictionary" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span>단어사전</span></div>
+        <div aria-label="notice" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span>알림공간</span></div>
+        <div aria-label="logout" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span>나가기</span></div>
     </div>
   </div>
   )

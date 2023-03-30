@@ -1,18 +1,17 @@
 import Footer from "../Common/Footer"
 import Navbar from "../Common/Navbar"
-import { useGetUserMyinfoQuery, useGetUserMystudyQuery, useLazyGetUserBadgeQuery, useLazyGetUserStatsCompareQuery, usePostUserMonthstudyMutation, usePutUserBadgeMalrangMutation, usePutUserBadgeMutation, usePutUserdataMutation } from "../../Store/api"
-// import { usePostUserchecknicknameMutation } from "../../Store/NonAuthApi";
-import React, { KeyboardEvent, KeyboardEventHandler, MouseEventHandler, useEffect, useRef, useState } from "react"
-// import styled from './MyPage.module.css'
+import { useGetUserMyinfoQuery, useGetUserMystudyQuery, useLazyGetUserBadgeQuery, useLazyGetUserStatsCompareQuery, usePostUserMonthstudyMutation, usePutUserBadgeMalrangMutation, usePutUserBadgeMutation } from "../../Store/api"
+import React, { MouseEventHandler, useEffect, useRef, useState } from "react"
 import { Bar, Doughnut, Line } from "react-chartjs-2"
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
 import { useNavigate } from "react-router-dom";
-// import { useAppDispatch } from "../../Store/hooks";
-// import { changeUserNickname } from "../../Store/store";
+
 import Chart from 'chart.js/auto';
 import OrangeCat from "../Threejs/OrangeCat"
 import Loading from "../Common/Loading";
+import ErrorPage from "../Common/ErrorPage"
+
 interface UserDataType {
   exp: number,
   isAdmin: boolean,
@@ -81,7 +80,7 @@ function MyPage():JSX.Element {
   }
 
   if (isError1 || isError2) {
-    return <>Error: {isError1 || isError2}</>;
+    return <ErrorPage/>;
   }
 
   // 레벨 경험치
@@ -298,14 +297,14 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
                 {/* 이동 버튼 */}
                 <div className="flex justify-center items-center bg-[#C6A89A] mt-9 w-full text-white text-[1.2rem] font-semibold rounded-lg">
                   <div className="flex justify-around items-center w-full py-2">
-                    <div className="flex flex-col justify-center items-center w-full">
-                      <div className="flex justify-around items-center w-full pt-2">
+                    <div className="flex flex-col justify-center items-center w-full pt-2">
+                      <div className="flex justify-around items-center w-full">
                         <div className="flex justify-center w-full border-r-2 border-r-white"><img aria-label="시간"  className="object-contain w-[3.7rem] h-[3.7rem] hover:scale-110 transition-all duration-300 cursor-pointer" src="/Assets/Icon/mypageIcon1.png" alt="icon" onClick={moveClick}/></div>
                         <div className="flex justify-center w-full border-r-2 border-r-white"><img aria-label="통계"  className="object-contain w-[3.7rem] h-[3.7rem] hover:scale-110 transition-all duration-300 cursor-pointer" src="/Assets/Icon/mypageIcon2.png" alt="icon" onClick={moveClick}/></div>
                         <div className="flex justify-center w-full border-r-2 border-r-white"><img aria-label="비교"  className="object-contain w-[3.7rem] h-[3.7rem] hover:scale-110 transition-all duration-300 cursor-pointer" src="/Assets/Icon/mypageIcon3.png" alt="icon" onClick={moveClick}/></div>
-                        <div className="flex justify-center w-full "><img aria-label="칭호" className="object-contain w-[3.7rem] h-[3.7rem]  hover:scale-110 transition-all duration-300 cursor-pointer" src="/Assets/Icon/mypageIcon4.png" alt="icon" onClick={moveClick}/></div>
+                        <div className="flex justify-center w-full "><img aria-label="칭호" className="object-contain w-[3.7rem] h-[3.7rem] hover:scale-110 transition-all duration-300 cursor-pointer" src="/Assets/Icon/mypageIcon4.png" alt="icon" onClick={moveClick}/></div>
                       </div>
-                      <div className="flex justify-around w-full">
+                      <div className="flex justify-around w-full pt-2 text-[1rem]">
                         <div aria-label="시간" className="cursor-pointer" onClick={moveClick}>학습 시간</div>
                         <div aria-label="통계" className="cursor-pointer" onClick={moveClick}>학습 통계</div>
                         <div aria-label="비교" className="cursor-pointer" onClick={moveClick}>학습 비교</div>
@@ -519,7 +518,7 @@ function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sent
                   <div className="flex justify-center w-full border-r-2 border-r-white"><img aria-label="비교" className="object-contain w-[3rem] md:w-[3.3rem] hover:scale-110 transition-all duration-300 cursor-pointer" src="/Assets/Icon/mypageIcon3.png" alt="icon" onClick={moveClick}/></div>
                   <div className="flex justify-center w-full "><img aria-label="칭호" className="object-contain w-[3rem] md:w-[3.3rem] hover:scale-110 transition-all duration-300 cursor-pointer" src="/Assets/Icon/mypageIcon4.png" alt="icon" onClick={moveClick}/></div>
                 </div>
-                <div className="flex justify-around w-full">
+                <div className="flex justify-around w-full text-[0.9rem] lg:text-[1rem]">
                   <div aria-label="시간" className="cursor-pointer" onClick={moveClick}>학습 시간</div>
                   <div aria-label="통계" className="cursor-pointer" onClick={moveClick}>학습 통계</div>
                   <div aria-label="비교" className="cursor-pointer" onClick={moveClick}>학습 비교</div>
