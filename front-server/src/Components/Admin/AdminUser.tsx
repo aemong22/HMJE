@@ -230,7 +230,7 @@ function AdminUserSection1():JSX.Element {
       }
       <Toast />
       {(isLoading1||isLoading2||isLoading3) && loading}
-      <div className="container max-w-screen-xl w-[90%] my-4 mx-auto ">
+      <div className="container max-w-screen-2xl w-[90%] my-4 mx-auto ">
         <div className="w-full flex justify-center text-[2.2rem] text-[#A87E6E] font-bold mb-5">
           USER 관리
         </div>

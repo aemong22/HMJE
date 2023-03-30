@@ -29,6 +29,7 @@ import ChangeNickname from "./Components/MyPage/Select/ChangeNickname";
 import ChangePassword from "./Components/MyPage/Select/ChangePassword";
 import ChangePhonenum from "./Components/MyPage/Select/ChangePhonenum";
 import CheckSecession from "./Components/MyPage/Select/CheckSecession";
+import MyPage2 from "./Components/MyPage/MyPage2";
 
 function App() {
   const notify = () => toast("Wow so easy!");
@@ -46,6 +47,7 @@ function App() {
         <Route path="/changepassword" element={<ChangePassword />} />
         <Route path="/changephonenum" element={<ChangePhonenum />} />
         <Route path="/checksecession" element={<CheckSecession />} />
+        <Route path="/mypage2" element={<MyPage2 />} />
         
         <Route path="/join" element={<Join />} />
         <Route path="/main" element={<Main />} />
