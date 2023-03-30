@@ -149,9 +149,9 @@ const DictionaryPage = () => {
         console.log("rtk결과", r);
         // console.log(Math.floor(r.count/10));
         setWordList(r);
-        console.log("r은?", r.count);
-        // setWordListSize(r.count)
-        setPage(page);
+        // console.log("r은?", r.count);
+        setWordListSize(r.count)
+        setPage(1);
       });
 
     // wordList변경
@@ -163,7 +163,7 @@ const DictionaryPage = () => {
       keyword: "",
       p: 0,
     };
-    console.log("tempdata", tempdata);
+    // console.log("tempdata", tempdata);
 
     getWorddict(tempdata)
       .unwrap()
@@ -171,10 +171,10 @@ const DictionaryPage = () => {
         console.log("rtk결과", r);
         // console.log(Math.floor(r.count/10));
         setWordList(r);
-        console.log("r은?", r.count);
-        // setWordListSize(r.count)
-
-        setPage(page);
+        // console.log("r은?", r.count);
+        setWordListSize(r.count)
+        setSearch("");
+        setPage(1);
       });
 
     // wordList변경
@@ -188,9 +188,8 @@ const DictionaryPage = () => {
 
   useEffect(() => {
     console.log(wordList);
-
-    setWordList(wordList);
-    // setWordListSize(wordList.count);
+    setWordList(wordList);    
+    // setWordListSize(wordList!.count);
     return () => {};
   }, [wordList]);
   // 가로 사이즈에 따라
@@ -316,6 +315,7 @@ function Searchbar({
         </div>
         <input
           type="text"
+          value={Search}
           className="border-[#A87E6E] lg:h-[60%] w-[40%] sm:w-[40%] md:w-[40%] lg:w-[40%] border-2 rounded-md py-2 px-5 text-xl sm:text-xl md:text-2xl lg:text-2xl font-medium placeholder:font-normal"
           placeholder="검색"
           onChange={ChangeSearch}
@@ -383,7 +383,6 @@ interface Props {
   fetchData: Function;
   changeList: Function;
 }
-
 const CharPagination: React.FC<Props> = ({
   currentPage,
   newPageNumbers,
@@ -394,7 +393,6 @@ const CharPagination: React.FC<Props> = ({
 }) => {
   const handlePageChange = (pageNumber: any) => {
     console.log("pageNumber는", pageNumber);
-
     onfilterChange(pageNumber.id);
     fetchData(pageNumber.id);
   };
