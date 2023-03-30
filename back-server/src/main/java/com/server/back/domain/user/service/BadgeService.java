@@ -180,13 +180,19 @@ public class BadgeService {
         return response;
     }
 
-    public List<Long> badgecheckMalrang(Long userId) {
+    public List<Long> badgecheckMalrang(Long userId, Long badgeId) {
         User user = userRepository.findByUserId(userId);
         List<Long> myBadgeList = badgeResultRepository.badgelistfindByUserId(user);
         List<Long> response = new ArrayList<>();
 
-        if (!myBadgeList.contains(18L)) {
+        if ((badgeId==18L) && (!myBadgeList.contains(18L))) {
             response.add(badgeadd(18L, user)); // 뱃지 추가
+        }
+        if ((badgeId==22L) && (!myBadgeList.contains(22L))) {
+            response.add(badgeadd(22L, user)); // 뱃지 추가
+        }
+        if ((badgeId==23L) && (!myBadgeList.contains(23L))) {
+            response.add(badgeadd(23L, user)); // 뱃지 추가
         }
         return response;
     }
