@@ -11,12 +11,8 @@ import { useNavigate } from "react-router-dom";
 // import { useAppDispatch } from "../../Store/hooks";
 // import { changeUserNickname } from "../../Store/store";
 import Chart from 'chart.js/auto';
-import GrayCat from "../Threejs/GrayCat"
 import OrangeCat from "../Threejs/OrangeCat"
-import MixCat from "../Threejs/MixCat"
-import StrangeCat from "../Threejs/StrangeCat"
-import Loading from "../Common/Loading"
-
+import Loading from "../Common/Loading";
 interface UserDataType {
   exp: number,
   isAdmin: boolean,
@@ -63,6 +59,7 @@ interface StudyType {
   statsRight: number,
   statsSemo: number,
   statsWrong: number,
+  nickname: string,
 }
 
 
@@ -80,7 +77,7 @@ function MyPage():JSX.Element {
 
 
   if (isLoading1 || isLoading2 ) {
-    return <div>Loading...</div>;
+    return <Loading/>;
   }
 
   if (isError1 || isError2) {
@@ -204,9 +201,9 @@ function MyPage():JSX.Element {
       <Toast />
       <Navbar/>
       <MyPageSection1V1 nickname={userMyInfo?.data.nickname} nowbadgeName={userMyInfo?.data.nowbadgeName} expWidth={expWidth} exp={userMyInfo?.data.exp} totalExp={totalExp} dataLevel={dataLevel} sentence={sentence} level={level1} level2={level2} nowbadgeImage={userMyInfo?.data.nowbadgeImage} userId={userId} checkEmoState={checkEmoState} moveClick={moveClick}/>
-      <MyPageSection2V1 todayWord={todayWord} totalWord={totalWord} todayContext={todayContext} totalContext={totalContext} todayTime={todayTime} totalTime={totalTime} statsRight={statsRight} statsSemo={statsSemo} statsWrong={statsWrong}/>
+      <MyPageSection2V1 todayWord={todayWord} totalWord={totalWord} todayContext={todayContext} totalContext={totalContext} todayTime={todayTime} totalTime={totalTime} statsRight={statsRight} statsSemo={statsSemo} statsWrong={statsWrong} nickname={userMyInfo?.data.nickname}/>
       <MyPageSection1V2 nickname={userMyInfo?.data.nickname} nowbadgeName={userMyInfo?.data.nowbadgeName} expWidth={expWidth} exp={userMyInfo?.data.exp} totalExp={totalExp} dataLevel={dataLevel} sentence={sentence} level={level1} level2={level2} nowbadgeImage={userMyInfo?.data.nowbadgeImage} userId={userId} checkEmoState={checkEmoState} moveClick={moveClick}/>
-      <MyPageSection2V2 todayWord={todayWord} totalWord={totalWord} todayContext={todayContext} totalContext={totalContext} todayTime={todayTime} totalTime={totalTime} statsRight={statsRight} statsSemo={statsSemo} statsWrong={statsWrong}/>
+      <MyPageSection2V2 todayWord={todayWord} totalWord={totalWord} todayContext={todayContext} totalContext={totalContext} todayTime={todayTime} totalTime={totalTime} statsRight={statsRight} statsSemo={statsSemo} statsWrong={statsWrong} nickname={userMyInfo?.data.nickname}/>
       <MyPageSection3 userId={userId} move1={move1} move2={move2} move3={move3} move4={move4} move5={move5}/>
       <Footer/>
     </>
@@ -262,9 +259,9 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
         <div className="container max-w-screen-xl h-[30rem] lg:w-full mx-auto hidden lg:flex flex-col lg:flex-row lg:justify-around items-center text-center mb-2 py-5">
           <div className="flex flex-col lg:w-[45%] h-full rounded-tr-xl rounded-tl-xl " onClick={clickCat}>
             <div className="flex justify-center items-center w-full h-full">
-              <div className="flex flex-col justify-center items-center w-[90%] h-[90%] bg-white py-4 px-4">
+              <div className="flex flex-col justify-center items-center w-[90%] h-[90%] bg-white py-4 px-4 rounded-md">
                 {character}
-                <div className="bg-[#f3f5e6] rounded-br-xl rounded-bl-xl font-semibold md:text-[1rem] w-full py-1">{sentence}</div>
+                <div className="bg-[#f3f5e6] rounded-br-xl rounded-bl-xl font-semibold md:text-[1rem] w-full py-1 rounded-md">{sentence}</div>
               </div>
             </div>
           </div>
@@ -299,14 +296,14 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
                   </div>
                 </div>
                 {/* 이동 버튼 */}
-                <div className="flex justify-center items-center bg-[#C6A89A] mt-5 w-full text-white text-[1.2rem] font-semibold rounded-lg">
+                <div className="flex justify-center items-center bg-[#C6A89A] mt-9 w-full text-white text-[1.2rem] font-semibold rounded-lg">
                   <div className="flex justify-around items-center w-full py-2">
                     <div className="flex flex-col justify-center items-center w-full">
                       <div className="flex justify-around items-center w-full pt-2">
-                        <div className="flex justify-center w-full border-r-2 border-r-white"><img aria-label="시간"  className="object-contain w-[3.7rem] hover:scale-110 transition-all duration-300 cursor-pointer" src="/Assets/Icon/mypageIcon1.png" alt="icon" onClick={moveClick}/></div>
-                        <div className="flex justify-center w-full border-r-2 border-r-white"><img aria-label="통계"  className="object-contain w-[3.7rem] hover:scale-110 transition-all duration-300 cursor-pointer" src="/Assets/Icon/mypageIcon2.png" alt="icon" onClick={moveClick}/></div>
-                        <div className="flex justify-center w-full border-r-2 border-r-white"><img aria-label="비교"  className="object-contain w-[3.7rem] hover:scale-110 transition-all duration-300 cursor-pointer" src="/Assets/Icon/mypageIcon3.png" alt="icon" onClick={moveClick}/></div>
-                        <div className="flex justify-center w-full "><img aria-label="칭호" className="object-contain w-[3.7rem] hover:scale-110 transition-all duration-300 cursor-pointer" src="/Assets/Icon/mypageIcon4.png" alt="icon" onClick={moveClick}/></div>
+                        <div className="flex justify-center w-full border-r-2 border-r-white"><img aria-label="시간"  className="object-contain w-[3.7rem] h-[3.7rem] hover:scale-110 transition-all duration-300 cursor-pointer" src="/Assets/Icon/mypageIcon1.png" alt="icon" onClick={moveClick}/></div>
+                        <div className="flex justify-center w-full border-r-2 border-r-white"><img aria-label="통계"  className="object-contain w-[3.7rem] h-[3.7rem] hover:scale-110 transition-all duration-300 cursor-pointer" src="/Assets/Icon/mypageIcon2.png" alt="icon" onClick={moveClick}/></div>
+                        <div className="flex justify-center w-full border-r-2 border-r-white"><img aria-label="비교"  className="object-contain w-[3.7rem] h-[3.7rem] hover:scale-110 transition-all duration-300 cursor-pointer" src="/Assets/Icon/mypageIcon3.png" alt="icon" onClick={moveClick}/></div>
+                        <div className="flex justify-center w-full "><img aria-label="칭호" className="object-contain w-[3.7rem] h-[3.7rem]  hover:scale-110 transition-all duration-300 cursor-pointer" src="/Assets/Icon/mypageIcon4.png" alt="icon" onClick={moveClick}/></div>
                       </div>
                       <div className="flex justify-around w-full">
                         <div aria-label="시간" className="cursor-pointer" onClick={moveClick}>학습 시간</div>
@@ -327,7 +324,7 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
 }
 
 // 데스크탑
-function MyPageSection2V1({todayWord, totalWord, todayContext, totalContext, todayTime, totalTime, statsRight, statsSemo, statsWrong}:StudyType):JSX.Element {
+function MyPageSection2V1({todayWord, totalWord, todayContext, totalContext, todayTime, totalTime, statsRight, statsSemo, statsWrong, nickname}:StudyType):JSX.Element {
   // 학습 시간 h , m , s
   let time1:number = todayTime
   const m1:number = Math.floor(time1 / 60);
@@ -402,7 +399,7 @@ function MyPageSection2V1({todayWord, totalWord, todayContext, totalContext, tod
           <div className="text-[1.5rem] font-bold mb-1">학습 현황 도표</div>
           <div className="text-[0.9rem] text-start text-[#A2A2A2]">
             <span>오늘 내가 푼 모든 문제의 비율을 살펴보세요</span><br />
-            <span>정답과 오답의 비율에 따라 [닉네임]의 표정이 달라집니다</span><br />
+            <span>정답과 오답의 비율에 따라 <span className="font-bold text-[1.1rem]">{nickname}</span>님의 표정이 달라집니다</span><br />
             <span>매일 자정에 업데이트 됩니다</span>
           </div>
         </div>
@@ -538,7 +535,7 @@ function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sent
 }
 
 // 모바일
-function MyPageSection2V2({todayWord, totalWord, todayContext, totalContext, todayTime, totalTime, statsRight, statsSemo, statsWrong}:StudyType):JSX.Element {
+function MyPageSection2V2({todayWord, totalWord, todayContext, totalContext, todayTime, totalTime, statsRight, statsSemo, statsWrong, nickname}:StudyType):JSX.Element {
     // 학습 시간 h , m , s
     let time1:number = todayTime
     const m1:number = Math.floor(time1 / 60);
@@ -613,7 +610,7 @@ function MyPageSection2V2({todayWord, totalWord, todayContext, totalContext, tod
           <div className="text-[1.5rem] font-bold mb-1">학습 현황 도표</div>
           <div className="text-[0.9rem] text-start text-[#A2A2A2]">
             <span>오늘 내가 푼 모든 문제의 비율을 살펴보세요</span><br />
-            <span>정답과 오답의 비율에 따라 [닉네임]의 표정이 달라집니다</span><br />
+            <span>정답과 오답의 비율에 따라 <span className="font-bold text-[1rem]">{nickname}</span>의 표정이 달라집니다</span><br />
             <span>매일 자정에 업데이트 됩니다</span>
           </div>
         </div>
