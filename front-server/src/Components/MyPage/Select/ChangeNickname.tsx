@@ -136,7 +136,9 @@ const NickName = () => {
       .unwrap()
       .then((r: any) => {
         localStorage.setItem("nickname", nickname);
-        navigate("/myinfoselect", { state: { ModifyResult: true } });
+        navigate("/myinfoselect", {
+          state: { ModifyResult: true, RightAccess: true },
+        });
       })
       .catch((e) => {
         console.log(e);
@@ -190,7 +192,7 @@ const NickName = () => {
             <button
               className="mt-7 cursor-pointer w-[45%] h-[3.5rem] rounded-lg font-extrabold bg-[#B7B7B7] text-white disabled:cursor-not-allowed"
               onClick={() => {
-                navigate("/myinfoselect");
+                navigate("/myinfoselect", { state: { RightAccess: true } });
               }}
             >
               <div className="flex justify-center items-center ">

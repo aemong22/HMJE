@@ -75,39 +75,53 @@ const PassWord = () => {
   };
 
   const modify = () => {
-    if (IsPasswordConfirm) {
-      const userId = localStorage.getItem("userId");
-      const data = [
-        {
-          newPassword: newPassword,
-          newPhonenumber: "",
-          password: password,
-        },
-        userId,
-      ];
-      putUserChangePassword(data)
-        .unwrap()
-        .then((r: any) => {
-          if (r.data === true) {
-            navigate("/myinfoselect", { state: { ModifyResult: true } });
-          } else if (r.data === false) {
-            toast.error("현재 비밀번호가 틀렸습니다!", {
-              position: "top-center",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          }
-        })
-        .catch((e: any) => {
-          console.log(e);
-        });
-    } else {
-      alert("새 비밀번호를 동일하게 입력해주세요");
+    if (password === "") {
+      toast.info("현재 비밀번호가 비어있습니다");
+    }
+    if (newPassword === "") {
+      toast.info("새 비밀번호가 비어있습니다");
+    }
+    if (newPasswordCheck === "") {
+      toast.info("새 비밀번호 확인이 비어있습니다");
+    } else if (
+      password !== "" &&
+      newPassword !== "" &&
+      newPasswordCheck !== ""
+    ) {
+      if (IsPasswordConfirm) {
+        const userId = localStorage.getItem("userId");
+        const data = [
+          {
+            newPassword: newPassword,
+            newPhonenumber: "",
+            password: password,
+          },
+          userId,
+        ];
+        putUserChangePassword(data)
+          .unwrap()
+          .then((r: any) => {
+            if (r.data === true) {
+              navigate("/myinfoselect", { state: { ModifyResult: true,RightAccess: true } });              
+            } else if (r.data === false) {
+              toast.error("현재 비밀번호가 틀렸습니다!", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }
+          })
+          .catch((e: any) => {
+            console.log(e);
+          });
+      } else {
+        toast.error("새 비밀번호를 동일하게 입력해주세요");
+      }
     }
   };
   const updown = "relative z-0 my-7 w-[100%]";
@@ -186,7 +200,7 @@ const PassWord = () => {
             <button
               className="mt-7 cursor-pointer w-[45%] h-[3.5rem] rounded-lg font-extrabold bg-[#B7B7B7] text-white disabled:cursor-not-allowed"
               onClick={() => {
-                navigate("/myinfoselect");
+                navigate("/myinfoselect", { state: { RightAccess: true } });
               }}
             >
               <div className="flex justify-center items-center ">

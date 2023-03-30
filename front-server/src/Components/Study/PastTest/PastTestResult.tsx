@@ -69,18 +69,18 @@ function ResultPage({ TestScore }: any) {
       {/* <!-- Login box --> */}
       <div className="flex flex-col justify-center">
         <div className="flex flex-col items-center space-y-2 text-center mb-[1rem]">
-          <div className="text-3xl font-extrabold text-[#A87E6E] md:text-6xl">
+          <div className="text-3xl font-extrabold text-[#a8746e] md:text-4xl">
             홍민정음
           </div>
-          <div className="text-[#BD9789] font-extrabold text-[15px] leading-7 md:text-[24px] md:leading-8  w-[20rem] ">
+          <div className="text-[#b38878] font-extrabold text-[15px] leading-7 md:text-[18px] md:leading-8  w-[20rem] ">
             즐거운 단어 학습
           </div>
         </div>
         <div className="flex flex-col max-w-xl w-[100%] lg:w-[50rem] space-y-5 ">
-          <div className="text-[#A87C6E] font-extrabold text-center text-3xl pt-3 leading-7">
+          <div className="text-[#556b2f] font-extrabold text-center text-6xl pt-3 leading-7">
             과거시험
           </div>
-          <div className="flex flex-row  justify-center">
+          <div className="flex flex-row  justify-center ">
             <div className=" text-[#f35050]  font-extrabold text-center text-5xl pt-3 leading-7">
               {TestScore}점
             </div>

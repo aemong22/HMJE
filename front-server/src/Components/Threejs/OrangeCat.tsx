@@ -20,7 +20,7 @@ function OrangeCat({sendEmo, dataLevel}:any) {
     }
   },[])
   return (
-    <div className='w-full h-full mt-2'>
+    <div className='w-full h-full'>
       <Canvas style={{width: '100%', height: '100%', borderRadius: '0.5rem'}}>
         <mesh scale={1} position={[0,-2.4,2.5]}>
           {/* 로딩중일때  */}

@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { toast, ToastContainer, Slide, cssTransition } from "react-toastify";
 import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
 
 const MyInfoSelect = (): JSX.Element => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (location.state !== null) {
@@ -16,13 +17,17 @@ const MyInfoSelect = (): JSX.Element => {
         ...window.history.state,
         usr: {
           ...window.history.state.usr,
-          ModifyResult: 0,          
+          ModifyResult: 0,
         },
       };
       const pageTitle = "Title";
       const pageUrl = "/myinfoselect";
       window.history.replaceState(stateData, pageTitle, pageUrl);
+    } else {
+      alert("잘못된접근입니다");
+      navigate("/myinfoselectcheck");
     }
+    return () => {};
   }, []);
 
   return (
@@ -86,7 +91,7 @@ const Select = (): JSX.Element => {
         회원탈퇴
       </button>
       <button id="back" className={normalbutton} onClick={Nav}>
-        나가기
+        뒤로가기
       </button>
     </div>
   );
