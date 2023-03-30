@@ -634,7 +634,7 @@ function News({ newsKeyword }: any): JSX.Element {
             }}
           />
         </div>
-        <div className="mb-2 text-[#A2A2A2] text-[0.8rem] text-end">{newsKeyword[0]?.created_at?.split('T')[0]} {newsKeyword[0]?.created_at?.split('T')[1]?.split('.')[0]} 업데이트</div>
+        <div className="mb-2 text-[#A2A2A2] text-[0.8rem] text-end">{newsKeyword[0]?.created_at?.split('T')[0]} {newsKeyword[0]?.created_at?.split('T')[1]?.split('.')[0]} {" "}기준</div>
 
         <div className="md:text-[1.8rem] sm:text-[1.4rem] text-[1.2rem] font-bold">
           {selectWord?.detail?.wordName}
