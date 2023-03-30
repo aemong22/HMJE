@@ -22,6 +22,9 @@ public class WordResponseDto {
 	private String wordRating;
 	private String wordOrigin;
 
+	@Builder.Default
+	private Boolean isFailed = false;
+
 	private List<WordDetailResponseDto> wordDetailResponseList;
 
 	public static WordResponseDto fromEntity(Word word) {
@@ -57,6 +60,20 @@ public class WordResponseDto {
 		                                                 .wordRating(word.getWordRating())
 		                                                 .wordOrigin(word.getWordOrigin())
 		                                                 .wordDetailResponseList(WordDetailResponseDto.fromEntityList(word.getWordDetailList()))
+		                                                 .build();
+
+		return wordResponseDto;
+	}
+	public static WordResponseDto fromEntityToEncodeAndFailed(Word word) {
+		WordResponseDto wordResponseDto = WordResponseDto.builder()
+		                                                 .wordId(word.getWordId())
+		                                                 .wordName(Base64.getEncoder().withoutPadding().encodeToString(word.getWordName().getBytes()))
+		                                                 .wordIso(word.getWordIso())
+		                                                 .wordType(word.getWordType())
+		                                                 .wordRating(word.getWordRating())
+		                                                 .wordOrigin(word.getWordOrigin())
+		                                                 .wordDetailResponseList(WordDetailResponseDto.fromEntityList(word.getWordDetailList()))
+		                                                 .isFailed(true)
 		                                                 .build();
 
 		return wordResponseDto;
