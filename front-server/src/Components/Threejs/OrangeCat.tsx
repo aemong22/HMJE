@@ -6,7 +6,6 @@ import * as THREE from 'three'
 function OrangeCat({sendEmo, dataLevel}:any) {
 
   const [emo, setEmo] = useState<any>()
-  const loading = <img src={require('./loading.svg')} alt="" />
   
   useEffect(()=> {
     if (sendEmo === 0) {
