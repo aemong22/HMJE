@@ -320,7 +320,7 @@ public class UserServiceImpl implements UserService {
                 } else if (s.getStudyType().equals(1)) {
                     int nowdayContextTime = nowday.getContextTime();
                     nowday.setContextTime(nowdayContextTime+s.getStudyTime());
-                }else if (s.getStudyType().equals(2)){
+                }else if (s.getStudyType().equals(3)){
                     int nowdayWrongTime = nowday.getContextTime();
                     nowday.setWrongTime(nowdayWrongTime+s.getStudyTime());
                 }
