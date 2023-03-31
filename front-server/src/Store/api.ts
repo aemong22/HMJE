@@ -857,6 +857,7 @@ export const {
   useLazyGetStudyContextQuery,
   usePostStudyContextResultMutation,
   useGetDogamUserIdQuery,
+  useLazyGetDogamUserIdQuery,
   useGetDogamQuery,
   usePostUserMonthstudyMutation,
   useGetStudyPastQuery,
