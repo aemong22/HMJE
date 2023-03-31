@@ -1078,9 +1078,9 @@ function MyPageSection3({userId, move1, move2, move3, move4, move5}:MyPageSectio
         setIsshowBadgeDetail(false)
       }
     }}>
-      <div className="flex justify-center w-[90%] md:w-[60%] h-[90%] relative bg-white rounded-2xl">
+      <div className="flex justify-center w-[90%] md:w-[60%] h-[90%] pyt-2 relative bg-white rounded-2xl">
         <div className="flex flex-col justify-center lg:justify-start items-center w-full h-full ">
-          <div className="flex justify-center items-start w-full">
+          <div className="flex justify-center items-start w-full pt-3">
             <img className="object-contain w-[9rem] h-[9rem]" src={`/Assets/Badge/${badgeDetail?.badgeImage}.png`} alt="뱃지"/>
           </div>
           <div className="flex flex-col justify-between items-center py-2">
