@@ -16,22 +16,14 @@ const DictionaryDetail = (): JSX.Element => {
   const [RandomIndex, setRandomIndex] = useState(0);
 
   function CloseDictionaryDetail(event: React.MouseEvent<HTMLDivElement>) {
-    console.log("클릭인것같음", event.target);
-    console.log("뭔가용", bgDiv.current);
+    // console.log("클릭인것같음", event.target);
+    // console.log("뭔가용", bgDiv.current);
     if (event.target === bgDiv.current) {
-      console.log("인트로창꺼짐!");
+      // console.log("인트로창꺼짐!");
       dispatch(showDictionaryDetail());
     }
   }
   console.log(DictionaryDetailInfo);
-  // useEffect(() => {
-  //   var randomIndex =Math.floor(Math.random()*DictionaryDetailInfo.wordDetailResponseList.wordExampleResponseList.length,
-  //     ) + 1;
-  //   setRandomIndex(randomIndex);
-
-  //   return () => {};
-  // }, []);
-
   return (
     <div
       ref={bgDiv}
@@ -65,27 +57,29 @@ const DictionaryDetail = (): JSX.Element => {
             ) : null}
           </div>
         </div>
-        {DictionaryDetailInfo.wordDetailResponseList.map((it: any) => {
+        {DictionaryDetailInfo.wordDetailResponseList.map((it: any) => {          
           return (
             <div className="flex flex-col justify-start">
               <div className="flex flex-col justify-start  pt-3 lg:py-3 md:text-3xl px-5 bg-[#F4EFEC] rounded-2xl my-3 lg:my-6">
                 <div className="flex text-black text-[1.3rem] lg:text- text-start">
                   {it.details}
                 </div>
-                <div className="flex flex-row py-3 items-center">
-                  <div className=" min-w-[3rem] mr-2 rounded-lg lg:px-7 py-[0.3rem] bg-[#F7CCB7] text-[#FFFFFF] lg:rounded-3xl text-[1rem]">
-                    예제
+                {it.wordExampleResponseList.length !== 0 ? (
+                  <div className="flex flex-row pt-3 items-center">
+                    <div className=" min-w-[3rem] mr-2 rounded-lg lg:px-7 py-[0.3rem] bg-[#F7CCB7] text-[#FFFFFF] lg:rounded-3xl text-[1rem]">
+                      예제
+                    </div>
+                    <div className="text-[#5F5F5F] text-[1rem]">
+                      {
+                        it.wordExampleResponseList[
+                          Math.floor(
+                            Math.random() * it.wordExampleResponseList.length,
+                          )
+                        ].exampleDetail
+                      }
+                    </div>
                   </div>
-                  <div className="text-[#5F5F5F] text-[1rem]">
-                    {
-                      it.wordExampleResponseList[
-                        Math.floor(
-                          Math.random() * it.wordExampleResponseList.length,
-                        )
-                      ].exampleDetail
-                    }
-                  </div>
-                </div>
+                ) : null}
               </div>
             </div>
           );
