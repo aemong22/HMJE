@@ -26,7 +26,6 @@ import StrangeCat from "../Threejs/StrangeCat";
 import MixCat from "../Threejs/MixCat";
 import GrayCat from "../Threejs/GrayCat";
 import Modal from "./PopUpModal"
-// import Modal from 'react-modal';
 
 function Main(): JSX.Element {
   const [modalVisible, setModalVisible] = useState(true)

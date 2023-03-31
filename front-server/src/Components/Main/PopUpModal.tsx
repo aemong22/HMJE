@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import PropTypes from "prop-types";
-// import Portal from "./portal";
-// import img from "components/popup/img/1667.jpg";
 
 interface ModalProps {
   className: string;
@@ -54,9 +51,8 @@ function Modal({ onClose, maskClosable, closable, visible }: ModalProps) {
     // 팝업 오늘 하루닫기 체크
     if (VISITED_BEFORE_DATE !== null) {
       // 날짜가 같을경우 노출
-      if (VISITED_BEFORE_DATE === VISITED_NOW_DATE.toString()) {
-        // 쿠키로바꾸자
-        // localStorage.removeItem("VisitCookie");
+      if (VISITED_BEFORE_DATE === VISITED_NOW_DATE.toString()) {       
+        
         const expiry = new Date();
         setCookie("VisitCookie", "modal", expiry.toString());
 
@@ -77,9 +73,7 @@ function Modal({ onClose, maskClosable, closable, visible }: ModalProps) {
       const expiry = new Date();
       // +1일 계산
       const expiryDate = expiry.getDate() + 1;
-
-      // 쿠키로바꾸자
-      // 로컬스토리지 저장
+      // 쿠키로바꾸자      
       setCookie("VisitCookie", "modal", expiryDate.toString());
     }
   };
