@@ -18,6 +18,8 @@ import styled from "styled-components";
 import DictionaryDetail from "./DictionaryDetail";
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
+import Loading from "../Common/Loading";
+import ErrorPage from "../Common/ErrorPage";
 
 type dict = {
   filter: string;
@@ -222,9 +224,9 @@ const DictionaryPage = () => {
   }, [items]);
 
   if (isLading1) {
-    return <>loading</>;
+    return <Loading />;
   } else if (error1) {
-    return <>error</>;
+    return <ErrorPage />;
   } else {
     // console.log("Math.floor(wordList!.count)", Math.floor(wordList!.count));
 
