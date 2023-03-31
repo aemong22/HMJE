@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -12,6 +12,20 @@ interface ModalProps {
 
 function Modal({ onClose, maskClosable, closable, visible }: ModalProps) {
   const navigate = useNavigate();
+
+  const [images, setImages] = useState([
+    "/Assets/test/image.png",
+    "/Assets/test/pocha.jpg",
+  ]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((currentIndex + 1) % images.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [currentIndex, images.length]);
+
   const onMaskClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose?.(e);
@@ -51,8 +65,7 @@ function Modal({ onClose, maskClosable, closable, visible }: ModalProps) {
     // 팝업 오늘 하루닫기 체크
     if (VISITED_BEFORE_DATE !== null) {
       // 날짜가 같을경우 노출
-      if (VISITED_BEFORE_DATE === VISITED_NOW_DATE.toString()) {       
-        
+      if (VISITED_BEFORE_DATE === VISITED_NOW_DATE.toString()) {
         const expiry = new Date();
         setCookie("VisitCookie", "modal", expiry.toString());
 
@@ -73,7 +86,7 @@ function Modal({ onClose, maskClosable, closable, visible }: ModalProps) {
       const expiry = new Date();
       // +1일 계산
       const expiryDate = expiry.getDate() + 1;
-      // 쿠키로바꾸자      
+      // 쿠키로바꾸자
       setCookie("VisitCookie", "modal", expiryDate.toString());
     }
   };
@@ -91,12 +104,12 @@ function Modal({ onClose, maskClosable, closable, visible }: ModalProps) {
         <div
           className={`${
             visible ? "block" : "hidden"
-          } box-border fixed top-0 left-0 bottom-0 right-0 z-[1000] overflow-auto outline-0 `}
+          } box-border fixed top-0 md:left-0 -left-4 bottom-0 right-0 z-[1000] overflow-auto outline-0 `}
           onClick={maskClosable ? onMaskClick : undefined}
           tabIndex={-1}
         >
           <div
-            className="box-border relative w-[380px] md:w-[580px] md:max-w-[2xl] top-[50%] transform translate-y-[-50%] mx-auto my-auto px-[40px] py-[20px] "
+            className="box-border relative w-[400px] md:w-[780px] md:max-w-[2xl] top-[50%] transform translate-y-[-50%] mx-auto px-[40px] py-[20px]"
             tabIndex={0}
           >
             <div className="flex flex-col items-center">
@@ -108,12 +121,12 @@ function Modal({ onClose, maskClosable, closable, visible }: ModalProps) {
               >
                 <img
                   className="w-full h-full"
-                  src={"/Assets/test/pocha.jpg"}
-                  alt=""
+                  src={images[currentIndex]}
+                  alt={`image${currentIndex}`}
                 />
               </div>
               {closable && (
-                <div className="flex justify-between bg-[#282828] w-[300px] md:w-[500px] p-[15px] rounded-br-[15px] rounded-bl-[15px] text-[#ffffff]">
+                <div className="flex justify-between bg-[#282828] w-[320px] md:w-[700px] px-[20px] py-[7px] text-[0.8rem] text-[#ffffff]">
                   <div className="cursor-pointer" onClick={Dayclose}>
                     오늘 하루 닫기
                   </div>
