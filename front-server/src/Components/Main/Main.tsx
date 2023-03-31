@@ -51,9 +51,6 @@ function getCookie(name: any) {
   }
   return null;
 }
-
-
-
   useEffect(() => {
 
     // 이전방문 날짜
@@ -61,32 +58,19 @@ function getCookie(name: any) {
   // 쿠키로바꾸자
 
   // 현재 날짜
-  var VISITED_NOW_DATE = Math.floor(new Date().getDate());
-    // console.log(VISITED_BEFORE_DATE);
-    // console.log("VISITED_BEFORE_DATE");
-    
-    console.log("이전 비교대상",VISITED_BEFORE_DATE);
-    console.log("오늘비교대상", VISITED_NOW_DATE.toString());
+  var VISITED_NOW_DATE = Math.floor(new Date().getDate());    
     if (VISITED_BEFORE_DATE !== null) {
-      // 날짜가 같을경우 노출
-      console.log("이전 비교대상",VISITED_BEFORE_DATE);
-      console.log("오늘비교대상", VISITED_NOW_DATE.toString());
-      
-      
       if (VISITED_BEFORE_DATE === VISITED_NOW_DATE.toString()) {
         const expiry = new Date();
         setCookie("VisitCookie", expiry.toString(), 0);
-        setModalVisible(true);
-        // onClose?.(true);
+        setModalVisible(true);        
       }
       // 날짜가 다를경우 비노출
       if (VISITED_BEFORE_DATE !== VISITED_NOW_DATE.toString()) {
         setModalVisible(false);
-
-        // onClose?.(false);
       }
     } else {      
-      setModalVisible(true);      
+      setModalVisible(true);   
     }
   }, []);
   
