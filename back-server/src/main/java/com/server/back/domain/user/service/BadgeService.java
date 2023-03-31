@@ -194,6 +194,12 @@ public class BadgeService {
         if ((badgeId==23L) && (!myBadgeList.contains(23L))) {
             response.add(badgeadd(23L, user)); // 뱃지 추가
         }
+        if ((badgeId==24L) && (!myBadgeList.contains(24L))) {
+            response.add(badgeadd(24L, user)); // 뱃지 추가
+        }
+        if ((badgeId==25L) && (!myBadgeList.contains(25L))) {
+            response.add(badgeadd(25L, user)); // 뱃지 추가
+        }
         return response;
     }
 
