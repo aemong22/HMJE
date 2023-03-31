@@ -6,6 +6,7 @@ import AnswerModal from "./AnswerModal"
 import ResultModal from "./ResultModal"
 import Study from "./Study"
 import Loading from "../Common/Loading";
+import ErrorPage from "../Common/ErrorPage";
 
 function WordStudy(): JSX.Element {
   const userId = localStorage.getItem("userId");
@@ -117,8 +118,13 @@ function WordStudy(): JSX.Element {
   }
 
   if(ErrorWords){
-    console.log(ErrorWords)
+    return(
+      <>
+        <ErrorPage />
+      </>
+    )
   }
+  
   return (
     <>
 

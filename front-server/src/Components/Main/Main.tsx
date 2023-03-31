@@ -23,6 +23,7 @@ import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
 import Loading from "../Common/Loading";
 import Modal from "./PopUpModal"
+import ErrorPage from "../Common/ErrorPage";
 
 function Main(): JSX.Element {
   const [modalVisible, setModalVisible] = useState(true)
@@ -183,11 +184,11 @@ function Main(): JSX.Element {
   }
 
   if (error1 || error2 || error3 || error4 || error5 || error6 || error7) {
-    return (
+    return(
       <>
-        Error: {error1} {error2}
+        <ErrorPage />
       </>
-    );
+    )
   }
 
 
