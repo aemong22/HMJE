@@ -29,7 +29,7 @@ RUN gdown --fuzzy https://drive.google.com/file/d/1ctRe2bVewNFtVPmCaRHU3fIYDlgUT
 RUN unzip -q /root/TTS.zip -d /root/TTS
 RUN unzip -q /root/g2pK.zip -d /root/g2pK
 
-RUN python3.9 -m pip install -q --no-cache-dir -e /root/TTS
+# RUN python3.9 -m pip install -q --no-cache-dir -e /root/TTS
 
 RUN python3.9 -m pip install -q --no-cache-dir "konlpy" "jamo" "nltk" "python-mecab-ko"
 RUN python3.9 -m pip install -q --no-cache-dir -e /root/g2pK
