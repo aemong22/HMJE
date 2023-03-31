@@ -381,9 +381,13 @@ const Join = () => {
 
   const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
-    if(accessToken){
+    if (accessToken&&accessToken === "undefined") {
+      navigate("/");
+    }
+    else if(accessToken&&accessToken!==undefined){      
       navigate("/main");
     }
+
     return () => {};
   }, []);
   return (

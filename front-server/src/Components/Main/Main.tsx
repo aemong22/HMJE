@@ -25,10 +25,65 @@ import Loading from "../Common/Loading";
 import Modal from "./PopUpModal"
 
 function Main(): JSX.Element {
-  const [modalVisible, setModalVisible] = useState(true)
+  const [modalVisible, setModalVisible] = useState(false)
   const closeModal = () => {
     setModalVisible(false)
 }
+
+function setCookie(name: any, value: any, days: any) {
+  const expires = new Date(Date.now() + days * 864e5).toUTCString();
+  document.cookie =
+    name +
+    "=" +
+    encodeURIComponent(value) +
+    "; expires=" +
+    expires +
+    "; path=/main";
+}
+
+function getCookie(name: any) {
+  const cookies = document.cookie.split("; ");
+  for (let i = 0; i < cookies.length; i++) {
+    const [cookieName, cookieValue] = cookies[i].split("=");
+    if (cookieName === name) {
+      return decodeURIComponent(cookieValue);
+    }
+  }
+  return null;
+}
+
+// 이전방문 날짜
+  const VISITED_BEFORE_DATE = getCookie("VisitCookie");
+  // 쿠키로바꾸자
+
+  // 현재 날짜
+  const VISITED_NOW_DATE = Math.floor(new Date().getDate());
+
+  useEffect(() => {
+    // console.log(VISITED_BEFORE_DATE);
+    console.log("VISITED_BEFORE_DATE");
+    
+    if (VISITED_BEFORE_DATE !== null) {
+      // 날짜가 같을경우 노출
+      if (VISITED_BEFORE_DATE === VISITED_NOW_DATE.toString()) {
+        const expiry = new Date();
+        setCookie("VisitCookie", "modal", expiry.toString());
+        setModalVisible(true);
+        // onClose?.(true);
+      }
+      // 날짜가 다를경우 비노출
+      if (VISITED_BEFORE_DATE !== VISITED_NOW_DATE.toString()) {
+        setModalVisible(false);
+
+        // onClose?.(false);
+      }
+    } else {
+      setModalVisible(true);
+      // onClose?.(true);
+    }
+  }, [VISITED_BEFORE_DATE]);
+  
+
   const navigate = useNavigate();
   localStorage.removeItem("difficulty");
 
@@ -207,7 +262,7 @@ function Main(): JSX.Element {
     <>
       <Navbar />
       <Toast />    
-      {modalVisible? <Modal className={"test"} visible={modalVisible} maskClosable={true} closable={true} onClose={closeModal} /> : null }
+      {modalVisible? <Modal className={"test"} visible={modalVisible} maskClosable={true} closable={true} onClose={closeModal} />: null }
       {/* <Example /> */}
       <MyInfo
         levelInfo={levelInfo}

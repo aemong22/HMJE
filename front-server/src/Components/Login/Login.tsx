@@ -19,10 +19,13 @@ function Login(): JSX.Element {
   const [Password, setPassword] = useState<string>("");
 
   const [PostUserlogin, isloading5] = usePostUserloginMutation();
-  
+
   const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
-    if (accessToken) {      
+    if (accessToken&&accessToken === "undefined") {
+      navigate("/");
+    }
+    else if(accessToken&&accessToken!==undefined){      
       navigate("/main");
     }
 
