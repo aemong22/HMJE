@@ -51,6 +51,9 @@ function Navbar():JSX.Element {
           window.localStorage.clear();
           navigate("/login");
         }        
+      }).catch((e)=>{
+        window.localStorage.clear();
+          navigate("/login");      
       })
     }
 
@@ -137,14 +140,14 @@ function Navbar():JSX.Element {
       </div>
     </div>
     <div className={classNames("lg:hidden z-30 absolute bg-[#ffffff] w-full text-[0.9rem] text-[#A87E6E] px-2", { hidden: !menuToggle})}>
-        <div aria-label="main" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span>학습공간</span></div>
-        <div aria-label="note" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span>오답공책</span></div>
-        <div aria-label="dogam" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span>문맥도감</span></div>
-        <div aria-label="mypage" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span>학습관리</span></div>
-        <div aria-label="dictionary" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span>단어사전</span></div>
-        <div aria-label="notice" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span>알림공간</span></div>
-        <div aria-label="logout" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span>나가기</span></div>
-    </div>
+        <div aria-label="main" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span aria-label="main" >학습공간</span></div>
+        <div aria-label="note" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span aria-label="note">오답공책</span></div>
+        <div aria-label="dogam" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span aria-label="dogam">문맥도감</span></div>
+        <div aria-label="mypage" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span aria-label="mypage">학습관리</span></div>
+        <div aria-label="dictionary" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span aria-label="dictionary">단어사전</span></div>
+        <div aria-label="notice" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span aria-label="notice">알림공간</span></div>
+        <div aria-label="logout" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span aria-label="logout">나가기</span></div>
+    </div>    
   </div>
   )
 }

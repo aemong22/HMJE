@@ -1,23 +1,29 @@
 import { MouseEventHandler, useEffect, useRef, useState } from "react"
 import { toast } from "react-toastify";
-import { useDeleteFaqMutation, useDeleteNoticeMutation, useGetUserMyinfoQuery, useLazyGetFaqQuery, useLazyGetNoticeQuery, usePostFaqMutation, usePostNoticeMutation, usePutFaqDetailMutation, usePutNoticeDetailMutation } from "../../Store/api";
+import { useDeleteFaqMutation, useDeleteNoticeMutation, useGetUserMyinfoQuery, useLazyGetFaqQuery, useLazyGetNoticeQuery, usePostFaqMutation, usePostNoticeMutation, usePutFaqDetailMutation, usePutNoticeDetailMutation, usePutUserBadgeMalrangMutation, useLazyGetUserBadgeQuery} from "../../Store/api";
 import Navbar from "../Common/Navbar"
 import "./Notice.css";
 import { Toast } from "../Common/Toast";
 import Loading from "../Common/Loading";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import ErrorPage from "../Common/ErrorPage";
 
 function Notice():JSX.Element {
   const userId = localStorage.getItem('userId')
+  
+  const {data:userMyInfo, isLoading:isLoading1, isError:isError1} = useGetUserMyinfoQuery(userId)
+  
   const [choiceBtn, setChoiceBtn] = useState<boolean>(false)
-  const {data:userMyInfo, isError:isError1, isLoading:isLoading1} = useGetUserMyinfoQuery(userId)
+  const error = <ErrorPage/>
   const loading = <Loading/>
+
   return (
     <>
+      {isError1&&error}
       {isLoading1&&loading}
       <Toast/>
       <Navbar/>
-      <NoticeSection1 isAdmin={userMyInfo?.data.isAdmin} choiceBtn={choiceBtn} setChoiceBtn={setChoiceBtn} adminUserId={userId}/>
+      <NoticeSection1 isAdmin={userMyInfo?.data.isAdmin} choiceBtn={choiceBtn} setChoiceBtn={setChoiceBtn} userId={userId}/>
       {
         choiceBtn === false? (
           <NoticeSection3 isAdmin={userMyInfo?.data.isAdmin}/>
@@ -29,17 +35,52 @@ function Notice():JSX.Element {
 }
 export default Notice
 
-function NoticeSection1({isAdmin, choiceBtn, setChoiceBtn, adminUserId}:(boolean|any)):JSX.Element {
+interface BadgeType {
+  badgeDetail: string,
+  badgeId: number,
+  badgeImage: string,
+  badgeName: string,
+  createdAt: string,
+}
+
+function NoticeSection1({isAdmin, choiceBtn, setChoiceBtn, userId}:(boolean|any)):JSX.Element {
+
+  const [putUserBadgeMalrang, {isLoading:isLoading1, isError:isError1}] = usePutUserBadgeMalrangMutation()
+  const [getUserBadge, {isLoading:isLoading2, isError:isError2}] = useLazyGetUserBadgeQuery()
+  const [mybadgeId, setMybadgeId] = useState<number[]|null>()
+  const [easterCnt, setEasterCnt] = useState<number>(0)
+  useEffect(()=> {
+    
+    getUserBadge(userId).unwrap().then((r)=> {
+      // console.log(r.data);
+      setMybadgeId(r.data.filter((badge:BadgeType)=> {
+        return badge.badgeId === 22
+      }))
+    }).then(()=> {
+      console.log(easterCnt);
+      if ((!mybadgeId?.length)&&easterCnt===6) {
+        putUserBadgeMalrang([userId, 22]).unwrap().then((r)=> {
+          if (r.newbadge.length) {
+            toast.success('숨겨진 칭호를 획득했습니다!')
+          }
+        })
+      } 
+    })
+  },[easterCnt])
+
+  const click = () => {
+    setEasterCnt(easterCnt+1)
+  }
   return (
     <div className="w-full">
       <div className="container max-w-screen-xl w-[90%] lg:w-full mx-auto">
         <div className="flex justify-center mb-10">
-          <span className="pt-14 text-[1.8rem] md:text-[2rem] text-[#A87E6E] font-bold">
+          <span className="pt-14 text-[1.8rem] md:text-[2rem] text-[#A87E6E] font-bold" onClick={click}>
             알림공간
           </span>
         </div>
       </div>
-      <NoticeSection2 isAdmin={isAdmin} choiceBtn={choiceBtn} setChoiceBtn={setChoiceBtn} adminUserId={adminUserId}/>
+      <NoticeSection2 isAdmin={isAdmin} choiceBtn={choiceBtn} setChoiceBtn={setChoiceBtn} adminUserId={userId}/>
     </div>
   )
 }
