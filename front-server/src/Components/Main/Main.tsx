@@ -33,6 +33,7 @@ function Main(): JSX.Element {
   var loactionuse = 0;
   useEffect(() => {
     if (localStorage.getItem("accessToken") === "undefined") {
+      window.localStorage.clear();
       navigate("/");
     } else {
             
