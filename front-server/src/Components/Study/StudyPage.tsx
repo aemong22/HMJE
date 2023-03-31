@@ -1,4 +1,4 @@
-import { useLazyGetStudyWordQuery, useLazyGetStudyContextQuery,useLazyGetWordWrongQuery } from "../../Store/api";
+import { useLazyGetStudyWordQuery, useLazyGetStudyContextQuery,useLazyGetWordWrongQuery, useLazyGetDogamUserIdQuery } from "../../Store/api";
 import { useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import Navbar from "../Common/Navbar"
@@ -23,6 +23,9 @@ function WordStudy(): JSX.Element {
 
   const [question, setQuestion] = useState<any>([]);
 
+  // 가지고 있는 도감
+  const [dogam, setDogam] = useState<any>([]);
+
   // 현재 문제 번호 
   const [num, setNum] = useState<number>(0)
   
@@ -30,6 +33,7 @@ function WordStudy(): JSX.Element {
   const [ getStudyWord,{ isLoading:LoadingWords, error:ErrorWords } ] = useLazyGetStudyWordQuery();
   const [ getStudyContext, { isLoading:LoadingContexts, error:ErrorContext } ] = useLazyGetStudyContextQuery();
   const [ getWordWrong, { isLoading:LoadingWrong, error:ErrorWrong } ] = useLazyGetWordWrongQuery();
+  const [ getDogamUserId, {isLoading:LoadingDogam, error: ErrorDogam } ] = useLazyGetDogamUserIdQuery();
 
 
 
@@ -52,6 +56,10 @@ function WordStudy(): JSX.Element {
       }).then((r) => { 
         setQuestion(r.data.data)
       })
+      getDogamUserId(userId).then((r) => {
+        setDogam(r.data.data)
+      })
+      
     }
     else if(studyType === "wrongStudy"){
       getWordWrong(userId).then((r) => {
@@ -100,7 +108,7 @@ function WordStudy(): JSX.Element {
   // 경험치
   const [exp, setExp] = useState<number>(0);
 
-  if(LoadingContexts || LoadingWords || LoadingWrong) {
+  if(LoadingContexts || LoadingWords || LoadingWrong || LoadingDogam) {
     return(
       <>
         <Loading />
@@ -140,8 +148,9 @@ function WordStudy(): JSX.Element {
               modalOpen={modalOpen}
               setNum={setNum}
               setResultModal={setResultModal} 
-              question={question
-            }/> }
+              question={question}
+              dogam={dogam}
+              /> }
             
   
           <Study 

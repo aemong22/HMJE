@@ -33,7 +33,7 @@ import MyInfoSelectCheck from "./Components/MyPage/MyInfoSelectCheck";
 import ErrorPage from "./Components/Common/ErrorPage";
 
 function App() {
-  const notify = () => toast("Wow so easy!");
+
   return (
     <>
       <Routes>
