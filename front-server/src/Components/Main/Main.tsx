@@ -22,9 +22,13 @@ import OrangeCat from "../Threejs/OrangeCat";
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
 import Loading from "../Common/Loading";
-import StrangeCat from "../Threejs/StrangeCat";
+import Modal from "./PopUpModal"
 
 function Main(): JSX.Element {
+  const [modalVisible, setModalVisible] = useState(true)
+  const closeModal = () => {
+    setModalVisible(false)
+}
   const navigate = useNavigate();
   localStorage.removeItem("difficulty");
 
@@ -203,7 +207,8 @@ function Main(): JSX.Element {
   return (
     <>
       <Navbar />
-      <Toast />
+      <Toast />    
+      {modalVisible? <Modal className={"test"} visible={modalVisible} maskClosable={true} closable={true} onClose={closeModal} /> : null }
       {/* <Example /> */}
       <MyInfo
         levelInfo={levelInfo}
@@ -850,7 +855,7 @@ function Ranking({levelInfo, levelRank, wordRank, userMyInfo, userMyStudy}:any):
                       {wordRank.map((user:any,idx:number) => (
                       <div key={idx} className={`flex justify-between rounded-xl bg-[#ffffff] m-2 md:px-5 sm:px-4 px-2 py-3  sm:text-[1.1rem] text-[0.9rem] text-start`}>
                         <div className="flex">
-                          <div className={`font-bold flex items-center sm:px-6 px-2 ${idx===0? "text-yellow-500": (idx===1?"text-gray-400":(idx===2?"text-yellow-600":""))}`}>{idx+1}등</div>
+                          <div className={`font-bold flex items-center ${idx===9?"sm:px-5":"sm:px-6"}  px-2 ${idx===0? "text-yellow-500": (idx===1?"text-gray-400":(idx===2?"text-yellow-600":""))}`}>{idx+1}등</div>
                           <div className={`${style.badgeImg2}`} style={{backgroundImage:`url('/Assets/Badge/${user.badgeImage}.png')`}}></div>
                           <div className="px-1">
                             <div className="text-[0.8rem]">{user.badgeName}</div>
@@ -870,7 +875,7 @@ function Ranking({levelInfo, levelRank, wordRank, userMyInfo, userMyStudy}:any):
                 {levelRank.map((user:any,idx:number) => (
                     <div key={idx} className={`flex justify-between rounded-xl bg-[#ffffff] m-2 md:px-5 sm:px-4 px-2 py-3  sm:text-[1.1rem] text-[0.9rem] text-start`}>
                       <div className="flex">
-                        <div className={`font-bold flex items-center sm:px-6 px-2 ${idx===0? "text-yellow-500": (idx===1?"text-gray-400":(idx===2?"text-yellow-600":""))}`}>{idx+1}등</div>
+                      <div className={`font-bold flex items-center ${idx===9?"sm:px-5":"sm:px-6"}  px-2 ${idx===0? "text-yellow-500": (idx===1?"text-gray-400":(idx===2?"text-yellow-600":""))}`}>{idx+1}등</div>
                         <div className={`${style.badgeImg2}`} style={{backgroundImage:`url('/Assets/Badge/${user.badgeImage}.png')`}}></div>
                         <div className="px-1">
                           <div className="text-[0.8rem]">{user.badgeName}</div>
