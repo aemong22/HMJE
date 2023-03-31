@@ -1,12 +1,14 @@
-import {MouseEventHandler, Suspense, useEffect, useRef, useState} from 'react'
+import React, {MouseEventHandler, Suspense, useEffect, useRef, useState} from 'react'
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF, useAnimations, Sky, useTexture } from '@react-three/drei';
 import * as THREE from 'three'
+import Loading from "../Common/Loading";
 
 function OrangeCat({sendEmo, dataLevel}:any) {
 
   const [emo, setEmo] = useState<any>()
   
+
   useEffect(()=> {
     if (sendEmo === 0) {
       setEmo(<Default level={dataLevel}/>)
@@ -18,32 +20,36 @@ function OrangeCat({sendEmo, dataLevel}:any) {
       setEmo(<Dazed level={dataLevel}/>)
     }
   },[])
-  return (
-    <div className='w-full h-full'>
-      <Canvas style={{width: '100%', height: '100%', borderRadius: '0.5rem'}}>
-        <mesh scale={1} position={[0,-2.4,2.5]}>
-          {/* 로딩중일때  */}
-          <Suspense fallback={null}>
-            <ambientLight />
-            <directionalLight 
-            castShadow
-            position={[0, 30, 0]}
-            intensity={0}
-            shadow-mapSize-width={1024}
-            shadow-mapSize-height={1024}
-            shadow-camera-far={50}
-            shadow-camera-left={-100}
-            shadow-camera-right={100}
-            shadow-camera-top={100}
-            shadow-camera-bottom={-100}
-        />
-            <Sky azimuth={0.8} sunPosition={[5, 30, 8]} distance={450000} inclination={0}/>
-            {emo}
-            {/* <OrbitControls enablePan={false} enableZoom={true} enableRotate={false}/> */}
-          </Suspense>
-        </mesh>
-      </Canvas>
-    </div>
+
+  // const fallback = (): React.ReactNode => <Loading />;
+    return (
+    <>
+      {/* <Suspense fallback={<Loading/>}> */}
+      <div className='w-full h-full'>
+        <Canvas style={{width: '100%', height: '100%', borderRadius: '0.5rem'}}>
+          <mesh scale={1} position={[0,-2.4,2.5]}>
+            {/* 로딩중일때  */}
+              <ambientLight />
+              <directionalLight 
+                castShadow
+                position={[0, 30, 0]}
+                intensity={0}
+                shadow-mapSize-width={1024}
+                shadow-mapSize-height={1024}
+                shadow-camera-far={50}
+                shadow-camera-left={-100}
+                shadow-camera-right={100}
+                shadow-camera-top={100}
+                shadow-camera-bottom={-100}
+              />
+              <Sky azimuth={0.8} sunPosition={[5, 30, 8]} distance={450000} inclination={0}/>
+              {emo}
+              {/* <OrbitControls enablePan={false} enableZoom={true} enableRotate={false}/> */}
+          </mesh>
+        </Canvas>
+      </div>
+      {/* </Suspense> */}
+    </>
   );
 }
 

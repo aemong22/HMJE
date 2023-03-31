@@ -121,6 +121,7 @@ function Login(): JSX.Element {
                   placeholder="계정"
                   className="flex px-3 py-2 md:px-4 md:py-3 border-2 focus:outline-none focus:border-[#d2860c] border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
                   onChange={ChangeId}
+                  autoFocus
                 />
                 <div className="text-[#A87C6E] font-extrabold text-[22px] leading-7">
                   비밀번호
