@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { useEffect, useState } from "react";
 import style from "./Study.module.css";
 
@@ -10,7 +11,8 @@ function AnswerModal({
   setRight,
   studyType,
   setResultModal,
-  modalOpen
+  modalOpen,
+  dogam
 }: any): JSX.Element {
   window.onkeyup = (e) => {
     if (e.key === "Shift" && modalOpen) {
@@ -75,15 +77,20 @@ function AnswerModal({
                       className={`${style.checkicon} md:h-[3rem] h-[2rem]`}
                     ></div>
                   ) : (
+                    <>
                     <div
                       className={`${style.geticon} md:h-[3rem] h-[2rem]`}
                     ></div>
+                    
+                    </>
                   )}
                   <div className="text-[1.5rem] font-bold mx-auto text-center">
                     {studyType !== "contextStudy" ? (
                       <>정답입니다.</>
                     ) : (
-                      <>도감 획득 성공</>
+                      <>
+                        {dogam.includes(question[num].dogamId) ? <>이미 획득한 도감입니다.</>:<>도감 획득 성공</>}
+                      </>
                     )}
                   </div>
                 </>
@@ -103,7 +110,9 @@ function AnswerModal({
                     {studyType !== "contextStudy" ? (
                       <>오답입니다.</>
                     ) : (
-                      <>도감 획득 실패</>
+                      <>
+                      도감 획득 실패
+                      </>
                     )}
                   </div>
                 </>
@@ -113,11 +122,12 @@ function AnswerModal({
             {/*body header*/}
             <div className="relative px-4 pt-3 flex justify-between items-end sm:min-w-[25rem] min-w-[19rem]">
                 <div className="flex items-end">
-                    <div className="md:text-[1.5rem] text-[1.2rem] font-bold mr-1">
+                    <div className="md:text-[1.5rem] text-[1.2rem] font-bold mr-1 flex flex-wrap">
                         { studyType !== "contextStudy" ? 
                             <>{decoding}</> : right ? <>{decoding}</> : <><span className="px-3">?</span></>
                         }
                     </div>
+                    
                     {studyType !== "contextStudy" && question[num].wordIso > 0 && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{question[num].wordIso}</div>}
                     {studyType !== "contextStudy" && question[num].wordOrigin && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">[{question[num].wordOrigin}]</div>}
 
@@ -126,6 +136,12 @@ function AnswerModal({
 
                 </div>        
                 {studyType !== "contextStudy" && question[num].wordRating != "없음" && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{question[num].wordRating}</div>}
+                { studyType === "contextStudy" && <>
+                  {[27,37,53,73,83,97].includes(question[num].dogamId) ? <div className={classNames("rounded-full px-3 text-[0.9rem] py-1 m-1 w-fit font-bold text-[#fff]", question[num].dogamId == 27 ? "bg-[#FED049] " : question[num].dogamId == 73 ? "bg-[#FC2947]" : question[num].dogamId == 37 ? "bg-[#FF8E9E]" : question[num].dogamId == 83 ? "bg-[#1C6DD0]" : question[num].dogamId == 97 ? "bg-[#B762C1]" : question[num].dogamId == 53 ? "bg-[#95CD41]" : "bg-[#AEAEAE]") }>
+                      특별도감
+                  </div> : null}
+                </>}
+                
             </div>
             {/* body content */}
             {studyType !== "contextStudy" && (

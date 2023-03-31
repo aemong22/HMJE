@@ -341,7 +341,7 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo, checkEmoState}: any): JSX.
 
 
               {/* 이동 버튼 */}
-              <div className="flex justify-center items-center bg-[#C6A89A] mt-7 w-full text-white text-[1.2rem] font-semibold rounded-lg">
+              <div className="flex justify-center items-center bg-[#A87E6E] mt-7 w-full text-white text-[1.2rem] font-semibold rounded-lg">
                 <div className="flex justify-around items-center w-full py-2">
                   <div className="flex flex-col justify-center items-center w-full">
                     <div className="flex justify-around items-center w-full py-2">

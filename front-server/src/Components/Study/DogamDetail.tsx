@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { useEffect, useRef } from "react";
 
 function DogamDetail({select,detail,setOpen}:any):JSX.Element {
@@ -31,7 +32,7 @@ function DogamDetail({select,detail,setOpen}:any):JSX.Element {
         <div className="relative mx-auto w-[35rem] max-w-lg">
           {/*content*/}
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white">
-                <div className="bg-[#AEAEAE] rounded-full px-3 font-bold text-[#fff] w-fit mx-4 mt-4">
+                <div className={classNames("rounded-full px-3 font-bold text-[#fff] w-fit mx-4 mt-4", select == 27 ? "bg-[#FED049] " : select == 73 ? "bg-[#FC2947]" : select == 37 ? "bg-[#FF8E9E]" : select == 83 ? "bg-[#1C6DD0]" : select == 97 ? "bg-[#B762C1]" : select == 53 ? "bg-[#95CD41]" : "bg-[#AEAEAE]")}>
                     {(select).toString().padStart(3,"0")}
                 </div>
                 <div className="pb-[30%] w-[30%] mx-auto mt-2 bg-no-repeat bg-center bg-contain" style={{backgroundImage:`url('/Assets/Dogam/${select}.png')`}}></div>
