@@ -22,7 +22,6 @@ import OrangeCat from "../Threejs/OrangeCat";
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
 import Loading from "../Common/Loading";
-import StrangeCat from "../Threejs/StrangeCat";
 
 function Main(): JSX.Element {
   const navigate = useNavigate();
