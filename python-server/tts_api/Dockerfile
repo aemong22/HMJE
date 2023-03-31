@@ -22,10 +22,10 @@ RUN python3.9 get-pip.py --user
 RUN python3.9 -m pip install --upgrade pip --user
 
 RUN python3.9 -m pip install -r requirements.txt
-RUN gdown --fuzzy https://drive.google.com/drive/folders/16Yt3-fCGQWYaPNm0C3xhARGMSpcOOPZ-?usp=share_link -O /root/g2pK --folder
-RUN gdown --fuzzy https://drive.google.com/drive/folders/1cSnA0-IpcnQ9fwyGU9Z-iwim02KW0WFp?usp=share_link -O /root/glow-tts --folder
-RUN gdown --fuzzy https://drive.google.com/drive/folders/166fPFrVRrCLXNeX36cH7gxcFDCfQwM1O?usp=share_link -O /root/hifi-gan --folder
-RUN gdown --fuzzy https://drive.google.com/drive/folders/15TqoB5Xf8DvIezz41oSJQh67I_srGMO2?usp=share_link -O /root/TTS --folder
+RUN gdown https://drive.google.com/drive/folders/16Yt3-fCGQWYaPNm0C3xhARGMSpcOOPZ-?usp=share_link -O /root/g2pK --folder
+RUN gdown https://drive.google.com/drive/folders/1cSnA0-IpcnQ9fwyGU9Z-iwim02KW0WFp?usp=share_link -O /root/glow-tts --folder
+RUN gdown https://drive.google.com/drive/folders/166fPFrVRrCLXNeX36cH7gxcFDCfQwM1O?usp=share_link -O /root/hifi-gan --folder
+RUN gdown https://drive.google.com/drive/folders/15TqoB5Xf8DvIezz41oSJQh67I_srGMO2?usp=share_link -O /root/TTS --folder
 
 RUN cd /root/TTS
 RUN python3.9 -m pip install -q --no-cache-dir -e .
