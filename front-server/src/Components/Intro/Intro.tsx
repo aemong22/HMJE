@@ -10,7 +10,14 @@ import { toast } from "react-toastify";
 
 function Intro(): JSX.Element {
   const location = useLocation();
+  const navigate = useNavigate();
+  const accessToken=localStorage.getItem("accessToken");
   useEffect(() => {
+
+    if(accessToken){
+      // console.log("나 로그인 되어있소");      
+      navigate("/main");
+    }
     if (location.state !== null) {
       if (location.state.SecessionResult === true) {
         toast.info(`탈퇴되었습니다`);

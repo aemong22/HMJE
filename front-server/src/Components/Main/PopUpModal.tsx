@@ -14,8 +14,8 @@ function Modal({ onClose, maskClosable, closable, visible }: ModalProps) {
   const navigate = useNavigate();
 
   const [images, setImages] = useState([
-    "/Assets/test/image.png",
-    "/Assets/test/pocha.jpg",
+    "/Assets/PopUp/event.jpg",
+    // "/Assets/PopUp/pasttest.png",
   ]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -109,7 +109,7 @@ function Modal({ onClose, maskClosable, closable, visible }: ModalProps) {
           tabIndex={-1}
         >
           <div
-            className="box-border relative w-[400px] md:w-[780px] md:max-w-[2xl] top-[50%] transform translate-y-[-50%] mx-auto px-[40px] py-[20px]"
+            className="box-border relative w-[400px] md:w-[480px] md:max-w-[2xl] top-[50%] transform translate-y-[-50%] mx-auto px-[40px] py-[20px]"
             tabIndex={0}
           >
             <div className="flex flex-col items-center">
@@ -120,13 +120,13 @@ function Modal({ onClose, maskClosable, closable, visible }: ModalProps) {
                 }}
               >
                 <img
-                  className="w-full h-full"
+                  className="w-full h-full"                  
                   src={images[currentIndex]}
                   alt={`image${currentIndex}`}
                 />
               </div>
               {closable && (
-                <div className="flex justify-between bg-[#282828] w-[320px] md:w-[700px] px-[20px] py-[7px] text-[0.8rem] text-[#ffffff]">
+                <div className="flex justify-between bg-[#282828] w-[320px] md:w-[400px] px-[20px] py-[7px] text-[0.8rem] text-[#ffffff]">
                   <div className="cursor-pointer" onClick={Dayclose}>
                     오늘 하루 닫기
                   </div>
