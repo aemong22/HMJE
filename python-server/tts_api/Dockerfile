@@ -1,0 +1,39 @@
+FROM ubuntu:18.04
+WORKDIR /var/jenkins_home/workspace/hmje-deploy/python-server/tts_api
+
+# 모든 파일.
+COPY * ./
+
+# timezone
+ENV TZ=Asia/Seoul
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# python, jdk
+RUN apt-get update
+RUN apt-get install software-properties-common -y
+RUN add-apt-repository ppa:webupd8team/java
+RUN add-apt-repository ppa:deadsnakes/ppa
+RUN apt-get update
+RUN apt-get install python3.9 -y
+RUN apt-get install g++ openjdk-8-jdk curl -y
+RUN apt-get install -y python3.9-distutils python3.9-dev
+RUN curl -sS https://bootstrap.pypa.io/get-pip.py -o get-pip.py | python3.9
+RUN python3.9 -m pip install --upgrade pip --user
+
+RUN python3.9 -m pip install -r requirements.txt
+RUN gdown --fuzzy https://drive.google.com/drive/folders/16Yt3-fCGQWYaPNm0C3xhARGMSpcOOPZ-?usp=share_link /root/g2pK --folder
+RUN gdown --fuzzy https://drive.google.com/drive/folders/1cSnA0-IpcnQ9fwyGU9Z-iwim02KW0WFp?usp=share_link /root/glow-tts --folder
+RUN gdown --fuzzy https://drive.google.com/drive/folders/166fPFrVRrCLXNeX36cH7gxcFDCfQwM1O?usp=share_link /root/hifi-gan --folder
+RUN gdown --fuzzy https://drive.google.com/drive/folders/15TqoB5Xf8DvIezz41oSJQh67I_srGMO2?usp=share_link /root/TTS --folder
+
+RUN cd /root/TTS
+RUN python3.9 -m pip install -q --no-cache-dir -e .
+
+RUN cd /root/g2pK
+RUN python3.9 -m pip install -q --no-cache-dir "konlpy" "jamo" "nltk" "python-mecab-ko"
+RUN python3.9 -m pip install -q --no-cache-dir -e .
+
+RUN cd /root
+
+EXPOSE 8080
+ENTRYPOINT ["python3.9", "flask_tts_api.py"]
