@@ -17,7 +17,8 @@ RUN apt-get update
 RUN apt-get install python3.9 -y
 RUN apt-get install g++ openjdk-8-jdk curl -y
 RUN apt-get install -y python3.9-distutils python3.9-dev
-RUN curl -sS https://bootstrap.pypa.io/get-pip.py -o get-pip.py | python3.9
+RUN curl -sS https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+RUN python3.9 get-pip.py --user
 RUN python3.9 -m pip install --upgrade pip --user
 
 RUN python3.9 -m pip install -r requirements.txt
