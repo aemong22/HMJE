@@ -29,14 +29,16 @@ RUN gdown --fuzzy https://drive.google.com/file/d/1ctRe2bVewNFtVPmCaRHU3fIYDlgUT
 RUN unzip -q /root/TTS.zip -d /root/TTS
 RUN unzip -q /root/g2pK.zip -d /root/g2pK
 
-RUN cd /root/TTS
-RUN python3.9 -m pip install -q --no-cache-dir -e .
+RUN python3.9 -m pip install -q --no-cache-dir -e /root/TTS
 
-RUN cd /root/g2pK
 RUN python3.9 -m pip install -q --no-cache-dir "konlpy" "jamo" "nltk" "python-mecab-ko"
-RUN python3.9 -m pip install -q --no-cache-dir -e .
+RUN python3.9 -m pip install -q --no-cache-dir -e /root/g2pK
 
-RUN cd /root
+ADD flask_tts_api.py /root/flask_tts_api.py
+ADD tts.py /root/tts.py
+
+RUN chmod 0644 /root/flask_tts_api.py
+RUN chmod 0644 /root/tts.py
 
 EXPOSE 8080
-ENTRYPOINT ["python3.9", "flask_tts_api.py"]
+ENTRYPOINT ["python3.9", "/root/flask_tts_api.py"]
