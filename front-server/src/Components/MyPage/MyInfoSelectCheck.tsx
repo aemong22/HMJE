@@ -59,7 +59,6 @@ const Check = () => {
         console.log(e);
       });
   };
-
   return (
     <div className="flex flex-col items-center mx-auto w-full max-w-screen-xl">
       <div className="flex flex-col w-[95%] sm:w-[95%] md:w-[60%] lg:w-[34%] justify-center">
@@ -109,7 +108,7 @@ const Check = () => {
             </div>
           </button>
         </div>
-      </div>
+      </div>      
     </div>
   );
 };

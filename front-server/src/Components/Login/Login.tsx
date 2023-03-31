@@ -19,6 +19,15 @@ function Login(): JSX.Element {
   const [Password, setPassword] = useState<string>("");
 
   const [PostUserlogin, isloading5] = usePostUserloginMutation();
+  
+  const accessToken = localStorage.getItem("accessToken");
+  useEffect(() => {
+    if (accessToken) {      
+      navigate("/main");
+    }
+
+    return () => {};
+  }, []);
 
   const ChangeId = (event: any): void => {
     setId(event.target.value);
@@ -44,7 +53,6 @@ function Login(): JSX.Element {
       .unwrap()
       .then((r: any) => {
         //console.log("벳지 로그인 결과", r.newBadge.length);
-
         // console.log(r);
         if (r.status === "200") {
           if (r.isSecession === "true") {

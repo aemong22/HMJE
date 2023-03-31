@@ -14,8 +14,7 @@ function Intro(): JSX.Element {
   const accessToken=localStorage.getItem("accessToken");
   useEffect(() => {
 
-    if(accessToken){
-      // console.log("나 로그인 되어있소");      
+    if(accessToken){      
       navigate("/main");
     }
     if (location.state !== null) {
