@@ -23,8 +23,6 @@ import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
 import Loading from "../Common/Loading";
 import StrangeCat from "../Threejs/StrangeCat";
-import MixCat from "../Threejs/MixCat";
-import GrayCat from "../Threejs/GrayCat";
 import Modal from "./PopUpModal"
 
 function Main(): JSX.Element {
@@ -192,6 +190,20 @@ function Main(): JSX.Element {
     );
   }
 
+
+  const todayTotal = userMyStudy?.data.todayContext + userMyStudy?.data.todayTime + userMyStudy?.data.todayWord
+  const statsDate:number = userMyStudy?.data.statsRight - userMyStudy?.data.statsWrong
+  let checkEmoState:number
+
+  if (todayTotal === 0) {
+    checkEmoState = 0
+  } else if (statsDate > 0) {
+    checkEmoState = 1
+  } else if (statsDate < 0) {
+    checkEmoState = 2
+  } else {
+    checkEmoState = 3
+  }
   return (
     <>
       <Navbar />
@@ -202,6 +214,7 @@ function Main(): JSX.Element {
         levelInfo={levelInfo}
         userMyInfo={userMyInfo?.data}
         userMyStudy={userMyStudy?.data}
+        checkEmoState={checkEmoState}
       />
       <StudyContent userScore={pastList?.user_score} />
       <News newsKeyword={newsKeyword?.data} />
@@ -228,7 +241,9 @@ export default Main;
 // main 페이지는 container, max-w-screen-lg, lg:w-[70%] 설정
 
 // 맨위 : 유저 정보 , 오늘의 정보
-function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
+function MyInfo({ userMyInfo, userMyStudy, levelInfo, checkEmoState}: any): JSX.Element {
+  
+
   const [openModal, setOpenModal] = useState<Boolean>(false);
   localStorage.setItem("nickname", userMyInfo.nickname);
   const navigate = useNavigate();
@@ -245,11 +260,13 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
   const m: number = Math.floor(time / 60);
   time = time % 60;
   const s = time;
-  let checkEmoState:number = 1
+  
 
   const [character, setCharacter] = useState<any>()
+  
 
   useEffect(()=> {
+    
     setCharacter(<OrangeCat sendEmo={checkEmoState} dataLevel={userMyInfo.level}/>)
   },[])
 
@@ -261,7 +278,7 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
     <>
     {openModal && <StudyStartModal setOpenModal={setOpenModal} />}
     <div className="bg-[#F0ECE9] w-full">
-    <div className="container max-w-screen-xl w-full mx-auto lg:flex flex-col md:flex-row md:justify-around items-center text-center lg:px-5 px-0 lg:py-[2.7rem] py-4 bg-[#F0ECE9]">
+    <div className="container max-w-screen-xl w-full mx-auto lg:flex flex-col md:flex-row md:justify-around text-center lg:px-5 px-0 lg:py-[2.7rem] py-4 bg-[#F0ECE9]">
         <div className="flex flex-col lg:w-[45%] w-[100%]">
           <div className="flex justify-center items-center lg:w-[90%] w-[95%] mx-auto">
             <div className="flex flex-col justify-center items-center w-full bg-white py-4 px-4 rounded-md">
@@ -296,12 +313,13 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
             </div>
           </div>
         </div>
-        <div className="flex justify-center items-center lg:w-[50%] pt-[1rem] pb-[0.5rem] h-[90%] px-4">
-          <div className="flex justify-center items-center w-full">
+
+        <div className="flex justify-start lg:w-[50%] px-4 py-8">
+          <div className="flex justify-start w-full">
             {/* 메인 데이터 */}
             <div className="flex flex-col justify-start items-start w-full">
-            <div className="md:text-[2.5rem] sm:text-[2rem] text-[1.7rem] font-bold w-full border-b-2 border-gray-100 py-1">오늘의 학습</div>
-            <div className="w-full flex flex-wrap justify-center items-center">
+            <div className="md:text-[2.5rem] sm:text-[2rem] text-[1.7rem] font-bold w-full border-b-2 border-gray-100 py-3">오늘의 학습</div>
+            <div className="w-full flex flex-wrap justify-center items-center py-2">
                 <div className="md:text-[1.1rem] sm:text-[1rem] text-[0.8rem] px-4 text-zinc-500">학습 시간</div>
                 <div className="md:text-[3.2rem] sm:text-[2.5rem] text-[2rem] font-bold text-[#B18978]">
                   {h > 0 && <>{h}<span className="md:text-[1.3rem] text-[1rem] px-2">시간 </span><span className="px-2"></span></>}
@@ -329,7 +347,7 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo }: any): JSX.Element {
 
 
               {/* 이동 버튼 */}
-              <div className="flex justify-center items-center bg-[#C6A89A] mt-5 w-full text-white text-[1.2rem] font-semibold rounded-lg">
+              <div className="flex justify-center items-center bg-[#C6A89A] mt-7 w-full text-white text-[1.2rem] font-semibold rounded-lg">
                 <div className="flex justify-around items-center w-full py-2">
                   <div className="flex flex-col justify-center items-center w-full">
                     <div className="flex justify-around items-center w-full py-2">
@@ -464,6 +482,7 @@ function StudyContent({ userScore }: any): JSX.Element {
   );
 }
 
+
 // 뉴스 ( 신문 핵심 단어 )
 function News({ newsKeyword }: any): JSX.Element {
   const [select, setSelect] = useState<number>(0);
@@ -532,12 +551,12 @@ function News({ newsKeyword }: any): JSX.Element {
               }}
             >
               <div
-                className={`${style.menu}`}
+                className={`${style.menu} cursor-pointer hover:scale-125 transition-all duration-200`}
                 style={{
                   backgroundImage: `url('/Assets/Icon/${words[0]?.category}.png')`,
                 }}
               ></div>
-              {words[0]?.category}
+              <span className="cursor-pointer">{words[0]?.category}</span>
             </div>
 
             <div
@@ -551,12 +570,12 @@ function News({ newsKeyword }: any): JSX.Element {
               }}
             >
               <div
-                className={`${style.menu}`}
+                className={`${style.menu} cursor-pointer hover:scale-125 transition-all duration-200`}
                 style={{
                   backgroundImage: `url('/Assets/Icon/${words[1]?.category}.png')`,
                 }}
               ></div>
-              {words[1]?.category}
+              <span className="cursor-pointer">{words[1]?.category}</span>
             </div>
 
             <div
@@ -570,12 +589,12 @@ function News({ newsKeyword }: any): JSX.Element {
               }}
             >
               <div
-                className={`${style.menu}`}
+                className={`${style.menu} cursor-pointer hover:scale-125 transition-all duration-200`}
                 style={{
                   backgroundImage: `url('/Assets/Icon/${words[2]?.category}.png')`,
                 }}
               ></div>
-              {words[2]?.category}
+              <span className="cursor-pointer">{words[2]?.category}</span>
             </div>
 
             <div
@@ -589,17 +608,17 @@ function News({ newsKeyword }: any): JSX.Element {
               }}
             >
               <div
-                className={`${style.menu}`}
+                className={`${style.menu} cursor-pointer hover:scale-125 transition-all duration-200`}
                 style={{
                   backgroundImage: `url('/Assets/Icon/${words[3]?.category}.png')`,
                 }}
               ></div>
-              {words[3]?.category}
+              <span className="cursor-pointer">{words[3]?.category}</span>
             </div>
           </div>
         </div>
 
-        <div className="border-2 border-gray-100 bg-[#F9F9F9] p-4 mb-4">
+        <div className="border-2 border-gray-100 bg-[#F9F9F9] p-4 mb-2">
           <ReactWordCloud
             words={words[select]?.words}
             callbacks={{
@@ -619,6 +638,7 @@ function News({ newsKeyword }: any): JSX.Element {
             }}
           />
         </div>
+        <div className="mb-2 text-[#A2A2A2] text-[0.8rem] text-end">{newsKeyword[0]?.created_at?.split('T')[0]} {newsKeyword[0]?.created_at?.split('T')[1]?.split('.')[0]} {" "}기준</div>
 
         <div className="md:text-[1.8rem] sm:text-[1.4rem] text-[1.2rem] font-bold">
           {selectWord?.detail?.wordName}

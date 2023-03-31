@@ -230,7 +230,7 @@ function NoticeSection2({isAdmin, choiceBtn, setChoiceBtn, adminUserId}:(boolean
 
   return (
     <>
-      {(isLoading1||isLoading2)&&loading}
+      {/* {(isLoading1||isLoading2)&&loading} */}
       {isNoticeAdd&&addNoticeModal}
       {isFaqAdd&&addFaqModal}
       <div className="container max-w-screen-xl w-[90%] lg:w-full mx-auto border-b-2">
@@ -390,10 +390,10 @@ function NoticeSection3({isAdmin}:(boolean|any)) {
 
 
 
-  const isLoading = <div>Loading</div>
+  const isLoading = <Loading/>
   return (
     <>
-      {(isLoading1||isLoading2||isLoading3)&&isLoading}
+      {/* {(isLoading1||isLoading2||isLoading3)&&isLoading} */}
       {isNoticeClick&&detailNotice}
       <div className="container max-w-screen-xl w-[90%] lg:w-full mx-auto my-5">
         {noticeComponent === null? null: noticeComponent}
@@ -540,7 +540,7 @@ function NoticeSection4({isAdmin}:(boolean|any)) {
   const isLoading = <Loading/>
   return (
     <>
-      {(isLoading1||isLoading2||isLoading3)&&isLoading}
+      {/* {(isLoading1||isLoading2||isLoading3)&&isLoading} */}
       {isFaqClick&&faqNotice}
       <div className="container max-w-screen-xl w-[90%] lg:w-full mx-auto my-5">
         {FaqComponent === null? null: FaqComponent}

@@ -1,11 +1,12 @@
 import {useGetWordRemainQuery} from "../../Store/api"
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import style from "./Main.module.css";
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
 
 function StudyStartModal({setOpenModal}:any):JSX.Element {
+    const ref = useRef<HTMLDivElement>(null)
     const userId = localStorage.getItem("userId")
     const {data,error,isLoading} = useGetWordRemainQuery(userId);
     const navigate = useNavigate();
@@ -27,7 +28,11 @@ function StudyStartModal({setOpenModal}:any):JSX.Element {
     return(
         <>
             <Toast />
-            <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none">
+            <div ref={ref} className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none" onClick={(e)=> {
+                if (e.target === ref.current) {
+                    setOpenModal(false)
+                }
+            }}>
                 <div className="relative mx-auto w-[35rem] max-w-lg">
                     <div className="rounded-lg shadow-lg relative flex flex-col w-full bg-white p-5 ">
                         <div className="text-center border-b-2 border-neutral-100 py-2">
