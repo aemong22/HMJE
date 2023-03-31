@@ -38,7 +38,7 @@ function setCookie(name: any, value: any, days: any) {
     encodeURIComponent(value) +
     "; expires=" +
     expires +
-    "; path=/main";
+    "; path=/";
 }
 
 function getCookie(name: any) {
@@ -52,22 +52,30 @@ function getCookie(name: any) {
   return null;
 }
 
-// 이전방문 날짜
-  const VISITED_BEFORE_DATE = getCookie("VisitCookie");
+
+
+  useEffect(() => {
+
+    // 이전방문 날짜
+  var VISITED_BEFORE_DATE = getCookie("VisitCookie");
   // 쿠키로바꾸자
 
   // 현재 날짜
-  const VISITED_NOW_DATE = Math.floor(new Date().getDate());
-
-  useEffect(() => {
+  var VISITED_NOW_DATE = Math.floor(new Date().getDate());
     // console.log(VISITED_BEFORE_DATE);
-    console.log("VISITED_BEFORE_DATE");
+    // console.log("VISITED_BEFORE_DATE");
     
+    console.log("이전 비교대상",VISITED_BEFORE_DATE);
+    console.log("오늘비교대상", VISITED_NOW_DATE.toString());
     if (VISITED_BEFORE_DATE !== null) {
       // 날짜가 같을경우 노출
+      console.log("이전 비교대상",VISITED_BEFORE_DATE);
+      console.log("오늘비교대상", VISITED_NOW_DATE.toString());
+      
+      
       if (VISITED_BEFORE_DATE === VISITED_NOW_DATE.toString()) {
         const expiry = new Date();
-        setCookie("VisitCookie", "modal", expiry.toString());
+        setCookie("VisitCookie", expiry.toString(), 0);
         setModalVisible(true);
         // onClose?.(true);
       }
@@ -77,11 +85,10 @@ function getCookie(name: any) {
 
         // onClose?.(false);
       }
-    } else {
-      setModalVisible(true);
-      // onClose?.(true);
+    } else {      
+      setModalVisible(true);      
     }
-  }, [VISITED_BEFORE_DATE]);
+  }, []);
   
 
   const navigate = useNavigate();

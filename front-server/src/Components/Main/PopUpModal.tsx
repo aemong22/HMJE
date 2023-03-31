@@ -33,7 +33,8 @@ function Modal({ onClose, maskClosable, closable, visible }: ModalProps) {
   };
 
   function setCookie(name: any, value: any, days: any) {
-    const expires = new Date(Date.now() + days * 864e5).toUTCString();
+    const expires = new Date(Date.now() + days * 864e5).toUTCString();   
+    
     document.cookie =
       name +
       "=" +
@@ -60,12 +61,11 @@ function Modal({ onClose, maskClosable, closable, visible }: ModalProps) {
   const Dayclose = (e: React.MouseEvent<HTMLSpanElement>) => {
     if (onClose) {
       onClose(e);
-
       const expiry = new Date();
       // +1일 계산
-      const expiryDate = expiry.getDate() + 1;
+      const expiryDate = expiry.getDate()+1;
       // 쿠키로바꾸자
-      setCookie("VisitCookie", "modal", expiryDate.toString());
+      setCookie("VisitCookie", expiryDate.toString(), 1);
     }
   };
 
