@@ -13,8 +13,7 @@ function Intro(): JSX.Element {
   const navigate = useNavigate();
   const accessToken=localStorage.getItem("accessToken");
   useEffect(() => {
-
-    if(accessToken){      
+     if(accessToken&&accessToken!==undefined){
       navigate("/main");
     }
     if (location.state !== null) {
