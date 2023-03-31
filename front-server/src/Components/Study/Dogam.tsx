@@ -14,6 +14,7 @@ function Dogam(): JSX.Element {
     isLoading: isLoading,
     error: error,
   } = useGetDogamUserIdQuery(userId);
+  
   const {
     data: total,
     isLoading: isLoading2,

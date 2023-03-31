@@ -128,14 +128,7 @@ const Join = () => {
       }
     },
     [Password],
-  );
-
-  // // 영어체크
-  // const CheckEnglish = () => {
-  //   if (pattern2.test(Nickname)) {
-  //     alert("영어가 포함됩니다."); //false
-  //   }
-  // };
+  );  
   const chkCharCode = (event: any) => {
     const regExp = /[^0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g;
     const ele = event.target;
@@ -385,12 +378,12 @@ const Join = () => {
 
   const elemetPadding = "my-2";
   let disable = IsPasswordConfirm && IsAuthnum && IsName && IsNickname;
-  useEffect(() => {
-    //console.log(IsPasswordConfirm);
-    //console.log(IsAuthnum);
-    //console.log(IsName);
-    //console.log(IsName);
 
+  const accessToken = localStorage.getItem("accessToken");
+  useEffect(() => {
+    if(accessToken){
+      navigate("/main");
+    }
     return () => {};
   }, []);
   return (
