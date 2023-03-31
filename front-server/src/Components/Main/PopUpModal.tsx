@@ -41,7 +41,7 @@ function Modal({ onClose, maskClosable, closable, visible }: ModalProps) {
       encodeURIComponent(value) +
       "; expires=" +
       expires +
-      "; path=/main";
+      "; path=/";
   }
 
   function getCookie(name: any) {
