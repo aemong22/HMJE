@@ -25,7 +25,7 @@ RUN python3.9 -m pip install -r requirements.txt
 RUN gdown --fuzzy https://drive.google.com/file/d/1onoQRGFPuBfmsuRvaJMRIkOhS6hVLSdL/view?usp=share_link -O /root/g2pK.zip
 RUN gdown https://drive.google.com/drive/folders/1cSnA0-IpcnQ9fwyGU9Z-iwim02KW0WFp?usp=share_link -O /root/glow-tts --folder
 RUN gdown https://drive.google.com/drive/folders/166fPFrVRrCLXNeX36cH7gxcFDCfQwM1O?usp=share_link -O /root/hifi-gan --folder
-RUN gdown --fuzzy https://drive.google.com/file/d/1ctRe2bVewNFtVPmCaRHU3fIYDlgUTVSb/view?usp=share_link -O /root/TTS.zip
+RUN gdown --fuzzy https://drive.google.com/file/d/1bykceQYBWGmBse-5agjM6ucEdHzeSF00/view?usp=share_link -O /root/TTS.zip
 RUN unzip -q /root/TTS.zip -d /root/TTS
 RUN unzip -q /root/g2pK.zip -d /root/g2pK
 
