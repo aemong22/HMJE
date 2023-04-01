@@ -4,7 +4,6 @@ flask_cors
 waitress
 paste
 firebase_admin==4.2.0
-gdown
 pysbd
 coqpit
 unidecode
@@ -15,4 +14,4 @@ pyparsing
 matplotlib
 librosa
 inflect
-llvmlite
+PyYAML
