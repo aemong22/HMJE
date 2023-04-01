@@ -20,17 +20,17 @@ function Login(): JSX.Element {
 
   const [PostUserlogin, isloading5] = usePostUserloginMutation();
 
-  const accessToken = localStorage.getItem("accessToken");
-  useEffect(() => {
-    if (accessToken&&accessToken === "undefined") {
-      navigate("/");
-    }
-    else if(accessToken&&accessToken!==undefined){      
-      navigate("/main");
-    }
+  // const accessToken = localStorage.getItem("accessToken");
+  // useEffect(() => {
+  //   if (accessToken&&accessToken === "undefined") {
+  //     navigate("/");
+  //   }
+  //   else if(accessToken&&accessToken!==undefined){      
+  //     navigate("/main");
+  //   }
 
-    return () => {};
-  }, []);
+  //   return () => {};
+  // }, []);
 
   const ChangeId = (event: any): void => {
     setId(event.target.value);

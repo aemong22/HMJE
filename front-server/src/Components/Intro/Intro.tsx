@@ -13,9 +13,9 @@ function Intro(): JSX.Element {
   const navigate = useNavigate();
   const accessToken=localStorage.getItem("accessToken");
   useEffect(() => {
-     if(accessToken&&accessToken!==undefined){
-      navigate("/main");
-    }
+    //  if(accessToken&&accessToken!==undefined){
+    //   navigate("/main");
+    // }
     if (location.state !== null) {
       if (location.state.SecessionResult === true) {
         toast.info(`탈퇴되었습니다`);
