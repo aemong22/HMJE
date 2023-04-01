@@ -20,19 +20,21 @@ RUN apt-get install -y python3.9-distutils python3.9-dev unzip llvm
 RUN curl -sS https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 RUN python3.9 get-pip.py --user
 RUN python3.9 -m pip install --upgrade pip --user
+# RUN gdown --fuzzy https://drive.google.com/file/d/1onoQRGFPuBfmsuRvaJMRIkOhS6hVLSdL/view?usp=share_link -O /root/g2pK.zip
+# RUN gdown https://drive.google.com/drive/folders/1cSnA0-IpcnQ9fwyGU9Z-iwim02KW0WFp?usp=share_link -O /root/glow-tts --folder
+# RUN gdown https://drive.google.com/drive/folders/166fPFrVRrCLXNeX36cH7gxcFDCfQwM1O?usp=share_link -O /home/ubuntu/tts/hifi-gan --folder
+# RUN gdown --fuzzy https://drive.google.com/file/d/1oayBeWrjiKM7VWn9rxM8hTVDW2jA20uA/view?usp=share_link -O /home/ubuntu/tts//TTS.zip
 
-RUN python3.9 -m pip install -r requirements.txt
-RUN gdown --fuzzy https://drive.google.com/file/d/1onoQRGFPuBfmsuRvaJMRIkOhS6hVLSdL/view?usp=share_link -O /root/g2pK.zip
-RUN gdown https://drive.google.com/drive/folders/1cSnA0-IpcnQ9fwyGU9Z-iwim02KW0WFp?usp=share_link -O /root/glow-tts --folder
-RUN gdown https://drive.google.com/drive/folders/166fPFrVRrCLXNeX36cH7gxcFDCfQwM1O?usp=share_link -O /root/hifi-gan --folder
-RUN gdown --fuzzy https://drive.google.com/file/d/1KiwZeSd15vEVbQ3NWKiWTn-2EfhlVnti/view?usp=share_link -O /root/TTS.zip
 RUN unzip -q /root/TTS.zip -d /root/TTS
 RUN unzip -q /root/g2pK.zip -d /root/g2pK
 
-RUN python3.9 -m pip install -q --no-cache-dir -r /root/TTS/requirements.txt
+# RUN python3.9 -m pip install -q --no-cache-dir -r /root/TTS/requirements.txt
+# RUN python3.9 -m pip install -q --no-cache-dir -e /root/TTS --ignore-requires-python
 
 RUN python3.9 -m pip install -q --no-cache-dir "konlpy" "jamo" "nltk" "python-mecab-ko"
 RUN python3.9 -m pip install -q --no-cache-dir -e /root/g2pK
+
+RUN python3.9 -m pip install -r requirements.txt
 
 ADD flask_tts_api.py /root/flask_tts_api.py
 ADD tts.py /root/tts.py
