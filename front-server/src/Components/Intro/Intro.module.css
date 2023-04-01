@@ -15,11 +15,11 @@
   }
 }
 .moveCard1 {
-  animation: moveLeft 110s infinite linear;
+  animation: moveLeft 150s infinite linear;
 }
 
 .moveCard2 {
-  animation: moveRight 110s infinite linear;
+  animation: moveRight 150s infinite linear;
 }
 
 

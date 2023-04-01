@@ -5,16 +5,6 @@
   font-style: normal;
 }
 
-.loading {
-    background-image: url('../../../public/Assets/Intro/loadingCat.gif');
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-    background-position-y: center;
-    margin: 0.2rem auto;
-    margin-top: 3rem;
-  }
-
   .loadingAnimation {
     animation: ddongddong 3s infinite;
     font-size: 2.2rem;
