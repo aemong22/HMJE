@@ -34,38 +34,25 @@ function Modal({ onClose, maskClosable, closable, visible }: ModalProps) {
 
   function setCookie(name: any, value: any, days: any) {
     const expires = new Date(Date.now() + days * 864e5).toUTCString();
+
     document.cookie =
       name +
       "=" +
       encodeURIComponent(value) +
       "; expires=" +
       expires +
-      "; path=/main";
+      "; path=/";
   }
-
-  function getCookie(name: any) {
-    const cookies = document.cookie.split("; ");
-    for (let i = 0; i < cookies.length; i++) {
-      const [cookieName, cookieValue] = cookies[i].split("=");
-      if (cookieName === name) {
-        return decodeURIComponent(cookieValue);
-      }
-    }
-    return null;
-  }
-
-  
 
   // 하루동안 팝업 닫기
   const Dayclose = (e: React.MouseEvent<HTMLSpanElement>) => {
     if (onClose) {
       onClose(e);
-
       const expiry = new Date();
-      // +1일 계산
-      const expiryDate = expiry.getDate() + 1;
-      // 쿠키로바꾸자
-      setCookie("VisitCookie", "modal", expiryDate.toString());
+
+      expiry.setDate(expiry.getDate() + 1);     
+
+      setCookie("VisitCookie", expiry.getDate().toString(), 1);
     }
   };
 
