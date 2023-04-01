@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 WORKDIR /var/jenkins_home/workspace/hmje-deploy/python-server/tts_api
 
 # 모든 파일.
-COPY * ./
+COPY * /root
 
 # timezone
 ENV TZ=Asia/Seoul
@@ -34,10 +34,7 @@ RUN unzip -q /root/g2pK.zip -d /root/g2pK
 RUN python3.9 -m pip install -q --no-cache-dir "konlpy" "jamo" "nltk" "python-mecab-ko"
 RUN python3.9 -m pip install -q --no-cache-dir -e /root/g2pK
 
-RUN python3.9 -m pip install -r requirements.txt
-
-ADD flask_tts_api.py /root/flask_tts_api.py
-ADD tts.py /root/tts.py
+RUN python3.9 -m pip install -r /root/requirements.txt
 
 RUN chmod 0644 /root/flask_tts_api.py
 RUN chmod 0644 /root/tts.py
