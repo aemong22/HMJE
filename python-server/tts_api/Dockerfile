@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 WORKDIR /var/jenkins_home/workspace/hmje-deploy/python-server/tts_api
 
 # 모든 파일.
-COPY * /root
+COPY * /root/
 
 # timezone
 ENV TZ=Asia/Seoul
