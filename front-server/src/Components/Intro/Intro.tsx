@@ -144,55 +144,20 @@ function IntroSection2(): JSX.Element {
         {/* 텍스트 */}
         <div className="flex justify-center items-end h-[25%]  w-[85%] sm:w-[60%] lg:w-[38.4%] pb-6 mx-auto ">
           <div>
-            <div className="flex justify-center items-center mb-5 text-[0.9rem] sm:text-[1.2rem] md:text-[1.4rem] lg:text-[1.5rem]">
+            <div className="flex justify-center items-center mb-5 text-[1.1rem] md:text-[1.4rem] lg:text-[1.5rem]">
               {/* main text */}
               <span className="font-bold ">신나고 즐거운</span>&nbsp;
               <span className="font-bold text-[#A87E6E]">단어 학습</span>
             </div>
             <div className="flex justify-center items-center">
               {/* sub text */}
-              <div className="text-center text-[#9B9B9B] text-[0.6rem] sm:text-[0.8rem] md:text-[0.9rem] lg:text-[1rem]">
+              <div className="text-center text-[#9B9B9B] text-[0.8rem] md:text-[0.9rem] lg:text-[1rem]">
                 <div>단어학습으로 정확한 뜻을 배워보세요!</div>
                 <div>문백학습으로 다의어를 알아보고 도감을 채워보세요!</div>
               </div>
             </div>
           </div>
         </div>
-        {/* 카드 */}
-        {/* <div className="flex-col justify-center items-center h-[75%] mx-auto w-[85%] sm:w-[60%] lg:w-[50%] xl:w-[42%]">
-          
-          <div className="flex justify-between items-center h-[43%] ">
-            <div className="flex flex-col justify-start items-center text-center h-full w-[47%] rounded-[0.9rem] bg-[#F0ECE9] relative">
-              <div className="mt-5 px-3 md:py-1 rounded-xl bg-[#BE8D65] absolute"><span className="w-full text-white text-[0.7rem] md:text-[1.05rem] lg:text-[1.1rem] font-semibold">단어학습이란?</span></div>
-              <div className="flex justify-center items-center h-full mt-3 text-[0.6rem] md:text-[0.95rem] lg:text-[1.05rem] text-[#BE8D65] font-bold ">
-                <span>단어의 의미를 확인 후 <br /> 알맞은 단어를 맞추는 학습</span>
-              </div>
-            </div>
-            <div className="flex flex-col justify-start items-center text-center h-full w-[47%] rounded-[0.9rem] bg-[#F0ECE9] relative">
-              <div className="mt-5 px-3 md:py-1 rounded-xl bg-[#BE8D65] absolute"><span className="w-full text-white text-[0.7rem] md:text-[1.05rem] lg:text-[1.1rem] font-semibold">문맥학습이란?</span></div>
-              <div className="flex justify-center items-center h-full mt-3 text-[0.6rem] md:text-[0.95rem] lg:text-[1.05rem] text-[#BE8D65] font-bold ">
-                <span>여러 문장에서 동시에 들어갈<br /> 알맞은 단어를 맞추는 학습</span>
-              </div>
-            </div>
-          </div>
-          <div className="h-[4%]"></div>
-          
-          <div className="flex justify-start items-center h-[43%] w-full rounded-[0.9rem] bg-[#F0ECE9]">
-            <div className="mx-auto text-[#BE8D65] text-[0.6rem] md:text-[1rem] lg:text-[1.05rem] font-semibold">
-              <div className="flex w-full">
-                <span>다양하고 즐거운&nbsp;</span>
-                <span>홍민정음</span> 
-              </div>
-              <div className="flex flex-col w-full">
-                <span>게임하면서 신나게 놀다보면</span>
-                <span>어느새 실력이 쑥쑥 성장합니다!</span>
-              </div>
-            </div>
-            <div>
-             
-            </div>
-          </div>
-        </div> */}
         <div
           className={`${sModule.introStudy} md:w-[60%] mx-auto w-full md:pb-[50%] pb-[80%]`}
         ></div>
@@ -289,7 +254,7 @@ function IntroSection3V2(): JSX.Element {
       <div className="w-[90%] h-[90%] ">
         {/* 텍스트 */}
         <div className="flex justify-center items-center h-[10%] w-full mx-auto">
-          <div className="flex justify-center items-center text-[1rem] mb-5">
+          <div className="flex justify-center items-center text-[1.1rem] mb-5">
             <span className="font-bold text-[#A87E6E]">홍민정음</span>
             <span className="font-bold">으로 한글을 배워야 하는 이유</span>
           </div>
@@ -357,30 +322,15 @@ function IntroSection3V2(): JSX.Element {
 }
 
 interface CardProps {
+  width?: string;
+  height?: string;
   color?: string;
-  munmakDogam?: boolean;
-  munmakStudy?: boolean;
-  sajun?: boolean;
-  today?: boolean;
-  ch1?: boolean;
-  ch2?: boolean;
-  ch3?: boolean;
-  ch4?: boolean;
+  img: any;
 }
 
-// #f7cdb7
-// #a77e6e
-// #f4eeec
-// #f0ece9
-// #ac8679
-// #ebc7be
-// #f9f9f9
-// #ebc7be
-// #ecc8bf
-
 const StyledCard = styled.div<CardProps>`
-  width: 10rem;
-  height: 10rem;
+  width: ${(props) => props.width || '8.3rem'};
+  height: ${(props) => props.height || '8.3rem'};
   margin-right: 1.2rem;
   margin-left: 1.2rem;
   border-radius: 2rem;
@@ -389,211 +339,122 @@ const StyledCard = styled.div<CardProps>`
   background-repeat: no-repeat;
   background-position-x: center;
   background-position-y: center;
-  background-size: 50%;
-  ${(props) =>
-    props.munmakDogam &&
-    css`
-      background-image: url("/Assets/Intro/munmakDogam.png");
-    `}
-  ${(props) =>
-    props.munmakStudy &&
-    css`
-      background-image: url("/Assets/Intro/munmakStudy.png");
-    `}
-  ${(props) =>
-    props.sajun &&
-    css`
-      background-image: url("/Assets/Intro/sajun.png");
-      background-position: 3rem, 0, 0, 0;
-    `}
-  ${(props) =>
-    props.today &&
-    css`
-      background-image: url("/Assets/Intro/today.png");
-    `}
-  ${(props) =>
-    props.ch1 &&
-    css`
-      background-image: url("/Assets/Intro/ch1.png");
-    `}
-  ${(props) =>
-    props.ch2 &&
-    css`
-      background-image: url("/Assets/Intro/ch2.png");
-    `}
-  ${(props) =>
-    props.ch3 &&
-    css`
-      background-image: url("/Assets/Intro/ch3.png");
-    `}
-  ${(props) =>
-    props.ch4 &&
-    css`
-      background-image: url("/Assets/Intro/ch4.png");
-    `}
+  background-size: contain;
+  background-image:  url(${(props) => props.img || '/Assets/Intro/21.png'});
 `;
-const StyledMobileCard = styled.div<CardProps>`
-  width: 8.3rem;
-  height: 8.3rem;
-  margin-right: 1rem;
-  margin-left: 1rem;
-  border-radius: 2rem;
-  background-color: ${(props) => props.color || "#ebc7be"};
-  flex-shrink: 0; // added to prevent shrinking
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
-  background-size: 50%;
-  ${(props) =>
-    props.munmakDogam &&
-    css`
-      background-image: url("/Assets/Intro/munmakDogam.png");
-    `}
-  ${(props) =>
-    props.munmakStudy &&
-    css`
-      background-image: url("/Assets/Intro/munmakStudy.png");
-    `}
-  ${(props) =>
-    props.sajun &&
-    css`
-      background-image: url("/Assets/Intro/sajun.png");
-      background-position: 3rem, 0, 0, 0;
-    `}
-  ${(props) =>
-    props.today &&
-    css`
-      background-image: url("/Assets/Intro/today.png");
-    `}
-  ${(props) =>
-    props.ch1 &&
-    css`
-      background-image: url("/Assets/Intro/ch1.png");
-    `}
-  ${(props) =>
-    props.ch2 &&
-    css`
-      background-image: url("/Assets/Intro/ch2.png");
-    `}
-  ${(props) =>
-    props.ch3 &&
-    css`
-      background-image: url("/Assets/Intro/ch3.png");
-    `}
-  ${(props) =>
-    props.ch4 &&
-    css`
-      background-image: url("/Assets/Intro/ch4.png");
-    `}
-`;
+
 
 // 서비스 분야
 function IntroSection4V1(): JSX.Element {
+  const navigate = useNavigate()
   return (
-    <div className="container max-w-screen-xl w-full mx-auto mt-16 md:mt-24 mb-2 md:mb-6 overflow-hidden">
+    <div className="container max-w-screen-xl w-full mx-auto mt-10 md:mt-24 md:mb-6 overflow-hidden" onClick={()=> {navigate('/login')}}>
       <div className="flex justify-center items-center w-full">
-        <div className="mb-6 font-black text-[1rem] md:text-[1.3rem] lg:text-[1.4rem] text-[#A87E6E] w-[85%] md:w-[90%] lg:w-[77%]">
+        <div className="mb-6 font-black text-[1.2rem] md:text-[1.3rem] lg:text-[1.4rem] text-[#A87E6E] w-[85%] md:w-[90%] lg:w-[77%]">
           서비스 분야
         </div>
       </div>
       <div
         className={`hidden md:flex flex-nowrap h-[10rem] w-[80rem] -translate-x-4 justify-start items-start ${sModule.moveCard1}`}
       >
-        <StyledCard color="#a77e6e" munmakDogam />
-        <StyledCard color="#f4eeec" ch1 />
-        <StyledCard color="#f7cdb7" sajun />
-        <StyledCard color="#ac8679" munmakDogam />
-        <StyledCard color="#ebc7be" ch3 />
-        <StyledCard color="#ebc7be" munmakStudy />
-        <StyledCard color="#f9f9f9" ch4 />
-        <StyledCard sajun />
-        <StyledCard color="#ac8679" ch2 />
-        <StyledCard color="#f7cdb7" munmakStudy />
-        <StyledCard color="#ebc7be" ch1 />
-        <StyledCard color="#f4eeec" ch4 />
-        <StyledCard color="#ebc7be" munmakDogam />
-        <StyledCard color="#a77e6e" today />
-        <StyledCard color="#f9f9f9" ch3 />
-        <StyledCard color="#ac8679" munmakStudy />
-        <StyledCard ch2 />
-        <StyledCard color="#ebc7be" ch1 />
-        <StyledCard color="#ac8679" munmakDogam />
-        <StyledCard color="#f9f9f9" ch4 />
-        <StyledCard color="#ebc7be" today />
-        <StyledCard sajun />
+        <StyledCard width="10rem" height="10rem" color="#f4eeec" img='/Assets/Intro/1.png' />
+        <StyledCard width="10rem" height="10rem" color="#f4eeec" img='/Assets/Intro/9.png' />
+        <StyledCard width="10rem" height="10rem" color="#f7cdb7" img='/Assets/Intro/17.png' />
+        <StyledCard width="10rem" height="10rem" color="#ac8679" img='/Assets/Intro/25.png' />
+        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Intro/2.png' />
+        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Intro/10.png' />
+        <StyledCard width="10rem" height="10rem" color="#f9f9f9" img='/Assets/Intro/18.png' />
+        <StyledCard width="10rem" height="10rem" img='/Assets/Intro/26.png' />
+        <StyledCard width="10rem" height="10rem" color="#ac8679" img='/Assets/Intro/3.png' />
+        <StyledCard width="10rem" height="10rem" color="#f7cdb7" img='/Assets/Intro/11.png' />
+        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Intro/19.png' />
+        <StyledCard width="10rem" height="10rem" color="#f4eeec" img='/Assets/Intro/27.png' />
+        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Intro/4.png' />
+        <StyledCard width="10rem" height="10rem" color="#a77e6e" img='/Assets/Intro/12.png' />
+        <StyledCard width="10rem" height="10rem" color="#f9f9f9" img='/Assets/Intro/20.png' />
+        <StyledCard width="10rem" height="10rem" color="#ac8679" img='/Assets/Intro/28.png' />
+        <StyledCard width="10rem" height="10rem" img='/Assets/Intro/5.png' />
+        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Intro/13.png' />
+        <StyledCard width="10rem" height="10rem" color="#ac8679" img='/Assets/Intro/21.png' />
+
       </div>
       <div
         className={`flex md:hidden flex-nowrap h-[10rem] w-[80rem] -translate-x-4 justify-start items-start ${sModule.moveCard1}`}
       >
-        <StyledMobileCard color="#a77e6e" munmakDogam />
-        <StyledMobileCard color="#f4eeec" ch1 />
-        <StyledMobileCard color="#f7cdb7" sajun />
-        <StyledMobileCard color="#ac8679" munmakDogam />
-        <StyledMobileCard color="#ebc7be" ch3 />
-        <StyledMobileCard color="#ebc7be" munmakStudy />
-        <StyledMobileCard color="#f9f9f9" ch4 />
-        <StyledMobileCard sajun />
-        <StyledMobileCard color="#ac8679" ch2 />
-        <StyledMobileCard color="#f7cdb7" munmakStudy />
-        <StyledMobileCard color="#ebc7be" ch1 />
-        <StyledMobileCard color="#f4eeec" ch4 />
-        <StyledMobileCard color="#ebc7be" munmakDogam />
-        <StyledMobileCard color="#a77e6e" today />
-        <StyledMobileCard color="#f9f9f9" ch3 />
-        <StyledMobileCard color="#ac8679" munmakStudy />
-        <StyledMobileCard ch2 />
-        <StyledMobileCard color="#ebc7be" ch1 />
-        <StyledMobileCard color="#ac8679" munmakDogam />
-        <StyledMobileCard color="#f9f9f9" ch4 />
-        <StyledMobileCard color="#ebc7be" today />
-        <StyledMobileCard sajun />
+        <StyledCard color="#f4eeec" img='/Assets/Intro/1.png' />
+        <StyledCard color="#f4eeec" img='/Assets/Intro/9.png' />
+        <StyledCard color="#f7cdb7" img='/Assets/Intro/17.png' />
+        <StyledCard color="#ac8679" img='/Assets/Intro/25.png' />
+        <StyledCard color="#ebc7be" img='/Assets/Intro/2.png' />
+        <StyledCard color="#ebc7be" img='/Assets/Intro/10.png' />
+        <StyledCard color="#f9f9f9" img='/Assets/Intro/18.png' />
+        <StyledCard img='/Assets/Intro/26.png' />
+        <StyledCard color="#ac8679" img='/Assets/Intro/3.png' />
+        <StyledCard color="#f7cdb7" img='/Assets/Intro/11.png' />
+        <StyledCard color="#ebc7be" img='/Assets/Intro/19.png' />
+        <StyledCard color="#f4eeec" img='/Assets/Intro/27.png' />
+        <StyledCard color="#ebc7be" img='/Assets/Intro/4.png' />
+        <StyledCard color="#a77e6e" img='/Assets/Intro/12.png' />
+        <StyledCard color="#f9f9f9" img='/Assets/Intro/20.png' />
+        <StyledCard color="#ac8679" img='/Assets/Intro/28.png' />
+        <StyledCard img='/Assets/Intro/5.png' />
+        <StyledCard color="#ebc7be" img='/Assets/Intro/13.png' />
+        <StyledCard color="#ac8679" img='/Assets/Intro/21.png' />
+        
       </div>
     </div>
   );
 }
 
 function IntroSection4V2(): JSX.Element {
+  const navigate = useNavigate()
   return (
-    <div className="container max-w-screen-xl w-full mx-auto mb-16 md:mb-24 mt-2 md:mt-6 overflow-hidden">
+    <div className="container max-w-screen-xl w-full mx-auto mb-16 md:mb-24 md:mt-6 overflow-hidden" onClick={()=> {navigate('/login')}}>
       <div
         className={`hidden md:flex flex-nowrap h-[10rem] w-[80rem] justify-start items-start ${sModule.moveCard2}`}
       >
-        <StyledCard color="#f7cdb7" munmakDogam />
-        <StyledCard color="#f4eeec" sajun />
-        <StyledCard color="#a77e6e" munmakStudy />
-        <StyledCard color="#ebc7be" ch1 />
-        <StyledCard color="#f9f9f9" munmakStudy />
-        <StyledCard color="#ebc7be" today />
-        <StyledCard color="#ac8679" munmakDogam />
-        <StyledCard today />
-        <StyledCard color="#f7cdb7" ch2 />
-        <StyledCard color="#a77e6e" munmakStudy />
-        <StyledCard color="#f4eeec" ch4 />
-        <StyledCard color="#ebc7be" munmakDogam />
-        <StyledCard color="#f9f9f9" sajun />
-        <StyledCard color="#ebc7be" today />
-        <StyledCard color="#ac8679" munmakDogam />
-        <StyledCard ch3 />
+        <StyledCard width="10rem" height="10rem" color="#f7cdb7" img="/Assets/Intro/6.png" />
+        <StyledCard width="10rem" height="10rem" color="#f4eeec" img="/Assets/Intro/14.png" />
+        <StyledCard width="10rem" height="10rem" color="#a77e6e" img="/Assets/Intro/22.png" />
+        <StyledCard width="10rem" height="10rem" color="#ebc7be" img="/Assets/Intro/30.png" />
+        <StyledCard width="10rem" height="10rem" color="#f9f9f9" img="/Assets/Intro/7.png" />
+        <StyledCard width="10rem" height="10rem" color="#ebc7be" img="/Assets/Intro/15.png" />
+        <StyledCard width="10rem" height="10rem" color="#ac8679" img="/Assets/Intro/23.png" />
+        <StyledCard width="10rem" height="10rem" img="/Assets/Intro/31.png" />
+        <StyledCard width="10rem" height="10rem" color="#f7cdb7" img="/Assets/Intro/8.png" />
+        <StyledCard width="10rem" height="10rem" color="#a77e6e" img="/Assets/Intro/16.png" />
+        <StyledCard width="10rem" height="10rem" color="#f4eeec" img="/Assets/Intro/24.png" />
+        <StyledCard width="10rem" height="10rem" color="#ebc7be" img="/Assets/Intro/1.png" />
+        <StyledCard width="10rem" height="10rem" color="#f9f9f9" img="/Assets/Intro/9.png" />
+        <StyledCard width="10rem" height="10rem" color="#ac8679" img="/Assets/Intro/25.png" />
+        <StyledCard width="10rem" height="10rem" img="/Assets/Intro/27.png" />
+        <StyledCard width="10rem" height="10rem" color="#f9f9f9" img='/Assets/Intro/29.png' />
+        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Intro/6.png' />
+        <StyledCard width="10rem" height="10rem" img='/Assets/Intro/14.png' />
+        <StyledCard width="10rem" height="10rem" color="#ebc7be" img="/Assets/Intro/17.png" />
       </div>
       <div
         className={`flex md:hidden flex-nowrap h-[10rem] w-[80rem] justify-start items-start ${sModule.moveCard2}`}
       >
-        <StyledMobileCard color="#f7cdb7" munmakDogam />
-        <StyledMobileCard color="#f4eeec" sajun />
-        <StyledMobileCard color="#a77e6e" munmakStudy />
-        <StyledMobileCard color="#ebc7be" ch1 />
-        <StyledMobileCard color="#f9f9f9" munmakStudy />
-        <StyledMobileCard color="#ebc7be" today />
-        <StyledMobileCard color="#ac8679" munmakDogam />
-        <StyledMobileCard today />
-        <StyledMobileCard color="#f7cdb7" ch2 />
-        <StyledMobileCard color="#a77e6e" munmakStudy />
-        <StyledMobileCard color="#f4eeec" ch4 />
-        <StyledMobileCard color="#ebc7be" munmakDogam />
-        <StyledMobileCard color="#f9f9f9" sajun />
-        <StyledMobileCard color="#ebc7be" today />
-        <StyledMobileCard color="#ac8679" munmakDogam />
-        <StyledMobileCard ch3 />
+        <StyledCard color="#f7cdb7" img="/Assets/Intro/6.png" />
+        <StyledCard color="#f4eeec" img="/Assets/Intro/14.png" />
+        <StyledCard color="#a77e6e" img="/Assets/Intro/22.png" />
+        <StyledCard color="#ebc7be" img="/Assets/Intro/30.png" />
+        <StyledCard color="#f9f9f9" img="/Assets/Intro/7.png" />
+        <StyledCard color="#ebc7be" img="/Assets/Intro/15.png" />
+        <StyledCard color="#ac8679" img="/Assets/Intro/23.png" />
+        <StyledCard img="/Assets/Intro/31.png" />
+        <StyledCard color="#f7cdb7" img="/Assets/Intro/8.png" />
+        <StyledCard color="#a77e6e" img="/Assets/Intro/16.png" />
+        <StyledCard color="#f4eeec" img="/Assets/Intro/24.png" />
+        <StyledCard color="#ebc7be" img="/Assets/Intro/1.png" />
+        <StyledCard color="#f9f9f9" img="/Assets/Intro/9.png" />
+        <StyledCard color="#ac8679" img="/Assets/Intro/25.png" />
+        <StyledCard img="/Assets/Intro/27.png" />
+        <StyledCard color="#f9f9f9" img='/Assets/Intro/29.png' />
+        <StyledCard color="#ebc7be" img='/Assets/Intro/6.png' />
+        <StyledCard img='/Assets/Intro/14.png' />
+        <StyledCard color="#ebc7be" img="/Assets/Intro/17.png" />
       </div>
     </div>
   );
