@@ -37,7 +37,7 @@ function Dogam(): JSX.Element {
   } else {
     return (
       <>
-        <div className="w-full h-screen">
+        <div className="w-full">
           <Navbar />
           <DogamHeader num={Object.keys(get.data).length} toggle={toggle} setToggle={setToggle} />
           <DogamList get={get.data} total={total.data} toggle={toggle} />

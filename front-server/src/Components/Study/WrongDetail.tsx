@@ -40,7 +40,7 @@ function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
     useEffect(() => {
       // speechSynthesis.cancel();
       // handleSpeakClick();
-      getTTS(data[index].wordName).then((r) => {
+      getTTS(data[index]?.wordName).then((r) => {
         setAudio(new Audio(r.data.date));
       })
     },[index])
@@ -107,7 +107,7 @@ function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
                         let temp =  detail.wordExampleResponseList.filter((ex:any) => ex.exampleType === "문장")[0]?.exampleDetail
                         let example = temp ? temp : detail.wordExampleResponseList[0]?.exampleDetail
                         return(
-                            <div key={idx}className="bg-[#F4EFEC] rounded-lg p-4 md:text-[1.2rem] text-[1rem] font-semibold my-2 text-[#2F2F2F]">{detail.details}
+                            <div key={idx} className="bg-[#F4EFEC] rounded-lg p-4 md:text-[1.2rem] text-[1rem] font-semibold my-2 text-[#2F2F2F]">{detail.details}
                                 <div className="mt-2 md:text-[1.1rem] text-[0.9rem] text-[#666666] leading-8 font-medium">
                                     <span className="mr-1 font-bold text-[#ffffff] rounded-full px-3 py-1 bg-[#F7CCB7] md:text-[0.9rem] text-[0.8rem]">예제</span>
                                     {example}
