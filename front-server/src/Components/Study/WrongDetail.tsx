@@ -1,8 +1,16 @@
+import { useLazyGetTtsQuery } from "../../Store/ttsApi";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
+import Loading from "../Common/Loading";
+import ErrorPage from "../Common/ErrorPage";
 
 function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
+
+    const [audio, setAudio] = useState(new Audio()); // audio 엘리먼트
+
+    // RTK QUERY
+    const [getTTS, { error , isLoading }] = useLazyGetTtsQuery();
 
     const handleSpeakClick = () => {
       const word = new SpeechSynthesisUtterance(data[index].wordName);
@@ -30,14 +38,36 @@ function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
 
     // 카드 넘길때 마다 자동 재생
     useEffect(() => {
-      speechSynthesis.cancel();
-      handleSpeakClick();
+      // speechSynthesis.cancel();
+      // handleSpeakClick();
+      getTTS(data[index].wordName).then((r) => {
+        setAudio(new Audio(r.data.date));
+      })
     },[index])
 
+
     useEffect(()=> {
-      speechSynthesis.cancel();
+      // speechSynthesis.cancel();
+      if(!open){
+        audio.pause();
+      }
     },[open])
 
+    if(isLoading){
+      return(
+        <>
+          <Loading />
+        </>
+      )
+
+    }
+    if(error){
+      return(
+        <>
+          <ErrorPage />
+        </>
+      )
+    }
     
     return(
         <>
@@ -53,6 +83,13 @@ function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
                 <div className="flex md:px-4 px-3 pt-3">
                     <div className="md:text-[2rem] text-[1.5rem] font-bold mr-1 text-[#000000]">{data[index].wordName}</div>
                     {data[index].wordIso > 0 && <div className="flex md:text-[1.2rem] text-[1rem] text-[#A2A2A2] ml-1">{data[index].wordIso}</div>}
+                    <div className="flex items-center px-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 cursor-pointer" onClick={() => {audio.play()}}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z" />
+                      </svg>
+                    </div>
+
                 </div>
                 <div className="relative md:px-4 px-3 flex pt-1 justify-between items-end sm:min-w-[25rem] min-w-[19rem] flex-wrap">
                     <div className="flex items-end md:text-[1.2rem] text-[1rem] text-[#A2A2A2] mr-1">
@@ -88,7 +125,7 @@ function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
                         setIdx(index-1)
                     }}}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 hover:w-7 hover:h-7 mx-auto">
-                        <path strokeLinecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                     </svg>
                   </div>
 
