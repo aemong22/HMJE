@@ -34,60 +34,25 @@ function Modal({ onClose, maskClosable, closable, visible }: ModalProps) {
 
   function setCookie(name: any, value: any, days: any) {
     const expires = new Date(Date.now() + days * 864e5).toUTCString();
+
     document.cookie =
       name +
       "=" +
       encodeURIComponent(value) +
       "; expires=" +
       expires +
-      "; path=/main";
+      "; path=/";
   }
-
-  function getCookie(name: any) {
-    const cookies = document.cookie.split("; ");
-    for (let i = 0; i < cookies.length; i++) {
-      const [cookieName, cookieValue] = cookies[i].split("=");
-      if (cookieName === name) {
-        return decodeURIComponent(cookieValue);
-      }
-    }
-    return null;
-  }
-
-  // 이전방문 날짜
-  const VISITED_BEFORE_DATE = getCookie("VisitCookie");
-  // 쿠키로바꾸자
-
-  // 현재 날짜
-  const VISITED_NOW_DATE = Math.floor(new Date().getDate());
-
-  useEffect(() => {
-    // 팝업 오늘 하루닫기 체크
-    if (VISITED_BEFORE_DATE !== null) {
-      // 날짜가 같을경우 노출
-      if (VISITED_BEFORE_DATE === VISITED_NOW_DATE.toString()) {
-        const expiry = new Date();
-        setCookie("VisitCookie", "modal", expiry.toString());
-
-        onClose?.(true);
-      }
-      // 날짜가 다를경우 비노출
-      if (VISITED_BEFORE_DATE !== VISITED_NOW_DATE.toString()) {
-        onClose?.(false);
-      }
-    }
-  }, [VISITED_BEFORE_DATE]);
 
   // 하루동안 팝업 닫기
   const Dayclose = (e: React.MouseEvent<HTMLSpanElement>) => {
     if (onClose) {
       onClose(e);
-
       const expiry = new Date();
-      // +1일 계산
-      const expiryDate = expiry.getDate() + 1;
-      // 쿠키로바꾸자
-      setCookie("VisitCookie", "modal", expiryDate.toString());
+
+      expiry.setDate(expiry.getDate() + 1);     
+
+      setCookie("VisitCookie", expiry.getDate().toString(), 1);
     }
   };
 
@@ -120,7 +85,7 @@ function Modal({ onClose, maskClosable, closable, visible }: ModalProps) {
                 }}
               >
                 <img
-                  className="w-full h-full"                  
+                  className="w-full h-full"
                   src={images[currentIndex]}
                   alt={`image${currentIndex}`}
                 />

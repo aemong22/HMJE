@@ -19,15 +19,18 @@ function Login(): JSX.Element {
   const [Password, setPassword] = useState<string>("");
 
   const [PostUserlogin, isloading5] = usePostUserloginMutation();
-  
-  const accessToken = localStorage.getItem("accessToken");
-  useEffect(() => {
-    if (accessToken) {      
-      navigate("/main");
-    }
 
-    return () => {};
-  }, []);
+  // const accessToken = localStorage.getItem("accessToken");
+  // useEffect(() => {
+  //   if (accessToken&&accessToken === "undefined") {
+  //     navigate("/");
+  //   }
+  //   else if(accessToken&&accessToken!==undefined){      
+  //     navigate("/main");
+  //   }
+
+  //   return () => {};
+  // }, []);
 
   const ChangeId = (event: any): void => {
     setId(event.target.value);

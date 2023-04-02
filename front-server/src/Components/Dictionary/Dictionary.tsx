@@ -4,7 +4,7 @@ import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
 import Pagination from "react-js-pagination";
 import style from "../Dictionary/Dictionary.module.css";
-import { useGetWorddictQuery, useLazyGetWorddictQuery } from "../../Store/api";
+import { useGetWorddictQuery, useLazyGetWorddictQuery, usePutUserBadgeMalrangMutation } from "../../Store/api";
 import { type } from "@testing-library/user-event/dist/type";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import {
@@ -16,6 +16,10 @@ import {
 
 import styled from "styled-components";
 import DictionaryDetail from "./DictionaryDetail";
+import { toast } from "react-toastify";
+import { Toast } from "../Common/Toast";
+import Loading from "../Common/Loading";
+import ErrorPage from "../Common/ErrorPage";
 
 type dict = {
   filter: string;
@@ -73,6 +77,7 @@ const DictionaryPage = () => {
   } = useGetWorddictQuery(first);
 
   const [getWorddict] = useLazyGetWorddictQuery();
+  
   // =========================WordList=========================
 
   const [WordList, setWordList] = useState<Worddict>();
@@ -219,14 +224,15 @@ const DictionaryPage = () => {
   }, [items]);
 
   if (isLading1) {
-    return <>loading</>;
+    return <Loading />;
   } else if (error1) {
-    return <>error</>;
+    return <ErrorPage />;
   } else {
     // console.log("Math.floor(wordList!.count)", Math.floor(wordList!.count));
 
     return (
       <>
+        <Toast/>
         {WordList ? (
           <>
             <Navbar />
@@ -280,8 +286,13 @@ function Searchbar({
   setWordList,
   fetchData,
 }: any): JSX.Element {
+
+  const [putUserBadgeMalrang, {isLoading:isLoading1, isError:isError1}] = usePutUserBadgeMalrangMutation()
+
   const ChangeSearch = (event: any) => {
     // console.log(event.target.value);
+    
+    
 
     onchangeSearch(event.target.value);
   };
@@ -289,6 +300,16 @@ function Searchbar({
   const handleOnKeyPress = (e: any) => {
     if (e.key === "Enter") {
       fetchData(Search);
+      const userId = localStorage.getItem('userId')
+      if (Search === '홍민정음') {
+        putUserBadgeMalrang([userId,23]).unwrap().then((r)=> {
+          if (r.newbadge.length) {
+            toast.success('숨겨진 칭호를 획득했습니다!')
+          } else {
+            toast.error('이미 획득했습니다!')
+          }
+        })
+      }
       // FindWord();
       // console.log("검색 ㄱ");
     }
