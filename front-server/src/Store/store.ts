@@ -3,6 +3,7 @@ import { configureStore, createSlice, } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query/react";
 import { hmjeApi } from "./api"
 import { NonAuthApi } from "./NonAuthApi";
+import { ttsApi } from "./ttsApi";
 
 
 // 한페이지에 나타나는 단어 리스트
@@ -63,6 +64,7 @@ export const store = configureStore({
   reducer: {
     [hmjeApi.reducerPath]: hmjeApi.reducer,
     [NonAuthApi.reducerPath]: NonAuthApi.reducer,
+    [ttsApi.reducerPath]:ttsApi.reducer,
     // 사전
     dictList: dictList.reducer,
     dictPage: dictPage.reducer,
