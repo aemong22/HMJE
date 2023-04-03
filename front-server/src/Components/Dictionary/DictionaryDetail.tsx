@@ -3,33 +3,60 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 
 import { showDictionaryDetail } from "../../Store/store";
+import { useGetTtsQuery, useLazyGetTtsQuery } from "../../Store/ttsApi";
 
 const DictionaryDetail = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const [url, seturl] = useState("");
+
+  const [audio, setaudio] = useState(new Audio());
+
+  const [getTts, { error: error1, isLoading: isLoading1 }] =
+    useLazyGetTtsQuery();
+
   //백그라운드 div
   const bgDiv = useRef<any>();
   const DictionaryDetailInfo = useAppSelector((state: any) => {
     return state.DictionaryDetailInfo;
   });
 
-  const [RandomIndex, setRandomIndex] = useState(0);
+  // const { data: urlDate, isLoading } = useGetTtsQuery(DictionaryDetailInfo.wordName);
+
+  function handlePlay() {
+    audio.play();
+  }
 
   function CloseDictionaryDetail(event: React.MouseEvent<HTMLDivElement>) {
-    // console.log("클릭인것같음", event.target);
-    // console.log("뭔가용", bgDiv.current);
     if (event.target === bgDiv.current) {
-      // console.log("인트로창꺼짐!");
       dispatch(showDictionaryDetail());
     }
   }
-  console.log(DictionaryDetailInfo);
+  // console.log(DictionaryDetailInfo);
+  const tts = (text: any) => {
+    console.log(`${text} tts`);
+    getTts(text)
+      .unwrap()
+      .then((r) => {
+        const urltemp: string = r.date;
+        const a = new Audio(`${urltemp}`);
+        a.play();
+      })      
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  // useEffect(() => {
+  //   const a = new Audio(`${url}`);
+  //   setaudio(a);
+  //   return () => {};
+  // }, [url]);
+
   return (
     <div
       ref={bgDiv}
       onMouseDown={CloseDictionaryDetail}
       className={
-        "z-10 bg-slate-800 bg-opacity-5 fixed top-0 right-0 bottom-0 left-0"
+        "z-10 bg-slate-800 bg-opacity-30 fixed top-0 right-0 bottom-0 left-0"
       }
     >
       <div className="max-w-screen-lg mt-[5%] mx-auto max-h-[80%] overflow-auto border-2 bg-white rounded-lg px-[5%] py-[3%]">
@@ -39,6 +66,7 @@ const DictionaryDetail = (): JSX.Element => {
             <div className="text-black font-extrabold text-[2rem] lg:text-[2.5rem] py-2 ">
               {DictionaryDetailInfo.wordName}
             </div>
+            {/* 원어 */}
             {DictionaryDetailInfo.wordOrigin !== "" ? (
               <div className="py-2 mx-2 text-[#767676]">
                 [ {DictionaryDetailInfo.wordOrigin} ]
@@ -46,10 +74,21 @@ const DictionaryDetail = (): JSX.Element => {
             ) : (
               <div className="py-2 mx-2 text-[#767676]"></div>
             )}
+            {/* 품사 */}
             <div className="text-[#767676]  py-2">
               [ {DictionaryDetailInfo.wordType} ]
             </div>
-            {/* <div className="py-2 px-3">soundicon</div> */}
+            <button
+              onClick={() => {
+                tts(DictionaryDetailInfo.wordName);
+              }}
+            >
+              <img
+                className="w-[2rem] invert "
+                src="/Assets/Icon/e-learning.png"
+                alt="tts"
+              />
+            </button>
           </div>
           <div className="text-black flex flex-col items-baseline py-2">
             {DictionaryDetailInfo.wordRating !== "없음" ? (
@@ -57,9 +96,9 @@ const DictionaryDetail = (): JSX.Element => {
             ) : null}
           </div>
         </div>
-        {DictionaryDetailInfo.wordDetailResponseList.map((it: any) => {          
+        {DictionaryDetailInfo.wordDetailResponseList.map((it: any) => {
           return (
-            <div className="flex flex-col justify-start">
+            <div className="flex flex-col justify-start font-extrabold">
               <div className="flex flex-col justify-start  pt-3 lg:py-3 md:text-3xl px-5 bg-[#F4EFEC] rounded-2xl my-3 lg:my-6">
                 <div className="flex text-black text-[1.3rem] lg:text- text-start">
                   {it.details}

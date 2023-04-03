@@ -325,7 +325,9 @@ interface CardProps {
   width?: string;
   height?: string;
   color?: string;
-  img: any;
+  img: any;  
+  position?: string;
+  size?: string;
 }
 
 const StyledCard = styled.div<CardProps>`
@@ -338,8 +340,8 @@ const StyledCard = styled.div<CardProps>`
   flex-shrink: 0; // added to prevent shrinking
   background-repeat: no-repeat;
   background-position-x: center;
-  background-position-y: center;
-  background-size: contain;
+  background-position-y: ${(props) => props.position || 'center'};
+  background-size: ${(props) => props.size || '60%'};
   background-image:  url(${(props) => props.img || '/Assets/Intro/21.png'});
 `;
 
@@ -357,49 +359,48 @@ function IntroSection4V1(): JSX.Element {
       <div
         className={`hidden md:flex flex-nowrap h-[10rem] w-[80rem] -translate-x-4 justify-start items-start ${sModule.moveCard1}`}
       >
-        <StyledCard width="10rem" height="10rem" color="#f4eeec" img='/Assets/Intro/1.png' />
-        <StyledCard width="10rem" height="10rem" color="#f4eeec" img='/Assets/Intro/9.png' />
-        <StyledCard width="10rem" height="10rem" color="#f7cdb7" img='/Assets/Intro/17.png' />
-        <StyledCard width="10rem" height="10rem" color="#ac8679" img='/Assets/Intro/25.png' />
-        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Intro/2.png' />
-        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Intro/10.png' />
-        <StyledCard width="10rem" height="10rem" color="#f9f9f9" img='/Assets/Intro/18.png' />
-        <StyledCard width="10rem" height="10rem" img='/Assets/Intro/26.png' />
-        <StyledCard width="10rem" height="10rem" color="#ac8679" img='/Assets/Intro/3.png' />
-        <StyledCard width="10rem" height="10rem" color="#f7cdb7" img='/Assets/Intro/11.png' />
-        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Intro/19.png' />
-        <StyledCard width="10rem" height="10rem" color="#f4eeec" img='/Assets/Intro/27.png' />
-        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Intro/4.png' />
-        <StyledCard width="10rem" height="10rem" color="#a77e6e" img='/Assets/Intro/12.png' />
-        <StyledCard width="10rem" height="10rem" color="#f9f9f9" img='/Assets/Intro/20.png' />
-        <StyledCard width="10rem" height="10rem" color="#ac8679" img='/Assets/Intro/28.png' />
-        <StyledCard width="10rem" height="10rem" img='/Assets/Intro/5.png' />
-        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Intro/13.png' />
-        <StyledCard width="10rem" height="10rem" color="#ac8679" img='/Assets/Intro/21.png' />
-
+        <StyledCard width="10rem" height="10rem" color="#f4eeec" img='/Assets/Badge/1.png' />
+        <StyledCard width="10rem" height="10rem" color="#f4eeec" img='/Assets/Badge/9.png' />
+        <StyledCard width="10rem" height="10rem" color="#f7cdb7" img='/Assets/Badge/17.png' />
+        <StyledCard width="10rem" height="10rem" color="#ac8679" img='/Assets/Intro/1.png' size="50%" position="65%"/>
+        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Badge/2.png' />
+        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Badge/10.png' />
+        <StyledCard width="10rem" height="10rem" color="#f9f9f9" img='/Assets/Badge/18.png' />
+        <StyledCard width="10rem" height="10rem" img='/Assets/Intro/2.png' size="50%" position="65%"/>
+        <StyledCard width="10rem" height="10rem" color="#ac8679" img='/Assets/Badge/3.png' />
+        <StyledCard width="10rem" height="10rem" color="#f7cdb7" img='/Assets/Badge/11.png' />
+        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Badge/19.png' />
+        <StyledCard width="10rem" height="10rem" color="#f4eeec" img='/Assets/Badge/12.png' />
+        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Badge/4.png' />
+        <StyledCard width="10rem" height="10rem" color="#a77e6e" img='/Assets/Intro/3.png' size="50%" position="65%"/>
+        <StyledCard width="10rem" height="10rem" color="#f9f9f9" img='/Assets/Badge/20.png' />
+        <StyledCard width="10rem" height="10rem" color="#ac8679" img='/Assets/Intro/4.png' size="50%" position="65%"/>
+        <StyledCard width="10rem" height="10rem" img='/Assets/Badge/5.png' />
+        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Badge/13.png' />
+        <StyledCard width="10rem" height="10rem" color="#ac8679" img='/Assets/Badge/21.png' />
       </div>
       <div
         className={`flex md:hidden flex-nowrap h-[10rem] w-[80rem] -translate-x-4 justify-start items-start ${sModule.moveCard1}`}
       >
-        <StyledCard color="#f4eeec" img='/Assets/Intro/1.png' />
-        <StyledCard color="#f4eeec" img='/Assets/Intro/9.png' />
-        <StyledCard color="#f7cdb7" img='/Assets/Intro/17.png' />
-        <StyledCard color="#ac8679" img='/Assets/Intro/25.png' />
-        <StyledCard color="#ebc7be" img='/Assets/Intro/2.png' />
-        <StyledCard color="#ebc7be" img='/Assets/Intro/10.png' />
-        <StyledCard color="#f9f9f9" img='/Assets/Intro/18.png' />
-        <StyledCard img='/Assets/Intro/26.png' />
-        <StyledCard color="#ac8679" img='/Assets/Intro/3.png' />
-        <StyledCard color="#f7cdb7" img='/Assets/Intro/11.png' />
-        <StyledCard color="#ebc7be" img='/Assets/Intro/19.png' />
-        <StyledCard color="#f4eeec" img='/Assets/Intro/27.png' />
-        <StyledCard color="#ebc7be" img='/Assets/Intro/4.png' />
-        <StyledCard color="#a77e6e" img='/Assets/Intro/12.png' />
-        <StyledCard color="#f9f9f9" img='/Assets/Intro/20.png' />
-        <StyledCard color="#ac8679" img='/Assets/Intro/28.png' />
-        <StyledCard img='/Assets/Intro/5.png' />
-        <StyledCard color="#ebc7be" img='/Assets/Intro/13.png' />
-        <StyledCard color="#ac8679" img='/Assets/Intro/21.png' />
+        <StyledCard color="#f4eeec" img='/Assets/Badge/1.png' />
+        <StyledCard color="#f4eeec" img='/Assets/Badge/9.png' />
+        <StyledCard color="#f7cdb7" img='/Assets/Badge/17.png' />
+        <StyledCard color="#ac8679" img='/Assets/Intro/1.png' size="50%" position="65%"/>
+        <StyledCard color="#ebc7be" img='/Assets/Badge/2.png' />
+        <StyledCard color="#ebc7be" img='/Assets/Badge/10.png' />
+        <StyledCard color="#f9f9f9" img='/Assets/Badge/18.png' />
+        <StyledCard img='/Assets/Intro/2.png' size="50%" position="65%"/>
+        <StyledCard color="#ac8679" img='/Assets/Badge/3.png' />
+        <StyledCard color="#f7cdb7" img='/Assets/Badge/11.png' />
+        <StyledCard color="#ebc7be" img='/Assets/Badge/19.png' />
+        <StyledCard color="#f4eeec" img='/Assets/Badge/12.png' />
+        <StyledCard color="#ebc7be" img='/Assets/Badge/4.png' />
+        <StyledCard color="#a77e6e" img='/Assets/Intro/3.png' size="50%" position="65%"/>
+        <StyledCard color="#f9f9f9" img='/Assets/Badge/20.png' />
+        <StyledCard color="#ac8679" img='/Assets/Intro/4.png' size="50%" position="65%"/>
+        <StyledCard img='/Assets/Badge/5.png' />
+        <StyledCard color="#ebc7be" img='/Assets/Badge/13.png' />
+        <StyledCard color="#ac8679" img='/Assets/Badge/21.png' />
         
       </div>
     </div>
@@ -413,48 +414,48 @@ function IntroSection4V2(): JSX.Element {
       <div
         className={`hidden md:flex flex-nowrap h-[10rem] w-[80rem] justify-start items-start ${sModule.moveCard2}`}
       >
-        <StyledCard width="10rem" height="10rem" color="#f7cdb7" img="/Assets/Intro/6.png" />
-        <StyledCard width="10rem" height="10rem" color="#f4eeec" img="/Assets/Intro/14.png" />
-        <StyledCard width="10rem" height="10rem" color="#a77e6e" img="/Assets/Intro/22.png" />
-        <StyledCard width="10rem" height="10rem" color="#ebc7be" img="/Assets/Intro/30.png" />
-        <StyledCard width="10rem" height="10rem" color="#f9f9f9" img="/Assets/Intro/7.png" />
-        <StyledCard width="10rem" height="10rem" color="#ebc7be" img="/Assets/Intro/15.png" />
-        <StyledCard width="10rem" height="10rem" color="#ac8679" img="/Assets/Intro/23.png" />
-        <StyledCard width="10rem" height="10rem" img="/Assets/Intro/31.png" />
-        <StyledCard width="10rem" height="10rem" color="#f7cdb7" img="/Assets/Intro/8.png" />
-        <StyledCard width="10rem" height="10rem" color="#a77e6e" img="/Assets/Intro/16.png" />
-        <StyledCard width="10rem" height="10rem" color="#f4eeec" img="/Assets/Intro/24.png" />
-        <StyledCard width="10rem" height="10rem" color="#ebc7be" img="/Assets/Intro/1.png" />
-        <StyledCard width="10rem" height="10rem" color="#f9f9f9" img="/Assets/Intro/9.png" />
-        <StyledCard width="10rem" height="10rem" color="#ac8679" img="/Assets/Intro/25.png" />
-        <StyledCard width="10rem" height="10rem" img="/Assets/Intro/27.png" />
-        <StyledCard width="10rem" height="10rem" color="#f9f9f9" img='/Assets/Intro/29.png' />
-        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Intro/6.png' />
-        <StyledCard width="10rem" height="10rem" img='/Assets/Intro/14.png' />
-        <StyledCard width="10rem" height="10rem" color="#ebc7be" img="/Assets/Intro/17.png" />
+        <StyledCard width="10rem" height="10rem" color="#f7cdb7" img="/Assets/Badge/6.png" />
+        <StyledCard width="10rem" height="10rem" color="#f4eeec" img="/Assets/Badge/14.png" />
+        <StyledCard width="10rem" height="10rem" color="#a77e6e" img="/Assets/Badge/22.png" />
+        <StyledCard width="10rem" height="10rem" color="#ebc7be" img="/Assets/Intro/5.png" size="50%" position="65%"/>
+        <StyledCard width="10rem" height="10rem" color="#f9f9f9" img="/Assets/Badge/7.png" />
+        <StyledCard width="10rem" height="10rem" color="#ebc7be" img="/Assets/Badge/15.png" />
+        <StyledCard width="10rem" height="10rem" color="#ac8679" img="/Assets/Badge/23.png" />
+        <StyledCard width="10rem" height="10rem" img="/Assets/Intro/6.png" size="50%" position="65%"/>
+        <StyledCard width="10rem" height="10rem" color="#f7cdb7" img="/Assets/Badge/8.png" />
+        <StyledCard width="10rem" height="10rem" color="#f4eeec" img="/Assets/Badge/16.png" />
+        <StyledCard width="10rem" height="10rem" color="#a77e6e" img="/Assets/Intro/7.png" size="50%" position="65%"/>
+        <StyledCard width="10rem" height="10rem" color="#ebc7be" img="/Assets/Badge/1.png" />
+        <StyledCard width="10rem" height="10rem" color="#f9f9f9" img="/Assets/Badge/9.png" />
+        <StyledCard width="10rem" height="10rem" color="#a77e6e" img="/Assets/Badge/20.png"/>
+        <StyledCard width="10rem" height="10rem" img="/Assets/Badge/1.png" />
+        <StyledCard width="10rem" height="10rem" color="#ac8679" img='/Assets/Intro/8.png' size="50%" position="65%"/>
+        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Badge/6.png' />
+        <StyledCard width="10rem" height="10rem" img='/Assets/Badge/14.png' />
+        <StyledCard width="10rem" height="10rem" color="#ebc7be" img="/Assets/Badge/17.png" />
       </div>
       <div
         className={`flex md:hidden flex-nowrap h-[10rem] w-[80rem] justify-start items-start ${sModule.moveCard2}`}
       >
-        <StyledCard color="#f7cdb7" img="/Assets/Intro/6.png" />
-        <StyledCard color="#f4eeec" img="/Assets/Intro/14.png" />
-        <StyledCard color="#a77e6e" img="/Assets/Intro/22.png" />
-        <StyledCard color="#ebc7be" img="/Assets/Intro/30.png" />
-        <StyledCard color="#f9f9f9" img="/Assets/Intro/7.png" />
-        <StyledCard color="#ebc7be" img="/Assets/Intro/15.png" />
-        <StyledCard color="#ac8679" img="/Assets/Intro/23.png" />
-        <StyledCard img="/Assets/Intro/31.png" />
-        <StyledCard color="#f7cdb7" img="/Assets/Intro/8.png" />
-        <StyledCard color="#a77e6e" img="/Assets/Intro/16.png" />
-        <StyledCard color="#f4eeec" img="/Assets/Intro/24.png" />
-        <StyledCard color="#ebc7be" img="/Assets/Intro/1.png" />
-        <StyledCard color="#f9f9f9" img="/Assets/Intro/9.png" />
-        <StyledCard color="#ac8679" img="/Assets/Intro/25.png" />
-        <StyledCard img="/Assets/Intro/27.png" />
-        <StyledCard color="#f9f9f9" img='/Assets/Intro/29.png' />
-        <StyledCard color="#ebc7be" img='/Assets/Intro/6.png' />
-        <StyledCard img='/Assets/Intro/14.png' />
-        <StyledCard color="#ebc7be" img="/Assets/Intro/17.png" />
+        <StyledCard color="#f7cdb7" img="/Assets/Badge/6.png" />
+        <StyledCard color="#f4eeec" img="/Assets/Badge/14.png" />
+        <StyledCard color="#a77e6e" img="/Assets/Badge/22.png" />
+        <StyledCard color="#ebc7be" img="/Assets/Intro/5.png" size="50%" position="65%"/>
+        <StyledCard color="#f9f9f9" img="/Assets/Badge/7.png" />
+        <StyledCard color="#ebc7be" img="/Assets/Badge/15.png" />
+        <StyledCard color="#ac8679" img="/Assets/Badge/23.png" />
+        <StyledCard img="/Assets/Intro/6.png" size="50%" position="65%"/>
+        <StyledCard color="#f7cdb7" img="/Assets/Badge/8.png" />
+        <StyledCard color="#f4eeec" img="/Assets/Badge/16.png" />
+        <StyledCard color="#a77e6e" img="/Assets/Intro/7.png" size="50%" position="65%"/>
+        <StyledCard color="#ebc7be" img="/Assets/Badge/1.png" />
+        <StyledCard color="#f9f9f9" img="/Assets/Badge/9.png" />
+        <StyledCard color="#a77e6e" img="/Assets/Badge/6.png"/>
+        <StyledCard img="/Assets/Badge/1.png" />
+        <StyledCard color="#ac8679" img='/Assets/Intro/8.png' size="50%" position="65%"/>
+        <StyledCard color="#ebc7be" img='/Assets/Badge/20.png' />
+        <StyledCard img='/Assets/Badge/14.png' />
+        <StyledCard color="#ebc7be" img="/Assets/Badge/17.png" />
       </div>
     </div>
   );
