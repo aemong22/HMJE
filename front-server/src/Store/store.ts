@@ -72,7 +72,7 @@ export const store = configureStore({
     DictionaryDetailInfo: DictionaryDetailInfo.reducer,
     DictionaryDetailClickCheck: DictionaryDetailClickCheck.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(hmjeApi.middleware).concat(NonAuthApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(hmjeApi.middleware).concat(NonAuthApi.middleware).concat(ttsApi.middleware),
 
 });
 //주석추가
