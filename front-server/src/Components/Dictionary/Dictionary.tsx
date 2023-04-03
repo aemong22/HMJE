@@ -89,8 +89,11 @@ const DictionaryPage = () => {
   const [Search, setSearch] = useState("");
   // ===============charPage==================
   const [pageNumbers, setPageNumbers] = useState<any>([]);
+  const DictionaryDetailClickCheck: any = useAppSelector((state: any) => {
+    return state.DictionaryDetailClickCheck;
+  });
   useEffect(() => {
-    const newPageNumbers = [];
+    const newPageNumbers = [];    
     const initialConsonants = [
       { initialConsonants: "전체", id: "" },
       { initialConsonants: "ㄱ", id: "가" },
@@ -254,6 +257,7 @@ const DictionaryPage = () => {
                   changeList={setWordList}
                 />
                 <List data={WordList} />
+                {DictionaryDetailClickCheck ? <DictionaryDetail /> : null}
                 <PaginationBox>
                   <Pagination
                     activePage={page}
@@ -350,9 +354,9 @@ function Searchbar({
 const List = (data: any): JSX.Element => {
   const dispatch = useAppDispatch();
   // console.log("wordList", data);
-  const DictionaryDetailClickCheck: any = useAppSelector((state: any) => {
-    return state.DictionaryDetailClickCheck;
-  });
+  // const DictionaryDetailClickCheck: any = useAppSelector((state: any) => {
+  //   return state.DictionaryDetailClickCheck;
+  // });
 
   return (
     <div className={`m-3 max-h-[100%] max-w-screen-md mx-auto`}>
@@ -374,7 +378,7 @@ const List = (data: any): JSX.Element => {
                     dispatch(showDictionaryDetail());
                   }}
                 >
-                  {DictionaryDetailClickCheck ? <DictionaryDetail /> : null}
+                  {/* {DictionaryDetailClickCheck ? <DictionaryDetail /> : null} */}
                   {it.wordName}
                 </button>
                 {it.wordOrigin ? (
