@@ -41,7 +41,7 @@ function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
       // speechSynthesis.cancel();
       // handleSpeakClick();
       getTTS(data[index]?.wordName).then((r) => {
-        setAudio(new Audio(r.data.date));
+        setAudio(new Audio(r?.data?.date));
       })
     },[index])
 
