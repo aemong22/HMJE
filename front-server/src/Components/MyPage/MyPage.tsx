@@ -269,7 +269,7 @@ function MyPageSection1V1({nickname, nowbadgeName, expWidth, exp, totalExp, sent
                 <div className="flex justify-between items-start w-full">
                   {/* 칭호 & 수정 */}
                   <div className="flex justify-start items-center md:text-[1.2rem]"><img className="w-[1.5rem]" src={`/Assets/Badge/${nowbadgeImage}.png`} alt="뱃지" />&nbsp; {nowbadgeName}</div>
-                  <div aria-label="정보수정" className="text-[#8E8E8E] md:text-[1rem] cursor-pointer" onClick={Nav}>정보 수정⚙</div>
+                  <div aria-label="정보수정" className="text-[#8E8E8E] md:text-[1rem] cursor-pointer hover:text-[#d28c52]" onClick={Nav}>정보 수정⚙</div>
                 </div>
                 <div className="flex flex-col justify-center items-center w-full">
                   <div className="w-full flex justify-start"><span className="lg:text-[2.5rem] font-bold">{nickname}</span></div>

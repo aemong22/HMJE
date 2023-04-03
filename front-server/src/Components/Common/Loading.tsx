@@ -7,7 +7,7 @@ function Loading():JSX.Element {
 
   return(
     <>
-      <div className="flex justify-center items-center w-screen h-screen">
+      <div className="flex justify-center items-center w-screen h-screen bg-white absolute top-0">
         <div className="flex flex-col justify-center items-center">
           <Lottie animationData={loadingLottie} style={{width: '15rem', height: '15rem', marginBottom: '1rem'}}/>
           <div className="flex ">
