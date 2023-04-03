@@ -33,10 +33,6 @@ type smssend = {
   role: string
 }
 
-
-
-const accessToken: string | undefined | null = localStorage.getItem('accessToken')
-
 export const NonAuthApi = createApi({
   reducerPath: "NonAuthApi",
   tagTypes: ['NonAuthApi'],

@@ -1,12 +1,15 @@
 import { MouseEventHandler, useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { useAppSelector } from "../../Store/hooks"
 import classNames from "classnames";
 import { usePutUserLogoutMutation } from "../../Store/api";
 
 function Navbar():JSX.Element {
+  
+  const location = useLocation().pathname.replace("/","");
   const navigate = useNavigate()
   const [nickname, setNickname] = useState<any>()
+
   // const nickname:any = useAppSelector((state:any) => state.userNickname)
   const [menuToggle, setMenuToggle] = useState(false);
   const [putUserLogout,loading]=usePutUserLogoutMutation()
@@ -65,30 +68,30 @@ function Navbar():JSX.Element {
   }
   
   return (
-  <div className="w-full bg-[#ffffff]" style={{borderBottom: 'solid 4px rgba(234,234,234,0.8)'}}>
+  <div className="w-full bg-[#ffffff] sticky top-0 z-10" style={{borderBottom: 'solid 4px rgba(234,234,234,0.8)'}}>
     <div id='header' role={'banner'} className='container max-w-screen-xl lg:w-[90%] w-full flex justify-center items-center mx-auto'>
       {/* 헤더 */}
       <div className="flex justify-between items-center w-full bg-white text-[#A87E6E] lg:px-0  py-3 px-3" >
         <div className="flex">
           <div aria-label="main" className='font-bold text-[1.2rem] md:text-[1.3rem] cursor-pointer' onClick={onClick}>홍민정음</div>         
           <div className="lg:flex text-[1rem] px-4 items-center hidden">
-            <div className={`px-4 rounded-lg ${activeIndex === 0 ? 'bg-slate-100' : 'hover:bg-slate-100'}`} onClick={onClick}>
-              <span aria-label="main" className={`cursor-pointer ${activeIndex === 0 ? 'text-[#c9805e]' : 'hover:text-[#c9805e]'}`}>학습공간</span>
+            <div className={`px-4 rounded-lg hover:text-[#E6BA95] ${location === "main" ? "text-[#E6BA95] font-semibold": null}`} onClick={onClick}>
+              <span aria-label="main" className={`cursor-pointer`}>학습공간</span>
             </div>
-          <div className={`px-4 rounded-lg ${activeIndex === 1 ? 'bg-slate-100' : 'hover:bg-slate-100'}`} onClick={onClick}>
-            <span aria-label="note" className={`cursor-pointer ${activeIndex === 1 ? 'text-[#c9805e]' : 'hover:text-[#c9805e]'}`}>오답공책</span>
+          <div className={`px-4 rounded-lg hover:text-[#E6BA95] ${location === "note" ? "text-[#E6BA95] font-semibold": null}`} onClick={onClick}>
+            <span aria-label="note" className={`cursor-pointer`}>오답공책</span>
           </div>
-          <div className={`px-4 rounded-lg ${activeIndex === 2 ? 'bg-slate-100' : 'hover:bg-slate-100'}`} onClick={onClick}>
-            <span aria-label="dogam" className={`cursor-pointer ${activeIndex === 2 ? 'text-[#c9805e]' : 'hover:text-[#c9805e]'}`}>문맥도감</span>
+          <div className={`px-4 rounded-lg hover:text-[#E6BA95] ${location === "dogam" ? "text-[#E6BA95] font-semibold": null}`} onClick={onClick}>
+            <span aria-label="dogam" className={`cursor-pointer `}>문맥도감</span>
           </div>
-          <div className={`px-4 rounded-lg ${activeIndex === 3 ? 'bg-slate-100' : 'hover:bg-slate-100'}`} onClick={onClick}>
-            <span aria-label="mypage" className={`cursor-pointer ${activeIndex === 3 ? 'text-[#c9805e]' : 'hover:text-[#c9805e]'}`}>학습관리</span>
+          <div className={`px-4 rounded-lg  hover:text-[#E6BA95] ${location === "mypage" ? "text-[#E6BA95] font-semibold": null}`} onClick={onClick}>
+            <span aria-label="mypage" className={`cursor-pointer `}>학습관리</span>
           </div>
-          <div className={`px-4 rounded-lg ${activeIndex === 4 ? 'bg-slate-100' : 'hover:bg-slate-100'}`} onClick={onClick}>
-            <span aria-label="dictionary" className={`cursor-pointer ${activeIndex === 4 ? 'text-[#c9805e]' : 'hover:text-[#c9805e]'}`}>단어사전</span>
+          <div className={`px-4 rounded-lg hover:text-[#E6BA95] ${location === "dictionary" ? "text-[#E6BA95] font-semibold": null}`} onClick={onClick}>
+            <span aria-label="dictionary" className={`cursor-pointer`}>단어사전</span>
           </div>
-          <div className={`px-4 rounded-lg ${activeIndex === 5 ? 'bg-slate-100' : 'hover:bg-slate-100'}`} onClick={onClick}>
-            <span aria-label="notice" className={`cursor-pointer ${activeIndex === 5 ? 'text-[#c9805e]' : 'hover:text-[#c9805e]'}`}>알림공간</span>
+          <div className={`px-4 rounded-lg hover:text-[#E6BA95] ${location === "notice" ? "text-[#E6BA95] font-semibold": null}`} onClick={onClick}>
+            <span aria-label="notice" className={`cursor-pointer`}>알림공간</span>
           </div>
         </div>
       </div>

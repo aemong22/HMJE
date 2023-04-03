@@ -4,6 +4,7 @@ import { useState } from "react";
 import DogamDetail from "./DogamDetail";
 import Loading from "../Common/Loading";
 import classNames from "classnames";
+import ErrorPage from "../Common/ErrorPage";
 
 function Dogam(): JSX.Element {
   const userId = localStorage.getItem("userId");
@@ -28,11 +29,15 @@ function Dogam(): JSX.Element {
       </>
     )
   } else if (error || error2) {
-    return <>에러</>;
+    return(
+      <>
+        <ErrorPage />
+      </>
+    )
   } else {
     return (
       <>
-        <div className="w-full h-screen">
+        <div className="w-full">
           <Navbar />
           <DogamHeader num={Object.keys(get.data).length} toggle={toggle} setToggle={setToggle} />
           <DogamList get={get.data} total={total.data} toggle={toggle} />

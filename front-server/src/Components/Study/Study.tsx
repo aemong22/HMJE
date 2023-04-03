@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
-import ReactDOMServer from 'react-dom/server';
 import classNames from "classnames";
 
 function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,setSemo,right, setRight, openModal, setResultModal, modalOpen, resultModal, closeModal , exp, setExp}:any): JSX.Element {
