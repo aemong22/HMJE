@@ -372,22 +372,22 @@ function MyPageSection2V1({todayWord, totalWord, todayContext, totalContext, tod
         </div>
         <div className="flex flex-col items-center w-full mt-5">
           <div className="flex justify-around items-center w-full text-center text-[#A2A2A2] pb-2">
-            <div className="w-1/2">&nbsp;</div>
+            <div className="w-[35%]">&nbsp;</div>
             <div className="w-full">단어학습</div>
             <div className="w-full">문맥학습</div>
-            <div className="w-full">학습시간</div>
+            <div className="w-[150%]">학습시간</div>
           </div>
           <div className="flex justify-around items-center w-full border-t-2">
-            <div className="text-center w-1/2 text-[#A2A2A2] lg:text-[1.1rem]">오늘</div>
+            <div className="text-center w-[35%] text-[#A2A2A2] lg:text-[1.1rem]">오늘</div>
             <div className="w-full text-[#B18978]"><span className="w-full font-bold md:text-[2.9rem]">{todayWord}<span className="md:text-[1rem]">개</span></span></div>
             <div className="w-full text-[#B18978]"><span className="w-full font-bold md:text-[2.9rem]">{todayContext}<span className="md:text-[1rem]">개</span></span></div>
-            <div className="w-full text-[#B18978]"><span className="w-full font-bold md:text-[2.9rem]">{m1}<span className="md:text-[1rem]">분</span></span></div>
+            <div className="w-[150%] text-[#B18978]"><span className="w-full font-bold md:text-[2.9rem]">{m1}<span className="md:text-[1rem]">분</span></span></div>
           </div>
           <div className="flex justify-around items-center w-full border-t-2">
-            <div className="text-center w-1/2 text-[#A2A2A2] lg:text-[1.1rem]">전체</div>
+            <div className="text-center w-[35%] text-[#A2A2A2] lg:text-[1.1rem]">전체</div>
             <div className="w-full text-[#FFA800]"><span className="text-start w-full font-bold md:text-[2.9rem]">{totalWord}<span className="md:text-[1rem]">개</span></span></div>
             <div className="w-full text-[#FFA800]"><span className="text-start w-full font-bold md:text-[2.9rem]">{totalContext}<span className="md:text-[1rem]">개</span></span></div>
-            <div className="w-full text-[#FFA800]"><span className="text-start w-full font-bold md:text-[2.9rem]"><span className="">{h2}<span  className="md:text-[1rem]">시간</span></span><span className=""> {m2}<span className="md:text-[1rem]">분</span></span></span></div>
+            <div className="w-[150%] text-[#FFA800]"><span className="text-start w-full font-bold md:text-[2.9rem]"><span className="">{h2}<span  className="md:text-[1rem]">시간</span></span><span className=""> {m2}<span className="md:text-[1rem]">분</span></span></span></div>
           </div>
         </div>        
       </div>
