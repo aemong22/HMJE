@@ -57,7 +57,6 @@ function NoticeSection1({isAdmin, choiceBtn, setChoiceBtn, userId}:(boolean|any)
         return badge.badgeId === 22
       }))
     }).then(()=> {
-      console.log(easterCnt);
       if ((!mybadgeId?.length)&&easterCnt===6) {
         putUserBadgeMalrang([userId, 22]).unwrap().then((r)=> {
           if (r.newbadge.length) {
@@ -315,25 +314,30 @@ function NoticeSection3({isAdmin}:(boolean|any)) {
 
   useEffect(()=> {
     getNotice('').unwrap().then((r)=> {
-      setNoticeList(r.data)
-    }).then(()=> {
-      if (noticeList !== null) {
-        setNoticeComponent(noticeList.map((notice, idx)=> {
-          const data = notice.title.split(']') 
-          
-          return (
-            <div key={idx} className="flex justify-between text-[1rem] md:text-[1.3rem] px-3 py-2 cursor-pointer border-b-2" onClick={()=>{
-              setIsNoticeClick(!isNoticeClick)
-              setNoticeDetail(notice)
-              }}>
-              <div><span className="text-[#666666] font-semibold">{data[0]}]</span> <span>{data[1]}</span></div>
-              <div className="text-black/70 text-[0.9rem] md:text-[1.1rem]">{notice.createdAt.split('T')[0]}</div>
-            </div>
-          )
-        }))
-      }
+      console.log(r.data);
+      
+      const noticeList = [...r.data].reverse()
+      setNoticeList(noticeList)
     })
-  },[noticeList])
+  },[getNotice])
+  
+  useEffect(() => {
+    if (noticeList !== null) {
+      setNoticeComponent(noticeList.map((notice, idx) => {
+        const data = notice.title.split(']')
+  
+        return (
+          <div key={idx} className="flex justify-between text-[1rem] md:text-[1.3rem] px-3 py-2 cursor-pointer border-b-2" onClick={() => {
+            setIsNoticeClick(!isNoticeClick)
+            setNoticeDetail(notice)
+          }}>
+            <div><span className="text-[#666666] font-semibold">{data[0]}]</span> <span>{data[1]}</span></div>
+            <div className="text-black/70 text-[0.9rem] md:text-[1.1rem]">{notice.createdAt.split('T')[0]}</div>
+          </div>
+        )
+      }))
+    }
+  }, [noticeList])
 
   const click:MouseEventHandler<HTMLDivElement> = (e) => {
     e.preventDefault()
@@ -462,26 +466,31 @@ function NoticeSection4({isAdmin}:(boolean|any)) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(()=> {
-    getFaq('').unwrap().then((r)=> {
-      setFaqList(r.data)
-    }).then(()=> {
-      if (FaqList !== null) {
-        setFaqComponent(FaqList.map((faq, idx)=> {
-          const data = faq.title.split(']') 
-          
-          return (
-            <div key={idx} className="flex justify-between text-[1rem] md:text-[1.3rem] px-3 py-2 cursor-pointer border-b-2" onClick={()=>{
-              setIsFaqClick(!isFaqClick)
-              setFaqDetail(faq)
-              }}>
-              <div><span className="text-[#666666] font-semibold">{data[0]}]</span> <span>{data[1]}</span></div>
-              <div className="text-black/70 text-[0.9rem] md:text-[1.1rem]">{faq.createdAt.split('T')[0]}</div>
-            </div>
-          )
-        }))
-      }
+    getFaq('').unwrap().then((r)=> {      
+      const reverseFaqList = [...r.data].reverse()
+      setFaqList(reverseFaqList)
     })
+  },[getFaq])
+
+  useEffect(()=> {
+    if (FaqList !== null) {
+      setFaqComponent(FaqList.map((faq, idx)=> {
+        const data = faq.title.split(']') 
+        
+        return (
+          <div key={idx} className="flex justify-between text-[1rem] md:text-[1.3rem] px-3 py-2 cursor-pointer border-b-2" onClick={()=>{
+            setIsFaqClick(!isFaqClick)
+            setFaqDetail(faq)
+            }}>
+            <div><span className="text-[#666666] font-semibold">{data[0]}]</span> <span>{data[1]}</span></div>
+            <div className="text-black/70 text-[0.9rem] md:text-[1.1rem]">{faq.createdAt.split('T')[0]}</div>
+          </div>
+        )
+      }))
+    }
   },[FaqList])
+
+  
 
   const click:MouseEventHandler<HTMLDivElement> = (e) => {
     e.preventDefault()
