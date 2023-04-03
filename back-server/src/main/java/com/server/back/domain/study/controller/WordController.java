@@ -3,6 +3,7 @@ package com.server.back.domain.study.controller;
 
 import com.server.back.domain.study.dto.DailyWordResponseDto;
 import com.server.back.domain.study.dto.DictRequestDto;
+import com.server.back.domain.study.dto.RemainWordResponseDto;
 import com.server.back.domain.study.dto.WordResponseDto;
 
 import com.server.back.domain.study.service.WordService;
@@ -16,7 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -171,8 +172,22 @@ public class WordController {
 	public ResponseEntity<Map<String, Object>> getDailyWordList(){
 		Map<String, Object> response = new HashMap<>();
 		List<DailyWordResponseDto> dailyWord = wordService.getDailyWordList();
+		LocalDateTime localDateTime = dailyWord.get(0).getCreated_at();
 
 		response.put("data", dailyWord);
+		response.put("created_at", localDateTime);
+		response.put("message", "success");
+
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "난이도 별 남은 단어 수 조회")
+	@GetMapping("/remain/{userId}")
+	public ResponseEntity<Map<String, Object>> getRemainWordCnt(@PathVariable(value = "userId") Long userId){
+		Map<String, Object> response = new HashMap<>();
+		RemainWordResponseDto remainWordResponseDto = wordService.getRemainWordCnt(userId);
+
+		response.put("data", remainWordResponseDto);
 		response.put("message", "success");
 
 		return new ResponseEntity<>(response, HttpStatus.OK);

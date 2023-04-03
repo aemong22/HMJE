@@ -27,6 +27,8 @@ public class StudyController {
     @GetMapping("/word/{userId}")
     public ResponseEntity<Map<String, Object>> wordQuestion(@PathVariable(value = "userId") Long userId,
                                                              @RequestParam(name = "filter", defaultValue = "") String filter){
+        System.out.println("filter = " + filter);
+
         Map<String, Object> response = new HashMap<>();
         if(filter.isBlank()){
             List<WordResponseDto> wordQuestion = studyService.wordQuestion(userId);
@@ -45,7 +47,9 @@ public class StudyController {
     @PostMapping("/word/result")
     public ResponseEntity<Map<String, Object>> wordResult(@RequestBody StudyRequestDto requestDto){
         Map<String, Object> response = new HashMap<>();
-        Integer rightexp = studyService.wordResult(requestDto)*10 + requestDto.getSemo()*5; //맞은단어,틀린단어 체크
+//        Integer rightexp = studyService.wordResult(requestDto)*10 + requestDto.getSemo()*5; //맞은단어,틀린단어 체크
+        studyService.wordResult(requestDto);
+        Integer rightexp = requestDto.getScore();
         userService.updateStudyResult(requestDto); //오늘의 통계 OXV 체크
         userService.updateStudyExp(requestDto.getUserId(), rightexp); //경험치
         Integer newlevel = userService.levelup(requestDto.getUserId()); //레벨업
@@ -92,10 +96,10 @@ public class StudyController {
     }
 
     @ApiOperation(value = "과거시험 문제")
-    @GetMapping("/past/test")
-    public ResponseEntity<Map<String, Object>> getPastTest(){
+    @GetMapping("/past/test/{userId}")
+    public ResponseEntity<Map<String, Object>> getPastTest(@PathVariable(value = "userId") Long userId){
         Map<String, Object> response = new HashMap<>();
-        List<PastQuestionResponseDto> result = studyService.getPastTest();
+        List<PastQuestionResponseDto> result = studyService.getPastTest(userId);
         if(result == null){
             response.put("message","fail");
         }else{
@@ -111,7 +115,7 @@ public class StudyController {
         Map<String, Object> response = new HashMap<>();
         Boolean result = studyService.createPastTestResult(pastTestResultRequestDto);
         if(result){
-            if(pastTestResultRequestDto.getScore().equals(100)){
+            if(pastTestResultRequestDto.getScore() >= 80){
                 System.out.println("장 원 급 제 !!");
                 // 여기에 뱃지 추가하는 로직 추가 예정
                 List<Long> badgeData = badgeService.badgecheckPast(pastTestResultRequestDto.getUserId()); // 뱃지
