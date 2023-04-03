@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
 import Loading from "../Common/Loading";
+import ErrorPage from "../Common/ErrorPage";
 
 function WrongNote(): JSX.Element {
   const userId = localStorage.getItem("userId")
@@ -24,7 +25,11 @@ function WrongNote(): JSX.Element {
     )
   }
   else if(error) {
-    return <>에러</>
+    return(
+      <>
+        <ErrorPage />
+      </>
+    )
   }
   else {
     return(

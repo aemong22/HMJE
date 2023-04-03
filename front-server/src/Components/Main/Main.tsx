@@ -23,6 +23,7 @@ import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
 import Loading from "../Common/Loading";
 import Modal from "./PopUpModal"
+import ErrorPage from "../Common/ErrorPage";
 
 function Main(): JSX.Element {
   const [modalVisible, setModalVisible] = useState(false)
@@ -83,6 +84,7 @@ function getCookie(name: any) {
   var loactionuse = 0;
   useEffect(() => {
     if (localStorage.getItem("accessToken") === "undefined") {
+      window.localStorage.clear();
       navigate("/");
     } else {
             
@@ -228,11 +230,11 @@ function getCookie(name: any) {
   }
 
   if (error1 || error2 || error3 || error4 || error5 || error6 || error7) {
-    return (
+    return(
       <>
-        Error: {error1} {error2}
+        <ErrorPage />
       </>
-    );
+    )
   }
 
 
@@ -875,7 +877,7 @@ function Ranking({levelInfo, levelRank, wordRank, userMyInfo, userMyStudy}:any):
               <div className="text-[1.2rem] font-bold">
                 { menu ? <>오늘의 단어왕</>: <>홍민정음</>}
               </div>
-              <div className="text-center w-full justify-between flex items-center text-[#A87E6E]">
+              <div className="text-center w-full justify-between flex items-center text-[#A87E6E] cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 mx-1" onClick={()=>{
                   setMenu(!menu)
                 }}>
@@ -884,7 +886,7 @@ function Ranking({levelInfo, levelRank, wordRank, userMyInfo, userMyStudy}:any):
                 <div className="text-[3rem] font-bold px-2">
                   { menu ? <>단어 학습</>: <>등급 순위</>}
                 </div>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 mx-1" onClick={()=>{
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 mx-1 cursor-pointer" onClick={()=>{
                   setMenu(!menu)
                 }}>
                   <path fillRule="evenodd" d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z" clipRule="evenodd" />
