@@ -1,11 +1,13 @@
 import { useLazyGetTtsQuery } from "../../Store/ttsApi";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
 import Loading from "../Common/Loading";
 import ErrorPage from "../Common/ErrorPage";
 
 function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
+    
+    const ref = useRef<HTMLDivElement>(null)
 
     const [audio, setAudio] = useState(new Audio()); // audio 엘리먼트
 
@@ -20,7 +22,22 @@ function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
         speechSynthesis.speak(mean);
       })
     };
+
+    // 재생
+    const handlePlay = () => {
+      speechSynthesis.cancel();
+      audio.play()
+    }
+
+
+    // 닫기
+    const handleClose = () => {
+      speechSynthesis.cancel();
+      audio.pause();
+      setOpen(false)
+    }
     
+
     // 스크롤 방지 효과 주는 코드
     useEffect(() => {
       document.body.style.cssText = `
@@ -38,43 +55,43 @@ function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
 
     // 카드 넘길때 마다 자동 재생
     useEffect(() => {
-      // speechSynthesis.cancel();
-      // handleSpeakClick();
+      audio.pause();
+      speechSynthesis.cancel();
+      handleSpeakClick();
       getTTS(data[index]?.wordName).then((r) => {
         setAudio(new Audio(r?.data?.date));
       })
     },[index])
 
 
-    useEffect(()=> {
-      // speechSynthesis.cancel();
-      if(!open){
-        audio.pause();
-      }
-    },[open])
-
     if(isLoading){
-      return(
-        <>
-          <Loading />
-        </>
-      )
-
+      console.log("잠시만 기다려주세요.")
     }
+
     if(error){
       return(
         <>
-          <ErrorPage />
+        <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50">
+          <div className="relative my-6 mx-auto overflow-hidden items-center">
+            <div className="border-0 rounded-lg relative flex flex-col w-full py-3 md:px-1 px-0 bg-white">
+              <ErrorPage />
+            </div>
+          </div>
+        </div>
+        <div className="fixed inset-0 z-40 bg-black/20"></div>
         </>
       )
     }
     
+
     return(
         <>
           <Toast />
-          <div
-            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50"
-          >
+          <div ref={ref} className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50" onClick={(e) => {
+          if (e.target === ref.current) {
+            handleClose()
+            }
+          }}>
             <div className="relative my-6 mx-auto w-[30rem]">
               {/*content*/}
               <div className="border-0 rounded-lg relative flex flex-col w-full py-3 md:px-1 px-0 bg-white ">
@@ -84,7 +101,7 @@ function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
                     <div className="md:text-[2rem] text-[1.5rem] font-bold mr-1 text-[#000000]">{data[index].wordName}</div>
                     {data[index].wordIso > 0 && <div className="flex md:text-[1.2rem] text-[1rem] text-[#A2A2A2] ml-1">{data[index].wordIso}</div>}
                     <div className="flex items-center px-1">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 cursor-pointer" onClick={() => {audio.play()}}>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 cursor-pointer" onClick={handlePlay}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z" />
                       </svg>
@@ -129,7 +146,7 @@ function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
                     </svg>
                   </div>
 
-                  <div className="text-[1.2rem] text-red-700 cursor-pointer h-7 w-15 hover:text-[1.3rem]" onClick={()=>{setOpen(false)}}>닫기</div>
+                  <div className="text-[1.2rem] text-red-700 cursor-pointer h-7 w-15 hover:text-[1.3rem]" onClick={handleClose}>닫기</div>
                   <div className="cursor-pointer text-[1.2rem] rounded-lg h-7 w-10" onClick={()=>{
                     if(index == Object.keys(data).length -1) { toast.error("마지막 단어 입니다.")}
                     else {
