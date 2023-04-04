@@ -4,11 +4,13 @@ import { useNavigate } from "react-router-dom";
 import style from "./Main.module.css";
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
+import Loading from "../Common/Loading";
+import ErrorPage from "../Common/ErrorPage";
 
 function StudyStartModal({setOpenModal}:any):JSX.Element {
     const ref = useRef<HTMLDivElement>(null)
     const userId = localStorage.getItem("userId")
-    const {data,error,isLoading} = useGetWordRemainQuery(userId);
+    const {data,isLoading, error} = useGetWordRemainQuery(userId);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -23,6 +25,32 @@ function StudyStartModal({setOpenModal}:any):JSX.Element {
           window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
         };
       }, []);
+
+    if(isLoading) {
+        <>
+        <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50">
+          <div className="relative my-6 mx-auto overflow-hidden items-center">
+            <div className="border-0 rounded-lg relative flex flex-col w-full py-3 md:px-1 px-0 bg-white">
+              <Loading />
+            </div>
+          </div>
+        </div>
+        <div className="fixed inset-0 z-40 bg-black/20"></div>
+        </>
+
+    }
+    if(error) {
+        <>
+        <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50">
+          <div className="relative my-6 mx-auto overflow-hidden items-center">
+            <div className="border-0 rounded-lg relative flex flex-col w-full py-3 md:px-1 px-0 bg-white">
+              <ErrorPage />
+            </div>
+          </div>
+        </div>
+        <div className="fixed inset-0 z-40 bg-black/20"></div>
+        </>
+    }
 
 
     return(
