@@ -68,7 +68,7 @@ function Navbar():JSX.Element {
 
   return (
     <>
-      <div className="w-full bg-[#ffffff] sticky top-0 z-10" style={{borderBottom: 'solid 4px rgba(234,234,234,0.8)'}}>
+      <div className="w-full bg-[#ffffff] sticky top-0 z-30" style={{borderBottom: 'solid 4px rgba(234,234,234,0.8)'}}>
         <div id='header' role={'banner'} className='container max-w-screen-xl lg:w-[90%] w-full flex justify-center items-center mx-auto'>
           {/* 헤더 */}
           <div className="flex justify-between items-center w-full bg-white text-[#A87E6E] lg:px-0  py-3 px-3" >
