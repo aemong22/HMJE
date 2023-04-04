@@ -1,11 +1,20 @@
 import styles from "./Common.module.css";
 import Lottie from "lottie-react";
 import ErrorComp from "./lottie/ErrorComp.json";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 
 function ErrorPage():JSX.Element {
   const navigate = useNavigate()
+  const location = useLocation().pathname.replace("/","");
+
+  const click = () => {
+    if (location === 'main') {
+      navigate('/')
+    } else {
+      navigate('/main')
+    }
+  }
   return(
     <>
       <div className="flex justify-center items-center w-screen h-screen">
@@ -23,7 +32,7 @@ function ErrorPage():JSX.Element {
             <div className={`${styles.errorAnimation}`}>.</div>
           </div>
           <div className="flex items-center justify-center flex-none px-20 py-3 mt-5 border-2 border-[#BF9F91] text-[#A87E6E] hover:text-white rounded-lg font-extrabold bg-[#F0ECE9] hover:bg-[#BF9F91] cursor-pointer transition-all duration-300">
-            <span onClick={()=>{navigate(-1)}}>뒤로가기</span>
+            <span onClick={click}>나가기</span>
           </div>
         </div>
       </div>

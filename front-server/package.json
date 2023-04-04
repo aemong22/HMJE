@@ -28,6 +28,7 @@
         "react-chartjs-2": "^5.2.0",
         "react-custom-pagination": "^1.6.8",
         "react-dom": "^18.2.0",
+        "react-h5-audio-player": "^3.8.6",
         "react-js-pagination": "^3.0.3",
         "react-markdown": "^8.0.6",
         "react-paginate": "^8.1.4",

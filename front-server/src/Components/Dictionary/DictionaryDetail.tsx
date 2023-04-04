@@ -26,21 +26,23 @@ const DictionaryDetail = (): JSX.Element => {
     audio.play();
   }
 
-  function CloseDictionaryDetail(event: React.MouseEvent<HTMLDivElement>) {
+  function CloseDictionaryDetail(event: React.MouseEvent<HTMLDivElement>) {    
     if (event.target === bgDiv.current) {
       dispatch(showDictionaryDetail());
     }
   }
   // console.log(DictionaryDetailInfo);
   const tts = (text: any) => {
-    console.log(`${text} tts`);
+    // console.log(`${text} tts`);
     getTts(text)
       .unwrap()
       .then((r) => {
+        // console.log(r);
+        
         const urltemp: string = r.date;
         const a = new Audio(`${urltemp}`);
         a.play();
-      })      
+      })
       .catch((e) => {
         console.log(e);
       });
@@ -56,73 +58,87 @@ const DictionaryDetail = (): JSX.Element => {
       ref={bgDiv}
       onMouseDown={CloseDictionaryDetail}
       className={
-        "z-10 bg-slate-800 bg-opacity-30 fixed top-0 right-0 bottom-0 left-0"
+        "z-10 bg-slate-800 bg-opacity-30 fixed top-0 right-0 bottom-0 left-0 flex justify-center items-center overflow-x-hidden overflow-y-auto"
       }
     >
-      <div className="max-w-screen-lg mt-[5%] mx-auto max-h-[80%] overflow-auto border-2 bg-white rounded-lg px-[5%] py-[3%]">
-        <div className="flex flex-col md:flex-row py-2 items-baseline justify-between">
-          <div className="flex flex-col md:flex-row items-baseline ">
-            {/* 큰제목 */}
-            <div className="text-black font-extrabold text-[2rem] lg:text-[2.5rem] py-2 ">
+      <div className="relative my-6 mx-auto w-[30rem]">
+        <div className="border-0 rounded-lg relative flex flex-col w-full py-3 md:px-1 px-0 bg-white ">
+          <div className="flex md:px-4 px-3 pt-3">
+            <div className="md:text-[2rem] text-[1.5rem] font-bold mr-1 text-[#000000]">
               {DictionaryDetailInfo.wordName}
             </div>
-            {/* 원어 */}
-            {DictionaryDetailInfo.wordOrigin !== "" ? (
-              <div className="py-2 mx-2 text-[#767676]">
-                [ {DictionaryDetailInfo.wordOrigin} ]
+            {DictionaryDetailInfo.wordIso > 0 && (
+              <div className="flex md:text-[1.2rem] text-[1rem] text-[#A2A2A2] ml-1">
+                {DictionaryDetailInfo.wordIso}
               </div>
-            ) : (
-              <div className="py-2 mx-2 text-[#767676]"></div>
             )}
-            {/* 품사 */}
-            <div className="text-[#767676]  py-2">
-              [ {DictionaryDetailInfo.wordType} ]
+            <div className="flex items-center px-1" onClick={()=>{tts(DictionaryDetailInfo.wordName)}}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-6 h-6 cursor-pointer"
+                onClick={() => {
+                  audio.play();
+                }}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z"
+                />
+              </svg>
             </div>
-            <button
-              onClick={() => {
-                tts(DictionaryDetailInfo.wordName);
-              }}
-            >
-              <img
-                className="w-[2rem] invert "
-                src="/Assets/Icon/e-learning.png"
-                alt="tts"
-              />
-            </button>
           </div>
-          <div className="text-black flex flex-col items-baseline py-2">
-            {DictionaryDetailInfo.wordRating !== "없음" ? (
-              <div className="">{DictionaryDetailInfo.wordRating}</div>
-            ) : null}
+          <div className="relative md:px-4 px-3 flex pt-1 justify-between items-end sm:min-w-[25rem] min-w-[19rem] flex-wrap">
+            <div className="flex items-end md:text-[1.2rem] text-[1rem] text-[#A2A2A2] mr-1">
+              {DictionaryDetailInfo.wordOrigin && (
+                <div>[{DictionaryDetailInfo.wordOrigin}]</div>
+              )}
+              <div>{DictionaryDetailInfo.wordType}</div>
+            </div>
+            <div className="">
+              {DictionaryDetailInfo.wordRating != "없음" && (
+                <div className="md:text-[1.2rem] text-[1rem] text-[#A2A2A2] mr-1">
+                  {DictionaryDetailInfo.wordRating}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="relative md:px-4 px-3 py-3 h-[45vh] max-h-[20rem] overflow-y-auto">
+            {DictionaryDetailInfo.wordDetailResponseList.map((it: any) => {              
+              return (
+                <div className="bg-[#F4EFEC] rounded-lg p-4 md:text-[1.2rem] text-[1rem] font-semibold my-2 text-[#2F2F2F]">
+                  {it.details}
+                  {it.wordExampleResponseList.length !== 0 ? (
+                    <div className="flex flex-row pt-3 items-center">
+                      <div className="mt-2 md:text-[1.1rem] text-[0.9rem] text-[#666666] leading-8 font-medium">
+                        <span className="mr-1 font-bold text-[#ffffff] rounded-full px-3 py-1 bg-[#F7CCB7] md:text-[0.9rem] text-[0.8rem]">
+                          예제
+                        </span>
+                        {
+                          it.wordExampleResponseList[
+                            Math.floor(
+                              Math.random() * it.wordExampleResponseList.length,
+                            )
+                          ].exampleDetail
+                        }
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              );
+            })}
           </div>
         </div>
-        {DictionaryDetailInfo.wordDetailResponseList.map((it: any) => {
-          return (
-            <div className="flex flex-col justify-start font-extrabold">
-              <div className="flex flex-col justify-start  pt-3 lg:py-3 md:text-3xl px-5 bg-[#F4EFEC] rounded-2xl my-3 lg:my-6">
-                <div className="flex text-black text-[1.3rem] lg:text- text-start">
-                  {it.details}
-                </div>
-                {it.wordExampleResponseList.length !== 0 ? (
-                  <div className="flex flex-row pt-3 items-center">
-                    <div className=" min-w-[3rem] mr-2 rounded-lg lg:px-7 py-[0.3rem] bg-[#F7CCB7] text-[#FFFFFF] lg:rounded-3xl text-[1rem]">
-                      예제
-                    </div>
-                    <div className="text-[#5F5F5F] text-[1rem]">
-                      {
-                        it.wordExampleResponseList[
-                          Math.floor(
-                            Math.random() * it.wordExampleResponseList.length,
-                          )
-                        ].exampleDetail
-                      }
-                    </div>
-                  </div>
-                ) : null}
-              </div>
-            </div>
-          );
-        })}
       </div>
     </div>
   );
