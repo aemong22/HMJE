@@ -1,16 +1,15 @@
-import { MouseEventHandler, useEffect, useState } from "react"
+import { ChangeEventHandler, MouseEventHandler, useEffect, useRef, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { useAppSelector } from "../../Store/hooks"
 import classNames from "classnames";
 import { usePutUserLogoutMutation } from "../../Store/api";
-
+import AudioPlayer from "react-h5-audio-player";
 function Navbar():JSX.Element {
   
   const location = useLocation().pathname.replace("/","");
   const navigate = useNavigate()
   const [nickname, setNickname] = useState<any>()
-
-  // const nickname:any = useAppSelector((state:any) => state.userNickname)
+  const [isMute, setIsMute] = useState<boolean>(false)
   const [menuToggle, setMenuToggle] = useState(false);
   const [putUserLogout,loading]=usePutUserLogoutMutation()
 
@@ -21,7 +20,19 @@ function Navbar():JSX.Element {
     }
   },[])
 
-
+  const player = useRef<any>();
+  const Player = () => (
+    <AudioPlayer
+      ref={player}
+      autoPlay={true}
+      src="/bgm.mp3"
+      loop
+      muted={false}
+      style={{position: 'absolute', zIndex: '20',  display: 'none'}}
+      volume={0.3}
+      // onVolumeChange={volume}
+    />
+  );
   const onClick:MouseEventHandler<HTMLSpanElement> = (e) => {
     const target = e.target as HTMLElement
     if (target.ariaLabel === 'main') {
@@ -67,91 +78,96 @@ function Navbar():JSX.Element {
     setActiveIndex(index);
   }
   
+  
+
   return (
-  <div className="w-full bg-[#ffffff] sticky top-0 z-10" style={{borderBottom: 'solid 4px rgba(234,234,234,0.8)'}}>
-    <div id='header' role={'banner'} className='container max-w-screen-xl lg:w-[90%] w-full flex justify-center items-center mx-auto'>
-      {/* 헤더 */}
-      <div className="flex justify-between items-center w-full bg-white text-[#A87E6E] lg:px-0  py-3 px-3" >
-        <div className="flex">
-          <div aria-label="main" className='font-bold text-[1.2rem] md:text-[1.3rem] cursor-pointer' onClick={onClick}>홍민정음</div>         
-          <div className="lg:flex text-[1rem] px-4 items-center hidden">
-            <div className={`px-4 rounded-lg hover:text-[#E6BA95] ${location === "main" ? "text-[#E6BA95] font-semibold": null}`} onClick={onClick}>
-              <span aria-label="main" className={`cursor-pointer`}>학습공간</span>
+    <>
+      {<Player/>}
+      <div className="w-full bg-[#ffffff] sticky top-0 z-10" style={{borderBottom: 'solid 4px rgba(234,234,234,0.8)'}}>
+        <div id='header' role={'banner'} className='container max-w-screen-xl lg:w-[90%] w-full flex justify-center items-center mx-auto'>
+          {/* 헤더 */}
+          <div className="flex justify-between items-center w-full bg-white text-[#A87E6E] lg:px-0  py-3 px-3" >
+            <div className="flex">
+              <div aria-label="main" className='font-bold text-[1.2rem] md:text-[1.3rem] cursor-pointer' onClick={onClick}>홍민정음</div>         
+              <div className="lg:flex text-[1rem] px-4 items-center hidden">
+                <div className={`px-4 rounded-lg hover:text-[#E6BA95] ${location === "main" ? "text-[#E6BA95] font-semibold": null}`} onClick={onClick}>
+                  <span aria-label="main" className={`cursor-pointer`}>학습공간</span>
+                </div>
+              <div className={`px-4 rounded-lg hover:text-[#E6BA95] ${location === "note" ? "text-[#E6BA95] font-semibold": null}`} onClick={onClick}>
+                <span aria-label="note" className={`cursor-pointer`}>오답공책</span>
+              </div>
+              <div className={`px-4 rounded-lg hover:text-[#E6BA95] ${location === "dogam" ? "text-[#E6BA95] font-semibold": null}`} onClick={onClick}>
+                <span aria-label="dogam" className={`cursor-pointer `}>문맥도감</span>
+              </div>
+              <div className={`px-4 rounded-lg  hover:text-[#E6BA95] ${location === "mypage" ? "text-[#E6BA95] font-semibold": null}`} onClick={onClick}>
+                <span aria-label="mypage" className={`cursor-pointer `}>학습관리</span>
+              </div>
+              <div className={`px-4 rounded-lg hover:text-[#E6BA95] ${location === "dictionary" ? "text-[#E6BA95] font-semibold": null}`} onClick={onClick}>
+                <span aria-label="dictionary" className={`cursor-pointer`}>단어사전</span>
+              </div>
+              <div className={`px-4 rounded-lg hover:text-[#E6BA95] ${location === "notice" ? "text-[#E6BA95] font-semibold": null}`} onClick={onClick}>
+                <span aria-label="notice" className={`cursor-pointer`}>알림공간</span>
+              </div>
             </div>
-          <div className={`px-4 rounded-lg hover:text-[#E6BA95] ${location === "note" ? "text-[#E6BA95] font-semibold": null}`} onClick={onClick}>
-            <span aria-label="note" className={`cursor-pointer`}>오답공책</span>
           </div>
-          <div className={`px-4 rounded-lg hover:text-[#E6BA95] ${location === "dogam" ? "text-[#E6BA95] font-semibold": null}`} onClick={onClick}>
-            <span aria-label="dogam" className={`cursor-pointer `}>문맥도감</span>
-          </div>
-          <div className={`px-4 rounded-lg  hover:text-[#E6BA95] ${location === "mypage" ? "text-[#E6BA95] font-semibold": null}`} onClick={onClick}>
-            <span aria-label="mypage" className={`cursor-pointer `}>학습관리</span>
-          </div>
-          <div className={`px-4 rounded-lg hover:text-[#E6BA95] ${location === "dictionary" ? "text-[#E6BA95] font-semibold": null}`} onClick={onClick}>
-            <span aria-label="dictionary" className={`cursor-pointer`}>단어사전</span>
-          </div>
-          <div className={`px-4 rounded-lg hover:text-[#E6BA95] ${location === "notice" ? "text-[#E6BA95] font-semibold": null}`} onClick={onClick}>
-            <span aria-label="notice" className={`cursor-pointer`}>알림공간</span>
+          <div className='flex justify-around text-[1rem]'>
+            {/* <div aria-label="admin" className='cursor-pointer mr-4' onClick={onClick}>관리자</div> */}
+            <div  className="flex justify-center px-3">
+              <div aria-label="mypage" className='cursor-pointer mr-2 font-bold' onClick={onClick}>{nickname}<span className="font-normal">님</span></div>
+                <div className=''>어서오세요</div>
+              </div>
+            <div aria-label="logout" className="lg:block hidden px-3 border-l border-[#A87E6E] cursor-pointer" onClick={onClick}>나가기</div>
+            <div className="lg:hidden flex items-center">
+              <button
+                  onClick={() => setMenuToggle(!menuToggle)}
+                >
+                  {menuToggle ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 6h16M4 12h16M4 18h16"
+                      />
+                    </svg>
+                  )}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
+        <div className={classNames("lg:hidden z-30 absolute bg-[#ffffff] w-full text-[0.9rem] text-[#A87E6E] px-2", { hidden: !menuToggle})}>
+            <div aria-label="main" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span aria-label="main" >학습공간</span></div>
+            <div aria-label="note" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span aria-label="note">오답공책</span></div>
+            <div aria-label="dogam" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span aria-label="dogam">문맥도감</span></div>
+            <div aria-label="mypage" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span aria-label="mypage">학습관리</span></div>
+            <div aria-label="dictionary" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span aria-label="dictionary">단어사전</span></div>
+            <div aria-label="notice" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span aria-label="notice">알림공간</span></div>
+            <div aria-label="logout" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span aria-label="logout">나가기</span></div>
+        </div>    
       </div>
-      <div className='flex justify-around text-[1rem]'>
-        {/* <div aria-label="admin" className='cursor-pointer mr-4' onClick={onClick}>관리자</div> */}
-        <div  className="flex justify-center px-3">
-          <div aria-label="mypage" className='cursor-pointer mr-2 font-bold' onClick={onClick}>{nickname}<span className="font-normal">님</span></div>
-            <div className=''>어서오세요</div>
-          </div>
-        <div aria-label="logout" className="lg:block hidden px-3 border-l border-[#A87E6E] cursor-pointer" onClick={onClick}>나가기</div>
-        <div className="lg:hidden flex items-center">
-          <button
-              onClick={() => setMenuToggle(!menuToggle)}
-            >
-              {menuToggle ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              )}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div className={classNames("lg:hidden z-30 absolute bg-[#ffffff] w-full text-[0.9rem] text-[#A87E6E] px-2", { hidden: !menuToggle})}>
-        <div aria-label="main" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span aria-label="main" >학습공간</span></div>
-        <div aria-label="note" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span aria-label="note">오답공책</span></div>
-        <div aria-label="dogam" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span aria-label="dogam">문맥도감</span></div>
-        <div aria-label="mypage" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span aria-label="mypage">학습관리</span></div>
-        <div aria-label="dictionary" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span aria-label="dictionary">단어사전</span></div>
-        <div aria-label="notice" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span aria-label="notice">알림공간</span></div>
-        <div aria-label="logout" className = "p-2 cursor-pointer hover:bg-gray-100 hover:text-[#c9805e] transition-all duration-200" onClick={onClick}><span aria-label="logout">나가기</span></div>
-    </div>    
-  </div>
+    </>
   )
 }
 export default Navbar
