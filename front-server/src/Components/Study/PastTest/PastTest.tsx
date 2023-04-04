@@ -54,7 +54,7 @@ const PastTest = (): JSX.Element => {
     window.onbeforeunload = () => {
       return "Are you sure you want to leave?";
     };
-  }, []); 
+  }, []);
   if (isLoading1 || isLoading4 || isLoading2) {
     return <>로딩중</>;
   } else if (error1 || error2 || error4) {
@@ -65,8 +65,7 @@ const PastTest = (): JSX.Element => {
         <Navbar />
         {test.data.startTime && test.data.endTime ? (
           <>
-            {today_temp >= test.data.startTime &&
-            today_temp <= test.data.endTime ? (
+            {(today_temp >= test.data.startTime && today_temp >= test.data.endTime)=== true? (
               <>
                 <div className="flex justify-center">
                   <Title data={test.data} />
@@ -83,7 +82,12 @@ const PastTest = (): JSX.Element => {
                 </div>
               </>
             ) : (
-              <div>접속할 수 없는 기간입니다</div>
+              <>
+                <div>시작시간 : {test.data.startTime} 접속할 수 없는 기간입니다</div>
+                <div>끝 기간 : {test.data.endTime}</div>
+                <div>오늘 : {today_temp}</div>
+                <div>결과 : {(today_temp >= test.data.startTime && today_temp >= test.data.endTime)=== true?"true":"false"}</div>                
+              </>
             )}
           </>
         ) : null}
