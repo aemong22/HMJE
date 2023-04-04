@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom"
 import { useAppSelector } from "../../Store/hooks"
 import classNames from "classnames";
 import { usePutUserLogoutMutation } from "../../Store/api";
-import AudioPlayer from "react-h5-audio-player";
 function Navbar():JSX.Element {
   
   const location = useLocation().pathname.replace("/","");
@@ -20,19 +19,7 @@ function Navbar():JSX.Element {
     }
   },[])
 
-  const player = useRef<any>();
-  const Player = () => (
-    <AudioPlayer
-      ref={player}
-      autoPlay={true}
-      src="/bgm.mp3"
-      loop
-      muted={false}
-      style={{position: 'absolute', zIndex: '20',  display: 'none'}}
-      volume={0.3}
-      // onVolumeChange={volume}
-    />
-  );
+  
   const onClick:MouseEventHandler<HTMLSpanElement> = (e) => {
     const target = e.target as HTMLElement
     if (target.ariaLabel === 'main') {
@@ -70,7 +57,6 @@ function Navbar():JSX.Element {
           navigate("/login");      
       })
     }
-
   }
   const [activeIndex, setActiveIndex] = useState(null);
 
@@ -82,7 +68,6 @@ function Navbar():JSX.Element {
 
   return (
     <>
-      {<Player/>}
       <div className="w-full bg-[#ffffff] sticky top-0 z-10" style={{borderBottom: 'solid 4px rgba(234,234,234,0.8)'}}>
         <div id='header' role={'banner'} className='container max-w-screen-xl lg:w-[90%] w-full flex justify-center items-center mx-auto'>
           {/* 헤더 */}
