@@ -1,7 +1,7 @@
 import Footer from "../Common/Footer"
 import Navbar from "../Common/Navbar"
 import { useGetUserMyinfoQuery, useGetUserMystudyQuery, useLazyGetUserBadgeQuery, useLazyGetUserStatsCompareQuery, usePostUserMonthstudyMutation, usePutUserBadgeMalrangMutation, usePutUserBadgeMutation } from "../../Store/api"
-import React, { MouseEventHandler, useEffect, useRef, useState } from "react"
+import React, { ChangeEventHandler, MouseEventHandler, useEffect, useRef, useState } from "react"
 import { Bar, Doughnut, Line } from "react-chartjs-2"
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
@@ -699,6 +699,7 @@ function MyPageSection3({userId, move1, move2, move3, move4, move5}:MyPageSectio
 
   useEffect(()=> {
     monthStuty(postData).then((r:any)=> {
+      
       const wordCnt = r.data.data.map((data:any)=> {
         return data.wordCount
       })
@@ -901,7 +902,11 @@ function MyPageSection3({userId, move1, move2, move3, move4, move5}:MyPageSectio
         )
         setStudyCompareChart2(Chart4)
     })
-
+    Chart.register();
+  },[monthStuty])
+  
+  
+  useEffect(()=> {
     getUserBadge(userId).unwrap().then((r)=> {
       setUserBadge(r.data)
     }).then(()=> {
@@ -913,13 +918,11 @@ function MyPageSection3({userId, move1, move2, move3, move4, move5}:MyPageSectio
         )
       }))
     })
-    
-    Chart.register();
   },[userBadge])
-  
 
-  const selectDateChart:MouseEventHandler<HTMLSelectElement> = (e) => {
-    monthStuty([userId, yearRef.current?.value, monthRef.current?.value]).then((r:any)=> {
+
+  const selectDateChart:ChangeEventHandler<HTMLSelectElement> = (e) => {
+    monthStuty([userId, yearRef.current?.value, monthRef.current?.value]).then((r:any)=> {      
       const wordCnt = r.data.data.map((data:any)=> {
         return data.wordCount
       })
@@ -1050,23 +1053,21 @@ function MyPageSection3({userId, move1, move2, move3, move4, move5}:MyPageSectio
   }
 
   const yearSelectElement = (
-    <select ref={yearRef} className="w-full h-full text-center font-semibold text-[0.8rem] md:text-[0.9rem] lg:text-[1rem] text-[#A2A2A2] border-2 border-[#F7CCB7] rounded-md" onClick={selectDateChart}>
+    <select ref={yearRef} className="w-full h-full text-center font-semibold text-[0.8rem] md:text-[0.9rem] lg:text-[1rem] text-[#A2A2A2] border-2 border-[#F7CCB7] rounded-md" onChange={selectDateChart} defaultValue={nowYear}>
       {
         yearList.map((year:number,key:number)=> {         
-          const isSelected = key === nowYear          
-          return <option key={key} className="text-center w-full" value={year} selected={isSelected}>{year}년</option>
+          return <option key={key} className="text-center w-full" value={year}>{year}년</option>
         })
       }
     </select>
   )
 
   const monthSelectElement = (
-    <select ref={monthRef} className='w-full text-center font-semibold text-[0.8rem] md:text-[0.9rem] lg:text-[1rem] text-[#A2A2A2] border-2 border-[#F7CCB7] rounded-md' onClick={selectDateChart}>
+    <select ref={monthRef} className='w-full text-center font-semibold text-[0.8rem] md:text-[0.9rem] lg:text-[1rem] text-[#A2A2A2] border-2 border-[#F7CCB7] rounded-md' onChange={selectDateChart} defaultValue={nowMonth}>
       {
         monthList.map((month:number, key:number)=> {
-          const isSelected = key === nowMonth-1
           
-          return <option key={key} className="text-center w-full" value={month} selected={isSelected}>{month}월</option>
+          return <option key={key} className="text-center w-full" value={month}>{month}월</option>
         })
       }
     </select>
@@ -1101,172 +1102,175 @@ function MyPageSection3({userId, move1, move2, move3, move4, move5}:MyPageSectio
 
   return (
     <>
-      {/* {
-        (monthStudyLoading||isLoading2||isLoading3||isLoading4)&&loading
-      } */}
+      {
+        (isLoading3||isLoading4)? <Loading/>:
+        (
+          <div className="flex flex-col justify-start items-center w-full px-[5%] h-[130rem] lg:h-[130rem] mt-20">
+            <div className="flex justify-center items-center h-[90%] max-w-screen-xl w-full">
+              {/* 학습 관리 */}
+              <div className="flex flex-col justify-center items-start w-full h-full">
+                {/* <div className="flex justify-between items-end w-full h-[6%] lg:h-[8%] my-[2%]"> */}
+                <div className="flex justify-between items-end w-full my-[2%]">
+                  <div className="flex flex-col w-1/2">
+                    <div className="block text-[1.1rem] md:text-[1.35rem] lg:text-[1.4rem] font-semibold pb-2">학습 관리</div>
+                    <div className="block font-semibold text-[0.8rem] md:text-[0.9rem] lg:text-[1rem] text-[#A2A2A2]">나의 학습 정보를 확인해보세요!</div>
+                  </div>
+                  <div className="flex justify-between items-end  w-1/2 lg:w-1/3 h-full ">
+                    {/* <div className="w-full"><span className="flex justify-center items-center border-2 ">2023</span></div> */}
+                    <div className=" w-full">
+                      {yearSelectElement}
+                    </div>
+                    <div className=" w-full">
+                      {monthSelectElement}
+                    </div>
+                  </div>
+                </div>
+                <div ref={move1} className="h-[21%] lg:h-[28%] w-full my-[2%]">
+                  {/* 학습 시간 문구 */}
+                  <div className="flex justify-between items-center w-full h-[16%] lg:h-[20%]">
+                    <div className="flex justify-center items-center w-[35%] md:w-[19%] h-[80%] sm:h-[60%] lg:h-[70%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.9rem] md:text-[1rem] lg:text-[1.1rem]"><span>학습 시간</span></div>
+                  </div>
+                  {/* 학습 시간 데이터 */}
+                  <div className="flex justify-center items-center w-full h-[80%]">
+                    <div className="h-[90%] w-full bg-[#D9D9D9] rounded-md">
+                      {/* 한달 간격으로 학습시간 & 학습 단어 갯수를 꺽은선 or 막대 그래프로 보여주기 */}
+                      {/* {monthStudyLoading && loading} */}
+                      {studyTimeChart? studyTimeChart: null}
+                      
+                    </div>
+                  </div>
+                </div>
+                <div ref={move2} className="h-[21%] lg:h-[28%] w-full my-[2%]">
+                  {/* 학습 단어 개수 */}
+                  <div className="flex justify-between items-center w-full h-[16%] lg:h-[20%]">
+                    <div className="flex justify-center items-center w-[35%] md:w-[19%] h-[80%] sm:h-[60%] lg:h-[70%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.9rem] sm:text-[1rem] lg:text-[1.1rem]"><span>학습 단어 개수</span></div>
+                  </div>
+                  {/* 학습 단어 개수 데이터 */}
+                  <div className="flex justify-center items-center w-full h-[80%]">
+                    <div className="h-[90%] w-full bg-[#D9D9D9] rounded-md">
+                      {/* 한달 간격으로 날짜별 맞힌 개수, 틀린 개수를 꺽은선 or 막대 그래프로 보여주기 */}
+                      {/* {monthStudyLoading && loading} */}
+                      {
+                        studyCntChart? studyCntChart:null
+                      }
+                    </div>
+                  </div>
+                </div>
+                {/* 데스크탑 */}
+                <div ref={move3} className="hidden lg:flex justify-evenly items-center h-[28%] w-full my-[2%]">
+                  {/* 다른 유저와 통계 비교 */}
+                  <div className="flex flex-col items-start w-[48%] h-full mr-[4%]">
+                    <div className="flex justify-center items-center w-[70%] lg:w-[38%] h-[16%] lg:h-[20%] ">
+                      <div className="flex justify-center items-center text-center w-full h-full lg:h-[84%] bg-[#F7CCB7] rounded-lg sm:rounded-xl text-white font-semibold lg:text-[1.1rem]">
+                        <span>전체 학습 시간</span>
+                      </div>
+                    </div>
+                    <div className="w-full h-full">
+                        {isLoading2&&loading }
+                        {
+                          studyCompareChart? studyCompareChart:null
+                        }
+                    </div>
+                  </div>
+                  {/* 나의 학습 비교 */}
+                  <div className="flex flex-col items-start w-[48%] h-full">
+                    <div className="flex justify-center items-center w-[70%] lg:w-[38%] h-[16%] lg:h-[20%] ">
+                      <div className="flex justify-center items-center text-center w-full h-full lg:h-[84%] bg-[#F7CCB7] rounded-lg sm:rounded-xl text-white font-semibold lg:text-[1.1rem]">
+                        <span>나의 학습 시간</span>
+                      </div>
+                    </div>
+                    <div className="w-full h-full">
+                        {isLoading2&&loading }
+                        {
+                          studyCompareChart2? studyCompareChart2:null
+                        }
+                    </div>
+                  </div>
+                </div>
+                {/* 태블릿 & 모바일 */}
+                <div ref={move5} className="flex flex-col lg:hidden justify-center items-center h-[46%] w-full my-[2%]">
+                  {/* 다른 유저와 통계 비교 */}
+                  <div className="w-full h-[48%] my-[2%]">
+                    <div className="flex justify-between items-center w-full h-[17%]">
+                      <div className="flex justify-center items-center h-[70%] w-[35%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.9rem] md:text-[1rem] lg:text-[1.1rem]"><span>전체 학습 시간</span></div>
+                    </div>
+                    {/* 학습 시간 데이터 */}
+                    <div className="flex justify-center items-center w-full h-[83%]">
+                      <div className="h-[90%] w-full bg-[#D9D9D9] rounded-md">
+                        {/* 한달 간격으로 학습시간 & 학습 단어 갯수를 꺽은선 or 막대 그래프로 보여주기 */}
+                        {isLoading2&&loading }
+                        {
+                          studyCompareChart? studyCompareChart:null
+                        }
+                      </div>
+                    </div>
+                  </div>
+                  {/* 다른 유저와 통계 비교 */}
+                  <div className="w-full h-[48%] my-[2%]">
+                    <div className="flex justify-between items-center w-full h-[17%]">
+                      <div className="flex justify-center items-center h-[70%] w-[35%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.9rem] md:text-[1rem] lg:text-[1.1rem]"><span>나의 학습 시간</span></div>
+                    </div>
+                    {/* 학습 시간 데이터 */}
+                    <div className="flex justify-center items-center w-full h-[83%]">
+                      <div className="h-[90%] w-full bg-[#D9D9D9] rounded-md">
+                        {/* 한달 간격으로 학습시간 & 학습 단어 갯수를 꺽은선 or 막대 그래프로 보여주기 */}
+                        {isLoading2&&loading }
+                        {
+                          studyCompareChart2? studyCompareChart2:null
+                        }
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div ref={move4} className="flex justify-center items-start h-[20%] max-w-screen-xl w-full relative">
+            {
+              isShowBadgeDetail? badgeDetailModal: null
+            }
+              <div className="flex flex-col justify-center items-start w-full h-full">
+                <div className="flex items-center h-[15%]">
+                  <div className="block text-[1.1rem] md:text-[1.35rem] lg:text-[1.4rem] font-semibold">칭호</div>
+                </div>
+                <div className="h-[85%] w-full">
+                  {/* 학습 단어 개수 */}
+                  <div className="flex justify-between items-end w-full h-[14%] mb-2">
+                    {/* 데스크탑 & 태블릿 */}
+                    <div className="hidden sm:flex flex-col justify-center items-start h-full w-[80%] text-[#A2A2A2] font-semibold text-[0.8rem] md:text-[0.9rem] lg:text-[1rem]">
+                      <div>
+                        <div><span className="pb-2">홍민정음에서 특정 목표를 달성하면 얻을 수 있습니다!</span></div>
+                      </div>
+                      <div>
+                        <div><span>칭호를 착용해 보세요</span></div>
+                      </div>
+                    </div>
+                    {/* 모바일 */}
+                    <div className="flex sm:hidden flex-col justify-center items-start h-full w-[85%] text-[#A2A2A2] font-semibold text-[0.8rem]">
+                      <div>
+                        <div><span className="pb-2">홍민정음에서 특정 목표를 달성하면 </span></div>
+                      </div>
+                      <div>
+                        <div><span>얻을 수 있습니다! 칭호를 착용해 보세요</span></div>
+                      </div>
+                    </div>
+                    <div className="flex justify-center items-center w-[15%] font-semibold text-[1.3rem] h-full text-[#BF9F91]">
+                      <div className="w-full"><span className="flex justify-end items-center ">{userBadge.length}개</span></div>
+                    </div>
+                  </div>
+                  {/* 학습 단어 개수 데이터 */}
+                  <div className="flex justify-center items-start w-full h-[86%] mt-1 relative">
+                    <div className="flex justify-start items-center flex-nowrap overflow-x-auto h-[85%] w-full bg-[#F0ECE9] rounded-md px-2">
+                      {badgeList}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      }
       
-      <div className="flex flex-col justify-start items-center w-full px-[5%] h-[130rem] lg:h-[130rem] mt-20">
-        <div className="flex justify-center items-center h-[90%] max-w-screen-xl w-full">
-          {/* 학습 관리 */}
-          <div className="flex flex-col justify-center items-start w-full h-full">
-            {/* <div className="flex justify-between items-end w-full h-[6%] lg:h-[8%] my-[2%]"> */}
-            <div className="flex justify-between items-end w-full my-[2%]">
-              <div className="flex flex-col w-1/2">
-                <div className="block text-[1.1rem] md:text-[1.35rem] lg:text-[1.4rem] font-semibold pb-2">학습 관리</div>
-                <div className="block font-semibold text-[0.8rem] md:text-[0.9rem] lg:text-[1rem] text-[#A2A2A2]">나의 학습 정보를 확인해보세요!</div>
-              </div>
-              <div className="flex justify-between items-end  w-1/2 lg:w-1/3 h-full ">
-                {/* <div className="w-full"><span className="flex justify-center items-center border-2 ">2023</span></div> */}
-                <div className=" w-full">
-                  {yearSelectElement}
-                </div>
-                <div className=" w-full">
-                  {monthSelectElement}
-                </div>
-              </div>
-            </div>
-            <div ref={move1} className="h-[21%] lg:h-[28%] w-full my-[2%]">
-              {/* 학습 시간 문구 */}
-              <div className="flex justify-between items-center w-full h-[16%] lg:h-[20%]">
-                <div className="flex justify-center items-center w-[35%] md:w-[19%] h-[80%] sm:h-[60%] lg:h-[70%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.9rem] md:text-[1rem] lg:text-[1.1rem]"><span>학습 시간</span></div>
-              </div>
-              {/* 학습 시간 데이터 */}
-              <div className="flex justify-center items-center w-full h-[80%]">
-                <div className="h-[90%] w-full bg-[#D9D9D9] rounded-md">
-                  {/* 한달 간격으로 학습시간 & 학습 단어 갯수를 꺽은선 or 막대 그래프로 보여주기 */}
-                  {/* {monthStudyLoading && loading} */}
-                  {studyTimeChart? studyTimeChart: null}
-                  
-                </div>
-              </div>
-            </div>
-            <div ref={move2} className="h-[21%] lg:h-[28%] w-full my-[2%]">
-              {/* 학습 단어 개수 */}
-              <div className="flex justify-between items-center w-full h-[16%] lg:h-[20%]">
-                <div className="flex justify-center items-center w-[35%] md:w-[19%] h-[80%] sm:h-[60%] lg:h-[70%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.9rem] sm:text-[1rem] lg:text-[1.1rem]"><span>학습 단어 개수</span></div>
-              </div>
-              {/* 학습 단어 개수 데이터 */}
-              <div className="flex justify-center items-center w-full h-[80%]">
-                <div className="h-[90%] w-full bg-[#D9D9D9] rounded-md">
-                  {/* 한달 간격으로 날짜별 맞힌 개수, 틀린 개수를 꺽은선 or 막대 그래프로 보여주기 */}
-                  {/* {monthStudyLoading && loading} */}
-                  {
-                    studyCntChart? studyCntChart:null
-                  }
-                </div>
-              </div>
-            </div>
-            {/* 데스크탑 */}
-            <div ref={move3} className="hidden lg:flex justify-evenly items-center h-[28%] w-full my-[2%]">
-              {/* 다른 유저와 통계 비교 */}
-              <div className="flex flex-col items-start w-[48%] h-full mr-[4%]">
-                <div className="flex justify-center items-center w-[70%] lg:w-[38%] h-[16%] lg:h-[20%] ">
-                  <div className="flex justify-center items-center text-center w-full h-full lg:h-[84%] bg-[#F7CCB7] rounded-lg sm:rounded-xl text-white font-semibold lg:text-[1.1rem]">
-                    <span>전체 학습 시간</span>
-                  </div>
-                </div>
-                <div className="w-full h-full">
-                    {isLoading2&&loading }
-                    {
-                      studyCompareChart? studyCompareChart:null
-                    }
-                </div>
-              </div>
-              {/* 나의 학습 비교 */}
-              <div className="flex flex-col items-start w-[48%] h-full">
-                <div className="flex justify-center items-center w-[70%] lg:w-[38%] h-[16%] lg:h-[20%] ">
-                  <div className="flex justify-center items-center text-center w-full h-full lg:h-[84%] bg-[#F7CCB7] rounded-lg sm:rounded-xl text-white font-semibold lg:text-[1.1rem]">
-                    <span>나의 학습 시간</span>
-                  </div>
-                </div>
-                <div className="w-full h-full">
-                    {isLoading2&&loading }
-                    {
-                      studyCompareChart2? studyCompareChart2:null
-                    }
-                </div>
-              </div>
-            </div>
-            {/* 태블릿 & 모바일 */}
-            <div ref={move5} className="flex flex-col lg:hidden justify-center items-center h-[46%] w-full my-[2%]">
-              {/* 다른 유저와 통계 비교 */}
-              <div className="w-full h-[48%] my-[2%]">
-                <div className="flex justify-between items-center w-full h-[17%]">
-                  <div className="flex justify-center items-center h-[70%] w-[35%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.9rem] md:text-[1rem] lg:text-[1.1rem]"><span>전체 학습 시간</span></div>
-                </div>
-                {/* 학습 시간 데이터 */}
-                <div className="flex justify-center items-center w-full h-[83%]">
-                  <div className="h-[90%] w-full bg-[#D9D9D9] rounded-md">
-                    {/* 한달 간격으로 학습시간 & 학습 단어 갯수를 꺽은선 or 막대 그래프로 보여주기 */}
-                    {isLoading2&&loading }
-                    {
-                      studyCompareChart? studyCompareChart:null
-                    }
-                  </div>
-                </div>
-              </div>
-              {/* 다른 유저와 통계 비교 */}
-              <div className="w-full h-[48%] my-[2%]">
-                <div className="flex justify-between items-center w-full h-[17%]">
-                  <div className="flex justify-center items-center h-[70%] w-[35%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.9rem] md:text-[1rem] lg:text-[1.1rem]"><span>나의 학습 시간</span></div>
-                </div>
-                {/* 학습 시간 데이터 */}
-                <div className="flex justify-center items-center w-full h-[83%]">
-                  <div className="h-[90%] w-full bg-[#D9D9D9] rounded-md">
-                    {/* 한달 간격으로 학습시간 & 학습 단어 갯수를 꺽은선 or 막대 그래프로 보여주기 */}
-                    {isLoading2&&loading }
-                    {
-                      studyCompareChart2? studyCompareChart2:null
-                    }
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div ref={move4} className="flex justify-center items-start h-[20%] max-w-screen-xl w-full relative">
-        {
-          isShowBadgeDetail? badgeDetailModal: null
-        }
-          <div className="flex flex-col justify-center items-start w-full h-full">
-            <div className="flex items-center h-[15%]">
-              <div className="block text-[1.1rem] md:text-[1.35rem] lg:text-[1.4rem] font-semibold">칭호</div>
-            </div>
-            <div className="h-[85%] w-full">
-              {/* 학습 단어 개수 */}
-              <div className="flex justify-between items-end w-full h-[14%] mb-2">
-                {/* 데스크탑 & 태블릿 */}
-                <div className="hidden sm:flex flex-col justify-center items-start h-full w-[80%] text-[#A2A2A2] font-semibold text-[0.8rem] md:text-[0.9rem] lg:text-[1rem]">
-                  <div>
-                    <div><span className="pb-2">홍민정음에서 특정 목표를 달성하면 얻을 수 있습니다!</span></div>
-                  </div>
-                  <div>
-                    <div><span>칭호를 착용해 보세요</span></div>
-                  </div>
-                </div>
-                {/* 모바일 */}
-                <div className="flex sm:hidden flex-col justify-center items-start h-full w-[85%] text-[#A2A2A2] font-semibold text-[0.8rem]">
-                  <div>
-                    <div><span className="pb-2">홍민정음에서 특정 목표를 달성하면 </span></div>
-                  </div>
-                  <div>
-                    <div><span>얻을 수 있습니다! 칭호를 착용해 보세요</span></div>
-                  </div>
-                </div>
-                <div className="flex justify-center items-center w-[15%] font-semibold text-[1.3rem] h-full text-[#BF9F91]">
-                  <div className="w-full"><span className="flex justify-end items-center ">{userBadge.length}개</span></div>
-                </div>
-              </div>
-              {/* 학습 단어 개수 데이터 */}
-              <div className="flex justify-center items-start w-full h-[86%] mt-1 relative">
-                <div className="flex justify-start items-center flex-nowrap overflow-x-auto h-[85%] w-full bg-[#F0ECE9] rounded-md px-2">
-                  {badgeList}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      
     </>
   )
 }

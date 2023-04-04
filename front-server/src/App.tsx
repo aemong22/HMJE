@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -33,9 +33,9 @@ import MyInfoSelectCheck from "./Components/MyPage/MyInfoSelectCheck";
 import ErrorPage from "./Components/Common/ErrorPage";
 
 function App() {
-
   return (
     <>
+      
       <Routes>
         <Route path="/" element={<Intro />} />
         <Route path="/login" element={<Login />} />
