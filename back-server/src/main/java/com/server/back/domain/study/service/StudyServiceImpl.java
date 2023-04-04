@@ -122,43 +122,45 @@ public class StudyServiceImpl implements StudyService{
     @Override
     public List<WordResponseDto> wordQuestion(Long userId){
         User user = userRepository.findByUserId(userId);
-        Set<Word> wordQuestion = new HashSet<>(); //문제 리스트 준비
-        Set<Long> set = new HashSet<>(); //랜덤 10문제 (숫자) 뽑기
+
+        List<WordResponseDto> wordResponseDtoList = new ArrayList<>(); // 반환할 Dto List
+        List<Long> wordIdList = new ArrayList<>(); // 10문제 ID 뽑아넣는 List
         List<WrongWord> myWrong = wrongWordRepository.findAllByUser(user);
         if (myWrong.size() < 3){
             for (WrongWord m : myWrong){
-                set.add(m.getWord().getWordId());
-                wordQuestion.add(m.getWord());
+                wordIdList.add(m.getWord().getWordId());
+                wordResponseDtoList.add(WordResponseDto.fromEntityToEncodeAndFailed(m.getWord()));
             }
         }else{
-            while (set.size() < 2) {
-                Double d = Math.random() * myWrong.size() + 1;
+            while (wordIdList.size() < 2) {
+                Double d = Math.random() * myWrong.size();
                 int index = d.intValue();
                 Word word = myWrong.get(index).getWord();
-                set.add(word.getWordId());
-                wordQuestion.add(word);
+                if(!wordIdList.contains(word.getWordId())){
+                    wordIdList.add(word.getWordId());
+                    wordResponseDtoList.add(WordResponseDto.fromEntityToEncodeAndFailed(word));
+                }
             }
         }
-        while (set.size() < 10) {
+        while (wordIdList.size() < 10) {
             Double d = Math.random() * wordRepository.count() + 1;
             Word word = wordRepository.findByWordId(d.longValue());
             WrongWord wrong = wrongWordRepository.findByWordAndUser(word, user);
             RightWord right = rightWordRepository.findByWordAndUser(word, user);
-            if (wrong == null && right == null){
-                set.add(d.longValue());
-                wordQuestion.add(word);
+            if (wrong == null && right == null && !wordIdList.contains(word.getWordId())){
+                wordIdList.add(d.longValue());
+                wordResponseDtoList.add(WordResponseDto.fromEntityToEncode(word));
             }
         }
-        List<Word> wordQuestionList = new ArrayList<>(wordQuestion);
-        List<WordResponseDto> wordResponseDtoList = WordResponseDto.fromEntityListToEncode(wordQuestionList);
+
         return wordResponseDtoList;
     }
 
     @Override
     public List<WordResponseDto> wordQuestionWithFilter(Long userId, String filter){
         User user = userRepository.findByUserId(userId);
-        Set<Word> wordQuestion = new HashSet<>(); //문제 리스트 준비
-        Set<Long> set = new HashSet<>(); //랜덤 10문제 (숫자) 뽑기
+        List<WordResponseDto> wordResponseDtoList = new ArrayList<>();
+        List<Long> wordIdList = new ArrayList<>(); // 10문제 뽑아올 List
         List<WrongWord> wrongWordList = wrongWordRepository.findAllByFilterAndUser(user, filter); // 해당 필터의 틀린 단어 리스트
         List<Word> wordList = wordRepository.findAllByWordRating(filter); // 해당 필터의 전체 단어 리스트
         List<Word> rightList = new ArrayList<>(); // 맞춘 단어 리스트
@@ -172,37 +174,53 @@ public class StudyServiceImpl implements StudyService{
         if(wordList.size() > 9){
             if (wrongWordList.size() < 3){
                 for (WrongWord m : wrongWordList){
-                    set.add(m.getWord().getWordId());
-                    wordQuestion.add(m.getWord());
+                    wordIdList.add(m.getWord().getWordId());
+                    wordResponseDtoList.add(WordResponseDto.fromEntityToEncodeAndFailed(m.getWord()));
                 }
             }else{
-                while (set.size() < 2) {
-                    Double d = Math.random() * wrongWordList.size() + 1;
+                while (wordIdList.size() < 2) {
+                    Double d = Math.random() * wrongWordList.size();
                     int index = d.intValue();
                     Word word = wrongWordList.get(index).getWord();
-                    set.add(word.getWordId());
-                    wordQuestion.add(word);
+                    if(!wordIdList.contains(word.getWordId())){
+                        wordIdList.add(word.getWordId());
+                        wordResponseDtoList.add(WordResponseDto.fromEntityToEncodeAndFailed(word));
+                    }
+
                 }
             }
 
-            while (set.size() < 10) {
-                Double d = Math.random() * wordList.size() + 1;
+            while (wordIdList.size() < 10) {
+                Double d = Math.random() * wordList.size();
                 int index = d.intValue();
                 Word word = wordList.get(index);
                 WrongWord wrong = wrongWordRepository.findByWordAndUser(word, user);
-                if (wrong == null){
-                    set.add(word.getWordId());
-                    wordQuestion.add(word);
+                if (wrong == null && !wordIdList.contains(word.getWordId())){
+                    wordIdList.add(word.getWordId());
+                    wordResponseDtoList.add(WordResponseDto.fromEntityToEncode(word));
                 }
             }
-            List<Word> wordQuestionList = new ArrayList<>(wordQuestion);
-            List<WordResponseDto> wordResponseDtoList = WordResponseDto.fromEntityListToEncode(wordQuestionList);
+
             return wordResponseDtoList;
             }
         else{
             // 이 경우, 그냥 가진 문제를 다 주는 게 맞음. 틀린 문제를 합해도 10개가 안되는 경우이기 때문
-            List<WordResponseDto> wordResponseDtoList = WordResponseDto.fromEntityListToEncode(wordList);
-            return wordResponseDtoList;
+            // 틀린 문제 찾는 로직 추가
+            List<Long> wrongWordIdList = new ArrayList<>();
+            for (WrongWord wrongWord : wrongWordList) {
+                wrongWordIdList.add(wrongWord.getWord().getWordId());
+            }
+            List<WordResponseDto> result = new ArrayList<>();
+            for (Word word : wordList) {
+                if(wrongWordIdList.contains(word.getWordId())){
+                    result.add(WordResponseDto.fromEntityToEncodeAndFailed(word));
+                }
+                else{
+                    result.add(WordResponseDto.fromEntityToEncode(word));
+                }
+            }
+
+            return result;
         }
 
 
@@ -218,14 +236,24 @@ public class StudyServiceImpl implements StudyService{
 
 
     @Override
-    public List<PastQuestionResponseDto> getPastTest() {
+    public List<PastQuestionResponseDto> getPastTest(Long userId) {
         PastTest pastTest = pastTestRepository.findFirstByOrderByCreatedAtDesc();
         LocalDate today = LocalDate.now(); // 오늘 날짜 확인
         if(today.isBefore(pastTest.getStartTime()) || today.isAfter(pastTest.getEndTime())){ // 시작날짜보다 빠르거나 종료날짜보다 늦으면
             return null;
         }
+        User user = userRepository.findByUserId(userId);
         List<PastQuestion> pastQuestionList = pastQuestionRepository.findAllByPastTest(pastTest);
         List<PastQuestionResponseDto> result = PastQuestionResponseDto.fromEntityList(pastQuestionList);
+
+        // 테스트 문제 주면서 0점짜리 데이터 만들기
+        PastTestResult pastTestResult = PastTestResult.builder()
+                                        .pastTest(pastTest)
+                                        .user(user)
+                                        .score(0)
+                                        .build();
+
+        pastTestResultRepository.save(pastTestResult);
 
         return result;
 
@@ -238,11 +266,8 @@ public class StudyServiceImpl implements StudyService{
         User user = userRepository.findByUserId(pastTestResultRequestDto.getUserId());
         PastTest pastTest = pastTestRepository.findByPastTestId(pastTestResultRequestDto.getPastTestId());
 
-        PastTestResult pastTestResult = PastTestResult.builder()
-            .score(pastTestResultRequestDto.getScore())
-            .user(user)
-            .pastTest(pastTest)
-            .build();
+        PastTestResult pastTestResult = pastTestResultRepository.findFirstByUserAndPastTest(user, pastTest);
+        pastTestResult.updateScore(pastTestResultRequestDto.getScore());
 
         pastTestResultRepository.save(pastTestResult);
 
@@ -253,7 +278,7 @@ public class StudyServiceImpl implements StudyService{
     public List<PastTestResultResponseDto> getJangwonList(Long pastTestId) {
         System.out.println("pastTestId = " + pastTestId);
         PastTest pastTest = pastTestRepository.findByPastTestId(pastTestId);
-        List<PastTestResult> pastTestResultList = pastTestResultRepository.findAllByPastTestAndScore(pastTest, 100);
+        List<PastTestResult> pastTestResultList = pastTestResultRepository.findAllByPastTestAndScoreGreaterThanEqual(pastTest, 80);
         System.out.println("pastTestResultList = " + pastTestResultList);
         List<PastTestResultResponseDto> result = PastTestResultResponseDto.fromEntityList(pastTestResultList);
         System.out.println("result = " + result);

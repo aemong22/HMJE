@@ -114,17 +114,18 @@ public class BadgeService {
         for (StudyTime s : totalstudytimelist){
             mytotalstudytime += s.getStudyTime();
         }
-        if ((!myBadgeList.contains(10L)) && (mytotalstudytime >= 3600)){
+
+        if ((!myBadgeList.contains(10L)) && (mytotalstudytime >= 3600)) {
             response.add(badgeadd(10L, user)); // 뱃지 추가
-            if ((!myBadgeList.contains(11L)) && (mytotalstudytime >= 86400)){
-                response.add(badgeadd(11L, user)); // 뱃지 추가
-                if ((!myBadgeList.contains(12L)) && (mytotalstudytime >= 259200)){
-                    response.add(badgeadd(12L, user)); // 뱃지 추가
-                    if ((!myBadgeList.contains(13L)) && (mytotalstudytime >= 1296000)){
+        }
+        if ((!myBadgeList.contains(11L)) && (mytotalstudytime >= 86400)) {
+            response.add(badgeadd(11L, user)); // 뱃지 추가
+        }
+        if ((!myBadgeList.contains(12L)) && (mytotalstudytime >= 259200)) {
+            response.add(badgeadd(12L, user)); // 뱃지 추가
+        }
+        if ((!myBadgeList.contains(13L)) && (mytotalstudytime >= 1296000)){
                         response.add(badgeadd(13L, user)); // 뱃지 추가
-                    }
-                }
-            }
         }
         return response;
     }
@@ -170,7 +171,7 @@ public class BadgeService {
         PastTest pastTest = pastTestRepository.findFirstByOrderByCreatedAtDesc();
         PastTestResult mypast = pastTestResultRepository.findFirstByUserAndPastTest(user, pastTest);
         if (null != mypast){
-            if (mypast.getScore() == 100){
+            if (mypast.getScore() >= 80){
                 if (!myBadgeList.contains(20L)) {
                     response.add(badgeadd(20L, user)); // 뱃지 추가
                 }
@@ -179,18 +180,28 @@ public class BadgeService {
         return response;
     }
 
-    public List<Long> badgecheckMalrang(Long userId) {
+    public List<Long> badgecheckMalrang(Long userId, Long badgeId) {
         User user = userRepository.findByUserId(userId);
         List<Long> myBadgeList = badgeResultRepository.badgelistfindByUserId(user);
         List<Long> response = new ArrayList<>();
 
-        if (!myBadgeList.contains(18L)) {
+        if ((badgeId==18L) && (!myBadgeList.contains(18L))) {
             response.add(badgeadd(18L, user)); // 뱃지 추가
+        }
+        if ((badgeId==22L) && (!myBadgeList.contains(22L))) {
+            response.add(badgeadd(22L, user)); // 뱃지 추가
+        }
+        if ((badgeId==23L) && (!myBadgeList.contains(23L))) {
+            response.add(badgeadd(23L, user)); // 뱃지 추가
+        }
+        if ((badgeId==24L) && (!myBadgeList.contains(24L))) {
+            response.add(badgeadd(24L, user)); // 뱃지 추가
+        }
+        if ((badgeId==25L) && (!myBadgeList.contains(25L))) {
+            response.add(badgeadd(25L, user)); // 뱃지 추가
         }
         return response;
     }
-
-
 
     public Long badgeadd (Long badgeId, User user){
         Badge badge = badgeRepository.findByBadgeId(badgeId);

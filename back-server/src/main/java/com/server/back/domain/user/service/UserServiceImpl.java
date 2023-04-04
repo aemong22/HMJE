@@ -88,33 +88,34 @@ public class UserServiceImpl implements UserService {
         loginHistoryRepository.save(loginHistory);
 
     }
-
     @Override
     public boolean userNicknameCheck(UserRequestDto requestDto) {
         System.out.println("requestDto-nickname///////////////"+requestDto);
-        int count = 0;
-        for (User r : userRepository.findAll()) {
-            if (r.getNickname().equals(requestDto.getNickname())){
-                count += 1;
+        List<String> nicknamex = Arrays.asList("어드민","관리자","홍민정음","훈민정음","세종","운영자");
+        for (String i : nicknamex){
+            if (requestDto.getNickname().contains(i)){
+                return false;
             }
         }
-        if (count == 0) {
-            return true;
-        }
-        return false;
-    }
-    @Override
-    public boolean userUsernameCheck(UserRequestDto requestDto) {
-        System.out.println("requestDto-username///////////////"+requestDto);
-        User user = userRepository.findByUsername(requestDto.getUsername());
-        if(user.equals(null)){
+        User user = userRepository.findByNickname(requestDto.getNickname());
+        if( null == user){
             return true;
         }
         else{
             return false;
         }
+    }
 
-
+    @Override
+    public boolean userUsernameCheck(UserRequestDto requestDto) {
+        System.out.println("requestDto-username///////////////"+requestDto);
+        User user = userRepository.findByUsername(requestDto.getUsername());
+        if( null == user){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     @Override
@@ -319,7 +320,7 @@ public class UserServiceImpl implements UserService {
                 } else if (s.getStudyType().equals(1)) {
                     int nowdayContextTime = nowday.getContextTime();
                     nowday.setContextTime(nowdayContextTime+s.getStudyTime());
-                }else if (s.getStudyType().equals(2)){
+                }else if (s.getStudyType().equals(3)){
                     int nowdayWrongTime = nowday.getContextTime();
                     nowday.setWrongTime(nowdayWrongTime+s.getStudyTime());
                 }
@@ -431,7 +432,7 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public List<RankLevelResponseDto> rankLevel(){
-        List<User> users = userRepository.findAll();
+        List<User> users = userRepository.findAllByNotAdminAndNotSecession();
         users.sort(Comparator.comparing(User::getLevel).thenComparing(User::getExp).thenComparing(User::getTodayRight).reversed());
         System.out.println("users = " + users);
         List<RankLevelResponseDto> responseDto = new ArrayList<>();

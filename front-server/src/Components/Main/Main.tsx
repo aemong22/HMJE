@@ -54,8 +54,9 @@ function getCookie(name: any) {
 }
   useEffect(() => {
 
-    // 이전방문 날짜
+  // 이전방문 날짜
   var VISITED_BEFORE_DATE = getCookie("VisitCookie");
+
   // 쿠키로바꾸자
 
   // 현재 날짜
@@ -238,8 +239,8 @@ function getCookie(name: any) {
   }
 
 
-  const todayTotal = userMyStudy?.data.todayContext + userMyStudy?.data.todayTime + userMyStudy?.data.todayWord
-  const statsDate:number = userMyStudy?.data.statsRight - userMyStudy?.data.statsWrong
+  const todayTotal = userMyStudy!.data!.todayContext + userMyStudy!.data!.todayTime + userMyStudy!.data!.todayWord
+  const statsDate:number = userMyStudy!.data!.statsRight - userMyStudy!.data!.statsWrong
   let checkEmoState:number
 
   if (todayTotal === 0) {
@@ -251,6 +252,7 @@ function getCookie(name: any) {
   } else {
     checkEmoState = 3
   }
+
   return (
     <>
       <Navbar />
@@ -292,16 +294,16 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo, checkEmoState}: any): JSX.
   
 
   const [openModal, setOpenModal] = useState<Boolean>(false);
-  localStorage.setItem("nickname", userMyInfo.nickname);
+  localStorage.setItem("nickname", userMyInfo?.nickname);
   const navigate = useNavigate();
 
   
   // 경험치 비율 width
   const expWidth =
-    (userMyInfo.exp / levelInfo[userMyInfo.level].totalExp) * 100 + "%";
+    (userMyInfo?.exp / levelInfo[userMyInfo?.level]?.totalExp) * 100 + "%";
 
   // 학습 시간 h , m , s
-  let time: number = userMyStudy.todayTime;
+  let time: number = userMyStudy?.todayTime;
   const h = Math.floor(time / 3600);
   time = time % 3600;
   const m: number = Math.floor(time / 60);
@@ -314,7 +316,7 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo, checkEmoState}: any): JSX.
 
   useEffect(()=> {
     
-    setCharacter(<OrangeCat sendEmo={checkEmoState} dataLevel={userMyInfo.level}/>)
+    setCharacter(<OrangeCat sendEmo={checkEmoState} dataLevel={userMyInfo?.level}/>)
   },[])
 
 
@@ -744,7 +746,7 @@ function PassUsers({
       <div className="bg-[#F4EFEC] w-full">
         <div className="container max-w-screen-xl mx-auto text-center py-16">
           <div className={`${style.passFont} md:text-[2.1rem] text-[1.5rem] `}>
-            제 {pastInfo.pastTestId}회 과거시험 결과
+            제 {pastInfo?.pastTestId}회 과거시험 결과
           </div>
           <div
             className={`${style.passFont} md:text-[3.2rem] text-[2.2rem] font-bold text-[#A87E6E]`}
@@ -759,11 +761,11 @@ function PassUsers({
 
           <div
             className="overflow-hidden lg:w-[70%] md:w-[80%] sm:w-[90%] w-full mx-auto"
-            style={{ height: pastList.length <= 3 ? "auto" : "17rem" }}
+            style={{ height: pastList?.length <= 3 ? "auto" : "17rem" }}
           >
             <div
-              className={`${pastList.length >= 4 ? style.move : ""} px-1`}
-              style={{ animationDuration: `${pastList.length * 2}s` }}
+              className={`${pastList?.length >= 4 ? style.move : ""} px-1`}
+              style={{ animationDuration: `${pastList?.length * 2}s` }}
             >
               {pastList.map((user: any, index: number) => (
                 <div
@@ -779,26 +781,26 @@ function PassUsers({
                     ></div>
                     <div className="px-1">
                       <div className="md:text-[1.1rem] sm:text-[1rem] text-[0.8rem]">
-                        {user.nowBadge.badgeName}
+                        {user?.nowBadge.badgeName}
                       </div>
                       <div className="md:text-[1.5rem] sm:text-[1.2rem] text-[1rem] font-bold text-start">
-                        {user.nickname}
+                        {user?.nickname}
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-col justify-end text-[#525252] md:text-[1.3rem] sm:text-[1rem] text-[0.8rem] ">
                     <div className="text-[1rem] text-end">{user.score}점</div>
-                    {levelInfo[user.level].levelName}
+                    {levelInfo[user?.level].levelName}
                   </div>
                 </div>
               ))}
             </div>
 
             <div
-              className={`${pastList.length >= 4 ? style.move : ""} px-1`}
+              className={`${pastList?.length >= 4 ? style.move : ""} px-1`}
               style={{
-                animationDuration: `${pastList.length * 2}s`,
-                display: pastList.length <= 3 ? "none" : "block",
+                animationDuration: `${pastList?.length * 2}s`,
+                display: pastList?.length <= 3 ? "none" : "block",
               }}
             >
               {pastList.map((user: any, index: number) => (
@@ -810,21 +812,21 @@ function PassUsers({
                     <div
                       className={`${style.badgeImg2}`}
                       style={{
-                        backgroundImage: `url('/Assets/Badge/${user.nowBadge.badgeImage}.png')`,
+                        backgroundImage: `url('/Assets/Badge/${user?.nowBadge.badgeImage}.png')`,
                       }}
                     ></div>
                     <div className="px-1">
                       <div className="md:text-[1.1rem] sm:text-[1rem] text-[0.8rem]">
-                        {user.nowBadge.badgeName}
+                        {user?.nowBadge.badgeName}
                       </div>
                       <div className="md:text-[1.5rem] sm:text-[1.2rem] text-[1rem] font-bold text-start">
-                        {user.nickname}
+                        {user?.nickname}
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-col justify-end text-[#525252] md:text-[1.3rem] sm:text-[1rem] text-[0.8rem] ">
-                    <div className="text-[1rem] text-end">{user.score}점</div>
-                    {levelInfo[user.level].levelName}
+                    <div className="text-[1rem] text-end">{user?.score}점</div>
+                    {levelInfo[user?.level].levelName}
                   </div>
                 </div>
               ))}

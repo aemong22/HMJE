@@ -5,7 +5,7 @@ export const ttsApi = createApi({
   reducerPath: "ttsApi",
   tagTypes: ['ttsApi'],
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://j8e102.p.ssafy.io:8080/api',
+    baseUrl: 'https://j8e102.p.ssafy.io/api',
   }),
   endpoints: (builder) => ({
     // ================tts================
