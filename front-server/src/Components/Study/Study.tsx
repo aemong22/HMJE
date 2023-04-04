@@ -47,7 +47,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     }
   }
 
-
+  // 귀띔
   const [hint, setHint] = useState<Boolean>(false);
 
   // 그만두기
@@ -98,12 +98,12 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
       clearInterval(id);
       setInput("");
       if(studyType !== "contextStudy") {
-        if(!wrong.includes(question[num]?.wordId)){
+        if(!wrong.includes(question[num]?.wordId) && !correct.includes(question[num]?.wordId)){
           setWrong([...wrong,question[num]?.wordId])
         }
       }
       else {
-        if(!wrong.includes(question[num]?.dogamId)){
+        if(!wrong.includes(question[num]?.dogamId) && !correct.includes(question[num]?.dogamId)){
           setWrong([...wrong,question[num]?.dogamId])
         }
       }
