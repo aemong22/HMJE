@@ -95,7 +95,7 @@ function ResultPage({ TestScore }: any) {
               제&nbsp;
               <span className="text-black">{pastInfo.data.pastTestId}</span>
               회&nbsp;
-              <span className="text-[#4f3201]">과거시험</span>
+              <span className="text-[#6a470a]">과거시험</span>
             </div>
             <div className=" flex justify-center items-center text-[#f35050]  font-extrabold text-center text-5xl leading-7 md:pt-[1.5rem] md:pb-[1rem] md:text-7xl pt-6 pb-3 rounded-lg bg-[#F4EFEC] ">
               {TestScore}
