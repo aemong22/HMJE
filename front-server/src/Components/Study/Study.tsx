@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
@@ -6,6 +6,15 @@ import classNames from "classnames";
 
 function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,setSemo,right, setRight, openModal, setResultModal, modalOpen, resultModal, closeModal , exp, setExp}:any): JSX.Element {
   
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleFocusOut = () => {
+    if (inputRef.current) {
+      inputRef.current.blur(); // input 요소에서 focus를 제거하여 키보드를 내림
+    }
+  };
+
+
   // 단어 디코딩
   const [decoding, setDecoding] = useState<String>();
   // 초성
@@ -95,7 +104,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
 
     // 못맞춤
     if(count <= 0){
-      window.blur()
+      handleFocusOut();
       clearInterval(id);
       setInput("");
       if(studyType !== "contextStudy") {
@@ -113,18 +122,18 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     }
     // 시간초 내에 맞춤
     else if(right) {
-      window.blur()
+      handleFocusOut();
       clearInterval(id);
     }
     // 그만두기
     else if(stop){
-      window.blur()
+      handleFocusOut();
       clearInterval(id);
       setResultModal(true)
     }
     // 건너뛰기
     else if(skip){
-      window.blur()
+      handleFocusOut();
       clearInterval(id);
       
       if(studyType !== "contextStudy") {
@@ -322,7 +331,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
             </div>
             <div>
               <div className="flex flex-wrap justify-between w-full relative">
-                <input type="text" value={input} className="m-1 block w-full p-4 pl-5 text-sm text-gray-900 border border-gray-300 rounded-lg focus:outline-none bg-gray-50" placeholder="정답을 입력하세요." 
+                <input type="text" ref={inputRef} onBlur={handleFocusOut} value={input} className="m-1 block w-full p-4 pl-5 text-sm text-gray-900 border border-gray-300 rounded-lg focus:outline-none bg-gray-50" placeholder="정답을 입력하세요." 
                 required onChange={(e:any)=>onChange(e)} onKeyPress={(e:any)=>{
                   if ((e.key === 'Enter') && input.length > 0 && !modalOpen && !resultModal) {
                     if(studyType !== "contextStudy") {
