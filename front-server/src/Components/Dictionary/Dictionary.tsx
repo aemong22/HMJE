@@ -4,7 +4,11 @@ import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
 import Pagination from "react-js-pagination";
 import style from "../Dictionary/Dictionary.module.css";
-import { useGetWorddictQuery, useLazyGetWorddictQuery, usePutUserBadgeMalrangMutation } from "../../Store/api";
+import {
+  useGetWorddictQuery,
+  useLazyGetWorddictQuery,
+  usePutUserBadgeMalrangMutation,
+} from "../../Store/api";
 import { type } from "@testing-library/user-event/dist/type";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import {
@@ -77,11 +81,11 @@ const DictionaryPage = () => {
   } = useGetWorddictQuery(first);
 
   const [getWorddict] = useLazyGetWorddictQuery();
-  
+
   // =========================WordList=========================
 
   const [WordList, setWordList] = useState<Worddict>();
-  const [WordListSize, setWordListSize] = useState<number>(46730);
+  const [WordListSize, setWordListSize] = useState<number>(46740);
   const [keyWord, setkeyWord] = useState("");
   const [filter, setfilter] = useState("");
   const [page, setPage] = useState(1);
@@ -93,7 +97,7 @@ const DictionaryPage = () => {
     return state.DictionaryDetailClickCheck;
   });
   useEffect(() => {
-    const newPageNumbers = [];    
+    const newPageNumbers = [];
     const initialConsonants = [
       { initialConsonants: "전체", id: "" },
       { initialConsonants: "ㄱ", id: "가" },
@@ -120,11 +124,12 @@ const DictionaryPage = () => {
   }, []);
 
   // ===============charPage==================
-  const handlePageChange = (page: any) => {    
+  const handlePageChange = (page: any) => {
+
     const tempdata = {
       filter: filter,
       keyword: keyWord,
-      p: page,
+      p: page-1,
     };
     getWorddict(tempdata)
       .unwrap()
@@ -235,7 +240,7 @@ const DictionaryPage = () => {
 
     return (
       <>
-        <Toast/>
+        <Toast />
         {WordList ? (
           <>
             <Navbar />
@@ -274,6 +279,7 @@ const DictionaryPage = () => {
         ) : (
           <>없음</>
         )}
+        
       </>
     );
   }
@@ -290,13 +296,11 @@ function Searchbar({
   setWordList,
   fetchData,
 }: any): JSX.Element {
-
-  const [putUserBadgeMalrang, {isLoading:isLoading1, isError:isError1}] = usePutUserBadgeMalrangMutation()
+  const [putUserBadgeMalrang, { isLoading: isLoading1, isError: isError1 }] =
+    usePutUserBadgeMalrangMutation();
 
   const ChangeSearch = (event: any) => {
     // console.log(event.target.value);
-    
-    
 
     onchangeSearch(event.target.value);
   };
@@ -304,18 +308,18 @@ function Searchbar({
   const handleOnKeyPress = (e: any) => {
     if (e.key === "Enter") {
       fetchData(Search);
-      const userId = localStorage.getItem('userId')
-      if (Search === '홍민정음') {
-        putUserBadgeMalrang([userId,23]).unwrap().then((r)=> {
-          if (r.newbadge.length) {
-            toast.success('숨겨진 칭호를 획득했습니다!')
-          } else {
-            toast.error('이미 획득했습니다!')
-          }
-        })
-      }
-      // FindWord();
-      // console.log("검색 ㄱ");
+      const userId = localStorage.getItem("userId");
+      if (Search === "홍민정음") {
+        putUserBadgeMalrang([userId, 23])
+          .unwrap()
+          .then((r) => {
+            if (r.newbadge.length) {
+              toast.success("숨겨진 칭호를 획득했습니다!");
+            } else {
+              toast.error("이미 획득했습니다!");
+            }
+          });
+      }      
     }
   };
   const [getWorddict, isLoading, error] = useLazyGetWorddictQuery();
@@ -426,7 +430,7 @@ const CharPagination: React.FC<Props> = ({
     <div className="flex flex-row w-full items-center justify-between pt-6 ">
       {newPageNumbers.map((pageNumber: any) => (
         <button
-          className={`${buttonTail} text-ellipsis active:bg-[#b97912]  `} 
+          className={`${buttonTail} text-ellipsis active:bg-[#b97912]  max-w-screen-md`}
           key={pageNumber.initialConsonants}
           onClick={() => handlePageChange(pageNumber)}
         >

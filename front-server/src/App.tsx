@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import { Route, Routes } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Intro from "./Components/Intro/Intro";
@@ -31,11 +30,23 @@ import ChangePhonenum from "./Components/MyPage/Select/ChangePhonenum";
 import CheckSecession from "./Components/MyPage/Select/CheckSecession";
 import MyInfoSelectCheck from "./Components/MyPage/MyInfoSelectCheck";
 import ErrorPage from "./Components/Common/ErrorPage";
+import AudioPlayer from "react-h5-audio-player";
 
 function App() {
+  const player = useRef<any>();
+  const Player = () => (
+    <AudioPlayer
+      ref={player}
+      autoPlay={true}
+      src="/bgm.mp3"
+      loop
+      style={{position: 'absolute', zIndex: '20',  display: 'none'}}
+      volume={0.2}
+    />
+  );
   return (
     <>
-      
+      {<Player/>}
       <Routes>
         <Route path="/" element={<Intro />} />
         <Route path="/login" element={<Login />} />
