@@ -41,7 +41,7 @@ function App() {
       src="/bgm.mp3"
       loop
       style={{position: 'absolute', zIndex: '20',  display: 'none'}}
-      volume={0.2}
+      volume={0.3}
     />
   );
   return (

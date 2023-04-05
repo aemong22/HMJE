@@ -13,18 +13,39 @@ interface ModalProps {
 function Modal({ onClose, maskClosable, closable, visible }: ModalProps) {
   const navigate = useNavigate();
 
-  const [images, setImages] = useState([
-    "/Assets/PopUp/event.jpg",
-    // "/Assets/PopUp/pasttest.png",
-  ]);
+
+  const slides = [
+    {
+      url: "/Assets/PopUp/event.jpg",
+    },
+    {
+      url: "/Assets/PopUp/pasttest.png",
+    },
+    // {
+    //   url: "/Assets/PopUp/pocha.jpg",
+    // },
+  ];
+
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((currentIndex + 1) % images.length);
+      setCurrentIndex((currentIndex + 1) % slides.length);
     }, 3000);
     return () => clearInterval(interval);
-  }, [currentIndex, images.length]);
+  }, [currentIndex, slides.length]);
+
+  const handlePrevClick = () => {
+    setCurrentIndex((currentIndex - 1 + slides.length) % slides.length);
+  };
+
+  const handleNextClick = () => {
+    setCurrentIndex((currentIndex + 1) % slides.length);
+  };
+
+  const goToSlide = (slideIndex: any) => {
+    setCurrentIndex(slideIndex);
+  };
 
   const onMaskClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -50,7 +71,7 @@ function Modal({ onClose, maskClosable, closable, visible }: ModalProps) {
       onClose(e);
       const expiry = new Date();
 
-      expiry.setDate(expiry.getDate() + 1);     
+      expiry.setDate(expiry.getDate() + 1);
 
       setCookie("VisitCookie", expiry.getDate().toString(), 1);
     }
@@ -59,6 +80,7 @@ function Modal({ onClose, maskClosable, closable, visible }: ModalProps) {
   const close = (e: React.MouseEvent<HTMLSpanElement>) => {
     onClose?.(e);
   };
+
   return (
     <>
       <div
@@ -78,17 +100,69 @@ function Modal({ onClose, maskClosable, closable, visible }: ModalProps) {
             tabIndex={0}
           >
             <div className="flex flex-col items-center">
-              <div
-                className="cursor-pointer"
-                onClick={() => {
-                  navigate("/notice");
-                }}
-              >
-                <img
-                  className="w-full h-full"
-                  src={images[currentIndex]}
-                  alt={`image${currentIndex}`}
-                />
+              <div className="max-w-[480px] w-full md:w-[400px] h-[500px] md:h-[550px] relative group">
+                <div
+                  style={{
+                    backgroundImage: `url(${slides[currentIndex].url})`,
+                  }}
+                  className="w-full h-full rounded-t-2xl bg-center bg-cover duration-500 cursor-pointer"
+                  onClick={() => {
+                    navigate("/notice");
+                  }}
+                ></div>
+                {/* Left Arrow */}
+                <div
+                  className="lg:hidden lg:group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer opacity-50 duration-300 hover:scale-125  hover:opacity-100"
+                  onClick={handlePrevClick}
+                >
+                  <svg
+                    aria-hidden="true"
+                    className="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15 19l-7-7 7-7"
+                    ></path>
+                  </svg>
+                  <span className="sr-only">Previous</span>
+                </div>
+
+                {/* Right Arrow */}
+                <div
+                  className="lg:hidden lg:group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer opacity-50 duration-300 hover:scale-125  hover:opacity-100"
+                  onClick={handleNextClick}
+                >
+                  <svg
+                    aria-hidden="true"
+                    className="w-5 h-5 text-white sm:w-6 sm:h-6 dark:text-gray-800"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 5l7 7-7 7"
+                    ></path>
+                  </svg>
+                  <span className="sr-only">Next</span>
+                </div>
+                {/* center point */}
+                {/* <div className="flex flex-row space-x-2  absolute top-[94%] left-[24%]">
+                  {slides.map((slides, slidesIndex) => (
+                    <div key={slidesIndex} onClick={()=>{goToSlide(slidesIndex)}} className="cursor-pointer">
+                      <div className="w-[5rem] h-[1rem] bg-white rounded-full " />
+                    </div>
+                  ))}
+                </div> */}
               </div>
               {closable && (
                 <div className="flex justify-between bg-[#282828] w-[320px] md:w-[400px] px-[20px] py-[7px] text-[0.8rem] text-[#ffffff]">

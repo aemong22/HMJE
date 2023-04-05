@@ -291,7 +291,7 @@ export default Main;
 
 // 맨위 : 유저 정보 , 오늘의 정보
 function MyInfo({ userMyInfo, userMyStudy, levelInfo, checkEmoState}: any): JSX.Element {
-  
+
 
   const [openModal, setOpenModal] = useState<Boolean>(false);
   localStorage.setItem("nickname", userMyInfo?.nickname);
@@ -381,13 +381,13 @@ function MyInfo({ userMyInfo, userMyStudy, levelInfo, checkEmoState}: any): JSX.
             <div className="flex justify-around w-full">
               <div className="w-[55%] ">
                 <div className="sm:text-[2.5rem] text-[2rem] font-bold text-[#FFA800] flex flex-wrap items-end justify-center">
-                  {userMyStudy.todayWord}<span className="md:text-[1.2rem] text-[1rem] px-1 pb-2">개</span><div className="md:text-[1.2rem] text-[1rem] px-2 pb-2">/ {userMyStudy.totalWord} 개</div>  
+                  {userMyStudy!.todayWord}<span className="md:text-[1.2rem] text-[1rem] px-1 pb-2">개</span><div className="md:text-[1.2rem] text-[1rem] px-2 pb-2">/ {userMyStudy.totalWord} 개</div>  
                 </div>
                 <div className="md:text-[1.1rem] sm:text-[1rem] text-[0.8rem] text-zinc-500">단어 학습</div>
               </div>
               <div className="w-[45%]">
                 <div className="sm:text-[2.5rem] text-[2rem] font-bold text-[#FFA800] flex flex-wrap items-end justify-center">
-                  {userMyStudy.todayContext}<span className="md:text-[1.2rem] text-[1rem] px-1 pb-2">개</span> <div className="md:text-[1.2rem] text-[1rem] px-2 pb-2">/ {userMyStudy.totalContext} 개</div>
+                  {userMyStudy!.todayContext}<span className="md:text-[1.2rem] text-[1rem] px-1 pb-2">개</span> <div className="md:text-[1.2rem] text-[1rem] px-2 pb-2">/ {userMyStudy.totalContext} 개</div>
                 </div>
                 <div className="md:text-[1.1rem] sm:text-[1rem] text-[0.8rem] text-zinc-500">문맥 학습</div>
               </div>

@@ -68,7 +68,7 @@ const PastTestIntroModal = ({
             <div className="flex flex-row justify-between px-5 py-6 ">
               <button
                 id="OUT"
-                className="w-[40%] h-[40%] py-2 bg-[#B7B7B7] rounded-[10px] text-white font-extrabold"
+                className="w-[40%] h-[40%] py-2 bg-[#B7B7B7] rounded-[10px] text-white font-extrabold transform duration-300 translate-x-1 hover:scale-110"
                 onClick={Nav}
               >
                 그만두기
@@ -76,7 +76,7 @@ const PastTestIntroModal = ({
               {userScore == null ? (
                 <button
                   id="START"
-                  className="w-[40%] h-[40%] py-2 bg-[#F5BEA4] rounded-[10px] text-white font-extrabold"
+                  className="w-[40%] h-[40%] py-2 bg-[#F5BEA4] rounded-[10px] text-white font-extrabold transform duration-300 translate-x-1 hover:scale-110"
                   onClick={Nav}
                 >
                   시작하기
@@ -84,7 +84,7 @@ const PastTestIntroModal = ({
               ) : (
                 <button
                   id="OUT"
-                  className="w-[40%] h-[40%] py-2 bg-[#000000] rounded-[10px] text-white font-extrabold"
+                  className="w-[40%] h-[40%] py-2 bg-[#000000] rounded-[10px] text-white font-extrabold transform duration-300 translate-x-1 hover:scale-110"
                   onClick={Nav}
                 >
                   응시완료
