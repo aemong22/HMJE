@@ -137,7 +137,6 @@ const PassWord = () => {
               비밀번호 수정하기
             </div>
           </div>
-
           <div className={updown}>
             <input
               type="password"
