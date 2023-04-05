@@ -247,7 +247,7 @@ const Question = (
                         type="radio"
                         value="1"
                         name={`${it.pastQuestionId}`}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
                         onClick={handleClickRadioButton}
                         // onChange={.handleChange}
                       />
@@ -265,7 +265,7 @@ const Question = (
                         type="radio"
                         value="2"
                         name={`${it.pastQuestionId}`}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
                         onClick={handleClickRadioButton}
                         // onChange={}
                       />
@@ -283,7 +283,7 @@ const Question = (
                         type="radio"
                         value="3"
                         name={`${it.pastQuestionId}`}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
                         onClick={handleClickRadioButton}
                       />
                       <div>&nbsp;&nbsp;&nbsp;3.</div>
@@ -300,7 +300,7 @@ const Question = (
                         type="radio"
                         value="4"
                         name={`${it.pastQuestionId}`}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
                         onClick={handleClickRadioButton}
                       />
                       <div>&nbsp;&nbsp;&nbsp;4.</div>
@@ -317,7 +317,7 @@ const Question = (
                         type="radio"
                         value="5"
                         name={`${it.pastQuestionId}`}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
                         onClick={handleClickRadioButton}
                       />
                       <div>&nbsp;&nbsp;&nbsp;5.</div>
@@ -345,7 +345,7 @@ const Question = (
                         type="radio"
                         value="1"
                         name={`${it.pastQuestionId}`}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
                         onClick={handleClickRadioButton}
                       />
                       <div>&nbsp;&nbsp;&nbsp;1.</div>
@@ -363,7 +363,7 @@ const Question = (
                         type="radio"
                         value="2"
                         name={`${it.pastQuestionId}`}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
                         onClick={handleClickRadioButton}
                       />
                       <div>&nbsp;&nbsp;&nbsp;2.</div>
@@ -381,7 +381,7 @@ const Question = (
                         type="radio"
                         value="3"
                         name={`${it.pastQuestionId}`}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
                         onClick={handleClickRadioButton}
                       />
                       <div>&nbsp;&nbsp;&nbsp;3.</div>
@@ -399,7 +399,7 @@ const Question = (
                         type="radio"
                         value="4"
                         name={`${it.pastQuestionId}`}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
                         onClick={handleClickRadioButton}
                       />
                       <div>&nbsp;&nbsp;&nbsp;4.</div>
@@ -417,7 +417,7 @@ const Question = (
                         type="radio"
                         value="5"
                         name={`${it.pastQuestionId}`}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
                         onClick={handleClickRadioButton}
                       />
                       <div className="">&nbsp;&nbsp;&nbsp;5.</div>
