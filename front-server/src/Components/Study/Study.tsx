@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { toast } from "react-toastify";
 import { Toast } from "../Common/Toast";
@@ -6,6 +6,21 @@ import classNames from "classnames";
 
 function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,setSemo,right, setRight, openModal, setResultModal, modalOpen, resultModal, closeModal , exp, setExp}:any): JSX.Element {
   
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleFocusOut = () => {
+    if (inputRef.current) {
+      inputRef.current.blur(); // input 요소에서 focus를 제거하여 키보드를 내림
+    }
+  };
+
+  const handleFocus = () => {
+    if (inputRef.current) {
+      inputRef.current.scrollIntoView({ block: "end", behavior: "smooth" }); // input 요소가 화면의 위로 스크롤되도록 설정
+    }
+  };
+
+
   // 단어 디코딩
   const [decoding, setDecoding] = useState<String>();
   // 초성
@@ -47,7 +62,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     }
   }
 
-
+  // 귀띔
   const [hint, setHint] = useState<Boolean>(false);
 
   // 그만두기
@@ -63,6 +78,9 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     setCount(30);
     SpeechRecognition.stopListening();
     setSkip(false);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
 
     if(studyType === "wordStudy") {
       let temp = decodeURIComponent(escape(atob(question[num].wordName)))
@@ -95,15 +113,16 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
 
     // 못맞춤
     if(count <= 0){
+      handleFocusOut();
       clearInterval(id);
       setInput("");
       if(studyType !== "contextStudy") {
-        if(!wrong.includes(question[num]?.wordId)){
+        if(!wrong.includes(question[num]?.wordId) && !correct.includes(question[num]?.wordId)){
           setWrong([...wrong,question[num]?.wordId])
         }
       }
       else {
-        if(!wrong.includes(question[num]?.dogamId)){
+        if(!wrong.includes(question[num]?.dogamId) && !correct.includes(question[num]?.dogamId)){
           setWrong([...wrong,question[num]?.dogamId])
         }
       }
@@ -112,15 +131,18 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     }
     // 시간초 내에 맞춤
     else if(right) {
+      handleFocusOut();
       clearInterval(id);
     }
     // 그만두기
     else if(stop){
+      handleFocusOut();
       clearInterval(id);
       setResultModal(true)
     }
     // 건너뛰기
     else if(skip){
+      handleFocusOut();
       clearInterval(id);
       
       if(studyType !== "contextStudy") {
@@ -318,7 +340,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
             </div>
             <div>
               <div className="flex flex-wrap justify-between w-full relative">
-                <input type="text" value={input} className="m-1 block w-full p-4 pl-5 text-sm text-gray-900 border border-gray-300 rounded-lg focus:outline-none bg-gray-50" placeholder="정답을 입력하세요." 
+                <input type="text" ref={inputRef} onBlur={handleFocusOut}  onFocus={handleFocus}  value={input} className="m-1 block w-full p-4 pl-5 text-sm text-gray-900 border border-gray-300 rounded-lg focus:outline-none bg-gray-50" placeholder="정답을 입력하세요." 
                 required onChange={(e:any)=>onChange(e)} onKeyPress={(e:any)=>{
                   if ((e.key === 'Enter') && input.length > 0 && !modalOpen && !resultModal) {
                     if(studyType !== "contextStudy") {
