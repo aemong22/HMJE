@@ -16,7 +16,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
 
   const handleFocus = () => {
     if (inputRef.current) {
-      inputRef.current.scrollIntoView({ block: "start", behavior: "smooth" }); // input 요소가 화면의 위로 스크롤되도록 설정
+      inputRef.current.scrollIntoView({ block: "end", behavior: "smooth" }); // input 요소가 화면의 위로 스크롤되도록 설정
     }
   };
 
