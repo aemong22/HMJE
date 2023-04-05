@@ -14,6 +14,12 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     }
   };
 
+  const handleFocus = () => {
+    if (inputRef.current) {
+      inputRef.current.scrollIntoView({ block: "end", behavior: "smooth" }); // input 요소가 화면의 위로 스크롤되도록 설정
+    }
+  };
+
 
   // 단어 디코딩
   const [decoding, setDecoding] = useState<String>();
@@ -331,7 +337,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
             </div>
             <div>
               <div className="flex flex-wrap justify-between w-full relative">
-                <input type="text" ref={inputRef} onBlur={handleFocusOut} value={input} className="m-1 block w-full p-4 pl-5 text-sm text-gray-900 border border-gray-300 rounded-lg focus:outline-none bg-gray-50" placeholder="정답을 입력하세요." 
+                <input type="text" ref={inputRef} onBlur={handleFocusOut}  onFocus={handleFocus}  value={input} className="m-1 block w-full p-4 pl-5 text-sm text-gray-900 border border-gray-300 rounded-lg focus:outline-none bg-gray-50" placeholder="정답을 입력하세요." 
                 required onChange={(e:any)=>onChange(e)} onKeyPress={(e:any)=>{
                   if ((e.key === 'Enter') && input.length > 0 && !modalOpen && !resultModal) {
                     if(studyType !== "contextStudy") {
