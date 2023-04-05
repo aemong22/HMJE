@@ -441,7 +441,7 @@ function MyPageSection1V2({nickname, nowbadgeName, expWidth, exp, totalExp, sent
 
   useEffect(()=> {
     if (clickCnt !== 0 && clickCnt === 100) {
-      putUserBadgeMalrang(userId).unwrap().then((r)=> {
+      putUserBadgeMalrang([userId, 18]).unwrap().then((r)=> {
         if (r.newbadge.length) {
           toast.success('숨겨진 칭호를 획득했습니다!')
         } else {
