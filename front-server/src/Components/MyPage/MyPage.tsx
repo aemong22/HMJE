@@ -1160,9 +1160,12 @@ function MyPageSection3({userId, move1, move2, move3, move4, move5}:MyPageSectio
                 <div ref={move3} className="hidden lg:flex justify-evenly items-center h-[28%] w-full my-[2%]">
                   {/* 다른 유저와 통계 비교 */}
                   <div className="flex flex-col items-start w-[48%] h-full mr-[4%]">
-                    <div className="flex justify-center items-center w-[70%] lg:w-[38%] h-[16%] lg:h-[20%] ">
+                    <div className="flex justify-between items-center w-[70%] lg:w-full h-[16%] lg:h-[20%]">
                       <div className="flex justify-center items-center text-center w-full h-full lg:h-[84%] bg-[#F7CCB7] rounded-lg sm:rounded-xl text-white font-semibold lg:text-[1.1rem]">
                         <span>전체 학습 시간</span>
+                      </div>
+                      <div className="flex justify-start items-center w-full h-full lg:h-[84%] rounded-lg sm:rounded-xl text-[#A2A2A2] font-semibold lg:text-[0.7rem]">
+                        <span className="pl-3">이번 달 홍민정음 사용자들의 평균 학습 시간과 <br />나의 이번 달 평균 학습 시간을 비교해 보세요!</span> 
                       </div>
                     </div>
                     <div className="w-full h-full">
@@ -1174,9 +1177,12 @@ function MyPageSection3({userId, move1, move2, move3, move4, move5}:MyPageSectio
                   </div>
                   {/* 나의 학습 비교 */}
                   <div className="flex flex-col items-start w-[48%] h-full">
-                    <div className="flex justify-center items-center w-[70%] lg:w-[38%] h-[16%] lg:h-[20%] ">
+                    <div className="flex justify-between items-center w-[70%] lg:w-full h-[16%] lg:h-[20%]">
                       <div className="flex justify-center items-center text-center w-full h-full lg:h-[84%] bg-[#F7CCB7] rounded-lg sm:rounded-xl text-white font-semibold lg:text-[1.1rem]">
                         <span>나의 학습 시간</span>
+                      </div>
+                      <div className="flex justify-start items-center w-full h-full lg:h-[84%] rounded-lg sm:rounded-xl text-[#A2A2A2] font-semibold lg:text-[0.7rem]">
+                      <span className="pl-3">나의 이번 달 평균 학습 시간과 <br />오늘의 학습 시간을 비교해 보세요!</span> 
                       </div>
                     </div>
                     <div className="w-full h-full">
@@ -1192,7 +1198,8 @@ function MyPageSection3({userId, move1, move2, move3, move4, move5}:MyPageSectio
                   {/* 다른 유저와 통계 비교 */}
                   <div className="w-full h-[48%] my-[2%]">
                     <div className="flex justify-between items-center w-full h-[17%]">
-                      <div className="flex justify-center items-center h-[70%] w-[35%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.9rem] md:text-[1rem] lg:text-[1.1rem]"><span>전체 학습 시간</span></div>
+                      <div className="flex justify-center items-center h-[70%] w-[50%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.9rem] md:text-[1rem] lg:text-[1.1rem]"><span>전체 학습 시간</span></div>
+                      <div className="flex justify-start items-center h-[70%] w-full rounded-lg pl-2 md:pl-4 text-[#A2A2A2] font-semibold text-[0.6rem] md:text-[0.9rem] "><span>이번 달 홍민정음 사용자들의 평균 학습 시간과 <br />나의 이번 달 평균 학습 시간을 비교해 보세요!</span></div>
                     </div>
                     {/* 학습 시간 데이터 */}
                     <div className="flex justify-center items-center w-full h-[83%]">
@@ -1208,7 +1215,8 @@ function MyPageSection3({userId, move1, move2, move3, move4, move5}:MyPageSectio
                   {/* 다른 유저와 통계 비교 */}
                   <div className="w-full h-[48%] my-[2%]">
                     <div className="flex justify-between items-center w-full h-[17%]">
-                      <div className="flex justify-center items-center h-[70%] w-[35%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.9rem] md:text-[1rem] lg:text-[1.1rem]"><span>나의 학습 시간</span></div>
+                      <div className="flex justify-center items-center h-[70%] w-[50%] rounded-lg sm:rounded-xl bg-[#F7CCB7] text-white font-semibold text-[0.9rem] md:text-[1rem] lg:text-[1.1rem]"><span>나의 학습 시간</span></div>
+                      <div className="flex justify-start items-center h-[70%] w-full rounded-lg pl-2 md:pl-4 text-[#A2A2A2] font-semibold text-[0.6rem] md:text-[0.9rem] "><span>나의 이번 달 평균 학습 시간과 <br />오늘의 학습 시간을 비교해 보세요!</span></div>
                     </div>
                     {/* 학습 시간 데이터 */}
                     <div className="flex justify-center items-center w-full h-[83%]">
