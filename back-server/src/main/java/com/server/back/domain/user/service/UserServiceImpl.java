@@ -63,40 +63,37 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public void loginHistory(Long userId) {
-        System.out.println("userId = " + userId);
         User user = userRepository.findByUserId(userId);
-        //이전 로그인 기록과 비교해서 누적/연속 체크
-        List<LoginHistory> mylogin = loginHistoryRepository.findByUser(user);
-        if (mylogin.size() != 0){
-            System.out.println("mylogin_now = " + mylogin);
-            LocalDate history = mylogin.get(mylogin.size()-1).getCreatedAt().toLocalDate();
-            System.out.println("**********history = " + history);
-            LocalDate yesterday = LocalDate.now().minusDays(1);
-//            if (!history.isEqual(LocalDate.now())){
-//                user.accumAttendance();  // 누적 출석 +
-//                if (history.isEqual(yesterday)){
-//                    user.continAttendance(1); // 연속 출석 +
-//                }else{
-//                    user.continAttendance(0);
-//                }
-//            }
-//            int i = mylogin.size()-1;
-//            while (0 <= i){
-//                if (history.isEqual(LocalDate.now())){
-//
-//                }
-//            }
-        }
+
         //현재 로그인 기록
         LoginHistory loginHistory = LoginHistory.builder()
                 .user(user)
                 .build();
         loginHistoryRepository.save(loginHistory);
 
+        //이전 로그인 기록과 비교해서 누적/연속 체크
+        List<LoginHistory> mylogin = loginHistoryRepository.findByUserOrderByCreatedAtAsc(user);
+        if (mylogin.size() != 0){
+            LocalDate yesterday = LocalDate.now().minusDays(1);
+
+            for(int i=0; i<mylogin.size(); i++) {
+                LocalDate history = mylogin.get(i).getCreatedAt().toLocalDate();
+                if (history.isEqual(LocalDate.now())){
+                } else if (history.isEqual(yesterday)) {
+                    user.continAttendance(1); // 연속 출석 +
+                    user.accumAttendance();  // 누적 출석 +
+                    return;
+                }else if (!history.isEqual(yesterday)) {
+                    user.continAttendance(0);
+                    user.accumAttendance();  // 누적 출석 +
+                    return;
+                }
+            }
+        }
+
     }
     @Override
     public boolean userNicknameCheck(UserRequestDto requestDto) {
-        System.out.println("requestDto-nickname///////////////"+requestDto);
         List<String> nicknamex = Arrays.asList("어드민","관리자","홍민정음","훈민정음","세종","운영자");
         for (String i : nicknamex){
             if (requestDto.getNickname().contains(i)){
@@ -114,7 +111,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean userUsernameCheck(UserRequestDto requestDto) {
-        System.out.println("requestDto-username///////////////"+requestDto);
         User user = userRepository.findByUsername(requestDto.getUsername());
         if( null == user){
             return true;
