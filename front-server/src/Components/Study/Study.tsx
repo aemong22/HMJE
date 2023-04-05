@@ -78,6 +78,9 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     setCount(30);
     SpeechRecognition.stopListening();
     setSkip(false);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
 
     if(studyType === "wordStudy") {
       let temp = decodeURIComponent(escape(atob(question[num].wordName)))
