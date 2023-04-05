@@ -95,6 +95,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
 
     // 못맞춤
     if(count <= 0){
+      window.blur()
       clearInterval(id);
       setInput("");
       if(studyType !== "contextStudy") {
@@ -112,15 +113,18 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     }
     // 시간초 내에 맞춤
     else if(right) {
+      window.blur()
       clearInterval(id);
     }
     // 그만두기
     else if(stop){
+      window.blur()
       clearInterval(id);
       setResultModal(true)
     }
     // 건너뛰기
     else if(skip){
+      window.blur()
       clearInterval(id);
       
       if(studyType !== "contextStudy") {
