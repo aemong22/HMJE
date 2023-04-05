@@ -13,6 +13,7 @@ function StudyStartModal({setOpenModal}:any):JSX.Element {
     const {data,isLoading, error} = useGetWordRemainQuery(userId);
     const navigate = useNavigate();
 
+
     useEffect(() => {
         document.body.style.cssText = `
           position: fixed; 
@@ -27,19 +28,23 @@ function StudyStartModal({setOpenModal}:any):JSX.Element {
       }, []);
 
     if(isLoading) {
-        <>
-        <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50">
-          <div className="relative my-6 mx-auto overflow-hidden items-center">
-            <div className="border-0 rounded-lg relative flex flex-col w-full py-3 md:px-1 px-0 bg-white">
-              <Loading />
+        return(
+            <>
+            <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50">
+              <div className="relative my-6 mx-auto overflow-hidden items-center">
+                <div className="border-0 rounded-lg relative flex flex-col w-full py-3 md:px-1 px-0 bg-white">
+                  <Loading />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div className="fixed inset-0 z-40 bg-black/20"></div>
-        </>
+            <div className="fixed inset-0 z-40 bg-black/20"></div>
+            </>
+        )
+
 
     }
-    if(error) {
+    else if(error) {
+        return(
         <>
         <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50">
           <div className="relative my-6 mx-auto overflow-hidden items-center">
@@ -50,9 +55,10 @@ function StudyStartModal({setOpenModal}:any):JSX.Element {
         </div>
         <div className="fixed inset-0 z-40 bg-black/20"></div>
         </>
+        )
     }
 
-
+    else {
     return(
         <>
             <Toast />
@@ -74,7 +80,7 @@ function StudyStartModal({setOpenModal}:any):JSX.Element {
 
                         <div className="flex flex-wrap justify-around">
                             <div className="text-[1.2rem] font-bold text-center p-2 text-[#F90716] " onClick={() => {
-                                if(data?.data.remainLowWordCnt > 0 ){
+                                if(data!.data!.remainLowWordCnt > 0 ){
                                     localStorage.setItem("difficulty" , "초급")
                                     navigate('/wordStudy')
                                 }
@@ -89,7 +95,7 @@ function StudyStartModal({setOpenModal}:any):JSX.Element {
                                 <div className="text-[1rem] text-[#B8B0B0]">{data?.data.remainLowWordCnt}</div>
                             </div>
                             <div className="text-[1.2rem] font-bold text-center p-2 text-[#FFCA03]" onClick={() => {
-                                if(data?.data.remainMiddleWordCnt > 0){
+                                if(data!.data!.remainMiddleWordCnt > 0){
                                     localStorage.setItem("difficulty" , "중급")
                                     navigate('/wordStudy')
                                 }
@@ -103,7 +109,7 @@ function StudyStartModal({setOpenModal}:any):JSX.Element {
                                 <div className="text-[1rem] text-[#B8B0B0]">{data?.data.remainMiddleWordCnt}</div>
                             </div>
                             <div className="text-[1.2rem] font-bold text-center p-2 text-[#3F72AF]" onClick={() => {
-                                if(data?.data.remainHighWordCnt > 0){
+                                if(data!.data!.remainHighWordCnt > 0){
                                     localStorage.setItem("difficulty" , "고급")
                                     navigate('/wordStudy')
                                 }
@@ -149,6 +155,7 @@ function StudyStartModal({setOpenModal}:any):JSX.Element {
             <div className="fixed inset-0 z-40 bg-black/30"></div>
         </>
     )
+                    }
 }
 
 export default StudyStartModal;
