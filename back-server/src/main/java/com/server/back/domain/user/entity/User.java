@@ -109,8 +109,12 @@ public class User extends CommonEntity {
         this.exp = newExp;
         this.level = newlevel;
     }
-    public void continAttendance(){
-        this.continAttendance += 1;
+    public void continAttendance(Integer num){
+        if(num==0){
+            this.continAttendance = 0;
+        }else{
+            this.continAttendance += 1;
+        }
     }
     public void accumAttendance(){
         this.accumAttendance += 1;
