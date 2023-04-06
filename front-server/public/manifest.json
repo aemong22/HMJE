@@ -9,12 +9,11 @@
     "orientation": "portrait-primary",
     "scope": ".",
     "short_name": "홍민정음",
-    "start_url": "https://hmje.net/",
+    "start_url": "https://www.hmje.net/",
     "theme_color": "#D8C1A5",
     "categories": [],
     "screenshots": [],
-    "icons": [
-        {
+    "icons": [{
             "src": "favicon.ico",
             "sizes": "64x64 32x32 24x24 16x16",
             "type": "image/x-icon"
