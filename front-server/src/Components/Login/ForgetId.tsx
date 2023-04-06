@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import {
   usePostSmsmodifyMutation,
   usePostSmssendMutation,
@@ -89,7 +90,7 @@ const ForgetId = () => {
           //console.log("인증번호 에러");
           setDisalbe(true);
         } else {
-          alert(`인증되었습니다`);
+          toast.success(`인증되었습니다`);
           setAuthnum(r.data);
           setDisalbe(false);
         }
@@ -114,7 +115,7 @@ const ForgetId = () => {
           .then((r: any) => {
             //console.log("받는데이터", r.data.statusCode);
             if (r.data.statusCode === "202") {
-              alert("전송하였습니다!");
+              toast.success("전송하였습니다!");
               setAmIHidden("");
               setAuthnum("");
               setIsAuthnum(false);
@@ -129,11 +130,11 @@ const ForgetId = () => {
           });
       } else {
         // 전화번호 border 변경
-        alert("번호가 이상합니다");
+        toast.error("번호 형식을 지켜주세요");
       }
     } else {
       // 전화번호 border변경
-      alert("번호가 이상합니다");
+      toast.error("번호 형식을 지켜주세요");
     }
   };
   const Cancel = () => {
@@ -156,16 +157,15 @@ const ForgetId = () => {
       .then((r: any) => {
         //console.log("받은 결과 : ", r);
         if (r.data === "false") {
-          alert("false");
-        } else {
-          alert(`회원님의 계정은 [ ${r.data} ] 입니다`);
-          navigate("/login");
+          navigate("/login",{ state: { FindId: r.data }});
+        } else {          
+          navigate("/login",{ state: { FindId: r.data }});
         }
       })
       .catch((e) => {
         if (e.status == 500) {
-          alert("없는 계정입니다");
-          navigate("/login");
+          
+          navigate("/login",{ state: { FindId: "none" }});
         }
       });
   };
@@ -173,6 +173,7 @@ const ForgetId = () => {
   return (
     <div className="flex flex-col justify-between h-[100vh] ">
       <IntroNavbar />
+      <ToastContainer />
       <div className="container max-w-screen-lg w-full mx-auto flex flex-col ">
         <div className="flex flex-col mx-5 sm:mx-5 sm:[10%] md:mx-[25%] lg:mx-[10%]">
           <div className="my-4 font-extrabold text-[#A87E6E] text-4xl  sm:text-4xl md:text-4xl lg:text-6xl">

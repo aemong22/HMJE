@@ -125,11 +125,10 @@ const DictionaryPage = () => {
 
   // ===============charPage==================
   const handlePageChange = (page: any) => {
-
     const tempdata = {
       filter: filter,
       keyword: keyWord,
-      p: page-1,
+      p: page - 1,
     };
     getWorddict(tempdata)
       .unwrap()
@@ -279,7 +278,6 @@ const DictionaryPage = () => {
         ) : (
           <>없음</>
         )}
-        
       </>
     );
   }
@@ -319,7 +317,7 @@ function Searchbar({
               toast.error("이미 획득했습니다!");
             }
           });
-      }      
+      }
     }
   };
   const [getWorddict, isLoading, error] = useLazyGetWorddictQuery();
@@ -373,9 +371,9 @@ const List = (data: any): JSX.Element => {
           const temp = a.join(" / ");
           return (
             <div className="border-b-2 my-2">
-              <div className="flex flex-row items-baseline font-extrabold">
+              <div className="flex flex-row items-   font-extrabold">
                 <button
-                  className="pr-2 text-1xl text-[#b97912] underline underline-offset-[0.3rem]"
+                  className="pr-2 text-xl text-[#b97912] underline underline-offset-[0.3rem]"
                   onClick={() => {
                     // console.log(it);
                     dispatch(changeDictionaryDetail(it));
@@ -385,6 +383,11 @@ const List = (data: any): JSX.Element => {
                   {/* {DictionaryDetailClickCheck ? <DictionaryDetail /> : null} */}
                   {it.wordName}
                 </button>
+                {it.wordIso > 0 && (
+                  <div className="flex md:text-[1rem] text-[1rem] items-start text-[#A2A2A2] mr-1">
+                    {it.wordIso}
+                  </div>
+                )}
                 {it.wordOrigin ? (
                   <div className=" text-[#767676] font-normal">
                     [ {it.wordOrigin} ]

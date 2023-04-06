@@ -132,7 +132,7 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime ,
 
                 </div>
 
-                <div className="py-1 px-4 text-sm text-[#5F5F5F]">학습시간 : <span className="text-[#A87E6E] font-bold pr-2">{studyTime}초 </span>{" "}
+                <div className="py-1 px-4 text-sm text-[#5F5F5F]">학습시간 : <span className="text-[#A87E6E] font-bold pr-2">{studyTime-1}초 </span>{" "}
                     {studyType !== "wrongStudy" && <> 획득 경험치 : <span className="text-[#A87E6E] font-bold">{exp}</span> </>}
                 </div>
 
