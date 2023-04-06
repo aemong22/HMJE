@@ -172,7 +172,7 @@ function IntroSection1(): JSX.Element {
                   onMouseLeave={hoverOut}
                   onMouseEnter={hover}
                 >
-                  앱 다운하기
+                  홍민정음 설치하기
                 </div>
               )}
           </div>
