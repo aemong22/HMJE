@@ -5,6 +5,7 @@ import Navbar from "../../Common/Navbar";
 import { Toast } from "../../Common/Toast";
 import { toast } from "react-toastify";
 import { useGetStudyPastQuery } from "../../../Store/api";
+import styled from './PastTestResult.module.css'
 
 const PastTestResult = (): JSX.Element => {
   const location = useLocation();
@@ -79,40 +80,30 @@ function ResultPage({ TestScore }: any) {
     return <>error</>;
   } else {
     return (
-      <div className="flex flex-col items-center justify-center px-10">
-        <div className="flex flex-col justify-center">
-          <div className="flex flex-col items-center text-center mb-[2rem]">
-            <div className="text-4xl font-extrabold text-[#a8746e] md:text-6xl">
-              홍민정음
+      <div className="flex flex-col items-center justify-center md:px-10">
+        <div className="flex w-full justify-center items-center">
+          <div className="flex flex-col max-w-3xl w-full md:w-[50rem] relative">
+            <div className={`hidden md:flex justify-center w-full h-full absolute -top-56 ${styled.star}`}>
+              <img className="object-contain scale-[95%] pb-[17.5rem]" src="/Assets/Icon/resultStar.png" alt="star" />
             </div>
-            <div className="text-[#b38878] font-extrabold text-[1.5rem] leading-7 md:text-[18px] md:leading-8  w-[20rem] ">
-              즐거운 단어 학습
+            <div className={`flex md:hidden justify-center w-full h-full absolute -top-24 ${styled.star}`}>
+              <img className="object-contain scale-[60%] pb-36" src="/Assets/Icon/resultStar.png" alt="star" />
             </div>
-          </div>
-          <div className="flex flex-col max-w-xl w-[100%] md:w-[50rem] space-y-9 ">
-            {/* text-[#556b2f] */}
-            <div className="flex flex-row justify-center  font-extrabold text-center text-5xl md:text-7xl pt-3 leading-7">
+            <div className="flex justify-center font-extrabold text-center text-[2rem] md:text-[3rem] pt-3 leading-7 pb-8">
               제&nbsp;
               <span className="text-black">{pastInfo.data.pastTestId}</span>
               회&nbsp;
-              <span className="text-[#6a470a]">과거시험</span>
+              <span className="text-[#A87E6E]">과거시험</span>
+              <span>&nbsp;결과</span>
             </div>
-            <div className=" flex justify-center items-center text-[#f35050]  font-extrabold text-center text-5xl leading-7 md:pt-[1.5rem] md:pb-[1rem] md:text-7xl pt-6 pb-3 rounded-lg bg-[#F4EFEC] ">
-              {TestScore}
-              <span className="text-black text-3xl mx-2">점</span>
+            <div className="flex justify-center items-center text-[#D30000] font-extrabold text-center md:py-[3.2rem] text-[4rem] md:text-[5.5rem] pt-6 pb-3 rounded-xl bg-[#F4EFEC] ">
+              <span>{TestScore}</span>
+              <span className="text-black text-[3rem] md:text-[4rem] mx-2">점</span>
             </div>
-            {/* <div className="flex flex-row  justify-center">              
-               <div className="text-[#A87C6E]  font-extrabold text-center text-[1rem] pt-3 leading-7">
-                입니다
-              </div> 
-            </div> */}
-
-            <button
-              className="flex items-center justify-center flex-none px-3 py-2 md:px-4 md:py-3 border-2 rounded-lg font-extrabold bg-[#BF9F91] text-white"
-              onClick={gomain}
-            >
-              메인으로
-            </button>
+            <div className="flex justify-between items-center w-full pt-5">
+              <span className="text-[#be9584] text-[1.1rem] md:text-[1.3rem] font-semibold">경험치&nbsp;+{TestScore>=80?1000:300}</span>
+              <span className="px-3 py-3 md:px-6 border-2 rounded-lg font-extrabold text-[0.9rem] md:text-[1rem] bg-[#F7CCB7] hover:bg-[#edb498] transition-all duration-300 text-white" onClick={gomain}>돌아가기</span>
+            </div>
           </div>
         </div>
       </div>
