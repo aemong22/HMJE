@@ -66,15 +66,15 @@ const PastTestIntroModal = ({
   } else if (error2) {
     return <></>;
   } else {
-    console.log("test.data.startTime : ", test.data.startTime);
-    console.log("test.data.endTime : ", test.data.endTime);
-    console.log("시작시간 만족?", test.data.startTime <= today_temp);
-    console.log("끝시간 만족?", test.data.endTime >= today_temp);
-    console.log("오늘은?", today_temp);
+    // console.log("test.data.startTime : ", test.data.startTime);
+    // console.log("test.data.endTime : ", test.data.endTime);
+    // console.log("시작시간 만족?", test.data.startTime <= today_temp);
+    // console.log("끝시간 만족?", test.data.endTime >= today_temp);
+    // console.log("오늘은?", today_temp);
 
-    console.log(
-      test.data.startTime <= today_temp && test.data.endTime >= today_temp,
-    );
+    // console.log(
+    //   test.data.startTime <= today_temp && test.data.endTime >= today_temp,
+    // );
 
     return (
       <>
