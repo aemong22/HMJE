@@ -699,7 +699,7 @@ function MyPageSection3({userId, move1, move2, move3, move4, move5}:MyPageSectio
 
   useEffect(()=> {
     monthStuty(postData).then((r:any)=> {
-      
+      console.log(r.data);
       const wordCnt = r.data.data.map((data:any)=> {
         return data.wordCount
       })
@@ -738,7 +738,12 @@ function MyPageSection3({userId, move1, move2, move3, move4, move5}:MyPageSectio
             grid: {
               color: "#E3E3E3",
             },
+            ticks: {
+              precision: 0,
+            },
+            min:0
           },
+          
         },
         maintainAspectRatio: false,
       };
@@ -836,6 +841,10 @@ function MyPageSection3({userId, move1, move2, move3, move4, move5}:MyPageSectio
             grid: {
               color: "#E3E3E3",
             },
+            ticks: {
+              precision: 0,
+            },
+            min:0
           },
         },
         maintainAspectRatio: false,
@@ -922,7 +931,9 @@ function MyPageSection3({userId, move1, move2, move3, move4, move5}:MyPageSectio
 
 
   const selectDateChart:ChangeEventHandler<HTMLSelectElement> = (e) => {
-    monthStuty([userId, yearRef.current?.value, monthRef.current?.value]).then((r:any)=> {      
+    monthStuty([userId, yearRef.current?.value, monthRef.current?.value]).then((r:any)=> {     
+      console.log(r.data);
+      
       const wordCnt = r.data.data.map((data:any)=> {
         return data.wordCount
       })
@@ -959,6 +970,10 @@ function MyPageSection3({userId, move1, move2, move3, move4, move5}:MyPageSectio
             grid: {
               color: "#E3E3E3",
             },
+            ticks: {
+              precision: 0,
+            },
+            min:0
           },
         },
         maintainAspectRatio: false
