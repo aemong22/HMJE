@@ -1175,9 +1175,9 @@ function MyPageSection3({userId, move1, move2, move3, move4, move5}:MyPageSectio
                 <div ref={move3} className="hidden lg:flex justify-evenly items-center h-[28%] w-full my-[2%]">
                   {/* 다른 유저와 통계 비교 */}
                   <div className="flex flex-col items-start w-[48%] h-full mr-[4%]">
-                    <div className="flex flex-col justify-start h-[25%]">
+                    <div className="flex flex-col justify-start h-[25%] w-full">
                       <div className="flex justify-center items-center text-center w-[45%] h-full lg:h-[55%] bg-[#F7CCB7] rounded-lg sm:rounded-xl text-white font-semibold lg:text-[1.1rem]">
-                        <span>전체 학습 시간</span>
+                        <span className="w-full">전체 학습 시간</span>
                       </div>
                       <div className="flex justify-start items-center w-full  rounded-lg sm:rounded-xl text-[#A2A2A2] font-semibold lg:text-[0.85rem]">
                         <span className="pt-2 pl-3">이번 달 홍민정음 사용자들의 평균 학습 시간과 나의 이번 달 평균 학습 시간을 비교해 보세요!</span> 
@@ -1192,15 +1192,15 @@ function MyPageSection3({userId, move1, move2, move3, move4, move5}:MyPageSectio
                   </div>
                   {/* 나의 학습 비교 */}
                   <div className="flex flex-col items-start w-[48%] h-full">
-                    <div className="flex flex-col justify-start h-[25%]">
+                    <div className="flex flex-col justify-start h-[25%] w-full">
                       <div className="flex justify-center items-center text-center w-[45%] h-full lg:h-[55%] bg-[#F7CCB7] rounded-lg sm:rounded-xl text-white font-semibold lg:text-[1.1rem]">
-                        <span>나의 학습 시간</span>
+                        <span className="w-full">나의 학습 시간</span>
                       </div>
                       <div className="flex justify-start items-center w-full  rounded-lg sm:rounded-xl text-[#A2A2A2] font-semibold lg:text-[0.85rem]">
                         <span className="pt-2 pl-3">나의 이번 달 평균 학습 시간과 오늘의 학습 시간을 비교해 보세요!</span> 
                       </div>
                     </div>
-                    <div className="w-full h-full">
+                    <div className="w-full h-[75%]">
                         {isLoading2&&loading }
                         {
                           studyCompareChart2? studyCompareChart2:null
