@@ -50,11 +50,10 @@ const PastTest = (): JSX.Element => {
   var today_temp;
   if (date < 10) {
     today_temp = year + "-" + "0" + month + "-0" + date;
-  }
-  else{
+  } else {
     today_temp = year + "-" + "0" + month + "-" + date;
   }
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -269,7 +268,9 @@ const Question = (
                         // onChange={.handleChange}
                       />
                       <div>&nbsp;&nbsp;&nbsp;1.</div>
-                      <ReactMarkdown children={it.pastChoice1} />
+                      <div className="text-black">
+                        <ReactMarkdown children={it.pastChoice1} />
+                      </div>
                     </label>
                   </div>
                   <div className={item}>
@@ -287,7 +288,9 @@ const Question = (
                         // onChange={}
                       />
                       <div>&nbsp;&nbsp;&nbsp;2.</div>
-                      <ReactMarkdown children={it.pastChoice2} />
+                      <div className="text-black">
+                        <ReactMarkdown children={it.pastChoice2} />
+                      </div>
                     </label>
                   </div>
                   <div className={item}>
@@ -300,11 +303,13 @@ const Question = (
                         type="radio"
                         value="3"
                         name={`${it.pastQuestionId}`}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
+                        className="w-4 h-4 text-white bg-gray-100 border-gray-300"
                         onClick={handleClickRadioButton}
                       />
                       <div>&nbsp;&nbsp;&nbsp;3.</div>
-                      <ReactMarkdown children={`${it.pastChoice3}`} />
+                      <div className="text-black">
+                        <ReactMarkdown children={`${it.pastChoice3}`} />
+                      </div>
                     </label>
                   </div>
                   <div className={item}>
@@ -321,7 +326,9 @@ const Question = (
                         onClick={handleClickRadioButton}
                       />
                       <div>&nbsp;&nbsp;&nbsp;4.</div>
-                      <ReactMarkdown children={it.pastChoice4} />
+                      <div className="text-black">
+                        <ReactMarkdown children={it.pastChoice4} />
+                      </div>
                     </label>
                   </div>
                   <div className={item}>
@@ -338,7 +345,9 @@ const Question = (
                         onClick={handleClickRadioButton}
                       />
                       <div>&nbsp;&nbsp;&nbsp;5.</div>
-                      <ReactMarkdown children={it.pastChoice5} />
+                      <div className="text-black">
+                        <ReactMarkdown children={it.pastChoice5} />
+                      </div>
                     </label>
                   </div>
                 </div>
@@ -367,7 +376,9 @@ const Question = (
                       />
                       <div>&nbsp;&nbsp;&nbsp;1.</div>
 
-                      <ReactMarkdown children={it.pastChoice1} />
+                      <div className="text-black">
+                        <ReactMarkdown children={it.pastChoice1} />
+                      </div>
                     </label>
                   </div>
                   <div className={item}>
@@ -385,7 +396,9 @@ const Question = (
                       />
                       <div>&nbsp;&nbsp;&nbsp;2.</div>
 
-                      <ReactMarkdown children={it.pastChoice2} />
+                      <div className="text-black">
+                        <ReactMarkdown children={it.pastChoice2} />
+                      </div>
                     </label>
                   </div>
                   <div className={item}>
@@ -403,7 +416,9 @@ const Question = (
                       />
                       <div>&nbsp;&nbsp;&nbsp;3.</div>
 
-                      <ReactMarkdown children={it.pastChoice3} />
+                      <div className="text-black">
+                        <ReactMarkdown children={it.pastChoice3} />
+                      </div>
                     </label>
                   </div>
                   <div className={item}>
@@ -421,7 +436,9 @@ const Question = (
                       />
                       <div>&nbsp;&nbsp;&nbsp;4.</div>
 
-                      <ReactMarkdown children={it.pastChoice4} />
+                      <div className="text-black">
+                        <ReactMarkdown children={it.pastChoice4} />
+                      </div>
                     </label>
                   </div>
                   <div className={item}>
@@ -439,7 +456,9 @@ const Question = (
                       />
                       <div className="">&nbsp;&nbsp;&nbsp;5.</div>
 
-                      <ReactMarkdown children={it.pastChoice5} />
+                      <div className="text-black">
+                        <ReactMarkdown children={it.pastChoice5} />
+                      </div>
                     </label>
                   </div>
                 </div>
