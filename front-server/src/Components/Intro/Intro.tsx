@@ -73,7 +73,7 @@ function IntroSection1(): JSX.Element {
   };
 
   const handleInstallClick = () => {
-    console.log(deferredPrompt.prompt());
+    // console.log(deferredPrompt.prompt());
     
     if (deferredPrompt) {
       deferredPrompt.prompt();
@@ -163,11 +163,11 @@ function IntroSection1(): JSX.Element {
                 가입하기
               </div>              
             </div>
-            {true && (
+            {(
                 <div
                   ref={div3}
                   aria-label="download"
-                  className="w-full my-1 py-1 flex justify-center items-center border-2 sm:rounded-lg  rounded-md px-1 cursor-pointer text-[0.8rem] sm:text-[1rem] md:text-[1rem] lg:text-[1.2rem]"
+                  className="w-full md:hidden my-1 py-1 flex justify-center items-center border-2 sm:rounded-lg  rounded-md px-1 cursor-pointer text-[0.8rem] sm:text-[1rem] md:text-[1rem] lg:text-[1.2rem]"
                   onClick={handleInstallClick}
                   onMouseLeave={hoverOut}
                   onMouseEnter={hover}

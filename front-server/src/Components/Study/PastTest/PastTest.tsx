@@ -482,7 +482,7 @@ const intToString = (num: any) => {
   return String(num).padStart(2, "0");
 };
 const Timer = ({ mm, ss }: { mm: any; ss: any }): JSX.Element => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const MM = mm ? mm : 15;
   const SS = ss ? ss : 0;
 
@@ -506,7 +506,7 @@ const Timer = ({ mm, ss }: { mm: any; ss: any }): JSX.Element => {
 
       // 시간 초과시 결과 저장해서 내보냄
       alert("시간초과");
-      // navigate("/main");
+      navigate("/main");
     }
   }, [second]);
 
