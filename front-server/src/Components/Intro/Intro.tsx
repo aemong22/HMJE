@@ -109,9 +109,7 @@ function IntroSection1(): JSX.Element {
     } else if (target.ariaLabel === "download") {
       div2.current?.classList.add("routeHover");
       div1.current?.classList.remove("routeHover");
-    }
-
-    // target.classList.add('routeHover')
+    }    
   };
 
   const hoverOut: MouseEventHandler<HTMLDivElement> = (e) => {
