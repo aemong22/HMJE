@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import {
   usePostSmsmodifyMutation,
   usePostSmssendMutation,
@@ -88,7 +89,7 @@ const ForgetPassword = () => {
           console.log("인증번호 에러");
           setDisalbe(true);
         } else {
-          alert(`인증되었습니다`);
+          toast.success(`인증되었습니다`);
           setnewAuthnum(r.data);
           setDisalbe(false);
         }
@@ -113,7 +114,7 @@ const ForgetPassword = () => {
           .then((r: any) => {
             //console.log("받는데이터", r.data.statusCode);
             if (r.data.statusCode === "202") {
-              alert("전송하였습니다!");
+              toast.success("전송하였습니다!");
               setAmIHidden("");
               setAuthnum("");
               setIsAuthnum(false);
@@ -128,11 +129,13 @@ const ForgetPassword = () => {
           });
       } else {
         // 전화번호 border 변경
-        alert("번호가 이상합니다");
+        toast.error("번호 형식을 지켜주세요");
+
       }
     } else {
       // 전화번호 border변경
-      alert("번호가 이상합니다");
+      toast.error("번호 형식을 지켜주세요");
+
     }
   };
 
@@ -159,6 +162,7 @@ const ForgetPassword = () => {
   };
   return (
     <div className="flex flex-col justify-between h-[100vh] ">
+      <ToastContainer />
       <IntroNavbar />
       <div className="container max-w-screen-lg w-full mx-auto flex flex-col ">
         <div className="flex flex-col mx-5 sm:mx-5 sm:[10%] md:mx-[30%] lg:mx-[10%]">

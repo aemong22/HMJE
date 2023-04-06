@@ -20,7 +20,7 @@ function AnswerModal({
     }
   };
 
-  const [decoding, setDecoding] = useState<String>();
+  const [decoding, setDecoding] = useState<string>();
 
   // 단어 디코딩
   useEffect(()=> {
@@ -61,6 +61,16 @@ function AnswerModal({
       console.log("에러");
     }
   };
+
+  const handleSpeakClick = () => {
+    const word = new SpeechSynthesisUtterance(decoding);
+    speechSynthesis.speak(word);
+    question[num].wordDetailResponseList.map((word:any, index:any) => {
+      const mean = new SpeechSynthesisUtterance(word.details);
+      speechSynthesis.speak(mean);
+    })
+  };
+  
 
   return (
     <>
@@ -132,6 +142,14 @@ function AnswerModal({
                       {studyType !== "contextStudy" && question[num].wordOrigin && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1 ">[{question[num].wordOrigin}]</div>}
                       {studyType === "contextStudy" && right && question[num].dogamOrigin && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">[{question[num].dogamOrigin}]</div>}
                       <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{studyType !== "contextStudy" ? <>{question[num].wordType}</>:<>{right && <>{question[num].dogamClass}</>}</>}</div>
+                      {studyType !== "contextStudy" &&
+                      <div className="flex items-center px-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 cursor-pointer" onClick={handleSpeakClick}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z" />
+                        </svg>
+                      </div>
+                      }
                     </div>
                 </div>
                 {studyType !== "contextStudy" && question[num].wordRating != "없음" && <div className="md:text-[1rem] text-[0.8rem] text-[#A2A2A2] mr-1">{question[num].wordRating}</div>}
@@ -220,6 +238,7 @@ function AnswerModal({
                 type="button"
                 onClick={() => {
                   motion();
+                  speechSynthesis.cancel();
                 }}
               >
                 { num < question.length-1 ? (

@@ -153,15 +153,15 @@ const NickName = () => {
     return (
       <div className="flex flex-col items-center mx-auto w-full max-w-screen-xl">
         <div className="flex flex-col w-[95%] sm:w-[95%] md:w-[60%] lg:w-[34%] justify-center">
-          <div className="flex flex-col mx-5 sm:mx-5 md:mx-7 lg:mx-[20%] mb-[2rem]">
-            <div className="my-4 font-extrabold text-[#A87E6E] text-4xl  sm:text-4xl md:text-4xl lg:text-6xl">
+          <div className="flex flex-col mx-5 sm:mx-5 md:mx-7 lg:mx-[20%]">
+            <div className="my-4 font-extrabold text-[#A87E6E] text-4xl  sm:text-4xl md:text-4xl lg:text-6xl text-center">
               홍민정음
             </div>
-            <div className="text-[#BD9789] font-extrabold text-xl sm:text-xl md:text-2xl lg:text-4xl ">
+            <div className="text-[#BD9789] font-extrabold text-xl sm:text-xl md:text-2xl lg:text-4xl text-center ">
               별명 수정하기
             </div>
           </div>
-          <div className="flex flex-row items-baseline">
+          <div className="flex flex-row items-baseline mt-10">
             <div className="text-[#A87C6E] font-extrabold text-base pb-2">
               별명
             </div>
@@ -174,7 +174,7 @@ const NickName = () => {
               type="text"
               id="Nickname"
               value={nickname}
-              className="min-w-[70%] px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] border-[#A87E6E] rounded-lg font-medium  placeholder:font-normal "
+              className="min-w-[70%] px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] border-[#A87E6E] rounded-lg font-extrabold text-gray-800 placeholder:font-normal "
               onChange={ChangeNicknameInput}
               onKeyUp={chkCharCode}
               placeholder="별명 입력"

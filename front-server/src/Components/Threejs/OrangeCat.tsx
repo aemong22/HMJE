@@ -65,20 +65,18 @@ function Default({level}:(number|any)) {
   
   useEffect(()=> {
     
-    actions.dle05.play()    
-    actions.Tree.play()
-    actions.Fly.play()
-    actions.Fly2.play()
-    actions.Grass.play()
-    actions.Grass2.play()
-    actions.Whirligig1.play()
-    actions.Whirligig2.play()
-    // actions.dle05.reset()
+    actions.dle05.play()  
+    if (level >= 2) {
+      actions.Tree.play()
+    } else if (level >=3) {
+      actions.Tree.play()
+      actions.Fly.play()
+      actions.Fly2.play()
+      actions.Grass.play()
+      actions.Grass2.play()
+    }
 
-    // 애니메이션 종료 후에 actions 객체를 리셋합니다.
-    // actions.dle05.clampWhenFinished = true
-    // actions.dle05.loop = THREE.LoopOnce as any
-    // actions.dle05.reset()
+
   }, [mixer])
 
   const click = () => {
@@ -203,21 +201,19 @@ function Smile({level}:(number|any)) {
   
   useEffect(()=> {
     
-    actions.dle05.play()    
-    actions.Tree.play()
-    actions.Fly.play()
-    actions.Fly2.play()
-    actions.Grass.play()
-    actions.Grass2.play()
-    actions.Whirligig1.play()
-    actions.Whirligig2.play()
+    actions.dle05.play()  
+    if (level >= 2) {
+      actions.Tree.play()
+    } else if (level >=3) {
+      actions.Tree.play()
+      actions.Fly.play()
+      actions.Fly2.play()
+      actions.Grass.play()
+      actions.Grass2.play()
+    }
 
-    // 애니메이션 종료 후에 actions 객체를 리셋합니다.
-    // actions.Angry.clampWhenFinished = true
-    // actions.Angry.loop = THREE.LoopOnce as any
-    // actions.Angry.reset()
+
   }, [mixer])
-
   const click = () => {
     
     actions.Bow.play()
@@ -339,19 +335,18 @@ function Dazed({level}:(number|any)) {
   
   useEffect(()=> {
     
-    actions.dle05.play()    
-    actions.Tree.play()
-    actions.Fly.play()
-    actions.Fly2.play()
-    actions.Grass.play()
-    actions.Grass2.play()
-    actions.Whirligig1.play()
-    actions.Whirligig2.play()
+    actions.dle05.play()  
+    if (level >= 2) {
+      actions.Tree.play()
+    } else if (level >=3) {
+      actions.Tree.play()
+      actions.Fly.play()
+      actions.Fly2.play()
+      actions.Grass.play()
+      actions.Grass2.play()
+    }
 
-    // 애니메이션 종료 후에 actions 객체를 리셋합니다.
-    // actions.Angry.clampWhenFinished = true
-    // actions.Angry.loop = THREE.LoopOnce as any
-    // actions.Angry.reset()
+
   }, [mixer])
 
   const click = () => {
@@ -475,19 +470,18 @@ function Sad({level}:(number|any)) {
   
   useEffect(()=> {
     
-    actions.dle05.play()    
-    actions.Tree.play()
-    actions.Fly.play()
-    actions.Fly2.play()
-    actions.Grass.play()
-    actions.Grass2.play()
-    actions.Whirligig1.play()
-    actions.Whirligig2.play()
+    actions.dle05.play()  
+    if (level >= 2) {
+      actions.Tree.play()
+    } else if (level >=3) {
+      actions.Tree.play()
+      actions.Fly.play()
+      actions.Fly2.play()
+      actions.Grass.play()
+      actions.Grass2.play()
+    }
 
-    // 애니메이션 종료 후에 actions 객체를 리셋합니다.
-    // actions.Angry.clampWhenFinished = true
-    // actions.Angry.loop = THREE.LoopOnce as any
-    // actions.Angry.reset()
+
   }, [mixer])
 
   const click = () => {

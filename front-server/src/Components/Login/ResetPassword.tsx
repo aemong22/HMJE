@@ -115,14 +115,15 @@ const ResetPassword = () => {
     //console.log("프론트에서 보내는거", data);
     postUserfindpassword(data)
       .unwrap()
-      .then((r: any) => {
-        //console.log(r);
+      .then((r: any) => {        
         if (r.data === true) {
-          alert("수정되었습니다!");
-          navigate("/login");
+          navigate("/login", {
+            state: { ModifyResult: true},
+          });
         } else {
-          alert("실패했습니다 시 시도해주세요");
-          navigate("/login");
+          navigate("/login", {
+            state: { ModifyResult: -1},
+          });
         }
       });
   };

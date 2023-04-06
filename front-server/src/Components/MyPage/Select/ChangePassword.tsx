@@ -130,20 +130,19 @@ const PassWord = () => {
       <div className="max-w-screen-md mx-auto  w-full my-4">
         <div className=" mx-auto  py-[10%] px-[10%] w-[80%]">
           <div className="flex flex-col mx-5 sm:mx-5 md:mx-7 lg:mx-[20%]">
-            <div className="my-4 font-extrabold text-[#A87E6E] text-4xl  sm:text-4xl md:text-4xl lg:text-6xl">
+            <div className="my-4 font-extrabold text-[#A87E6E] text-4xl  sm:text-4xl md:text-4xl lg:text-6xl text-center">
               홍민정음
             </div>
-            <div className="text-[#BD9789] font-extrabold text-xl sm:text-xl md:text-2xl lg:text-4xl ">
-              비밀번호수정하기
+            <div className="text-[#BD9789] font-extrabold text-xl sm:text-xl md:text-2xl lg:text-4xl text-center ">
+              비밀번호 수정하기
             </div>
           </div>
-
           <div className={updown}>
             <input
               type="password"
               id="password"
               name="password"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-[#A87E6E] peer"
+              className="block pt-2.5 pb-1 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-[#A87E6E] peer"
               placeholder=" "
               onChange={onChange}
             />
@@ -159,7 +158,7 @@ const PassWord = () => {
               type="password"
               id="newPassword"
               name="newPassword"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-[#A87E6E] peer"
+              className="block pt-2.5 pb-1 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-[#A87E6E] peer"
               placeholder=" "
               onChange={onChange}
             />
@@ -176,7 +175,7 @@ const PassWord = () => {
               id="newPasswordCheck"
               name="newPasswordCheck"
               // value={newPasswordCheck}
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-[#A87E6E] peer"
+              className="block pt-2.5 pb-1 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-[#A87E6E] peer"
               placeholder=" "
               onChange={onChange}
             />

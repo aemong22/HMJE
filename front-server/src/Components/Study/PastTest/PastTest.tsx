@@ -46,31 +46,52 @@ const PastTest = (): JSX.Element => {
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1; // 0부터 시작하므로 +1을 해줍니다.
-  const date = today.getDate();
-  const today_temp = year + "-" + "0" + month + "-" + date;
+  var date = today.getDate();
+  var today_temp;
+  if (date < 10) {
+    today_temp = year + "-" + "0" + month + "-0" + date;
+  } else {
+    today_temp = year + "-" + "0" + month + "-" + date;
+  }
+
   const navigate = useNavigate();
 
   useEffect(() => {
     window.onbeforeunload = () => {
       return "Are you sure you want to leave?";
     };
-  }, []); 
+  }, []);
   if (isLoading1 || isLoading4 || isLoading2) {
     return <>로딩중</>;
   } else if (error1 || error2 || error4) {
     return <>error</>;
   } else {
+    // console.log("test.data.startTime : ", test.data.startTime);
+    // console.log("test.data.endTime : ", test.data.endTime);
+    // console.log("시작시간 만족?", test.data.startTime <= today_temp);
+    // console.log("끝시간 만족?", test.data.endTime >= today_temp);
+    // console.log("오늘은?", today_temp);
+
+    // console.log(
+    //   test.data.startTime <= today_temp && test.data.endTime >= today_temp,
+    // );
+
     return (
       <>
         <Navbar />
         {test.data.startTime && test.data.endTime ? (
           <>
-            {today_temp >= test.data.startTime &&
-            today_temp <= test.data.endTime ? (
+            {(today_temp >= test.data.startTime &&
+              today_temp <= test.data.endTime) === true ? (
               <>
                 <div className="flex justify-center">
                   <Title data={test.data} />
                 </div>
+
+                <div className="sticky z-[50] top-[3.5rem] flex md:w-full md:h-[4rem] h-[4rem] ">
+                  <Timer mm="" ss="" />
+                </div>
+
                 <div className="flex justify-center">
                   {Question(
                     PastDetail,
@@ -83,7 +104,11 @@ const PastTest = (): JSX.Element => {
                 </div>
               </>
             ) : (
-              <div>접속할 수 없는 기간입니다</div>
+              <>
+                <div className="flex flex-col justify-between items-center my-auto h-[80vh]">
+                  <div>접속할 수 없는 기간입니다</div>
+                </div>
+              </>
             )}
           </>
         ) : null}
@@ -98,17 +123,11 @@ const Title = (data: any): JSX.Element => {
   if (data) {
     return (
       <>
-        <div className="w-full border-y-2 border-[#BF9F91] flex flex-col">
-          <div className="w-full justify-between flex flex-col md:flex-row ">
-            <div className="md:w-[20%]"></div>
-            <div className="max-w-screen-xl text-center">
-              <div className="flex flex-col my-[2rem]  text-[#A87E6E] font-extrabold">
-                <span className="text-2xl">{`제 ${data.data.pastTestId}회`}</span>
-                <span className="text-6xl pt-3"> 과거시험</span>
-              </div>
-            </div>
-            <div className="flex md:w-[20%] md:h-full h-[3rem] ">
-              <Timer mm="" ss="" />
+        <div className="w-full border-y-2 border-[#BF9F91] justify-center flex flex-col md:flex-row ">
+          <div className="max-w-screen-xl text-center">
+            <div className="flex flex-col my-[2rem]  text-[#A87E6E] font-extrabold">
+              <span className="text-2xl">{`제 ${data.data.pastTestId}회`}</span>
+              <span className="text-6xl pt-3"> 과거시험</span>
             </div>
           </div>
         </div>
@@ -129,9 +148,9 @@ const Question = (
 ): JSX.Element => {
   // const navigate = useNavigate();
 
-  const item = "flex flex-row items-center py-2";
+  const item = "flex flex-row items-center py-2 text-black";
   const labletage =
-    " text-sm font-medium text-gray-900 dark:text-gray-300 flex flex-row";
+    " text-sm font-medium text-black dark:text-gray-300 flex flex-row";
   const handleClickRadioButton = (e: any): any => {
     var copy = answer;
     switch (e.target.name) {
@@ -243,12 +262,14 @@ const Question = (
                         type="radio"
                         value="1"
                         name={`${it.pastQuestionId}`}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
                         onClick={handleClickRadioButton}
                         // onChange={.handleChange}
                       />
                       <div>&nbsp;&nbsp;&nbsp;1.</div>
-                      <ReactMarkdown children={it.pastChoice1} />
+                      <div className="text-black">
+                        <ReactMarkdown children={it.pastChoice1} />
+                      </div>
                     </label>
                   </div>
                   <div className={item}>
@@ -261,12 +282,14 @@ const Question = (
                         type="radio"
                         value="2"
                         name={`${it.pastQuestionId}`}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
                         onClick={handleClickRadioButton}
                         // onChange={}
                       />
                       <div>&nbsp;&nbsp;&nbsp;2.</div>
-                      <ReactMarkdown children={it.pastChoice2} />
+                      <div className="text-black">
+                        <ReactMarkdown children={it.pastChoice2} />
+                      </div>
                     </label>
                   </div>
                   <div className={item}>
@@ -279,11 +302,13 @@ const Question = (
                         type="radio"
                         value="3"
                         name={`${it.pastQuestionId}`}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
                         onClick={handleClickRadioButton}
                       />
                       <div>&nbsp;&nbsp;&nbsp;3.</div>
-                      <ReactMarkdown children={`${it.pastChoice3}`} />
+                      <div className="text-black">
+                        <ReactMarkdown children={`${it.pastChoice3}`} />
+                      </div>
                     </label>
                   </div>
                   <div className={item}>
@@ -296,11 +321,13 @@ const Question = (
                         type="radio"
                         value="4"
                         name={`${it.pastQuestionId}`}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
                         onClick={handleClickRadioButton}
                       />
                       <div>&nbsp;&nbsp;&nbsp;4.</div>
-                      <ReactMarkdown children={it.pastChoice4} />
+                      <div className="text-black">
+                        <ReactMarkdown children={it.pastChoice4} />
+                      </div>
                     </label>
                   </div>
                   <div className={item}>
@@ -313,11 +340,13 @@ const Question = (
                         type="radio"
                         value="5"
                         name={`${it.pastQuestionId}`}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
                         onClick={handleClickRadioButton}
                       />
                       <div>&nbsp;&nbsp;&nbsp;5.</div>
-                      <ReactMarkdown children={it.pastChoice5} />
+                      <div className="text-black">
+                        <ReactMarkdown children={it.pastChoice5} />
+                      </div>
                     </label>
                   </div>
                 </div>
@@ -341,12 +370,14 @@ const Question = (
                         type="radio"
                         value="1"
                         name={`${it.pastQuestionId}`}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
                         onClick={handleClickRadioButton}
                       />
                       <div>&nbsp;&nbsp;&nbsp;1.</div>
 
-                      <ReactMarkdown children={it.pastChoice1} />
+                      <div className="text-black">
+                        <ReactMarkdown children={it.pastChoice1} />
+                      </div>
                     </label>
                   </div>
                   <div className={item}>
@@ -359,12 +390,14 @@ const Question = (
                         type="radio"
                         value="2"
                         name={`${it.pastQuestionId}`}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
                         onClick={handleClickRadioButton}
                       />
                       <div>&nbsp;&nbsp;&nbsp;2.</div>
 
-                      <ReactMarkdown children={it.pastChoice2} />
+                      <div className="text-black">
+                        <ReactMarkdown children={it.pastChoice2} />
+                      </div>
                     </label>
                   </div>
                   <div className={item}>
@@ -377,12 +410,14 @@ const Question = (
                         type="radio"
                         value="3"
                         name={`${it.pastQuestionId}`}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
                         onClick={handleClickRadioButton}
                       />
                       <div>&nbsp;&nbsp;&nbsp;3.</div>
 
-                      <ReactMarkdown children={it.pastChoice3} />
+                      <div className="text-black">
+                        <ReactMarkdown children={it.pastChoice3} />
+                      </div>
                     </label>
                   </div>
                   <div className={item}>
@@ -395,12 +430,14 @@ const Question = (
                         type="radio"
                         value="4"
                         name={`${it.pastQuestionId}`}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
                         onClick={handleClickRadioButton}
                       />
                       <div>&nbsp;&nbsp;&nbsp;4.</div>
 
-                      <ReactMarkdown children={it.pastChoice4} />
+                      <div className="text-black">
+                        <ReactMarkdown children={it.pastChoice4} />
+                      </div>
                     </label>
                   </div>
                   <div className={item}>
@@ -413,12 +450,14 @@ const Question = (
                         type="radio"
                         value="5"
                         name={`${it.pastQuestionId}`}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
                         onClick={handleClickRadioButton}
                       />
                       <div className="">&nbsp;&nbsp;&nbsp;5.</div>
 
-                      <ReactMarkdown children={it.pastChoice5} />
+                      <div className="text-black">
+                        <ReactMarkdown children={it.pastChoice5} />
+                      </div>
                     </label>
                   </div>
                 </div>
@@ -443,7 +482,7 @@ const intToString = (num: any) => {
   return String(num).padStart(2, "0");
 };
 const Timer = ({ mm, ss }: { mm: any; ss: any }): JSX.Element => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const MM = mm ? mm : 15;
   const SS = ss ? ss : 0;
 
@@ -467,13 +506,13 @@ const Timer = ({ mm, ss }: { mm: any; ss: any }): JSX.Element => {
 
       // 시간 초과시 결과 저장해서 내보냄
       alert("시간초과");
-      // navigate("/main");
+      navigate("/main");
     }
   }, [second]);
 
   return (
-    <div className="w-full  h-[3rem] md:h-full border-2 flex justify-center items-center">
-      {minute} 분 {second} 초
+    <div className="w-full  h-[3rem] bg-white  md:h-full border-2 flex justify-center items-center">
+      마감시간 : {minute} 분 {second} 초
     </div>
   );
 };
