@@ -149,9 +149,9 @@ const Question = (
 ): JSX.Element => {
   // const navigate = useNavigate();
 
-  const item = "flex flex-row items-center py-2";
+  const item = "flex flex-row items-center py-2 text-black";
   const labletage =
-    " text-sm font-medium text-gray-900 dark:text-gray-300 flex flex-row";
+    " text-sm font-medium text-black dark:text-gray-300 flex flex-row";
   const handleClickRadioButton = (e: any): any => {
     var copy = answer;
     switch (e.target.name) {
@@ -303,7 +303,7 @@ const Question = (
                         type="radio"
                         value="3"
                         name={`${it.pastQuestionId}`}
-                        className="w-4 h-4 text-white bg-gray-100 border-gray-300"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300"
                         onClick={handleClickRadioButton}
                       />
                       <div>&nbsp;&nbsp;&nbsp;3.</div>
