@@ -1132,7 +1132,7 @@ function MyPageSection3({userId, move1, move2, move3, move4, move5}:MyPageSectio
                   </div>
                   {/* 학습 시간 데이터 */}
                   <div className="flex justify-center items-center w-full h-[80%]">
-                    <div className="h-[90%] w-full bg-[#D9D9D9] rounded-md">
+                    <div className="h-[90%] w-full bg-[#D9D9D9] rounded-md"> 
                       {/* 한달 간격으로 학습시간 & 학습 단어 갯수를 꺽은선 or 막대 그래프로 보여주기 */}
                       {/* {monthStudyLoading && loading} */}
                       {studyTimeChart? studyTimeChart: null}
