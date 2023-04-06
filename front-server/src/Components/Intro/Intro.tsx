@@ -80,9 +80,9 @@ function IntroSection1(): JSX.Element {
 
       deferredPrompt.userChoice.then((choiceResult: { outcome: string }) => {
         if (choiceResult.outcome === "accepted") {
-          console.log("사용자가 설치 프롬프트에 동의했습니다.");
+          // console.log("사용자가 설치 프롬프트에 동의했습니다.");
         } else {
-          console.log("사용자가 설치 프롬프트를 무시했습니다.");
+          // console.log("사용자가 설치 프롬프트를 무시했습니다.");
         }
         setDeferredPrompt(null);
       });
