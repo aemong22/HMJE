@@ -18,9 +18,9 @@ function Modal({ onClose, maskClosable, closable, visible }: ModalProps) {
     {
       url: "/Assets/PopUp/event.jpg",
     },
-    {
-      url: "/Assets/PopUp/pasttest.png",
-    },
+    // {
+    //   url: "/Assets/PopUp/pasttest.png",
+    // },
     // {
     //   url: "/Assets/PopUp/pocha.jpg",
     // },
