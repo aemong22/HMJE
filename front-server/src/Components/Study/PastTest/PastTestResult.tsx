@@ -82,9 +82,10 @@ function ResultPage({ TestScore }: any) {
           </div>
           <div className="flex flex-row  justify-center ">
             <div className=" text-[#f35050]  font-extrabold text-center text-5xl pt-3 leading-7">
-              {TestScore}점
+              {/* {TestScore}점 */}
+              60점
             </div>
-            <div className="text-[#A87C6E]  font-extrabold text-center text-[1rem] pt-3 leading-7">
+            <div className="text-[#A87E6E]  font-extrabold text-center text-[1rem] pt-3 leading-7">
               입니다
             </div>
           </div>
