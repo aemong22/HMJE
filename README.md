@@ -361,19 +361,19 @@
 
 # API 명세서
 
-![api1](Output/assets/api1.png)
+![api1](Output/assets/api1.PNG)
 
-![api2](Output/assets/api2.png)
+![api2](Output/assets/api2.PNG)
 
-![api3](Output/assets/api3.png)
+![api3](Output/assets/api3.PNG)
 
-![api4](Output/assets/api4.png)
+![api4](Output/assets/api4.PNG)
 
-![api5](Output/assets/api5.png)
+![api5](Output/assets/api5.PNG)
 
-![api6](Output/assets/api6.png)
+![api6](Output/assets/api6.PNG)
 
-![api7](Output/assets/api7.png)
+![api7](Output/assets/api7.PNG)
 
 ![api8](Output/assets/api8.png)
 
