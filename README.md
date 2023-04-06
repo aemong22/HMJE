@@ -44,13 +44,12 @@
 ### 팀 소개
 
 - 팀명 : 말랑하조(SSAFY 8기 부울경 1반 E102팀)
-- 팀장 : **양은진**
 
 |       이름       |                                           역할                                            |                                                                                    |
 | :--------------: | :---------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: |
 |    **김남규**    |                           BE(관리자 API), 서버 배포(CI/CD), TTS                           |  [<img src="Output/assets/github.png" width=30px/>](https://github.com/isanghada)  |
 | **양은진(팀장)** |                        BE(회원 관리, 학습, 학습 통계, 칭호, 도감)                         |  [<img src="Output/assets/github.png" width=30px/>](https://github.com/eunjineee)  |
-|    **최권민**    | BE(과거시험, 오답공책), 도감 및 과거시험 문제 제출, 오늘의 단어(크롤링, 데이터 분석), PWA | [<img src="Output/assets/github.png" width=30px/>](https://github.com/Hello1Robot) |
+|    **최권민**    | BE(과거시험, 오답공책), 도감 및 과거시험 문제 출제, 오늘의 단어(크롤링, 데이터 분석), PWA | [<img src="Output/assets/github.png" width=30px/>](https://github.com/Hello1Robot) |
 |    **김홍민**    |   FE(고객 센터, 칭호, 인트로 페이지, 관리자 페이지), three.js/chart.js를 이용한 시각화    |   [<img src="Output/assets/github.png" width=30px/>](https://github.com/KHminor)   |
 |    **김애림**    |           FE(메인 페이지, 단어 학습, 문맥 학습, 오답 공책, 도감, 복습), 디자인            |  [<img src="Output/assets/github.png" width=30px/>](https://github.com/aemong22)   |
 |    **김찬희**    |                    FE(회원 관리 페이지, 사전 페이지, 과거 시험 페이지)                    |   [<img src="Output/assets/github.png" width=30px/>](https://github.com/wndjf11)   |
