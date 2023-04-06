@@ -87,6 +87,11 @@ const PastTest = (): JSX.Element => {
                 <div className="flex justify-center">
                   <Title data={test.data} />
                 </div>
+
+                <div className="sticky z-[50] top-[3.5rem] flex md:w-full md:h-[4rem] h-[4rem] ">
+                  <Timer mm="" ss="" />
+                </div>
+
                 <div className="flex justify-center">
                   {Question(
                     PastDetail,
@@ -118,17 +123,11 @@ const Title = (data: any): JSX.Element => {
   if (data) {
     return (
       <>
-        <div className="w-full border-y-2 border-[#BF9F91] flex flex-col">
-          <div className="w-full justify-between flex flex-col md:flex-row ">
-            <div className="md:w-[20%]"></div>
-            <div className="max-w-screen-xl text-center">
-              <div className="flex flex-col my-[2rem]  text-[#A87E6E] font-extrabold">
-                <span className="text-2xl">{`제 ${data.data.pastTestId}회`}</span>
-                <span className="text-6xl pt-3"> 과거시험</span>
-              </div>
-            </div>
-            <div className="flex md:w-[20%] md:h-full h-[3rem] ">
-              <Timer mm="" ss="" />
+        <div className="w-full border-y-2 border-[#BF9F91] justify-center flex flex-col md:flex-row ">
+          <div className="max-w-screen-xl text-center">
+            <div className="flex flex-col my-[2rem]  text-[#A87E6E] font-extrabold">
+              <span className="text-2xl">{`제 ${data.data.pastTestId}회`}</span>
+              <span className="text-6xl pt-3"> 과거시험</span>
             </div>
           </div>
         </div>
@@ -512,8 +511,8 @@ const Timer = ({ mm, ss }: { mm: any; ss: any }): JSX.Element => {
   }, [second]);
 
   return (
-    <div className="w-full  h-[3rem] md:h-full border-2 flex justify-center items-center">
-      {minute} 분 {second} 초
+    <div className="w-full  h-[3rem] bg-white  md:h-full border-2 flex justify-center items-center">
+      마감시간 : {minute} 분 {second} 초
     </div>
   );
 };
