@@ -27,7 +27,7 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime ,
         const type = 0
         postStudyStudyTime({korEnd,korStart,studyTime,type,userId}).then((result:any) => {
           // 스터디 뱃지 얻었냐 
-          if(result?.data.newBadge.length > 0){
+          if(result!.data.newBadge.length > 0){
             toast.info(`칭호 ${result?.data.newBadge.length}개를 얻으셨습니다.`)
           }
         })
@@ -80,10 +80,10 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime ,
     let studyTime = Math.round((endTime - startTime) / 1000)
     
     // 시작시간 커스텀
-    const korStart = new Date(startTime).toISOString();
+    const korStart = (new Date(startTime+(1000*60*60*9))).toISOString();
     
     // 끝 시간 커스텀
-    const korEnd = new Date(endTime).toISOString();
+    const korEnd = new Date(endTime+(1000*60*60*9)).toISOString();
 
 
 
