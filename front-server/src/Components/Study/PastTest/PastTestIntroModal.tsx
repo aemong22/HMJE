@@ -19,8 +19,15 @@ const PastTestIntroModal = ({
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1; // 0부터 시작하므로 +1을 해줍니다.
-  const date = today.getDate();
-  const today_temp = year + "-" + "0" + month + "-" + date;
+  var date = today.getDate();
+  var today_temp;
+  if (date < 10) {
+    today_temp = year + "-" + "0" + month + "-0" + date;
+  }
+  else{
+    today_temp = year + "-" + "0" + month + "-" + date;
+  }
+  
 
   const {
     data: test,
@@ -59,13 +66,15 @@ const PastTestIntroModal = ({
   } else if (error2) {
     return <></>;
   } else {
-    // console.log("test.data.startTime : ", test.data.startTime);
-    // console.log("test.data.endTime : ", test.data.endTime);
-    // console.log("시작시간 만족?", test.data.startTime <= today_temp);
-    // console.log("끝시간 만족?", test.data.endTime >= today_temp);
-    // console.log(
-    //   test.data.startTime <= today_temp && test.data.endTime >= today_temp,
-    // );
+    console.log("test.data.startTime : ", test.data.startTime);
+    console.log("test.data.endTime : ", test.data.endTime);
+    console.log("시작시간 만족?", test.data.startTime <= today_temp);
+    console.log("끝시간 만족?", test.data.endTime >= today_temp);
+    console.log("오늘은?", today_temp);
+
+    console.log(
+      test.data.startTime <= today_temp && test.data.endTime >= today_temp,
+    );
 
     return (
       <>
@@ -159,9 +168,7 @@ const PastTestIntroModal = ({
                   </div>
                   <div className="relative px-4 pt-3 flex justify-center items-end sm:min-w-[25rem] min-w-[19rem]">
                     <div className="flex flex-col items-center text-[#bf6528]">
-                      <div className="md:text-[1.0rem] text-[1.2rem] font-bold mr-1 ">
-                        
-                      </div>
+                      <div className="md:text-[1.0rem] text-[1.2rem] font-bold mr-1 "></div>
                       <div className="flex flex-col items-center justify-center max-w-[100%]">
                         <span>과거시험 기간에 접속 가능한 서비스입니다.</span>
                         <span>과거시험 일정을 확인해주세요</span>
