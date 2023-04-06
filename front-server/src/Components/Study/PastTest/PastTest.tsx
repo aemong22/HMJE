@@ -468,7 +468,7 @@ const Question = (
       })}
       <div className="relative w-full h-[5rem] mt-6">
         <button
-          className="absolute right-0 border-2 border-[#A87E6E] bg-[#F0ECE9] text-[#A87E6E] rounded-lg w-[30%] py-3"
+          className="absolute right-0 border-2 border-[#A87E6E] bg-[#F0ECE9] hover:bg-[#A87E6E] hover:text-[#ffffff] text-[#A87E6E] transition-all duration-300 rounded-lg w-[30%] py-3"
           onClick={radioClick}
         >
           제출
