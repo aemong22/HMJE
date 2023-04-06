@@ -73,16 +73,16 @@ function IntroSection1(): JSX.Element {
   };
 
   const handleInstallClick = () => {
-    console.log(deferredPrompt.prompt());
+    // console.log(deferredPrompt.prompt());
     
     if (deferredPrompt) {
       deferredPrompt.prompt();
 
       deferredPrompt.userChoice.then((choiceResult: { outcome: string }) => {
         if (choiceResult.outcome === "accepted") {
-          console.log("사용자가 설치 프롬프트에 동의했습니다.");
+          // console.log("사용자가 설치 프롬프트에 동의했습니다.");
         } else {
-          console.log("사용자가 설치 프롬프트를 무시했습니다.");
+          // console.log("사용자가 설치 프롬프트를 무시했습니다.");
         }
         setDeferredPrompt(null);
       });
@@ -109,9 +109,7 @@ function IntroSection1(): JSX.Element {
     } else if (target.ariaLabel === "download") {
       div2.current?.classList.add("routeHover");
       div1.current?.classList.remove("routeHover");
-    }
-
-    // target.classList.add('routeHover')
+    }    
   };
 
   const hoverOut: MouseEventHandler<HTMLDivElement> = (e) => {
@@ -163,16 +161,16 @@ function IntroSection1(): JSX.Element {
                 가입하기
               </div>              
             </div>
-            {true && (
+            {(
                 <div
                   ref={div3}
                   aria-label="download"
-                  className="w-full my-1 py-1 flex justify-center items-center border-2 sm:rounded-lg  rounded-md px-1 cursor-pointer text-[0.8rem] sm:text-[1rem] md:text-[1rem] lg:text-[1.2rem]"
+                  className="w-full md:hidden my-1 py-1 flex justify-center items-center border-2 sm:rounded-lg  rounded-md px-1 cursor-pointer text-[0.8rem] sm:text-[1rem] md:text-[1rem] lg:text-[1.2rem]"
                   onClick={handleInstallClick}
                   onMouseLeave={hoverOut}
                   onMouseEnter={hover}
                 >
-                  앱 다운하기
+                  홍민정음 설치하기
                 </div>
               )}
           </div>

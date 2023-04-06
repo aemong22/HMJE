@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { usePostUserloginMutation } from "../../Store/NonAuthApi";
 import Api from "../Common/Api";
 import Footer from "../Common/Footer";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { Toast } from "../Common/Toast";
 import IntroNavbar from "../Intro/IntroNavbar";
 type login = {
@@ -19,18 +19,6 @@ function Login(): JSX.Element {
   const [Password, setPassword] = useState<string>("");
 
   const [PostUserlogin, isloading5] = usePostUserloginMutation();
-
-  // const accessToken = localStorage.getItem("accessToken");
-  // useEffect(() => {
-  //   if (accessToken&&accessToken === "undefined") {
-  //     navigate("/");
-  //   }
-  //   else if(accessToken&&accessToken!==undefined){      
-  //     navigate("/main");
-  //   }
-
-  //   return () => {};
-  // }, []);
 
   const ChangeId = (event: any): void => {
     setId(event.target.value);
@@ -88,7 +76,7 @@ function Login(): JSX.Element {
       .catch((e) => {
         console.log("error났다", e);
         if (e.data.status === 401 || e.data.status === 500) {
-          alert("아이디 혹은 패스워드가 틀렸습니다");
+          toast.error("아이디 혹은 패스워드가 틀렸습니다");
         }
       });
   };
@@ -99,13 +87,44 @@ function Login(): JSX.Element {
     }
   };
 
-  const Social = () => {
-    // 소셜 로그인
-  };
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state !== null) {
+      if (location.state.ModifyResult > 0) {
+        toast.info(`수정되었습니다`);
+      }
+      if (location.state.FindId != null) {
+        if (location.state.FindId === "false") {
+          toast.info("아이디 찾기에 실패했습니다");
+        } 
+        else if(location.state.FindId ==="none"){
+          toast.info("없는 아이디입니다.");
+        }
+        else {
+          toast.info(`아이디는 " ${location.state.FindId} " 입니다.`, {
+            autoClose: 10000,
+          });
+        }
+      }
+      const stateData = {
+        ...window.history.state,
+        usr: {
+          ...window.history.state.usr,
+          ModifyResult: 0,
+          FindId: null,
+        },
+      };
+      const pageTitle = "Title";
+      const pageUrl = "/login";
+      window.history.replaceState(stateData, pageTitle, pageUrl);
+    }
+    return () => {};
+  }, []);
 
   return (
     <>
-      <Toast />
+      <ToastContainer />
 
       <div className="flex flex-col justify-between h-[110vh]">
         <IntroNavbar />
