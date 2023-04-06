@@ -4,14 +4,14 @@ import IntroNavbar from "./IntroNavbar";
 import sModule from "./Intro.module.css";
 import "./Intro.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { MouseEventHandler, useEffect, useRef } from "react";
+import { MouseEventHandler, useEffect, useRef, useState } from "react";
 import { Toast } from "../Common/Toast";
 import { toast } from "react-toastify";
 
 function Intro(): JSX.Element {
   const location = useLocation();
   const navigate = useNavigate();
-  const accessToken=localStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
     //  if(accessToken&&accessToken!==undefined){
     //   navigate("/main");
@@ -53,12 +53,49 @@ function IntroSection1(): JSX.Element {
   const navigate = useNavigate();
   const div1 = useRef<HTMLDivElement>(null);
   const div2 = useRef<HTMLDivElement>(null);
+  const div3 = useRef<HTMLDivElement>(null);
+
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+
+  useEffect(() => {
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);        
+    return () => {
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt,
+      );
+    };
+  }, []);
+
+  const handleBeforeInstallPrompt = (event: Event) => {
+    event.preventDefault();
+    setDeferredPrompt(event);
+  };
+
+  const handleInstallClick = () => {
+    console.log(deferredPrompt.prompt());
+    
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+
+      deferredPrompt.userChoice.then((choiceResult: { outcome: string }) => {
+        if (choiceResult.outcome === "accepted") {
+          console.log("사용자가 설치 프롬프트에 동의했습니다.");
+        } else {
+          console.log("사용자가 설치 프롬프트를 무시했습니다.");
+        }
+        setDeferredPrompt(null);
+      });
+    }
+  };
 
   const nav: MouseEventHandler<HTMLDivElement> = (e) => {
     const target = e.target as HTMLElement;
     if (target.ariaLabel === "login") {
       navigate("/login");
-    } else if (target.ariaLabel === "join") navigate("/join");
+    } else if (target.ariaLabel === "join") {
+      navigate("/join");
+    }
   };
 
   const hover: MouseEventHandler<HTMLDivElement> = (e) => {
@@ -66,7 +103,10 @@ function IntroSection1(): JSX.Element {
     if (target.ariaLabel === "login") {
       div1.current?.classList.add("routeHover");
       div2.current?.classList.remove("routeHover");
-    } else {
+    } else if (target.ariaLabel === "join") {
+      div2.current?.classList.add("routeHover");
+      div1.current?.classList.remove("routeHover");
+    } else if (target.ariaLabel === "download") {
       div2.current?.classList.add("routeHover");
       div1.current?.classList.remove("routeHover");
     }
@@ -98,7 +138,8 @@ function IntroSection1(): JSX.Element {
               문해력을 향상시키기 위한 한 걸음
             </div>
             <div className="flex sm:hidden text-[0.8em] sm:text-[1rem] md:text-[1.1rem] font-medium pl-1 mb-2">
-              문해력을 <br />향상시키기 위한 한 걸음
+              문해력을 <br />
+              향상시키기 위한 한 걸음
             </div>
             <div className="flex justify-start w-full text-[0.8rem] sm:text-[1rem] md:text-[1rem] lg:text-[1.2rem]">
               <div
@@ -120,8 +161,20 @@ function IntroSection1(): JSX.Element {
                 onMouseEnter={hover}
               >
                 가입하기
-              </div>
+              </div>              
             </div>
+            {true && (
+                <div
+                  ref={div3}
+                  aria-label="download"
+                  className="w-full my-1 py-1 flex justify-center items-center border-2 sm:rounded-lg  rounded-md px-1 cursor-pointer text-[0.8rem] sm:text-[1rem] md:text-[1rem] lg:text-[1.2rem]"
+                  onClick={handleInstallClick}
+                  onMouseLeave={hoverOut}
+                  onMouseEnter={hover}
+                >
+                  앱 다운하기
+                </div>
+              )}
           </div>
         </div>
         {/* 오른쪽 */}
@@ -325,14 +378,14 @@ interface CardProps {
   width?: string;
   height?: string;
   color?: string;
-  img: any;  
+  img: any;
   position?: string;
   size?: string;
 }
 
 const StyledCard = styled.div<CardProps>`
-  width: ${(props) => props.width || '8.3rem'};
-  height: ${(props) => props.height || '8.3rem'};
+  width: ${(props) => props.width || "8.3rem"};
+  height: ${(props) => props.height || "8.3rem"};
   margin-right: 1.2rem;
   margin-left: 1.2rem;
   border-radius: 2rem;
@@ -340,17 +393,21 @@ const StyledCard = styled.div<CardProps>`
   flex-shrink: 0; // added to prevent shrinking
   background-repeat: no-repeat;
   background-position-x: center;
-  background-position-y: ${(props) => props.position || 'center'};
-  background-size: ${(props) => props.size || '60%'};
-  background-image:  url(${(props) => props.img || '/Assets/Intro/21.png'});
+  background-position-y: ${(props) => props.position || "center"};
+  background-size: ${(props) => props.size || "60%"};
+  background-image: url(${(props) => props.img || "/Assets/Intro/21.png"});
 `;
-
 
 // 서비스 분야
 function IntroSection4V1(): JSX.Element {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
-    <div className="container max-w-screen-xl w-full mx-auto mt-10 md:mt-24 md:mb-6 overflow-hidden" onClick={()=> {navigate('/login')}}>
+    <div
+      className="container max-w-screen-xl w-full mx-auto mt-10 md:mt-24 md:mb-6 overflow-hidden"
+      onClick={() => {
+        navigate("/login");
+      }}
+    >
       <div className="flex justify-center items-center w-full">
         <div className="mb-6 font-black text-[1.2rem] md:text-[1.3rem] lg:text-[1.4rem] text-[#A87E6E] w-[85%] md:w-[90%] lg:w-[77%]">
           서비스 분야
@@ -359,80 +416,288 @@ function IntroSection4V1(): JSX.Element {
       <div
         className={`hidden md:flex flex-nowrap h-[10rem] w-[80rem] -translate-x-4 justify-start items-start ${sModule.moveCard1}`}
       >
-        <StyledCard width="10rem" height="10rem" color="#f4eeec" img='/Assets/Badge/1.png' />
-        <StyledCard width="10rem" height="10rem" color="#f4eeec" img='/Assets/Badge/9.png' />
-        <StyledCard width="10rem" height="10rem" color="#f7cdb7" img='/Assets/Badge/17.png' />
-        <StyledCard width="10rem" height="10rem" color="#ac8679" img='/Assets/Intro/1.png' size="50%" position="65%"/>
-        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Badge/2.png' />
-        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Badge/10.png' />
-        <StyledCard width="10rem" height="10rem" color="#f9f9f9" img='/Assets/Badge/18.png' />
-        <StyledCard width="10rem" height="10rem" img='/Assets/Intro/2.png' size="50%" position="65%"/>
-        <StyledCard width="10rem" height="10rem" color="#ac8679" img='/Assets/Badge/3.png' />
-        <StyledCard width="10rem" height="10rem" color="#f7cdb7" img='/Assets/Badge/11.png' />
-        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Badge/19.png' />
-        <StyledCard width="10rem" height="10rem" color="#f4eeec" img='/Assets/Badge/12.png' />
-        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Badge/4.png' />
-        <StyledCard width="10rem" height="10rem" color="#a77e6e" img='/Assets/Intro/3.png' size="50%" position="65%"/>
-        <StyledCard width="10rem" height="10rem" color="#f9f9f9" img='/Assets/Badge/20.png' />
-        <StyledCard width="10rem" height="10rem" color="#ac8679" img='/Assets/Intro/4.png' size="50%" position="65%"/>
-        <StyledCard width="10rem" height="10rem" img='/Assets/Badge/5.png' />
-        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Badge/13.png' />
-        <StyledCard width="10rem" height="10rem" color="#ac8679" img='/Assets/Badge/21.png' />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#f4eeec"
+          img="/Assets/Badge/1.png"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#f4eeec"
+          img="/Assets/Badge/9.png"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#f7cdb7"
+          img="/Assets/Badge/17.png"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#ac8679"
+          img="/Assets/Intro/1.png"
+          size="50%"
+          position="65%"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#ebc7be"
+          img="/Assets/Badge/2.png"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#ebc7be"
+          img="/Assets/Badge/10.png"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#f9f9f9"
+          img="/Assets/Badge/18.png"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          img="/Assets/Intro/2.png"
+          size="50%"
+          position="65%"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#ac8679"
+          img="/Assets/Badge/3.png"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#f7cdb7"
+          img="/Assets/Badge/11.png"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#ebc7be"
+          img="/Assets/Badge/19.png"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#f4eeec"
+          img="/Assets/Badge/12.png"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#ebc7be"
+          img="/Assets/Badge/4.png"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#a77e6e"
+          img="/Assets/Intro/3.png"
+          size="50%"
+          position="65%"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#f9f9f9"
+          img="/Assets/Badge/20.png"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#ac8679"
+          img="/Assets/Intro/4.png"
+          size="50%"
+          position="65%"
+        />
+        <StyledCard width="10rem" height="10rem" img="/Assets/Badge/5.png" />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#ebc7be"
+          img="/Assets/Badge/13.png"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#ac8679"
+          img="/Assets/Badge/21.png"
+        />
       </div>
       <div
         className={`flex md:hidden flex-nowrap h-[10rem] w-[80rem] -translate-x-4 justify-start items-start ${sModule.moveCard1}`}
       >
-        <StyledCard color="#f4eeec" img='/Assets/Badge/1.png' />
-        <StyledCard color="#f4eeec" img='/Assets/Badge/9.png' />
-        <StyledCard color="#f7cdb7" img='/Assets/Badge/17.png' />
-        <StyledCard color="#ac8679" img='/Assets/Intro/1.png' size="50%" position="65%"/>
-        <StyledCard color="#ebc7be" img='/Assets/Badge/2.png' />
-        <StyledCard color="#ebc7be" img='/Assets/Badge/10.png' />
-        <StyledCard color="#f9f9f9" img='/Assets/Badge/18.png' />
-        <StyledCard img='/Assets/Intro/2.png' size="50%" position="65%"/>
-        <StyledCard color="#ac8679" img='/Assets/Badge/3.png' />
-        <StyledCard color="#f7cdb7" img='/Assets/Badge/11.png' />
-        <StyledCard color="#ebc7be" img='/Assets/Badge/19.png' />
-        <StyledCard color="#f4eeec" img='/Assets/Badge/12.png' />
-        <StyledCard color="#ebc7be" img='/Assets/Badge/4.png' />
-        <StyledCard color="#a77e6e" img='/Assets/Intro/3.png' size="50%" position="65%"/>
-        <StyledCard color="#f9f9f9" img='/Assets/Badge/20.png' />
-        <StyledCard color="#ac8679" img='/Assets/Intro/4.png' size="50%" position="65%"/>
-        <StyledCard img='/Assets/Badge/5.png' />
-        <StyledCard color="#ebc7be" img='/Assets/Badge/13.png' />
-        <StyledCard color="#ac8679" img='/Assets/Badge/21.png' />
-        
+        <StyledCard color="#f4eeec" img="/Assets/Badge/1.png" />
+        <StyledCard color="#f4eeec" img="/Assets/Badge/9.png" />
+        <StyledCard color="#f7cdb7" img="/Assets/Badge/17.png" />
+        <StyledCard
+          color="#ac8679"
+          img="/Assets/Intro/1.png"
+          size="50%"
+          position="65%"
+        />
+        <StyledCard color="#ebc7be" img="/Assets/Badge/2.png" />
+        <StyledCard color="#ebc7be" img="/Assets/Badge/10.png" />
+        <StyledCard color="#f9f9f9" img="/Assets/Badge/18.png" />
+        <StyledCard img="/Assets/Intro/2.png" size="50%" position="65%" />
+        <StyledCard color="#ac8679" img="/Assets/Badge/3.png" />
+        <StyledCard color="#f7cdb7" img="/Assets/Badge/11.png" />
+        <StyledCard color="#ebc7be" img="/Assets/Badge/19.png" />
+        <StyledCard color="#f4eeec" img="/Assets/Badge/12.png" />
+        <StyledCard color="#ebc7be" img="/Assets/Badge/4.png" />
+        <StyledCard
+          color="#a77e6e"
+          img="/Assets/Intro/3.png"
+          size="50%"
+          position="65%"
+        />
+        <StyledCard color="#f9f9f9" img="/Assets/Badge/20.png" />
+        <StyledCard
+          color="#ac8679"
+          img="/Assets/Intro/4.png"
+          size="50%"
+          position="65%"
+        />
+        <StyledCard img="/Assets/Badge/5.png" />
+        <StyledCard color="#ebc7be" img="/Assets/Badge/13.png" />
+        <StyledCard color="#ac8679" img="/Assets/Badge/21.png" />
       </div>
     </div>
   );
 }
 
 function IntroSection4V2(): JSX.Element {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
-    <div className="container max-w-screen-xl w-full mx-auto mb-16 md:mb-24 md:mt-6 overflow-hidden" onClick={()=> {navigate('/login')}}>
+    <div
+      className="container max-w-screen-xl w-full mx-auto mb-16 md:mb-24 md:mt-6 overflow-hidden"
+      onClick={() => {
+        navigate("/login");
+      }}
+    >
       <div
         className={`hidden md:flex flex-nowrap h-[10rem] w-[80rem] justify-start items-start ${sModule.moveCard2}`}
       >
-        <StyledCard width="10rem" height="10rem" color="#f7cdb7" img="/Assets/Badge/6.png" />
-        <StyledCard width="10rem" height="10rem" color="#f4eeec" img="/Assets/Badge/14.png" />
-        <StyledCard width="10rem" height="10rem" color="#a77e6e" img="/Assets/Badge/22.png" />
-        <StyledCard width="10rem" height="10rem" color="#ebc7be" img="/Assets/Intro/5.png" size="50%" position="65%"/>
-        <StyledCard width="10rem" height="10rem" color="#f9f9f9" img="/Assets/Badge/7.png" />
-        <StyledCard width="10rem" height="10rem" color="#ebc7be" img="/Assets/Badge/15.png" />
-        <StyledCard width="10rem" height="10rem" color="#ac8679" img="/Assets/Badge/23.png" />
-        <StyledCard width="10rem" height="10rem" img="/Assets/Intro/6.png" size="50%" position="65%"/>
-        <StyledCard width="10rem" height="10rem" color="#f7cdb7" img="/Assets/Badge/8.png" />
-        <StyledCard width="10rem" height="10rem" color="#f4eeec" img="/Assets/Badge/16.png" />
-        <StyledCard width="10rem" height="10rem" color="#a77e6e" img="/Assets/Intro/7.png" size="50%" position="65%"/>
-        <StyledCard width="10rem" height="10rem" color="#ebc7be" img="/Assets/Badge/1.png" />
-        <StyledCard width="10rem" height="10rem" color="#f9f9f9" img="/Assets/Badge/9.png" />
-        <StyledCard width="10rem" height="10rem" color="#a77e6e" img="/Assets/Badge/20.png"/>
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#f7cdb7"
+          img="/Assets/Badge/6.png"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#f4eeec"
+          img="/Assets/Badge/14.png"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#a77e6e"
+          img="/Assets/Badge/22.png"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#ebc7be"
+          img="/Assets/Intro/5.png"
+          size="50%"
+          position="65%"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#f9f9f9"
+          img="/Assets/Badge/7.png"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#ebc7be"
+          img="/Assets/Badge/15.png"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#ac8679"
+          img="/Assets/Badge/23.png"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          img="/Assets/Intro/6.png"
+          size="50%"
+          position="65%"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#f7cdb7"
+          img="/Assets/Badge/8.png"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#f4eeec"
+          img="/Assets/Badge/16.png"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#a77e6e"
+          img="/Assets/Intro/7.png"
+          size="50%"
+          position="65%"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#ebc7be"
+          img="/Assets/Badge/1.png"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#f9f9f9"
+          img="/Assets/Badge/9.png"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#a77e6e"
+          img="/Assets/Badge/20.png"
+        />
         <StyledCard width="10rem" height="10rem" img="/Assets/Badge/1.png" />
-        <StyledCard width="10rem" height="10rem" color="#ac8679" img='/Assets/Intro/8.png' size="50%" position="65%"/>
-        <StyledCard width="10rem" height="10rem" color="#ebc7be" img='/Assets/Badge/6.png' />
-        <StyledCard width="10rem" height="10rem" img='/Assets/Badge/14.png' />
-        <StyledCard width="10rem" height="10rem" color="#ebc7be" img="/Assets/Badge/17.png" />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#ac8679"
+          img="/Assets/Intro/8.png"
+          size="50%"
+          position="65%"
+        />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#ebc7be"
+          img="/Assets/Badge/6.png"
+        />
+        <StyledCard width="10rem" height="10rem" img="/Assets/Badge/14.png" />
+        <StyledCard
+          width="10rem"
+          height="10rem"
+          color="#ebc7be"
+          img="/Assets/Badge/17.png"
+        />
       </div>
       <div
         className={`flex md:hidden flex-nowrap h-[10rem] w-[80rem] justify-start items-start ${sModule.moveCard2}`}
@@ -440,21 +705,36 @@ function IntroSection4V2(): JSX.Element {
         <StyledCard color="#f7cdb7" img="/Assets/Badge/6.png" />
         <StyledCard color="#f4eeec" img="/Assets/Badge/14.png" />
         <StyledCard color="#a77e6e" img="/Assets/Badge/22.png" />
-        <StyledCard color="#ebc7be" img="/Assets/Intro/5.png" size="50%" position="65%"/>
+        <StyledCard
+          color="#ebc7be"
+          img="/Assets/Intro/5.png"
+          size="50%"
+          position="65%"
+        />
         <StyledCard color="#f9f9f9" img="/Assets/Badge/7.png" />
         <StyledCard color="#ebc7be" img="/Assets/Badge/15.png" />
         <StyledCard color="#ac8679" img="/Assets/Badge/23.png" />
-        <StyledCard img="/Assets/Intro/6.png" size="50%" position="65%"/>
+        <StyledCard img="/Assets/Intro/6.png" size="50%" position="65%" />
         <StyledCard color="#f7cdb7" img="/Assets/Badge/8.png" />
         <StyledCard color="#f4eeec" img="/Assets/Badge/16.png" />
-        <StyledCard color="#a77e6e" img="/Assets/Intro/7.png" size="50%" position="65%"/>
+        <StyledCard
+          color="#a77e6e"
+          img="/Assets/Intro/7.png"
+          size="50%"
+          position="65%"
+        />
         <StyledCard color="#ebc7be" img="/Assets/Badge/1.png" />
         <StyledCard color="#f9f9f9" img="/Assets/Badge/9.png" />
-        <StyledCard color="#a77e6e" img="/Assets/Badge/6.png"/>
+        <StyledCard color="#a77e6e" img="/Assets/Badge/6.png" />
         <StyledCard img="/Assets/Badge/1.png" />
-        <StyledCard color="#ac8679" img='/Assets/Intro/8.png' size="50%" position="65%"/>
-        <StyledCard color="#ebc7be" img='/Assets/Badge/20.png' />
-        <StyledCard img='/Assets/Badge/14.png' />
+        <StyledCard
+          color="#ac8679"
+          img="/Assets/Intro/8.png"
+          size="50%"
+          position="65%"
+        />
+        <StyledCard color="#ebc7be" img="/Assets/Badge/20.png" />
+        <StyledCard img="/Assets/Badge/14.png" />
         <StyledCard color="#ebc7be" img="/Assets/Badge/17.png" />
       </div>
     </div>
