@@ -28,7 +28,7 @@ function StudyStartModal({setOpenModal}:any):JSX.Element {
       }, []);
 
     if(isLoading) {
-        console.log("잠시만 기다려주세요.")
+        // console.log("잠시만 기다려주세요.")
         return(
             <></>
         )

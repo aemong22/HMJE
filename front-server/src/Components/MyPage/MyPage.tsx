@@ -931,7 +931,7 @@ function MyPageSection3({userId, move1, move2, move3, move4, move5}:MyPageSectio
 
   const selectDateChart:ChangeEventHandler<HTMLSelectElement> = (e) => {
     monthStuty([userId, yearRef.current?.value, monthRef.current?.value]).then((r:any)=> {     
-      console.log(r.data);
+      // console.log(r.data);
       
       const wordCnt = r.data.data.map((data:any)=> {
         return data.wordCount

@@ -164,7 +164,7 @@ const Phonenum = () => {
         }
       })
       .catch((e: any) => {
-        console.log(e);
+        // console.log(e);
       });
   };
 
@@ -186,7 +186,7 @@ const Phonenum = () => {
         }
       })
       .catch((e) => {
-        console.log(e);
+        // console.log(e);
       });
   };
 

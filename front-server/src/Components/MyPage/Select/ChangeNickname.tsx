@@ -70,14 +70,14 @@ const NickName = () => {
   const ChangeNicknameInput = (
     event: React.ChangeEvent<HTMLInputElement>,
   ): void => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
 
     event.preventDefault();
     setnickname(event.target.value);
   };
 
   const CheckDuplication = (e: any) => {
-    console.log(e.target.id);
+    // console.log(e.target.id);
 
     // 닉네임
     if (e.target.id === "Nickname") {
@@ -98,12 +98,12 @@ const NickName = () => {
           phoneNumber: "",
           username: "",
         };
-        console.log(data);
+        // console.log(data);
 
         postUserchecknickname(data)
           .unwrap()
           .then((r: any) => {
-            console.log(r);
+            // console.log(r);
             if (r.data === true) {
               toast.success("사용 가능한 별명입니다.");
               setnicknameCheck(false);
@@ -113,7 +113,7 @@ const NickName = () => {
             }
           })
           .catch((e) => {
-            console.log(e);
+            // console.log(e);
           });
       }
     }
@@ -141,7 +141,7 @@ const NickName = () => {
         });
       })
       .catch((e) => {
-        console.log(e);
+        // console.log(e);
       });
   };
 
