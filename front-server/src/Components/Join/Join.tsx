@@ -437,7 +437,7 @@ const Join = () => {
                   />
                   <button
                     id="UserName"
-                    className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c]  bg-[#BF9F91] text-[#FFFFFF] rounded-lg font-medium"
+                    className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c]  bg-[#BF9F91] hover:bg-[#A87E6E]  text-[#FFFFFF] transition-all duration-300 rounded-lg font-medium"
                     onClick={CheckDuplication}
                   >
                     중복확인
@@ -465,7 +465,7 @@ const Join = () => {
                   />
                   <button
                     id="Nickname"
-                    className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
+                    className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] bg-[#BF9F91] hover:bg-[#A87E6E]  text-[#FFFFFF] transition-all duration-300 rounded-lg font-medium"
                     onClick={CheckDuplication}
                   >
                     중복확인
@@ -541,7 +541,7 @@ const Join = () => {
                     placeholder={`전화번호 입력  " - 생략"`}
                   />
                   <button
-                    className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
+                    className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] bg-[#BF9F91] hover:bg-[#A87E6E]  text-[#FFFFFF] transition-all duration-300 rounded-lg font-medium"
                     onClick={PhoneCheck}
                   >
                     인증하기
@@ -572,7 +572,7 @@ const Join = () => {
               </div>
               <div className="flex flex-row justify-between w-full">
                 <button
-                  className="mt-7 cursor-pointer w-[45%] h-[3.5rem] rounded-lg font-extrabold bg-[#F0ECE9] text-[#A87E6E] disabled:cursor-not-allowed disabled:opacity-50 "
+                  className="mt-7 cursor-pointer w-[45%] h-[3.5rem] rounded-lg font-extrabold bg-[#F0ECE9] hover:bg-[#A87E6E] text-[#A87E6E] hover:text-white transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50 "
                   disabled={!disable}
                   onClick={() => {
                     GoJoin();
@@ -583,7 +583,7 @@ const Join = () => {
                   </div>
                 </button>
                 <button
-                  className="mt-7 cursor-pointer w-[45%] h-[3.5rem] rounded-lg font-extrabold bg-[#F0ECE9] text-[#A87E6E] disabled:cursor-not-allowed"
+                  className="mt-7 cursor-pointer w-[45%] h-[3.5rem] rounded-lg font-extrabold bg-[#F0ECE9] hover:bg-[#A87E6E] text-[#A87E6E] hover:text-white transition-all duration-300 disabled:cursor-not-allowed"
                   onClick={Cancel}
                 >
                   <div className="flex justify-center items-center ">

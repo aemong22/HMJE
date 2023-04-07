@@ -133,8 +133,8 @@ function Login(): JSX.Element {
           {/* <!-- Login --> */}
           <div className="flex flex-col items-center justify-center">
             {/* <!-- Login box --> */}
-            <div className="flex flex-col justify-center">
-              <div className="flex flex-col items-center space-y-2 text-center">
+            <div className="flex flex-col justify-center pb-20">
+              <div className="flex flex-col items-center space-y-2 text-center pb-5">
                 <div className="text-5xl font-extrabold text-[#A87E6E] md:text-6xl">
                   홍민정음
                 </div>
@@ -164,7 +164,7 @@ function Login(): JSX.Element {
                   onKeyPress={handleOnKeyPress}
                 />
                 <button
-                  className="flex items-center justify-center flex-none px-3 py-2 md:px-4 md:py-3 border-2 rounded-lg font-extrabold bg-[#BF9F91] text-white"
+                  className="flex items-center justify-center flex-none px-3 py-2 md:px-4 md:py-3 border-2 rounded-lg font-extrabold bg-[#BF9F91] hover:bg-[#A87E6E] transition-all duration-300 text-white"
                   onClick={Enter}
                 >
                   입장하기
@@ -174,21 +174,21 @@ function Login(): JSX.Element {
                 >
                   <div
                     id="forgetPassword"
-                    className=" cursor-pointer font-extrabold "
+                    className=" cursor-pointer font-extrabold  scale-100 hover:scale-105 transition-all duration-300"
                     onClick={Nav}
                   >
                     비밀번호 찾기
                   </div>
                   <div
                     id="forgetId"
-                    className=" cursor-pointer font-extrabold px-10"
+                    className=" cursor-pointer font-extrabold px-10 scale-100 hover:scale-105 transition-all duration-300"
                     onClick={Nav}
                   >
                     계정 찾기
                   </div>
                   <div
                     id="join"
-                    className=" cursor-pointer font-extrabold "
+                    className=" cursor-pointer font-extrabold  scale-100 hover:scale-105 transition-all duration-300"
                     onClick={Nav}
                   >
                     가입하기
