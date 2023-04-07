@@ -118,13 +118,13 @@ function IntroSection1(): JSX.Element {
   };
 
   return (
-    <div className="flex justify-center items-center h-[13rem] sm:h-[18rem] md:h-[20rem] lg:h-[29rem] md:px-4 bg-[#D6B17A]">
+    <div className="flex justify-center items-center h-[13rem] sm:h-[18rem] md:h-[20rem] lg:h-[29rem] md:px-4 bg-gradient-to-bl from-[#D0AB74] to-[#D6B37F]">
       <div
         id="introSection1"
-        className="flex justify-between items-center text-white sm:px-2 w-full max-w-screen-xl"
+        className="flex justify-between items-center text-white sm:px-2 w-full max-w-screen-xl "
       >
         {/* 왼쪽 */}
-        <div className="flex justify-start items-center w-1/2 sm:w-1/2 md:w-3/5 xl:w-2/5 px-2">
+        <div className="flex justify-start items-center w-1/2 sm:w-1/2 md:w-3/5 xl:w-2/5 px-2 ">
           <div>
             <div className="text-[1.2rem] sm:text-[1.4rem] md:text-[1.7rem] font-semibold pl-1 mb-1">
               즐거운 단어 학습
@@ -143,7 +143,7 @@ function IntroSection1(): JSX.Element {
               <div
                 ref={div1}
                 aria-label="login"
-                className="w-full my-1 py-1 flex justify-center items-center border-2 sm:rounded-lg  rounded-md px-1 mr-1 sm:mr-2 cursor-pointer"
+                className="w-full my-1 py-1 flex justify-center items-center border-2 sm:rounded-lg  rounded-md px-1 mr-1 sm:mr-2 cursor-pointer transition-all duration-300"
                 onClick={nav}
                 onMouseLeave={hoverOut}
                 onMouseEnter={hover}
@@ -153,7 +153,7 @@ function IntroSection1(): JSX.Element {
               <div
                 ref={div2}
                 aria-label="join"
-                className="w-full my-1 py-1 flex justify-center items-center border-2 sm:rounded-lg  rounded-md px-1 cursor-pointer"
+                className="w-full my-1 py-1 flex justify-center items-center border-2 sm:rounded-lg  rounded-md px-1 cursor-pointer transition-all duration-300"
                 onClick={nav}
                 onMouseLeave={hoverOut}
                 onMouseEnter={hover}
@@ -176,10 +176,10 @@ function IntroSection1(): JSX.Element {
           </div>
         </div>
         {/* 오른쪽 */}
-        <div className="flex justify-center items-center w-1/2 sm:w-1/2 lg:w-2/5 xl:w-2/5 ">
+        <div className="flex justify-center items-center w-1/2 sm:w-1/2 lg:w-2/5 xl:w-2/5">
           <img
-            className="h-[10rem] sm:h-[17rem] md:h-[18rem] lg:h-[21rem]  xl:h-96"
-            src="/Assets/Intro/sejong.png"
+            className="w-full ml-4 h-[10rem] sm:h-[17rem] md:h-[18rem] lg:h-[21rem] xl:h-96"
+            src="/Assets/Intro/sejongBuy.jpg"
             alt="sejong"
           />
         </div>

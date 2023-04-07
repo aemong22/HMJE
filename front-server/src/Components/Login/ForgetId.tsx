@@ -171,85 +171,87 @@ const ForgetId = () => {
   };
 
   return (
-    <div className="flex flex-col justify-between h-[100vh] ">
-      <IntroNavbar />
+    <>
       <ToastContainer />
-      <div className="container max-w-screen-lg w-full mx-auto flex flex-col ">
-        <div className="flex flex-col mx-5 sm:mx-5 sm:[10%] md:mx-[25%] lg:mx-[10%]">
-          <div className="my-4 font-extrabold text-[#A87E6E] text-4xl  sm:text-4xl md:text-4xl lg:text-6xl">
-            홍민정음
+      <div className="flex flex-col justify-between h-[100vh] ">
+        <IntroNavbar />
+        <div className="container max-w-screen-lg w-full mx-auto flex flex-col pb-36">
+          <div className="flex flex-col items-center mx-5 sm:mx-5  sm:[10%] md:mx-[25%] lg:mx-[10%] space-y-2">
+            <div className="font-extrabold text-[#A87E6E] text-4xl lg:text-6xl">
+              홍민정음
+            </div>
+            <div className="text-[#BD9789] font-extrabold text-[20px] leading-7 md:text-[24px] md:leading-8">
+              계정찾기
+            </div>
           </div>
-          <div className="text-[#BD9789] font-extrabold text-xl sm:text-xl md:text-2xl lg:text-4xl ">
-            계정찾기
-          </div>
-        </div>
-        <div className=" flex flex-col max-w-[100%] justify-center my-[2rem] mx-3 md:mx-[25%] lg:mx-[30%]">
-          <div className="w-full">
-            <div className={`my-2 `}>
-              <div className="text-[#A87C6E] font-extrabold text-base">
-                전화번호
+          <div className=" flex flex-col max-w-[100%] justify-center mt-[1.5rem] mx-3 md:mx-[25%] lg:mx-[30%]">
+            <div className="w-full">
+              <div>
+                <div className="text-[#A87C6E] font-extrabold text-base pb-2">
+                  전화번호
+                </div>
+                <div className="flex flex-row justify-between">
+                  <input
+                    type="text"
+                    className="min-w-[70%] px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
+                    onChange={ChangePhonenum}
+                    placeholder={`전화번호 입력  "- 생략" `}
+                  />
+                  <div
+                    className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] bg-[#BF9F91] hover:bg-[#A87E6E]  text-[#FFFFFF] transition-all duration-300 rounded-lg font-medium cursor-pointer"
+                    onClick={PhoneCheck}
+                  >
+                    인증하기
+                  </div>
+                </div>
               </div>
-              <div className="flex flex-row justify-between">
-                <input
-                  type="text"
-                  className="min-w-[70%] px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
-                  onChange={ChangePhonenum}
-                  placeholder={`전화번호 입력  "- 생략" `}
-                />
-                <div
-                  className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium cursor-pointer"
-                  onClick={PhoneCheck}
-                >
-                  인증하기
+              <div className={`my-2 ${AmIHidden}`}>
+                <div className="text-[#A87C6E] font-extrabold text-base">
+                  인증번호
+                </div>
+                <div className="flex flex-row justify-between ">
+                  <input
+                    type="text"
+                    className="min-w-[70%] px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
+                    onChange={ChangeAuthnum}
+                  />
+                  <button
+                    className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
+                    onClick={() => {
+                      CheckAuthnum(Authnum, Phonenum);
+                    }}
+                    disabled={IsAuthnum}
+                  >
+                    &nbsp; &nbsp;확인&nbsp; &nbsp;
+                  </button>
                 </div>
               </div>
             </div>
-            <div className={`my-2 ${AmIHidden}`}>
-              <div className="text-[#A87C6E] font-extrabold text-base">
-                인증번호
-              </div>
-              <div className="flex flex-row justify-between ">
-                <input
-                  type="text"
-                  className="min-w-[70%] px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] border-[#A87E6E] rounded-lg font-medium placeholder:font-normal"
-                  onChange={ChangeAuthnum}
-                />
-                <button
-                  className="px-3 py-1 md:px-4 md:py-2 border-2 focus:outline-none focus:border-[#d2860c] bg-[#BF9F91] text-[#FFFFFF]  rounded-lg font-medium"
-                  onClick={() => {
-                    CheckAuthnum(Authnum, Phonenum);
-                  }}
-                  disabled={IsAuthnum}
-                >
-                  &nbsp; &nbsp;확인&nbsp; &nbsp;
-                </button>
-              </div>
+            <div className="flex flex-row justify-between w-full">
+              <button
+                className="mt-4 cursor-pointer w-[45%] h-[3.5rem] rounded-lg font-extrabold bg-[#F0ECE9] hover:bg-[#A87E6E] text-[#A87E6E] hover:text-white transition-all duration-300 disabled:cursor-not-allowed"
+                disabled={Disalbe}
+                onClick={FindButton}
+              >
+                <div className="flex justify-center items-center ">
+                  <div>계정 찾기</div>
+                </div>
+              </button>
+              <button
+                className="mt-4 cursor-pointer w-[45%] h-[3.5rem] rounded-lg font-extrabold bg-[#F0ECE9] hover:bg-[#A87E6E] text-[#A87E6E] hover:text-white transition-all duration-300 disabled:cursor-not-allowed"
+                onClick={Cancel}
+              >
+                <div className="flex justify-center items-center ">
+                  <div>취소</div>
+                </div>
+              </button>
             </div>
           </div>
-          <div className="flex flex-row justify-between w-full">
-            <button
-              className="mt-7 cursor-pointer w-[45%] h-[3.5rem] rounded-lg font-extrabold bg-[#F0ECE9] text-[#A87E6E] disabled:cursor-not-allowed"
-              disabled={Disalbe}
-              onClick={FindButton}
-            >
-              <div className="flex justify-center items-center ">
-                <div>계정 찾기</div>
-              </div>
-            </button>
-            <button
-              className="mt-7 cursor-pointer w-[45%] h-[3.5rem] rounded-lg font-extrabold bg-[#F0ECE9] text-[#A87E6E] disabled:cursor-not-allowed"
-              onClick={Cancel}
-            >
-              <div className="flex justify-center items-center ">
-                <div>취소</div>
-              </div>
-            </button>
-          </div>
         </div>
-      </div>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </>
   );
 };
 
