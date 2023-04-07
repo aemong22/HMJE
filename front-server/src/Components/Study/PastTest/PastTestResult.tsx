@@ -97,7 +97,7 @@ function ResultPage({ TestScore }: any) {
               <span>&nbsp;결과</span>
             </div>
             <div className="flex justify-center items-center text-[#D30000] font-extrabold text-center md:py-[2rem] text-[4rem] md:text-[5.5rem] pt-6 pb-3 rounded-xl bg-[#F4EFEC] ">
-              <span>60{TestScore}</span>
+              <span>{TestScore}</span>
               <span className="text-black text-[3rem] md:text-[4rem] mx-2">점</span>
             </div>
             <div className="flex justify-between items-center w-full pt-5">
