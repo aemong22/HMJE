@@ -169,7 +169,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
 
   const onChange = (e:any)  => {
     if(modalOpen || resultModal) {
-      console.log("이미 결과가 뜬 단어입니다.")
+      // console.log("이미 결과가 뜬 단어입니다.")
     }
     else{
       setInput(e.target.value)
@@ -214,10 +214,10 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     setInput("")
 
     if( modalOpen || resultModal ) {
-      console.log("이미 결과가 뜬 단어입니다.")
+      // console.log("이미 결과가 뜬 단어입니다.")
     }
     else {
-      console.log("제출")
+      // console.log("제출")
       //정답
       if(input === decoding) {
         getExp();
@@ -230,7 +230,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
             setCorrect([...correct,question[num]?.wordId])
           }
           else {
-            console.log("이미 결과 list에 포함된 단어입니다.")
+            // console.log("이미 결과 list에 포함된 단어입니다.")
           }
         }
         setRight(true)
@@ -248,7 +248,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
     resetTranscript()
     setInput("")
     if( modalOpen || resultModal ) {
-      console.log("이미 결과가 뜬 단어입니다.")
+      // console.log("이미 결과가 뜬 단어입니다.")
     }
     else {
       
@@ -263,7 +263,7 @@ function Study({question, studyType,num,correct,setCorrect,wrong,setWrong,semo,s
             setCorrect([...correct,question[num]?.dogamId])
           }
           else{
-            console.log("이미 결과 list에 포함된 단어입니다.")
+            // console.log("이미 결과 list에 포함된 단어입니다.")
           }
         }
         setRight(true)

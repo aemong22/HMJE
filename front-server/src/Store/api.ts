@@ -522,7 +522,7 @@ export const hmjeApi = createApi({
     // 14. 말랑 이스터에그 뱃지
     putUserBadgeMalrang: builder.mutation({
       query: ([userId, badgeId]) => {
-        console.log(userId, badgeId);
+        // console.log(userId, badgeId);
         
         return {
           url: `/user/badge/malrang/${userId}/${badgeId}`,

@@ -58,7 +58,7 @@ function AnswerModal({
       }
     }
     else {
-      console.log("에러");
+      // console.log("에러");
     }
   };
 

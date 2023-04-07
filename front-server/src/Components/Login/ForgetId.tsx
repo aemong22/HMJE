@@ -126,7 +126,7 @@ const ForgetId = () => {
             }
           })
           .catch((e) => {
-            console.log(e);
+            // console.log(e);
           });
       } else {
         // 전화번호 border 변경

@@ -117,7 +117,7 @@ const PassWord = () => {
             }
           })
           .catch((e: any) => {
-            console.log(e);
+            // console.log(e);
           });
       } else {
         toast.error("새 비밀번호를 동일하게 입력해주세요");

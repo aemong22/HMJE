@@ -21,14 +21,14 @@ const Secession = (): JSX.Element => {
     deleteUser(localStorage.getItem("userId"))
       .unwrap()
       .then((r: any) => {
-        console.log(r);
+        // console.log(r);
         if (r.message === "success") {
           window.localStorage.clear();
           navigate("/", { state: { SecessionResult: true } });
         }
       })
       .catch((e) => {
-        console.log(e);
+        // console.log(e);
       });
   };
   return (

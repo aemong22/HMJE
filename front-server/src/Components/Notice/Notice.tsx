@@ -314,7 +314,7 @@ function NoticeSection3({isAdmin}:(boolean|any)) {
 
   useEffect(()=> {
     getNotice('').unwrap().then((r)=> {
-      console.log(r.data);
+      // console.log(r.data);
       
       const noticeList = [...r.data].reverse()
       setNoticeList(noticeList)

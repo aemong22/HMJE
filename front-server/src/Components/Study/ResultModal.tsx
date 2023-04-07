@@ -89,11 +89,11 @@ function ResultModal({studyType,setResultModal, correct, semo, wrong,startTime ,
 
 
     if(resultLoading || timeLoading || resultLoading2) {
-      console.log("로딩중")
+      // console.log("로딩중")
     }
 
     else if(resultError|| timeError || resultError2) {
-      console.log("에러")
+      // console.log("에러")
     }
     
     return(

@@ -74,7 +74,7 @@ function Login(): JSX.Element {
         }
       })
       .catch((e) => {
-        console.log("error났다", e);
+        // console.log("error났다", e);
         if (e.data.status === 401 || e.data.status === 500) {
           toast.error("아이디 혹은 패스워드가 틀렸습니다");
         }
