@@ -44,7 +44,7 @@ const DictionaryDetail = (): JSX.Element => {
         a.play();
       })
       .catch((e) => {
-        console.log(e);
+        // console.log(e);
       });
   };
   // useEffect(() => {

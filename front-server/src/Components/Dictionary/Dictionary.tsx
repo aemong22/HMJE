@@ -141,7 +141,7 @@ const DictionaryPage = () => {
         setPage(page);
       })
       .catch((e) => {
-        console.log(e.status === 400);
+        // console.log(e.status === 400);
       });
 
     // wordList변경

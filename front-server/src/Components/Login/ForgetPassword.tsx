@@ -86,7 +86,7 @@ const ForgetPassword = () => {
       .then((r: any) => {
         //console.log(r);
         if (r.data == false) {
-          console.log("인증번호 에러");
+          // console.log("인증번호 에러");
           setDisalbe(true);
         } else {
           toast.success(`인증되었습니다`);
@@ -125,7 +125,7 @@ const ForgetPassword = () => {
             }
           })
           .catch((e) => {
-            console.log(e);
+            // console.log(e);
           });
       } else {
         // 전화번호 border 변경

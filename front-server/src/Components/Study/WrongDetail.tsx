@@ -65,7 +65,7 @@ function WrongDetail({index, data , setOpen , open ,setIdx }:any ):JSX.Element {
 
 
     if(isLoading){
-      console.log("잠시만 기다려주세요.")
+      // console.log("잠시만 기다려주세요.")
     }
 
     if(error){

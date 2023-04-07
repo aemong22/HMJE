@@ -56,7 +56,7 @@ const Check = () => {
         }
       })
       .catch((e) => {
-        console.log(e);
+        // console.log(e);
       });
   };
   return (

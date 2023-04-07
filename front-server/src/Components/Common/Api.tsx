@@ -73,7 +73,7 @@ API.interceptors.request.use(
   },
 
   function (err) {
-    console.log("error당", err.data);
+    // console.log("error당", err.data);
 
     return Promise.reject(err.data);
   },
@@ -83,11 +83,11 @@ API.interceptors.response.use(
   //response 받을 때 할 행동
 
   function (config) {
-    console.log("response 받은 값 : ", config.data);
+    // console.log("response 받은 값 : ", config.data);
     return config;
   },
   function (err) {
-    console.log("response 받은 값 : ", err);
+    // console.log("response 받은 값 : ", err);
     // return Promise.reject(err);
     return err
   },

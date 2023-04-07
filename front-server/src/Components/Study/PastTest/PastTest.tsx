@@ -205,7 +205,7 @@ const Question = (
     postStudyPastResult(data)
       .unwrap()
       .then((r: any) => {
-        console.log(r);
+        // console.log(r);
 
         if (r.message == "success") {
           // console.log("성공!");
