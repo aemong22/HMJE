@@ -118,7 +118,7 @@ function IntroSection1(): JSX.Element {
   };
 
   return (
-    <div className="flex justify-center items-center h-[13rem] sm:h-[18rem] md:h-[20rem] lg:h-[29rem] md:px-4 bg-gradient-to-bl from-[#D0AB74] to-[#D6B37F]">
+    <div className="flex justify-center items-center h-[13rem] sm:h-[18rem] md:h-[20rem] lg:h-[29rem] md:px-4 bg-gradient-to-bl from-[#cda870] to-[#D6B37F]">
       <div
         id="introSection1"
         className="flex justify-between items-center text-white sm:px-2 w-full max-w-screen-xl "
@@ -178,7 +178,7 @@ function IntroSection1(): JSX.Element {
         {/* 오른쪽 */}
         <div className="flex justify-center items-center w-1/2 sm:w-1/2 lg:w-2/5 xl:w-2/5">
           <img
-            className="w-full ml-4 h-[10rem] sm:h-[17rem] md:h-[18rem] lg:h-[21rem] xl:h-96"
+            className="w-full h-[10rem] sm:h-[17rem] md:h-[18rem] lg:h-[21rem] xl:h-96"
             src="/Assets/Intro/sejongBuy.jpg"
             alt="sejong"
           />
