@@ -1,0 +1,123 @@
+.iconBook {
+    background-image: url('../../../public/Assets/Icon/reading-book.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    width : 2rem;
+    background-position-y: center;
+    margin-right: 0.2rem;    
+  }
+
+  .bottomRight {
+    background: linear-gradient(to bottom right, #F0ECE9 50%, #ffffff 50% );
+  }
+
+  
+  .bottomLeft {
+    background: linear-gradient(to bottom left, #F0ECE9 50%, #ffffff 50% );
+  }
+
+  .cursor {
+    cursor:pointer;
+  }
+
+  .studyContents {
+    border : solid 0.15rem #A87E6E;
+    text-align: start;
+  }
+  
+  .studyContents:hover {
+    background-color: #F0ECE9;
+  }
+
+  .studyBtn {
+    background-color: #F0ECE9;
+    cursor:pointer;
+    color: #A87C6E;
+    font-weight: bold;
+  }
+
+
+  .studyContents:hover > .studyBtn {
+    background-color: #A87E6E;
+    color: #ffffff;
+  }
+
+  .badgeImg {
+    width : 1.5rem;
+    margin-right: 0.2rem;
+    background-position-y: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  .badgeImg2 {
+    width : 2.1rem;
+    margin-right: 0.2rem;
+    background-position-y: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  .menu {
+    width : 2rem;
+    height : 2rem;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position-y: center;
+    margin : 0.5rem auto
+
+  }
+
+  .menu2 {
+    width : 4rem;
+    height : 4rem;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position-y: center;
+    margin : 1rem auto;
+    transition: all 0.6s;
+  }
+
+  .menu2:hover {
+    width : 5em;
+    height : 5rem;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position-y: center;
+    margin : 1rem auto
+  }
+
+
+
+  @keyframes moving {
+    from {
+      transform: translateY(0%);
+    }
+    to {
+      transform: translateY(-103.5%);
+    }
+  }
+
+  .move {
+    animation-name: moving;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+
+  /* .move.active {
+    z-index: 1;
+    animation-play-state: running;
+  } */
+
+
+  /* 장원급제 컨포넌트 폰트  */
+  @font-face {
+    font-family: 'EBSJSKMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/EBSJSKMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  .passFont {
+    font-family: 'EBSJSKMedium' ;
+  }

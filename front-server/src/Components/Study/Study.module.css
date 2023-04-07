@@ -1,0 +1,78 @@
+/* 정답 icon */
+.checkicon {
+    background-image: url('../../../public/Assets/Icon/check.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-position-y: center;
+    margin: 0.2rem auto;
+    margin-top: 1.2rem;
+  }
+
+/* 오답 icon */
+  .xicon {
+    background-image: url('../../../public/Assets/Icon/delete-button.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    margin: auto;
+    margin-top: 1.6rem;
+  }
+
+
+  /* 획득 icon */
+  .geticon {
+    background-image: url('../../../public/Assets/Icon/get.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    margin: auto;
+    margin-top: 1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .failicon {
+    background-image: url('../../../public/Assets/Icon/sad.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    margin: auto;
+    margin-top: 1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .resulticon {
+    background-image: url('../../../public/Assets/Icon/star.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-position-y: center; 
+    margin: 0 auto;
+  }
+
+  .oicon {
+    background-image: url('../../../public/Assets/Icon/o.png');
+    background-repeat: no-repeat;
+    background-size: 130%;
+    background-position: center;
+    margin: 0.2rem auto;
+    margin-top: 0.1rem;
+  }
+
+  .xicon {
+    background-image: url('../../../public/Assets/Icon/x.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center; 
+    margin: 0.2rem auto;
+    margin-top: 0.1rem;
+  }
+
+  .semoicon {
+    background-image: url('../../../public/Assets/Icon/semo.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    margin: 0.2rem auto;
+    margin-top: 0.1rem;
+  }

@@ -1,0 +1,34 @@
+@keyframes doongdoong {
+  0% {
+    top: -4.5rem;
+  }
+
+  50% {
+    top: -4.7rem;
+  }
+
+  100% {
+    top: -4.5rem;
+  }
+}
+
+@keyframes Sdoongdoong {
+  0% {
+    top: -7.5rem;
+  }
+
+  50% {
+    top: -7.7rem;
+  }
+
+  100% {
+    top: -7.5rem;
+  }
+}
+
+.star {
+  animation: doongdoong 1s infinite;
+}
+.smallStar {
+  animation: Sdoongdoong 1s infinite;
+}

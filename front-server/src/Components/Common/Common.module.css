@@ -1,0 +1,102 @@
+@font-face {
+  font-family: 'EBSJSKMedium';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/EBSJSKMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+  .loadingAnimation {
+    animation: ddongddong 3s infinite;
+    font-size: 2.2rem;
+    font-weight: 600;
+    font-family: EBSJSKMedium;
+  }
+
+  .loadingAnimation:nth-child(1) {
+    animation-delay: .2s;
+  }
+  .loadingAnimation:nth-child(2) {
+    animation-delay: .4s;
+  }
+  .loadingAnimation:nth-child(3) {
+    animation-delay: .6s;
+  }
+  .loadingAnimation:nth-child(4) {
+    animation-delay: .8s;
+  }
+  .loadingAnimation:nth-child(5) {
+    animation-delay: 1s;
+  }
+  .loadingAnimation:nth-child(6) {
+    animation-delay: 1.2s;
+  }
+  .loadingAnimation:nth-child(7) {
+    animation-delay: 1.4s;
+  }
+  .loadingAnimation:nth-child(8) {
+    animation-delay: 1.6s;
+  }
+  .loadingAnimation:nth-child(9) {
+    animation-delay: 1.8s;
+  }
+  .loadingAnimation:nth-child(10) {
+    animation-delay: 2.0s;
+  }
+  .loadingAnimation:nth-child(11) {
+    animation-delay: 2.2s;
+  }
+  .loadingAnimation:nth-child(12) {
+    animation-delay: 2.4s;
+  }
+  .loadingAnimation:nth-child(13) {
+    animation-delay: 2.6s;
+  }
+
+  .errorAnimation {
+    animation: ddongddong 2s infinite;
+    font-size: 2.2rem;
+    font-weight: 600;
+    font-family: EBSJSKMedium;
+  }
+
+  .errorAnimation:nth-child(1) {
+    animation-delay: .2s;
+  }
+  .errorAnimation:nth-child(2) {
+    animation-delay: .4s;
+  }
+  .errorAnimation:nth-child(3) {
+    animation-delay: .6s;
+  }
+  .errorAnimation:nth-child(4) {
+    animation-delay: .8s;
+  }
+  .errorAnimation:nth-child(5) {
+    animation-delay: 1s;
+  }
+  .errorAnimation:nth-child(6) {
+    animation-delay: 1.2s;
+  }
+  .errorAnimation:nth-child(7) {
+    animation-delay: 1.4s;
+  }
+  .errorAnimation:nth-child(8) {
+    animation-delay: 1.6s;
+  }
+  .errorAnimation:nth-child(9) {
+    animation-delay: 1.8s;
+  }
+
+  @keyframes ddongddong {
+    0%,15% {
+      transform: translateY(0px);
+    }
+
+    40%,50% {
+      transform: translateY(-15px);
+    }
+
+    100% {
+      transform: translateY(0px);
+    }
+  }

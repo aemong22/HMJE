@@ -1,0 +1,17 @@
+flask
+flask_restx
+flask_cors
+waitress
+paste
+firebase_admin==4.2.0
+pysbd
+coqpit
+unidecode
+pypinyin
+torch
+jieba
+pyparsing
+matplotlib
+librosa
+inflect
+PyYAML
