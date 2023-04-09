@@ -13,6 +13,8 @@ public interface WrongWordRepository extends JpaRepository<WrongWord, Long> {
     WrongWord findByWordAndUser(Word word, User user);
     List<WrongWord> findAllByUser(User user);
 
+    List<WrongWord> findAllByUserOrderByCreatedAtDesc(User user);
+
     @Query("select ww from WrongWord ww JOIN FETCH ww.word w WHERE w.wordRating = :filter and ww.user = :user")
     List<WrongWord> findAllByFilterAndUser(@Param("user") User user, @Param("filter") String filter);
 

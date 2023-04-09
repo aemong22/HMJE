@@ -11,6 +11,7 @@ import com.server.back.domain.study.entity.WrongWord;
 import com.server.back.domain.study.repository.DailyWordRepository;
 import com.server.back.domain.study.repository.RightWordRepository;
 import com.server.back.domain.study.repository.WordRepository;
+import com.server.back.domain.study.repository.WrongWordRepository;
 import com.server.back.domain.user.entity.User;
 import com.server.back.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +55,7 @@ public class WordServiceImpl implements WordService {
 	};
 	private final UserRepository userRepository;
 	private final RightWordRepository rightWordRepository;
+	private final WrongWordRepository wrongWordRepository;
 
 
 	@Override
@@ -123,7 +125,7 @@ public class WordServiceImpl implements WordService {
 	public List<WordResponseDto> getWrongWordList(Long userId) {
 		User user = userRepository.findByUserId(userId);
 		List<Word> wordList = new ArrayList<>();
-		List<WrongWord> wrongWordList = user.getWrongWordList();
+		List<WrongWord> wrongWordList = wrongWordRepository.findAllByUserOrderByCreatedAtDesc(user);
 		for (WrongWord wrongWord : wrongWordList) {
 			Word word = wrongWord.getWord();
 			wordList.add(word);
