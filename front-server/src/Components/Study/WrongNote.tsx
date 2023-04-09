@@ -1,7 +1,7 @@
 import Footer from "../Common/Footer";
 import Navbar from "../Common/Navbar";
 import { useGetWordWrongQuery } from "../../Store/api"
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 import WrongDetail from "./WrongDetail";
 import { useNavigate } from "react-router-dom";
@@ -143,21 +143,16 @@ function NoteHeader({select,setSelect,num}:any): JSX.Element {
 } 
 
 function WrongList({select, data}:any):JSX.Element {
-  const [reverseData, setReverseData] = useState<any>(data)
-  useEffect(()=> {    
-    let newArr = [...data]
-    newArr = newArr.reverse()    
-    setReverseData(newArr)
-  },[])
+  
   // 그만두기
   const [open, setOpen] = useState<Boolean>(false);
   const [idx, setIdx] = useState(0)
   return (
     <>
-    {open && <WrongDetail index={idx} data={reverseData} setOpen={setOpen} open={open} setIdx={setIdx}/> }
+    {open && <WrongDetail index={idx} data={data} setOpen={setOpen} open={open} setIdx={setIdx}/> }
       <div className="w-full">
         <div className="container max-w-screen-xl md:w-[90%] w-full mx-auto flex flex-wrap justify-between py-4">
-          {reverseData.map((word:any , index:number) => {
+          {data.map((word:any , index:number) => {
             return(
               <>
                 <div key={index} className="bg-[#ffffff] md:w-[46%] w-full rounded-lg py-3 sm:px-6 px-4 m-2 overflow-hidden" onClick={() => {setOpen(true); setIdx(index)}}>
