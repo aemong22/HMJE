@@ -1,1 +1,3 @@
-*.ipynb linguist-vendored
+train-glowtts-v2.ipynb linguist-vendored
+infer-v2-success.ipynb linguist-vendored
+train-hifigan-v2.ipynb linguist-vendored
