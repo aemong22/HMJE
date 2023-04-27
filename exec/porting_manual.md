@@ -526,8 +526,8 @@ spring.redis.port=6379
 ### 3. Naver Cloud SMS Service
 > back-server/src/main/resources/application-API-KEY.properties
 ```properties
-naver-cloud-sms.serviceId=ncp:sms:kr:303758487086:hmje
-naver-cloud-sms.accessKey=F6JZTCZylNbRDKWvMPmQ
-naver-cloud-sms.secretKey=mOcD6GqFcwzPWlMOsub5q3Ra5ZUghvZvoreAlr36
-naver-cloud-sms.senderPhone=01091086642
+naver-cloud-sms.serviceId=
+naver-cloud-sms.accessKey=
+naver-cloud-sms.secretKey=
+naver-cloud-sms.senderPhone=
 ```
